@@ -60,9 +60,38 @@ source document -> candidate claim -> normalized metric -> entity match
 - Published snapshots isolate public traffic from analytical write workflows.
 - Provider integrations remain replaceable and secrets remain server-only.
 
+## Data architecture
+
+```text
+Protected server/reviewer path
+  -> postgres.js transaction pool connection (prepared statements disabled)
+  -> Drizzle typed queries
+  -> ledger schema + RLS + immutable revision history
+
+Public path
+  -> Supabase Data API / api RPCs
+  -> published_snapshots only
+  -> published + non-sample predicate enforced in PostgreSQL
+```
+
+The canonical tables live in the unexposed `ledger` schema. Authorization helpers and the `auth.users`-linked role map live in unexposed `private`. The exposed `api` schema contains only reviewed publication functions. This makes accidental table exposure less likely than placing canonical data in `public`, while retaining RLS and least-privilege grants as additional controls.
+
+Serverless application connections use the Supabase transaction pooler through `postgres.js` with prepared statements disabled and a one-connection client ceiling per Worker isolate. Migrations use the direct database URL and never the transaction pooler. The database adapter is server-only and accepts its connection URI explicitly so environment selection remains visible.
+
+Trade-offs:
+
+- Typed Drizzle schema plus SQL-only Supabase security creates two review surfaces, but keeps portable query types without reducing RLS, trigger, or RPC expressiveness.
+- Snapshot RPCs trade arbitrary public queries for a smaller, cacheable, auditable surface.
+- A relational role table adds one indexed lookup to reviewer policies, but avoids trusting user-editable metadata and supports immediate role revocation.
+- A modular monolith and universal observation table optimize consistency and iteration speed; specialized projection tables can be added when measured query load justifies them.
+
+Revisit connection pooling and add Cloudflare Hyperdrive only after production traffic and regional latency are measured. Revisit snapshot storage when payload size or cache invalidation requires R2. Consider Supabase preview branches when contributor volume justifies their cost.
+
 ## Implemented runtime foundation
 
 PR 2 establishes Next.js 16 App Router on React 19, Tailwind CSS 4, and the OpenNext Cloudflare adapter. `wrangler.toml` targets `.open-next/worker.js`, enables `nodejs_compat`, serves `.open-next/assets`, and enables Worker observability. No database binding, R2 cache, Queue, Workflow, custom domain, or production deployment is configured yet.
+
+PR 3 establishes the PostgreSQL 17 schema contract, local Supabase workflow, typed Drizzle schema/client, RLS role model, provenance and revision constraints, and public snapshot RPC boundary. It does not apply the migration to hosted Supabase or connect an application route to production data.
 
 Local development uses `next dev`; runtime verification builds the OpenNext artifact and smoke-tests it through Wrangler/workerd. The application does not opt into Next.js Edge Runtime because OpenNext Cloudflare targets the Node.js runtime compatibility layer.
 

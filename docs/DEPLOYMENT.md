@@ -4,6 +4,8 @@
 
 The Cloudflare/OpenNext runtime is configured and verified locally. Nothing has been deployed, no Worker has been created, and DNS remains unchanged.
 
+The Supabase migration is also repository-only. Hosted Supabase has not been mutated.
+
 ## Environments
 
 - Local: ignored `.env.local` plus ignored `.dev.vars`
@@ -62,6 +64,8 @@ Enable non-production branch builds when preview URLs are desired. Build variabl
 - schema migration and rollback reviewed when applicable
 - production approval recorded
 - post-deploy smoke and logs checked
+
+For a database release, first configure hosted Data API exposed schemas to `api` (and required Supabase system schemas), never `ledger` or `private`. Apply `supabase/migrations` with the direct database connection in one coordinated operation. Confirm migration history, anonymous denial on canonical tables, public RPC behavior, and reviewer/admin authorization before connecting application traffic.
 
 GitHub Actions validates code. Cloudflare Workers Builds and Cloudflare-native services run the product.
 

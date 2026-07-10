@@ -41,6 +41,6 @@ New critical domain modules target at least 90% branch coverage. General applica
 
 ## CI progression
 
-CI now validates repository/secret safety, Next.js ESLint, strict TypeScript, foundation tests, data-directory safety, the full OpenNext Worker build, and an HTTP smoke test in workerd. Later PRs add domain coverage, database/RLS integration, accessibility, Playwright, migration, and security jobs without turning GitHub Actions into production infrastructure.
+CI now validates repository/secret safety, Next.js ESLint, strict TypeScript, Drizzle migration integrity, database contract tests, data-directory safety, the full OpenNext Worker build, and an HTTP smoke test in workerd. PR 3 also adds local Supabase migration reset, pgTAP RLS/integrity tests, and database lint commands. Container-based database integration is required locally for schema PRs; it can move into CI when runtime cost and contributor volume justify a dedicated database job. Later PRs add domain coverage, accessibility, Playwright, and broader security jobs without turning GitHub Actions into production infrastructure.
 
 Flaky tests are defects. Quarantine requires an owner, tracking issue, and removal deadline.

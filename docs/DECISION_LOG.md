@@ -50,3 +50,24 @@ Material decisions use stable identifiers and remain append-only. Reversals refe
 - Status: accepted
 - Decision: Pin direct runtime/build dependencies exactly and allow dependency lifecycle scripts only for the reviewed Next.js/OpenNext build packages.
 - Rationale: reproducible builds and explicit supply-chain review outweigh convenience from floating versions or blanket script approval.
+
+## DEC-008 — Isolated database schemas and narrow public API
+
+- Date: 2026-07-10
+- Status: accepted
+- Decision: Keep canonical data in unexposed `ledger`, authorization state in unexposed `private`, and expose only reviewed publication RPCs from `api`.
+- Rationale: schema isolation reduces accidental Data API exposure while RLS, explicit grants, and published/non-sample predicates provide defense in depth.
+
+## DEC-009 — Drizzle types with Supabase SQL migrations
+
+- Date: 2026-07-10
+- Status: accepted
+- Decision: Use Drizzle for typed PostgreSQL schema/query contracts and generate into the repository-owned Supabase migration history. Keep RLS, grants, triggers, and RPC functions in reviewed SQL within the same migration.
+- Rationale: the application gets portable compile-time types without limiting PostgreSQL security features or allowing direct schema pushes.
+
+## DEC-010 — Append-only reviewed observations and snapshots
+
+- Date: 2026-07-10
+- Status: accepted
+- Decision: Approved or superseded claims and observations are immutable to reviewers. Corrections create linked observations and append-only revision records; public output is delivered as versioned content-hashed snapshots.
+- Rationale: financial claims require reproducible lineage and visible correction history rather than silent overwrites.

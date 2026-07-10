@@ -27,7 +27,7 @@ See [Architecture](docs/ARCHITECTURE.md), [Data Model](docs/DATA_MODEL.md), and 
 
 ## Repository status
 
-The current phase establishes project memory, governance, security boundaries, and repeatable quality gates. Application runtime work begins in the next planned change.
+The repository has a verified Next.js/OpenNext Cloudflare runtime. The current change establishes the migration-driven Supabase data foundation, typed Drizzle contracts, RLS authorization, provenance/revision safeguards, and a narrow public snapshot API. It does not yet publish verified financial metrics or deploy a production application.
 
 ## Local setup
 
