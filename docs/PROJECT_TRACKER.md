@@ -19,7 +19,8 @@ Last updated: 2026-07-10
 - Supabase public data access remains intentionally unconfigured before schema and RLS work
 - Draft PR 1 is open and its GitHub `quality` CI job passes
 - Main requires PRs and resolved review conversations and blocks deletion/force pushes
-- Making `quality` a server-required check is pending GitHub PAT `Administration: write` permission or a manual ruleset update
+- GitHub now requires the `quality` check and requires PR branches to be current with `main`
+- The ruleset still requires one approval; owner-authored PRs use the administrator bypass until another maintainer can approve them
 
 ## Planned sequence
 
