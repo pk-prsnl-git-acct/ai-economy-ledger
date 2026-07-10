@@ -10,6 +10,8 @@
   },
   "packageManager": "pnpm@11.7.0",
   "scripts": {
+    "prepare": "node scripts/setup-git-hooks.mjs",
+    "setup": "node scripts/setup-git-hooks.mjs",
     "lint": "node scripts/ci/validate-repository.mjs --mode=lint",
     "typecheck": "node scripts/ci/validate-repository.mjs --mode=typecheck",
     "test": "node --test tests/repository.test.mjs",

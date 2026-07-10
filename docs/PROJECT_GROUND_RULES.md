@@ -44,3 +44,5 @@ If implementation and documentation conflict, stop and reconcile them in the sam
 5. Inspect unstaged and staged diffs for secrets and scope creep.
 6. Update project memory.
 7. Commit only under the verified contributor identity.
+
+The detailed contributor procedure is canonical in [Development and Pull Request Workflow](DEVELOPMENT_WORKFLOW.md).
