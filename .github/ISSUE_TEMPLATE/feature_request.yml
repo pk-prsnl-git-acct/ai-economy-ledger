@@ -1,0 +1,30 @@
+name: Feature request
+description: Propose a focused product, data, or infrastructure improvement.
+title: "[Feature]: "
+labels:
+  - enhancement
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What user or contributor problem should this solve?
+    validations:
+      required: true
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Desired outcome
+      description: Describe the outcome without prescribing unnecessary implementation detail.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence and methodology impact
+      description: Note sources, analytical definitions, licensing, or uncertainty considerations.
+  - type: textarea
+    id: scope
+    attributes:
+      label: Suggested scope and exclusions
+      description: Keep the proposal small enough for a focused pull request when possible.

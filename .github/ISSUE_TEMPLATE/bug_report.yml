@@ -1,0 +1,33 @@
+name: Bug report
+description: Report a reproducible defect without including private data or credentials.
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: Never include secrets, private source material, or licensed dataset records.
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: Describe the observed and expected behavior.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction
+      description: Provide the smallest safe reproduction.
+    validations:
+      required: true
+  - type: input
+    id: revision
+    attributes:
+      label: Revision or environment
+      placeholder: Commit SHA, branch, local, preview, or production
+  - type: textarea
+    id: impact
+    attributes:
+      label: Data, security, or deployment impact
+      description: Note whether source lineage, sample isolation, authorization, or publication may be affected.
