@@ -20,6 +20,7 @@ const requiredFiles = [
   "docs/METHODOLOGY.md",
   "docs/SOURCE_POLICY.md",
   "docs/TESTING_STRATEGY.md",
+  "docs/DEVELOPMENT_WORKFLOW.md",
   "docs/PR_LOG.md",
   "docs/DECISION_LOG.md",
   "docs/CODEX_MEMORY.md",

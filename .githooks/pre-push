@@ -1,0 +1,5 @@
+#!/bin/sh
+set -eu
+
+echo "Running AI Economy Ledger pre-push verification..."
+node scripts/ci/run-verify.mjs

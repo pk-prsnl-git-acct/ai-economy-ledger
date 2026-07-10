@@ -46,7 +46,7 @@ Copy `.env.example` to `.env.local` only when local configuration is needed. Nev
 
 ## Documentation
 
-Start at the [documentation index](docs/README.md). It links the current project state, decisions, methodology, testing strategy, operational runbook, and contributor workflow.
+Start at the [documentation index](docs/README.md). It links the current project state, decisions, methodology, testing strategy, operational runbook, and the [end-to-end PR workflow](docs/DEVELOPMENT_WORKFLOW.md).
 
 ## Contributing
 

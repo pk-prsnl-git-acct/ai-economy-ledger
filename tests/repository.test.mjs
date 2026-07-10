@@ -30,3 +30,8 @@ test("project memory links its required operating documents", () => {
     assert.match(index, new RegExp(document.replace(".", "\\.")));
   }
 });
+
+test("repository-managed Git hooks are configured", () => {
+  const hooksPath = execFileSync("git", ["config", "--local", "--get", "core.hooksPath"], { encoding: "utf8" }).trim();
+  assert.equal(hooksPath, ".githooks");
+});

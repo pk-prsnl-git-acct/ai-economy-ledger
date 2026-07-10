@@ -1,0 +1,6 @@
+#!/bin/sh
+set -eu
+
+echo "Running AI Economy Ledger pre-commit checks..."
+node scripts/ci/validate-repository.mjs --mode=lint
+git diff --cached --check

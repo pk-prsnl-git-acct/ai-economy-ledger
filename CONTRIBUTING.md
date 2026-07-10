@@ -11,6 +11,8 @@ Thank you for helping build an auditable public model of the AI economy.
 
 ## Development workflow
 
+The canonical, end-to-end process is [Development and Pull Request Workflow](docs/DEVELOPMENT_WORKFLOW.md).
+
 1. Branch from an up-to-date `main` using `feature/`, `fix/`, `docs/`, `test/`, `data/`, or `chore/`.
 2. Keep one concern per pull request.
 3. Add or update tests for behavior changes.

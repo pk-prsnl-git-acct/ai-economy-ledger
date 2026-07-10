@@ -31,8 +31,10 @@ This document contains durable implementation context for future coding sessions
 - Prefer pure calculation functions and deterministic publication.
 - Record unexpected failures and their resolution here when they may recur.
 - Never copy raw private handoff files or credentials into repository documentation.
+- Follow `docs/DEVELOPMENT_WORKFLOW.md` from scope through PR, CI, merge, and deployment approval.
 
 ## Foundation learning
 
 - The local bundled pnpm executable is not guaranteed to be on child-shell PATH. `pnpm verify` therefore delegates to a Node orchestrator instead of recursively invoking pnpm.
 - The first combined private environment file contained stale values; authoritative component files were synchronized into it after live read-only verification. Never record their values here.
+- Repository-managed hooks live in `.githooks`; `pnpm setup` configures them locally without changing global Git settings.
