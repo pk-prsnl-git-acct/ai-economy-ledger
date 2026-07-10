@@ -67,8 +67,13 @@ web_modules/
 
 # dotenv environment variable files
 .env
+.env.local
 .env.*
 !.env.example
+
+# Local private/secrets folders
+01_private_secrets/
+../01_private_secrets/
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
@@ -77,6 +82,11 @@ web_modules/
 # Next.js build output
 .next
 out
+build/
+.vercel/
+.open-next/
+.wrangler/
+wrangler-dist/
 
 # Nuxt.js build / generate output
 .nuxt
@@ -110,6 +120,10 @@ dist
 # Serverless directories
 .serverless/
 
+# Test outputs
+playwright-report/
+test-results/
+
 # FuseBox cache
 .fusebox/
 
@@ -141,3 +155,10 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
+
+# OS/editor
+.DS_Store
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json

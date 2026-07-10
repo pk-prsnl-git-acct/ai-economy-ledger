@@ -1,0 +1,21 @@
+{
+  "name": "ai-economy-ledger",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Open-source accounting for the AI economy.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "engines": {
+    "node": ">=22 <25"
+  },
+  "packageManager": "pnpm@11.7.0",
+  "scripts": {
+    "lint": "node scripts/ci/validate-repository.mjs --mode=lint",
+    "typecheck": "node scripts/ci/validate-repository.mjs --mode=typecheck",
+    "test": "node --test tests/repository.test.mjs",
+    "validate:data": "node scripts/ci/validate-data.mjs",
+    "build": "node scripts/ci/foundation-placeholder.mjs build",
+    "test:cloudflare-preview": "node scripts/ci/foundation-placeholder.mjs cloudflare-preview",
+    "verify": "node scripts/ci/run-verify.mjs"
+  }
+}
