@@ -119,6 +119,8 @@ For automated owner workflows, authenticate `gh` using the project PAT through t
 
 Every PR runs the GitHub `quality` job. As the application matures, required jobs expand to lint, typecheck, unit/integration tests, data validation, build, Cloudflare preview, migration verification, and security analysis.
 
+Current enforcement note: the `quality` job is operational, but the repository PAT does not have the GitHub `Administration: write` permission needed to add it to the server-side ruleset. Until that permission is granted or the rule is enabled manually, the maintainer must treat a successful `quality` check as mandatory and refuse merge when it is absent or failing.
+
 A PR may merge only when:
 
 - required checks pass

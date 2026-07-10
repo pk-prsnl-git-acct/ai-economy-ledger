@@ -17,6 +17,9 @@ Last updated: 2026-07-10
 - Supabase Auth, JWKS, and server-side REST access verified
 - Public domain has no deployed application origin yet
 - Supabase public data access remains intentionally unconfigured before schema and RLS work
+- Draft PR 1 is open and its GitHub `quality` CI job passes
+- Main requires PRs and resolved review conversations and blocks deletion/force pushes
+- Making `quality` a server-required check is pending GitHub PAT `Administration: write` permission or a manual ruleset update
 
 ## Planned sequence
 
