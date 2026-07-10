@@ -40,9 +40,19 @@ Prerequisites:
 corepack enable
 pnpm install
 pnpm verify
+pnpm dev
 ```
 
 Copy `.env.example` to `.env.local` only when local configuration is needed. Never commit `.env.local` or real credentials.
+
+Before a runtime change is pushed, verify the actual Workers target:
+
+```bash
+pnpm build:cloudflare
+pnpm test:cloudflare-preview
+```
+
+`pnpm deploy` is intentionally a manual production action and is not part of ordinary local verification.
 
 ## Documentation
 

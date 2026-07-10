@@ -2,5 +2,6 @@
 set -eu
 
 echo "Running AI Economy Ledger pre-commit checks..."
-node scripts/ci/validate-repository.mjs --mode=lint
+NODE_BIN="$(git config --local --get ael.nodePath || command -v node)"
+"$NODE_BIN" scripts/ci/validate-repository.mjs --mode=lint
 git diff --cached --check

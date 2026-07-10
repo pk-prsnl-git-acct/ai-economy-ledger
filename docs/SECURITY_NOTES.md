@@ -28,6 +28,9 @@
 - dependency review and Dependabot
 - no secrets in generated snapshots or logs
 - cache authenticated/admin/health routes as private or no-store
+- pinned direct dependencies and a pnpm lifecycle-script allowlist in `pnpm-workspace.yaml`
+
+The lifecycle allowlist is intentionally limited to build/runtime packages required by the selected toolchain. Any addition requires dependency review; do not use a global “allow all build scripts” setting.
 
 ## Secret handling
 

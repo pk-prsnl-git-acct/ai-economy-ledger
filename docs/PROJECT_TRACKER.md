@@ -4,9 +4,9 @@ Last updated: 2026-07-10
 
 ## Current state
 
-- Phase: repository foundation
-- Active scope: PR 1 complete locally; awaiting review before runtime work
-- Production application: not yet implemented
+- Phase: runtime foundation
+- Active scope: PR 2 — Next.js and Cloudflare/OpenNext scaffold ready for review
+- Production application: minimal local placeholder; not deployed
 - Production data: none
 - Repository visibility: public; owner-controlled writes
 
@@ -17,7 +17,7 @@ Last updated: 2026-07-10
 - Supabase Auth, JWKS, and server-side REST access verified
 - Public domain has no deployed application origin yet
 - Supabase public data access remains intentionally unconfigured before schema and RLS work
-- Draft PR 1 is open and its GitHub `quality` CI job passes
+- PR 1 is merged and its required GitHub `quality` CI job passed
 - Main requires PRs and resolved review conversations and blocks deletion/force pushes
 - GitHub now requires the `quality` check and requires PR branches to be current with `main`
 - The ruleset still requires one approval; owner-authored PRs use the administrator bypass until another maintainer can approve them
@@ -41,8 +41,10 @@ Last updated: 2026-07-10
 - AI-specific revenue allocations can create false precision.
 - The legacy Supabase anon key is obsolete; use the publishable-key model when the client is implemented.
 - Domain routing remains on pre-deployment infrastructure.
+- Cloudflare Workers Builds, Worker creation, custom-domain binding, and DNS changes remain intentionally pending.
+- Direct dependency versions are pinned; updates must preserve Next.js/OpenNext and lint-parser compatibility.
 - Open-source differentiation must come from trust, methodology, curation, and execution rather than hidden code.
 
 ## Next decision gate
 
-Review the repository foundation, then begin the Next.js and Cloudflare/OpenNext runtime scaffold.
+Complete PR 2 review before beginning Supabase schema, migrations, RLS, or typed data-access work.

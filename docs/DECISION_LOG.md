@@ -36,3 +36,17 @@ Material decisions use stable identifiers and remain append-only. Reversals refe
 - Status: accepted
 - Decision: Authenticate only as `pk-prsnl-git-acct` and use `PK RSV Personal <pankaj.kharode@gmail.com>` locally for this repository.
 - Rationale: prevents cross-account commits and preserves accurate authorship.
+
+## DEC-006 — Explicit OpenNext Cloudflare configuration
+
+- Date: 2026-07-10
+- Status: accepted
+- Decision: Maintain reviewed `wrangler.toml` and `open-next.config.ts` files rather than running remote-aware automatic migration.
+- Rationale: keeps Worker name, compatibility flags, assets, and observability visible in Git while avoiding accidental R2 creation, deployment, or DNS mutation.
+
+## DEC-007 — Pinned runtime toolchain and lifecycle allowlist
+
+- Date: 2026-07-10
+- Status: accepted
+- Decision: Pin direct runtime/build dependencies exactly and allow dependency lifecycle scripts only for the reviewed Next.js/OpenNext build packages.
+- Rationale: reproducible builds and explicit supply-chain review outweigh convenience from floating versions or blanket script approval.

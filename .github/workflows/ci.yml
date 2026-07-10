@@ -37,3 +37,9 @@ jobs:
 
       - name: Verify repository
         run: pnpm verify
+
+      - name: Build for Cloudflare Workers
+        run: pnpm build:cloudflare
+
+      - name: Smoke test Cloudflare preview
+        run: pnpm test:cloudflare-preview

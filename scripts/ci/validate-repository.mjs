@@ -7,11 +7,15 @@ const failures = [];
 
 const requiredFiles = [
   "README.md",
+  "app/globals.css",
+  "app/layout.tsx",
+  "app/page.tsx",
   "CONTRIBUTING.md",
   "CODE_OF_CONDUCT.md",
   "GOVERNANCE.md",
   "SECURITY.md",
   ".env.example",
+  ".dev.vars.example",
   "docs/README.md",
   "docs/PROJECT_GROUND_RULES.md",
   "docs/PROJECT_TRACKER.md",
@@ -29,7 +33,16 @@ const requiredFiles = [
   "docs/DEPLOYMENT.md",
   "docs/RUNBOOK.md",
   "docs/DATA_LICENSE.md",
-  "docs/UX_REFERENCE.md"
+  "docs/UX_REFERENCE.md",
+  "eslint.config.mjs",
+  "next.config.ts",
+  "open-next.config.ts",
+  "postcss.config.mjs",
+  "pnpm-workspace.yaml",
+  "public/_headers",
+  "scripts/ci/cloudflare-preview-smoke.mjs",
+  "tsconfig.json",
+  "wrangler.toml"
 ];
 
 for (const file of requiredFiles) {

@@ -1,9 +1,9 @@
 import { spawnSync } from "node:child_process";
 
 const checks = [
-  ["lint", ["scripts/ci/validate-repository.mjs", "--mode=lint"]],
-  ["typecheck", ["scripts/ci/validate-repository.mjs", "--mode=typecheck"]],
-  ["test", ["--test", "tests/repository.test.mjs"]],
+  ["lint", ["scripts/ci/run-lint.mjs"]],
+  ["typecheck", ["node_modules/typescript/bin/tsc", "--noEmit"]],
+  ["test", ["--test", "tests/repository.test.mjs", "tests/runtime-scaffold.test.mjs"]],
   ["validate:data", ["scripts/ci/validate-data.mjs"]]
 ];
 

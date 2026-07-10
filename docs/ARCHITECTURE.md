@@ -60,4 +60,10 @@ source document -> candidate claim -> normalized metric -> entity match
 - Published snapshots isolate public traffic from analytical write workflows.
 - Provider integrations remain replaceable and secrets remain server-only.
 
+## Implemented runtime foundation
+
+PR 2 establishes Next.js 16 App Router on React 19, Tailwind CSS 4, and the OpenNext Cloudflare adapter. `wrangler.toml` targets `.open-next/worker.js`, enables `nodejs_compat`, serves `.open-next/assets`, and enables Worker observability. No database binding, R2 cache, Queue, Workflow, custom domain, or production deployment is configured yet.
+
+Local development uses `next dev`; runtime verification builds the OpenNext artifact and smoke-tests it through Wrangler/workerd. The application does not opt into Next.js Edge Runtime because OpenNext Cloudflare targets the Node.js runtime compatibility layer.
+
 See [Decision Log](DECISION_LOG.md) for accepted decisions and trade-offs.
