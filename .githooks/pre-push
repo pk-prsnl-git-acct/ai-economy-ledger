@@ -2,4 +2,13 @@
 set -eu
 
 echo "Running AI Economy Ledger pre-push verification..."
-node scripts/ci/run-verify.mjs
+NODE_BIN="$(git config --local --get ael.nodePath || command -v node)"
+"$NODE_BIN" scripts/ci/run-verify.mjs
+
+if command -v pnpm >/dev/null 2>&1; then
+  pnpm build:cloudflare
+  pnpm test:cloudflare-preview
+else
+  echo "pnpm must be available on PATH for Cloudflare pre-push verification." >&2
+  exit 1
+fi

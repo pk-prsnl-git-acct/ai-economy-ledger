@@ -41,3 +41,13 @@ This document contains durable implementation context for future coding sessions
 - The local bundled pnpm executable is not guaranteed to be on child-shell PATH. `pnpm verify` therefore delegates to a Node orchestrator instead of recursively invoking pnpm.
 - The first combined private environment file contained stale values; authoritative component files were synchronized into it after live read-only verification. Never record their values here.
 - Repository-managed hooks live in `.githooks`; `pnpm setup` configures them locally without changing global Git settings.
+- Git hooks record the Node executable used during setup so checks do not accidentally run under an unrelated system Node version.
+
+## Runtime foundation
+
+- Pinned stack: Next.js 16.2.10, React 19.2.7, TypeScript 6.0.3, ESLint 9.39.4, Tailwind 4.3.2, OpenNext Cloudflare 1.20.1, Wrangler 4.110.0.
+- TypeScript 7 was incompatible with the current TypeScript-ESLint parser; ESLint 10 was outside the peer ranges of current React/JSX plugins. Preserve the compatible TypeScript 6 / ESLint 9 pairing until upstream support changes.
+- Next.js needs `turbopack.root` fixed to this repository because an unrelated lockfile exists higher in the local filesystem.
+- OpenNext invokes `pnpm build` by command name. In the Codex desktop runtime, add the bundled pnpm wrapper directory to PATH for OpenNext commands; standard contributor and CI pnpm installations already do this.
+- `pnpm-workspace.yaml` is the pnpm 11 source of truth for approved lifecycle scripts. Do not move the allowlist back into `package.json`.
+- `wrangler.toml` has no R2, database, Queue, Workflow, or service bindings yet. The preview smoke runs locally in workerd and does not deploy.

@@ -11,3 +11,5 @@
 The domain does not yet have a working application origin. Do not change web DNS, enable HSTS, or harden origin-dependent settings before a verified Worker deployment. Preserve email-related DNS records.
 
 API connectivity, Workers read access, and DNS read access were verified on 2026-07-10 without changing remote state.
+
+PR 2 adds the reviewed local OpenNext Worker scaffold and workerd smoke test. It does not create a Worker, connect Workers Builds, bind the domain, or change DNS.

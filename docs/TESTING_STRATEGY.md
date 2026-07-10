@@ -41,6 +41,6 @@ New critical domain modules target at least 90% branch coverage. General applica
 
 ## CI progression
 
-The initial CI validates repository structure and secret safety. Later PRs add TypeScript, linting, Vitest, data validation, build, Playwright, Cloudflare preview, migration, and security jobs without turning GitHub Actions into production infrastructure.
+CI now validates repository/secret safety, Next.js ESLint, strict TypeScript, foundation tests, data-directory safety, the full OpenNext Worker build, and an HTTP smoke test in workerd. Later PRs add domain coverage, database/RLS integration, accessibility, Playwright, migration, and security jobs without turning GitHub Actions into production infrastructure.
 
 Flaky tests are defects. Quarantine requires an owner, tracking issue, and removal deadline.

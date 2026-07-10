@@ -11,6 +11,8 @@
 
 ```bash
 pnpm verify
+pnpm build:cloudflare
+pnpm test:cloudflare-preview
 git status
 git diff
 git diff --cached

@@ -46,6 +46,8 @@ web_modules/
 
 # TypeScript cache
 *.tsbuildinfo
+next-env.d.ts
+cloudflare-env.d.ts
 
 # Optional npm cache directory
 .npm
@@ -70,6 +72,9 @@ web_modules/
 .env.local
 .env.*
 !.env.example
+.dev.vars
+.dev.vars.*
+!.dev.vars.example
 
 # Local private/secrets folders
 01_private_secrets/
@@ -123,6 +128,7 @@ dist
 # Test outputs
 playwright-report/
 test-results/
+.playwright-cli/
 
 # FuseBox cache
 .fusebox/

@@ -33,5 +33,7 @@ test("project memory links its required operating documents", () => {
 
 test("repository-managed Git hooks are configured", () => {
   const hooksPath = execFileSync("git", ["config", "--local", "--get", "core.hooksPath"], { encoding: "utf8" }).trim();
+  const nodePath = execFileSync("git", ["config", "--local", "--get", "ael.nodePath"], { encoding: "utf8" }).trim();
   assert.equal(hooksPath, ".githooks");
+  assert.ok(nodePath.endsWith("/node"));
 });
