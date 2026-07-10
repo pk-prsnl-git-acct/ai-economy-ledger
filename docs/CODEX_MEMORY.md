@@ -51,3 +51,13 @@ This document contains durable implementation context for future coding sessions
 - OpenNext invokes `pnpm build` by command name. In the Codex desktop runtime, add the bundled pnpm wrapper directory to PATH for OpenNext commands; standard contributor and CI pnpm installations already do this.
 - `pnpm-workspace.yaml` is the pnpm 11 source of truth for approved lifecycle scripts. Do not move the allowlist back into `package.json`.
 - `wrangler.toml` has no R2, database, Queue, Workflow, or service bindings yet. The preview smoke runs locally in workerd and does not deploy.
+
+## Data foundation
+
+- Hosted Supabase runs PostgreSQL 17.6; local configuration targets major version 17.
+- Canonical data lives in unexposed `ledger`; role data/helpers live in unexposed `private`; only snapshot RPCs live in exposed `api`.
+- Reviewer/admin authorization uses `private.app_user_roles` linked to `auth.users`, never user-editable metadata.
+- Drizzle schema generates structural SQL into `supabase/migrations`; SQL-only RLS, grants, triggers, and RPCs are reviewed in that same migration history.
+- Serverless pooled connections disable prepared statements and cap each Worker isolate at one database connection. Direct connections are migration-only.
+- No PR or merge authorizes `supabase db push`; hosted migrations remain a separately approved release action.
+- Next.js 16.2.10 still declares vulnerable PostCSS 8.4.31 internally; the repository overrides all PostCSS resolutions to the already-pinned 8.5.16 patched release. Preserve the override until Next.js updates its dependency.

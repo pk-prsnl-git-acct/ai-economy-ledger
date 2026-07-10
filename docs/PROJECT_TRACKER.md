@@ -4,8 +4,8 @@ Last updated: 2026-07-10
 
 ## Current state
 
-- Phase: runtime foundation
-- Active scope: PR 2 — Next.js and Cloudflare/OpenNext scaffold ready for review
+- Phase: data foundation
+- Active scope: PR 3 — Supabase schema, RLS, migration workflow, and typed data layer
 - Production application: minimal local placeholder; not deployed
 - Production data: none
 - Repository visibility: public; owner-controlled writes
@@ -18,6 +18,7 @@ Last updated: 2026-07-10
 - Public domain has no deployed application origin yet
 - Supabase public data access remains intentionally unconfigured before schema and RLS work
 - PR 1 is merged and its required GitHub `quality` CI job passed
+- PR 2 is merged; its Next.js/OpenNext runtime and Cloudflare preview checks passed
 - Main requires PRs and resolved review conversations and blocks deletion/force pushes
 - GitHub now requires the `quality` check and requires PR branches to be current with `main`
 - The ruleset still requires one approval; owner-authored PRs use the administrator bypass until another maintainer can approve them
@@ -47,4 +48,4 @@ Last updated: 2026-07-10
 
 ## Next decision gate
 
-Complete PR 2 review before beginning Supabase schema, migrations, RLS, or typed data-access work.
+Review PR 3's schema and local RLS evidence before any hosted migration is approved. Hosted Supabase remains unchanged until that separate approval.

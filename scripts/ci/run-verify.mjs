@@ -3,7 +3,16 @@ import { spawnSync } from "node:child_process";
 const checks = [
   ["lint", ["scripts/ci/run-lint.mjs"]],
   ["typecheck", ["node_modules/typescript/bin/tsc", "--noEmit"]],
-  ["test", ["--test", "tests/repository.test.mjs", "tests/runtime-scaffold.test.mjs"]],
+  ["migration-check", ["node_modules/drizzle-kit/bin.cjs", "check"]],
+  [
+    "test",
+    [
+      "--test",
+      "tests/repository.test.mjs",
+      "tests/runtime-scaffold.test.mjs",
+      "tests/database-foundation.test.mjs"
+    ]
+  ],
   ["validate:data", ["scripts/ci/validate-data.mjs"]]
 ];
 

@@ -18,7 +18,8 @@
 
 ## PR 2 — Next.js and Cloudflare/OpenNext scaffold
 
-- Status: ready for review
+- Status: merged
+- Pull request: `#2`
 - Branch: `chore/cloudflare-opennext-scaffold`
 - Purpose: add the minimal Next.js App Router shell and a reviewed Cloudflare Workers/OpenNext build contract
 - Runtime: Next.js 16.2.10, React 19.2.7, OpenNext Cloudflare 1.20.1, Wrangler 4.110.0
@@ -27,3 +28,16 @@
 - Deployment impact: configuration and documentation only; no Worker, build integration, domain, or DNS mutation
 - Quality: ESLint, strict TypeScript, 11 foundation/runtime tests, dependency peer audit, Next build, OpenNext build, workerd HTTP smoke
 - Supply chain: exact direct versions and explicit pnpm lifecycle-script allowlist
+- GitHub: required `quality` check passed; merged by rebase with the documented solo-maintainer administrator bypass
+
+## PR 3 — Supabase data foundation
+
+- Status: in progress
+- Branch: `agent/supabase-data-foundation`
+- Purpose: establish the canonical ledger schema, migration workflow, RLS authorization, public snapshot API, and typed Drizzle data layer
+- Runtime: PostgreSQL 17 / Supabase CLI 2.109.1 / Drizzle ORM 0.45.2 / postgres.js 3.4.9
+- Schema: isolated `ledger`, `private`, and `api` schemas with 14 initial tables and controlled vocabularies
+- Security: reviewer/admin roles stored outside exposed schemas; raw ledger data is not public; anon access is limited to reviewed, published, non-sample snapshot RPCs
+- Integrity: source requirements, typed observation values, review metadata, revision lineage, sample isolation, append-only audit/revision records, and immutable approved records are database-enforced
+- Deployment impact: migration and hosted configuration documentation only; no remote migration, public API change, or production deployment
+- Verification: Drizzle migration check, strict TypeScript, static database contract tests, local Supabase migration reset, pgTAP RLS tests, database lint, application build, and Cloudflare preview

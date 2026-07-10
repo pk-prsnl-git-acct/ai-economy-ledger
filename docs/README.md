@@ -8,6 +8,7 @@ This directory is the durable project memory. Repository code, tests, data artif
 - [Project Tracker](PROJECT_TRACKER.md) — current phase, work in progress, and next decisions
 - [Architecture](ARCHITECTURE.md) — system boundaries and technical direction
 - [Data Model](DATA_MODEL.md) — entities, lineage, and controlled vocabularies
+- [Supabase Workflow](../supabase/README.md) — local migrations, RLS tests, and deployment boundary
 - [Methodology](METHODOLOGY.md) — analytical definitions and formulas
 - [Source Policy](SOURCE_POLICY.md) — acceptable evidence and licensing rules
 - [Testing Strategy](TESTING_STRATEGY.md) — quality pyramid and release gates

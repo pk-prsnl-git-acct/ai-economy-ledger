@@ -148,6 +148,9 @@ test-results/
 # pnpm
 .pnpm-store
 
+# Supabase local state
+supabase/.branches/
+
 # yarn v3
 .pnp.*
 .yarn/*

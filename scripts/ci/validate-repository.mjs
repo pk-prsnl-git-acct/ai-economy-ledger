@@ -34,6 +34,7 @@ const requiredFiles = [
   "docs/RUNBOOK.md",
   "docs/DATA_LICENSE.md",
   "docs/UX_REFERENCE.md",
+  "drizzle.config.ts",
   "eslint.config.mjs",
   "next.config.ts",
   "open-next.config.ts",
@@ -41,6 +42,12 @@ const requiredFiles = [
   "pnpm-workspace.yaml",
   "public/_headers",
   "scripts/ci/cloudflare-preview-smoke.mjs",
+  "src/server/db/client.ts",
+  "src/server/db/schema.ts",
+  "supabase/config.toml",
+  "supabase/migrations/0000_ledger_foundation.sql",
+  "supabase/README.md",
+  "supabase/tests/0001_ledger_foundation_test.sql",
   "tsconfig.json",
   "wrangler.toml"
 ];
