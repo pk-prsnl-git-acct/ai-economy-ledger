@@ -15,6 +15,8 @@ Live verification on 2026-07-10 confirmed:
 - draft PR creation and branch publication work through the project account
 - the `quality` GitHub Actions job completes successfully
 - effective `main` rules require pull requests and review-thread resolution and block deletions and non-fast-forward updates
-- the current PAT can read but cannot update the ruleset; adding `quality` as a required server-side check needs `Administration: write` permission or a manual owner update
+- the current PAT can read but cannot update the ruleset because it lacks `Administration: write`
+- the owner manually added `quality` as a strict required check and requires PR branches to be current
+- the ruleset currently requires one approval; owner-authored PRs rely on the configured administrator bypass until a second maintainer exists
 
 Repository operations must use the project-specific owner identity. Do not use a global or ChatGPT-connected GitHub account without explicit owner approval.

@@ -12,4 +12,5 @@
 - Dependencies: none; lockfile created with pnpm 11.7.0
 - Follow-up commit: documented the end-to-end PR lifecycle and added repository-managed pre-commit/pre-push hooks
 - GitHub: draft PR 1 opened; `quality` CI passed
-- Ruleset follow-up: `quality` is not yet a server-required check because the PAT lacks `Administration: write`; existing PR, conversation-resolution, deletion, and force-push protections remain active
+- Ruleset: `quality` is now a strict server-required check; PR, approval, conversation-resolution, deletion, and force-push protections are active
+- Solo-maintainer note: PR 1 requires the configured administrator bypass because authors cannot approve their own PR

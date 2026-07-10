@@ -25,7 +25,8 @@ This document contains durable implementation context for future coding sessions
 - Supabase's legacy anon key is obsolete; prefer the current publishable-key model and configure public access only with explicit RLS.
 - The public domain currently has no deployed app origin.
 - GitHub PR 1 is the first live workflow proof; its `quality` job passes.
-- The project PAT cannot update repository rulesets (`403` without `Administration: write`). Do not use another account; require CI by maintainer policy until the owner expands that permission or updates the ruleset manually.
+- The project PAT cannot update repository rulesets (`403` without `Administration: write`); do not use another account. The owner manually configured `quality` as a strict required check.
+- The ruleset requires one approval. Owner-authored PRs may need the configured administrator bypass until a second maintainer exists; contributor PRs still require owner review.
 
 ## Working conventions
 
