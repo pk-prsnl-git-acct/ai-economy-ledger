@@ -24,6 +24,8 @@ This document contains durable implementation context for future coding sessions
 - Supabase Auth, JWKS, and server REST access were verified on 2026-07-10.
 - Supabase's legacy anon key is obsolete; prefer the current publishable-key model and configure public access only with explicit RLS.
 - The public domain currently has no deployed app origin.
+- GitHub PR 1 is the first live workflow proof; its `quality` job passes.
+- The project PAT cannot update repository rulesets (`403` without `Administration: write`). Do not use another account; require CI by maintainer policy until the owner expands that permission or updates the ruleset manually.
 
 ## Working conventions
 
