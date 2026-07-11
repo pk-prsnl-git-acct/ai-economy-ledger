@@ -1,32 +1,42 @@
 # Roadmap
 
+## Execution Contract
+
+The project advances one logical PR/checkpoint at a time. Each step must update the project memory docs when it changes architecture, data, deployment, security, methodology, or workflow state. See [Updated PR Plan and Checkpoints](UPDATED_PR_PLAN_AND_CHECKPOINTS.md).
+
 ## Foundation
 
-- Repository memory, governance, and quality baseline
-- Next.js/TypeScript application shell
-- Cloudflare/OpenNext configuration
-- Supabase migrations, RLS design, and typed data access
+- PR 1: repository memory, governance, quality baseline, and PR workflow
+- PR 2: Next.js/TypeScript app shell plus Cloudflare/OpenNext configuration
+- PR 2.5: Cloudflare/OpenNext preview smoke checkpoint
+- PR 3: Supabase migrations, RLS design, typed data access, and local DB tests
+- PR 3.5: hosted Supabase migration apply and live RLS/public-surface verification
+- PR 3.6: roadmap amendment, only if not already captured by PR 3.5
 
-## Auditable prototype
+PR 2.5 is considered satisfied by PR 2's OpenNext build and workerd HTTP smoke evidence unless later runtime changes invalidate that evidence.
 
-- Ledger Dark public shell
-- sample-only workbook/CSV imports
-- formula engine and confidence scoring
-- source, claim, observation, review, and revision workflow
+## Auditable Prototype
 
-## Differentiated analysis
+- PR 4: Ledger Dark static UX shell with placeholder/sample data only
+- PR 4.5: full required public/admin route skeleton and navigation coverage
+- PR 5: sample workbook and CSV import templates
+- PR 5.5: demo import run and sample isolation verification
+- PR 6: KPI calculation engine, formula docs, and tests
+- PR 7: source registry, claims, metric observations, confidence, freshness, and revision runtime
+- PR 7.5: published snapshots and read-only public API
 
-- circularity and related-party relationship model
-- gross versus net external revenue views
-- base, bull, and bear scenario engine
-- reproducible public snapshots and downloads
+## Admin And Review
 
-## Production readiness
+- PR 8: Supabase Auth integration, admin route guard, and review queue
+- PR 8.5: first admin/reviewer bootstrap and RLS smoke verification
 
-- admin authentication and authorization
-- scheduled read-only health and freshness checks
-- observability, backups, recovery, and incident runbooks
-- accessibility, performance, and security review
-- contribution and data-governance maturity
+## Differentiated Analysis
+
+- PR 9: circularity, relationship, related-party, vendor/customer loop, and scenario engine
+
+## Production Readiness
+
+- PR 10: Cloudflare Cron, read-only health/freshness checks, observability, and readiness runbook
+- PR 11: Cloudflare Workers production deploy, domain binding, final smoke test, cache/health validation, and rollback record
 
 Broad scraping, paid data redistribution, automated private-market estimates, and complex network visualization remain outside v0.1.

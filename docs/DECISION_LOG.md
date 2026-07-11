@@ -71,3 +71,10 @@ Material decisions use stable identifiers and remain append-only. Reversals refe
 - Status: accepted
 - Decision: Approved or superseded claims and observations are immutable to reviewers. Corrections create linked observations and append-only revision records; public output is delivered as versioned content-hashed snapshots.
 - Rationale: financial claims require reproducible lineage and visible correction history rather than silent overwrites.
+
+## DEC-011 — Explicit operational checkpoint PRs
+
+- Date: 2026-07-11
+- Status: accepted
+- Decision: Add named checkpoint PRs between large implementation phases: Cloudflare/OpenNext preview smoke, hosted Supabase migration apply, route skeleton, demo import/sample isolation, published snapshot/public API, admin bootstrap/RLS smoke, and production deploy/domain smoke.
+- Rationale: the product needs proof at operational boundaries, not only code review. Checkpoint PRs prevent skipped migrations, unsafe public access, static mock data being mistaken for live data, sample data leaking into verified totals, and production deploys without final smoke evidence.
