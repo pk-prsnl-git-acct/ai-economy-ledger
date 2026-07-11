@@ -76,7 +76,7 @@
 
 ## PR 5 — Sample import templates and isolation checkpoint
 
-- Status: draft
+- Status: ready for owner review
 - Pull request: `#6`
 - Branch: `agent/pr5-import-templates-sample-isolation`
 - Internal label: logical PR 5; includes the demo import/sample isolation checkpoint previously tracked as PR 5.5
@@ -86,3 +86,4 @@
 - Verification: local import contract tests and data validation prove template headers remain stable, demo rows preserve sample labels, and verified totals ignore sample observations
 - Data/schema impact: repository sample/template files only; no database schema or hosted data changes
 - Deployment impact: none; Cloudflare and Supabase production untouched
+- GitHub: opened as pull request `#6`; required `quality` check expected before merge review
