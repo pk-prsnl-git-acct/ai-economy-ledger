@@ -1,0 +1,80 @@
+# Updated PR Plan and Checkpoints
+
+This document records the July 2026 roadmap amendment. It complements the project ground rules, roadmap, tracker, PR log, runbook, deployment guide, and Codex memory. It does not replace them.
+
+## Why this exists
+
+The original PR plan correctly established a small, reviewed, one-PR-at-a-time workflow. The missing part was a set of explicit operational checkpoints between large implementation steps. Without those checkpoints, the project could accidentally have migrations that exist but are not applied, Cloudflare config that is not smoke-tested, sample data that leaks into verified totals, or production deploys that happen without final smoke tests.
+
+## Execution rules
+
+- Work one logical PR scope at a time.
+- Stop after each PR or checkpoint and wait for owner approval.
+- Do not start PR 4 until PR 3.5 is reviewed and approved.
+- Do not invent verified financial data or treat sample data as real.
+- Do not broaden checkpoint PRs into feature implementation.
+- Do not commit or print secrets.
+- Do not use GitHub Actions as production runtime.
+- Do not change production infrastructure without explicit approval and an audit record.
+
+GitHub PR numbers do not have to match logical PR labels. The logical labels below are the project roadmap labels.
+
+## Logical PR Sequence
+
+| Logical PR | Scope | Gate |
+|---|---|---|
+| PR 0 | Local bootstrap and planning only | Local env ignored, handoffs read, no commits/PRs unless approved |
+| PR 1 | Repository scaffold, docs, governance, baseline package setup | Baseline checks and protected PR workflow |
+| PR 2 | Next.js and Cloudflare/OpenNext scaffold | Build and Cloudflare config exist without production deploy |
+| PR 2.5 | Cloudflare/OpenNext preview smoke checkpoint | Worker-like local preview/build smoke before heavy UI/API work |
+| PR 3 | Supabase schema, Drizzle scaffold, RLS, typed data layer | Reviewed migration files and local DB/RLS tests |
+| PR 3.5 | Supabase remote migration apply and verification | Hosted schema applied, RLS/public surface verified |
+| PR 3.6 | Roadmap amendment and checkpoint documentation | Only needed if checkpoint docs are not included in PR 3.5 |
+| PR 4 | Ledger Dark static UX shell from mockups | Sample placeholders only, no production data connection |
+| PR 4.5 | Full required route skeleton and navigation coverage | All public/admin route placeholders exist |
+| PR 5 | Sample workbook and CSV import templates | Templates and mappings preserve sample labels |
+| PR 5.5 | Demo import run and sample isolation verification | Sample rows cannot enter verified totals |
+| PR 6 | KPI calculation engine and tests | Pure formulas, methodology docs, confidence/sample tests |
+| PR 7 | Source registry, claims, observations runtime model | Traceability runtime and revision/freshness read models |
+| PR 7.5 | Published snapshots and public read API | Read-only public surface exposes approved published data only |
+| PR 8 | Admin auth and review queue | Protected admin/reviewer workflow aligned with RLS |
+| PR 8.5 | Admin bootstrap and RLS smoke verification | First-admin path and write protections verified |
+| PR 9 | Circularity and scenario engine | AI economy relationship/circularity analysis with tests |
+| PR 10 | Cloudflare Cron, observability, production readiness | Read-only keep-alive, freshness checks, readiness runbook |
+| PR 11 | Production deploy, domain, final smoke test | Worker, domain, secrets, cache, health, and rollback verified |
+
+## Checkpoint Gates
+
+| Gate | Must happen before | Reason |
+|---|---|---|
+| Cloudflare/OpenNext preview smoke | heavy UI/API work | Catch Worker runtime incompatibilities early |
+| Supabase remote migration apply | DB-backed runtime features | Ensure schema exists outside local repo |
+| RLS and no-public-write verification | admin/review/data entry | Prevent unsafe data exposure |
+| Full route skeleton | deeper page work | Avoid missing core public/admin surfaces |
+| Sample isolation verification | dashboard metrics | Prevent demo data becoming truth |
+| Published snapshot/public API | production dashboard | Avoid static mock data becoming a fake app |
+| Admin bootstrap/RLS smoke | reviewer workflow | Confirm first admin path and route guards |
+| Production deploy/domain smoke | public launch | Confirm DNS, Worker, secrets, routes, cache, and health |
+
+## Current Mapping
+
+- PR 1 is merged as GitHub PR `#1`.
+- PR 2 is merged as GitHub PR `#2`; it already included OpenNext build and workerd HTTP smoke evidence, so PR 2.5 is considered satisfied unless future runtime changes invalidate it.
+- PR 3 is merged as GitHub PR `#3`.
+- PR 3.5 is active as GitHub PR `#4`; it records the hosted Supabase migration apply and this roadmap amendment.
+- PR 3.6 is not needed if GitHub PR `#4` merges with this document and related roadmap updates.
+
+## Required Stop Output
+
+After each PR/checkpoint, report:
+
+- summary
+- files changed
+- tests/checks run
+- data/schema impact
+- deployment impact
+- security/RLS impact
+- known risks
+- next recommended PR
+
+Then stop and wait for owner approval before beginning the next logical PR.

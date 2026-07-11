@@ -23,6 +23,18 @@ Testing protects financial correctness, source lineage, data isolation, authoriz
 | Data/import | schema validation, malformed inputs, idempotency, sample isolation |
 | Deployment | build, preview smoke, environment validation, rollback plan |
 
+## Checkpoint Gates
+
+| Logical checkpoint | Required evidence |
+|---|---|
+| PR 2.5 Cloudflare/OpenNext preview smoke | OpenNext build and Worker-like HTTP smoke evidence |
+| PR 3.5 Supabase remote migration apply | remote migration history, expected tables, RLS, anon denial, explicit public RPC grants, read-only health query |
+| PR 4.5 route skeleton | all required public/admin routes render placeholders with navigation and warnings |
+| PR 5.5 demo import isolation | sample flags preserved and sample rows excluded from verified totals |
+| PR 7.5 public read API | published snapshot generation and public read-only API isolation tests |
+| PR 8.5 admin/RLS smoke | first-admin bootstrap, admin write proof, public write denial, service-role server-only proof |
+| PR 11 production deploy smoke | domain, Worker, routes, admin protection, health, cache, logs, rollback evidence |
+
 ## Critical test inventory
 
 - capital, obligation, gross/net revenue, circularity, and confidence-weighted formulas

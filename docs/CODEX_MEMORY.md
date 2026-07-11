@@ -35,6 +35,7 @@ This document contains durable implementation context for future coding sessions
 - Record unexpected failures and their resolution here when they may recur.
 - Never copy raw private handoff files or credentials into repository documentation.
 - Follow `docs/DEVELOPMENT_WORKFLOW.md` from scope through PR, CI, merge, and deployment approval.
+- Follow `docs/UPDATED_PR_PLAN_AND_CHECKPOINTS.md` for logical PR order, checkpoint gates, and the stop rule before beginning the next PR.
 
 ## Foundation learning
 
@@ -63,3 +64,10 @@ This document contains durable implementation context for future coding sessions
 - Next.js 16.2.10 still declares vulnerable PostCSS 8.4.31 internally; the repository overrides all PostCSS resolutions to the already-pinned 8.5.16 patched release. Preserve the override until Next.js updates its dependency.
 - Hosted project `vupwphakeyvvhaoxuvuw` received migration version `0000` on 2026-07-11. The direct database endpoint required IPv6 from this network, so the apply used the local IPv4 pooler connection from ignored environment files after a dry run confirmed only `0000_ledger_foundation.sql`.
 - Post-apply verification on 2026-07-11 confirmed the expected `ledger` tables, `private.app_user_roles`, RLS enablement, zero `anon` table grants, only two `api` RPC grants for `anon`, denied anonymous canonical reads/writes, and a successful read-only health query.
+
+## Roadmap checkpoints
+
+- The July 2026 amendment adds explicit checkpoint PRs: 2.5 Cloudflare/OpenNext preview smoke, 3.5 Supabase remote migration apply, 3.6 roadmap amendment if needed, 4.5 route skeleton, 5.5 demo import/sample isolation, 7.5 published snapshots/public API, 8.5 admin bootstrap/RLS smoke, and 11 production deploy/domain smoke.
+- PR 2.5 is currently considered satisfied by PR 2's OpenNext build and workerd HTTP smoke evidence. Re-open a checkpoint if later runtime changes invalidate that evidence.
+- PR 3.6 is unnecessary if PR 3.5 merges with `docs/UPDATED_PR_PLAN_AND_CHECKPOINTS.md` and the matching roadmap/tracker/log/decision updates.
+- After each PR/checkpoint, stop and report summary, files changed, checks, data/schema impact, deployment impact, security/RLS impact, known risks, and next recommended PR.

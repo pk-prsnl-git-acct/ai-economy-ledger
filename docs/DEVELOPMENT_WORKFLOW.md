@@ -20,6 +20,8 @@ Issue or approved scope
 
 Production deployment is a separate, explicitly approved stage. A merged PR does not authorize live migrations, DNS changes, secret changes, or production deployment.
 
+Logical roadmap labels may differ from GitHub PR numbers. Follow `docs/UPDATED_PR_PLAN_AND_CHECKPOINTS.md` for the current logical PR sequence and checkpoint gates.
+
 ## 1. Define the work
 
 Use an issue or an owner-approved PR scope. Record:
@@ -145,6 +147,8 @@ git branch -d <merged-branch>
 ```
 
 Delete the remote branch when no longer needed. Update release notes, tracker state, or operational documentation when the merge changes delivered capability.
+
+After each logical PR or checkpoint, stop and report summary, files changed, checks run, data/schema impact, deployment impact, security/RLS impact, known risks, and the next recommended PR. Do not start the next logical PR without explicit owner approval.
 
 ## 10. Deployment boundary
 
