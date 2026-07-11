@@ -4,8 +4,8 @@ Last updated: 2026-07-11
 
 ## Current state
 
-- Phase: auditable prototype UX
-- Active scope: logical PR 4 — Ledger Dark static shell plus complete route/navigation checkpoint, ready for owner review as GitHub PR `#5`
+- Phase: auditable prototype data-entry contract
+- Active scope: logical PR 5 — sample workbook, CSV import templates, demo import, and sample isolation verification
 - Production application: static local Ledger Dark prototype; not deployed
 - Production data: schema foundation applied; no published snapshots yet
 - Repository visibility: public; owner-controlled writes
@@ -22,8 +22,8 @@ Last updated: 2026-07-11
 - PR 2 is merged; its Next.js/OpenNext runtime and Cloudflare preview checks passed, satisfying logical PR 2.5 unless runtime changes invalidate that evidence
 - PR 3 is merged; its reviewed migration is now applied to hosted Supabase
 - PR 3.5 is merged as GitHub PR `#4`
-- Logical PR 4 implementation is ready for owner review as GitHub PR `#5` on `agent/pr4-app-shell-routes`; this PR includes the former PR 4.5 route skeleton checkpoint scope
-- GitHub PR `#5` is not logical PR 5; logical PR 5 starts only after logical PR 4 is merged
+- PR 4 is merged as GitHub PR `#5`; it includes the former PR 4.5 route skeleton checkpoint scope
+- Logical PR 5 is active on `agent/pr5-import-templates-sample-isolation`; it includes the former PR 5.5 demo import/sample isolation checkpoint scope
 - Main requires PRs and resolved review conversations and blocks deletion/force pushes
 - GitHub now requires the `quality` check and requires PR branches to be current with `main`
 - The ruleset still requires one approval; owner-authored PRs use the administrator bypass until another maintainer can approve them
@@ -62,7 +62,8 @@ Last updated: 2026-07-11
 - Open-source differentiation must come from trust, methodology, curation, and execution rather than hidden code.
 - Application traffic is still not wired to Supabase; live schema now exists before the first production app deploy, so future releases must preserve the current RLS/public-surface contract.
 - Static admin pages are deliberately visible route placeholders, not protected tools; they contain no write controls or backend connection. Authentication remains PR 8 scope.
+- PR 5 templates are repository contracts only; they are not a production upload surface and must remain sample/verified-isolated until the protected admin workflow exists.
 
 ## Next decision gate
 
-Review logical PR 4 in GitHub PR `#5`. Confirm all public/admin placeholders, responsive navigation, sample warnings, admin access warnings, and route metadata before approving and merging that PR. After it merges, the next implementation scope is logical PR 5.
+Complete and review logical PR 5. Confirm the CSV headers, sample workbook, demo import fixtures, sample-label preservation, and verified-total exclusion before moving to logical PR 6.

@@ -59,7 +59,7 @@
 
 ## PR 4 — Ledger Dark UX shell and route checkpoint
 
-- Status: ready for owner review
+- Status: merged
 - Pull request: `#5`
 - Branch: `agent/pr4-app-shell-routes`
 - Internal label: logical PR 4; includes the route skeleton checkpoint previously tracked as PR 4.5
@@ -72,4 +72,16 @@
 - Verification: strict TypeScript, lint, 21 repository/route tests, static Next.js production build for all routes, representative multi-route OpenNext/workerd HTTP smoke, and browser desktop/mobile semantic and responsive smoke
 - Data/schema impact: none
 - Deployment impact: none; Cloudflare and Supabase production untouched
-- GitHub: required `quality` check passed; PR marked ready for review
+- GitHub: required `quality` check passed; merged by rebase with the documented solo-maintainer administrator bypass
+
+## PR 5 — Sample import templates and isolation checkpoint
+
+- Status: in progress
+- Branch: `agent/pr5-import-templates-sample-isolation`
+- Internal label: logical PR 5; includes the demo import/sample isolation checkpoint previously tracked as PR 5.5
+- Purpose: add contributor-facing CSV import templates, a fictional sample workbook, demo import fixtures, and local validation that sample rows cannot enter verified totals
+- Templates: companies, metric definitions, source registry, source documents, claims, and metric observations
+- Scope control: fictional sample data only; no production import UI, database writes, schema migration, Supabase mutation, or Cloudflare deployment
+- Verification: local import contract tests and data validation prove template headers remain stable, demo rows preserve sample labels, and verified totals ignore sample observations
+- Data/schema impact: repository sample/template files only; no database schema or hosted data changes
+- Deployment impact: none; Cloudflare and Supabase production untouched
