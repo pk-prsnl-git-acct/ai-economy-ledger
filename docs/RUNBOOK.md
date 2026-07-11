@@ -78,3 +78,24 @@ Use this when a reviewed migration in `supabase/migrations/` must be applied to 
 2. If the migration succeeded structurally but behavior is wrong, prefer a forward corrective migration.
 3. Pause any application rollout before attempting further database changes.
 4. Capture migration history, verification results, and the exact corrective plan in project memory before proceeding.
+
+## Admin bootstrap and RLS smoke
+
+Use this only after the target Supabase Auth user exists and the owner has approved granting that user reviewer/admin access.
+
+### Bootstrap first admin
+
+1. Load ignored local private environment values only.
+2. Set `DATABASE_URL` to the intended Supabase database connection.
+3. Set `ADMIN_BOOTSTRAP_USER_ID` to the Supabase `auth.users.id` UUID.
+4. Optionally set `ADMIN_BOOTSTRAP_ROLE=reviewer`; the default is `admin`.
+5. Run `pnpm admin:bootstrap`.
+6. Do not paste role grants, tokens, or database URLs into docs or chat.
+
+### RLS smoke
+
+1. Load ignored local private environment values only.
+2. Run `pnpm admin:rls-smoke`.
+3. Optionally set `RLS_SMOKE_REVIEWER_USER_ID` to confirm a mapped reviewer/admin can read the review queue.
+4. Confirm the smoke reports anonymous denial, unmapped authenticated isolation, and reviewer path verification when configured.
+5. Record only the result and environment name, never secrets.

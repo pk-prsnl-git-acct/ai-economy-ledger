@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
-import { AdminPlaceholderPage } from "@/components/ledger";
+import { AdminToolPanel, ProtectedAdminPage } from "@/components/admin";
 import { routeMetadata } from "@/src/ui/metadata";
 import { findAdminRoute } from "@/src/ui/site-map";
 const route = findAdminRoute("/admin/sources");
 export const metadata: Metadata = routeMetadata(route.title, route.description, route.href);
-export default function AdminSourcesPage() { return <AdminPlaceholderPage route={route} />; }
+export const dynamic = "force-dynamic";
+export default function AdminSourcesPage() { return <ProtectedAdminPage route={route}><AdminToolPanel route={route} /></ProtectedAdminPage>; }

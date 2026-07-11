@@ -106,3 +106,10 @@ Material decisions use stable identifiers and remain append-only. Reversals refe
 - Status: accepted
 - Decision: Generate versioned content-hashed snapshots through a pure builder and persist them as drafts only. Deliver public data through the existing publishable-key RPC boundary, and reserve the authenticated review/publish transition for PR 8.
 - Rationale: this keeps calculation reproducibility, editorial approval, and anonymous delivery as independently testable trust boundaries. A generator cannot make its own output public, and public routes cannot query canonical records.
+
+## DEC-016 — Server-side admin authorization boundary
+
+- Date: 2026-07-11
+- Status: accepted
+- Decision: Protect admin routes through server-side Supabase session verification and `private.app_user_roles` lookup rather than adding browser-side auth helpers or trusting user metadata.
+- Rationale: reviewer/admin authorization must remain immediately revocable, database-backed, and unavailable to client-side manipulation. Avoiding a browser auth dependency also keeps service-role and database credentials out of public bundles while preserving the existing Supabase Auth and RLS model.

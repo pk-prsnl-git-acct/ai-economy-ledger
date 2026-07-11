@@ -53,6 +53,15 @@ h2 { margin: 5px 0 0; font-size: 19px; letter-spacing: -.025em; }
 .warning-banner span { color: #d1bc81; }
 .admin-warning { border-color: rgb(239 107 115 / 38%); background: rgb(239 107 115 / 7%); color: #ffacb1; }
 .admin-warning span { color: #cf9ba0; }
+.admin-authorized { border-color: rgb(62 209 160 / 38%); background: rgb(62 209 160 / 7%); color: #9af1d2; }
+.admin-authorized span { color: #a9d6c7; }
+.admin-state-panel { margin-bottom: 14px; padding: 22px; }
+.admin-state-panel p { max-width: 760px; color: var(--text-muted); line-height: 1.65; }
+.admin-state-panel dl { display: grid; gap: 8px; max-width: 720px; margin: 18px 0 0; }
+.admin-state-panel div { display: flex; justify-content: space-between; gap: 16px; padding-top: 8px; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 11px; }
+.admin-state-panel dd { margin: 0; color: #cbd5e1; text-align: right; }
+.admin-state-panel code { color: #d8e4ef; }
+.admin-muted { margin: 16px 0 0; color: var(--text-muted); font-size: 12px; line-height: 1.6; }
 
 .kpi-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 13px; }
 .kpi-card { position: relative; overflow: hidden; padding: 18px; }

@@ -62,7 +62,7 @@ try {
     ["/", ["AI Economy Ledger", "fictional placeholders", "excluded from verified totals"]],
     ["/companies", ["Company comparison preview", "Sample interface only"]],
     ["/methodology", ["Trust comes from showing the math", "Core equation"]],
-    ["/admin/review-queue", ["Static admin preview", "Review unavailable"]]
+    ["/admin/review-queue", ["Protected admin access", "Supabase session required"]]
   ];
 
   for (const [route, expectedText] of routeChecks) {
