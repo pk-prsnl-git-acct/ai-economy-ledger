@@ -76,7 +76,8 @@
 
 ## PR 5 — Sample import templates and isolation checkpoint
 
-- Status: in progress
+- Status: draft
+- Pull request: `#6`
 - Branch: `agent/pr5-import-templates-sample-isolation`
 - Internal label: logical PR 5; includes the demo import/sample isolation checkpoint previously tracked as PR 5.5
 - Purpose: add contributor-facing CSV import templates, a fictional sample workbook, demo import fixtures, and local validation that sample rows cannot enter verified totals
