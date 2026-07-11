@@ -103,6 +103,8 @@ PR 7 wires the publication modular-monolith boundary. A server-only PostgreSQL a
 
 Publication is deliberately two-stage: deterministic draft generation followed by a separately authorized review/publish transition in PR 8. If payload size, request volume, or cache invalidation becomes material, retain the same content-hash contract while moving immutable payload delivery to R2.
 
+PR 8 establishes the protected admin runtime boundary. Admin routes are dynamic Server Components that read a Supabase session cookie, verify the token with Supabase Auth using the publishable key, and then check reviewer/admin authorization against `private.app_user_roles` through the server-only database connection. The review queue is read through a dedicated server repository. Browser code never receives service-role or database credentials, and the PR adds explicit bootstrap and RLS smoke scripts without running them against production by default.
+
 Local development uses `next dev`; runtime verification builds the OpenNext artifact and smoke-tests it through Wrangler/workerd. The application does not opt into Next.js Edge Runtime because OpenNext Cloudflare targets the Node.js runtime compatibility layer.
 
 See [Decision Log](DECISION_LOG.md) for accepted decisions and trade-offs.

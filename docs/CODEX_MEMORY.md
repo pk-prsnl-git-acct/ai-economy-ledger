@@ -110,3 +110,12 @@ This document contains durable implementation context for future coding sessions
 - Public Next.js routes are GET-only and call only the two existing `api` RPCs with a publishable key; service-role and secret keys are absent from the adapter and routes.
 - PR 7 makes no schema migration, hosted Supabase write, Cloudflare mutation, production snapshot, or deployment.
 - Logical PR 7 was merged as GitHub PR `#8`; it includes the former PR 7.5 checkpoint scope.
+
+## Admin runtime foundation
+
+- PR 8 protects admin routes as dynamic Server Components and evaluates access per request.
+- Supabase session verification uses the publishable key against Supabase Auth, then checks `private.app_user_roles` through the server database connection.
+- The review queue runtime reads `ledger.review_queue` through `src/server/admin/review-queue.ts`; it does not expose canonical tables to the browser.
+- `pnpm admin:bootstrap` grants the first reviewer/admin role only when local private env provides `DATABASE_URL` and `ADMIN_BOOTSTRAP_USER_ID`.
+- `pnpm admin:rls-smoke` verifies anonymous denial, unmapped authenticated isolation, and the mapped reviewer path when `RLS_SMOKE_REVIEWER_USER_ID` is configured.
+- PR 8 makes no schema migration, hosted Supabase mutation by itself, Cloudflare mutation, production role grant, published snapshot, or deployment.

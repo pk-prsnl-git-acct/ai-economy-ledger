@@ -113,3 +113,16 @@
 - Data/schema impact: none; uses the merged PR 3 schema and RPCs without migration changes
 - Deployment impact: none; no production snapshot, Supabase mutation, Cloudflare change, or deployment
 - GitHub: required `quality` check passed; draft was marked ready and merged by rebase with the documented solo-maintainer administrator bypass
+
+## PR 8 — Admin authentication, review queue, and RLS smoke
+
+- Status: in progress
+- Pull request: pending
+- Branch: `agent/pr8-admin-auth-review`
+- Internal label: logical PR 8; includes the admin bootstrap/RLS smoke checkpoint previously tracked as PR 8.5
+- Purpose: protect admin routes behind Supabase Auth plus the private reviewer/admin role table and expose the first server-read review queue surface
+- Scope: dynamic admin routes; server-only session verification; private role lookup; server-only review queue repository; first-admin bootstrap script; RLS smoke script
+- Security: browser code receives no service-role, secret, or database credential; authorization comes from `private.app_user_roles`, not user-editable metadata
+- Verification: strict TypeScript and admin runtime tests cover protected route wiring, Supabase cookie support, private role-table checks, server-only review queue reads, bootstrap guardrails, RLS smoke coverage, and public/client secret isolation
+- Data/schema impact: none; uses the merged PR 3 schema without migration changes
+- Deployment impact: none; no production role grant, Supabase mutation, published snapshot, Cloudflare change, or deployment

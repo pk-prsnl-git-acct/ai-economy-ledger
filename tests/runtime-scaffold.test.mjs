@@ -26,7 +26,7 @@ test("CI builds and smoke-tests the Workers artifact", () => {
     assert.match(smoke, new RegExp(route.replaceAll("/", "\\/")));
   }
   assert.match(smoke, /fictional placeholders/);
-  assert.match(smoke, /Static admin preview/);
+  assert.match(smoke, /Protected admin access/);
   for (const dependency of ["esbuild", "rclone.js", "sharp", "unrs-resolver", "workerd"]) {
     assert.match(workspace, new RegExp(`${dependency.replace(".", "\\.")}: true`));
   }

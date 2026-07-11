@@ -5,7 +5,7 @@ Last updated: 2026-07-11
 ## Current state
 
 - Phase: auditable prototype planning
-- Active scope: logical PR 8 is next; logical PR 7 merged as GitHub PR `#8`
+- Active scope: logical PR 8 implementation in progress
 - Production application: static local Ledger Dark prototype; not deployed
 - Production data: schema foundation applied; no published snapshots yet
 - Repository visibility: public; owner-controlled writes
@@ -67,7 +67,8 @@ Last updated: 2026-07-11
 - PR 5 templates are repository contracts only; they are not a production upload surface and must remain sample/verified-isolated until the protected admin workflow exists.
 - PR 6 calculations are pure local functions; they do not read from or write to Supabase and are not yet public snapshot/API outputs.
 - PR 7 adds a draft-only deterministic publication runtime and GET-only public API adapter. No production snapshot exists and no hosted environment was changed.
+- PR 8 protects admin routes and adds bootstrap/RLS smoke scripts. No production role grant, hosted database mutation, published snapshot, Cloudflare change, or deployment is part of the PR by itself.
 
 ## Next decision gate
 
-Logical PR 7 is merged and synchronized. Logical PR 8 is the next implementation gate.
+Complete logical PR 8, verify protected admin behavior and smoke-script guardrails, then merge and synchronize tracking before starting logical PR 9.

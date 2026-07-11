@@ -88,6 +88,12 @@ PR 7 adds `GET /api/v1/snapshots` and `GET /api/v1/snapshots/{slug}?version=N`. 
 
 Snapshot generation requires a server-side `DATABASE_URL`, produces a deterministic draft, and does not publish it. No generation job, production snapshot, Cloudflare deployment, environment change, or hosted database change is part of PR 7. Before deployment, configure the publishable variables as Cloudflare secrets/intentional public variables and repeat the anonymous RPC isolation smoke.
 
+## Protected admin runtime
+
+PR 8 makes admin routes dynamic and protected. The runtime requires `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY`, and server-side `DATABASE_URL` before authenticated reviewer/admin pages can load production data. Admin session verification uses Supabase Auth and `private.app_user_roles`; no service-role key is needed by the browser or public routes.
+
+First-admin bootstrap is an explicit operational action using `pnpm admin:bootstrap` with ignored local private environment variables. RLS verification is an explicit smoke action using `pnpm admin:rls-smoke`. Merging PR 8 does not grant a production user, publish a snapshot, deploy Cloudflare, or mutate hosted Supabase.
+
 GitHub Actions validates code. Cloudflare Workers Builds and Cloudflare-native services run the product.
 
 ## Domain plan
