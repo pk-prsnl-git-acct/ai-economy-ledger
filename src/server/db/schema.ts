@@ -129,6 +129,20 @@ export const reviewPriority = ledger.enum("review_priority", [
   "urgent",
 ]);
 export const appRole = privateSchema.enum("app_role", ["reviewer", "admin"]);
+export const relationshipType = ledger.enum("relationship_type", [
+  "investor",
+  "vendor",
+  "customer",
+  "cloud",
+  "compute",
+  "data_center",
+  "subsidiary",
+  "partner",
+  "lender",
+  "borrower",
+  "other",
+]);
+export const scenarioRunState = ledger.enum("scenario_run_state", ["draft", "completed", "failed"]);
 
 const auditColumns = {
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
@@ -366,6 +380,64 @@ export const metricRevisions = ledger.table(
   ],
 );
 
+export const relationships = ledger.table(
+  "relationships",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    fromCompanyId: uuid("from_company_id").notNull().references(() => companies.id),
+    toCompanyId: uuid("to_company_id").notNull().references(() => companies.id),
+    relationshipType: relationshipType("relationship_type").notNull(),
+    claimId: uuid("claim_id").notNull().references(() => claims.id),
+    observationId: uuid("observation_id").references(() => metricObservations.id),
+    amount: numeric("amount", { precision: 30, scale: 8 }),
+    currency: text("currency"),
+    periodStart: date("period_start"),
+    periodEnd: date("period_end"),
+    confidence: confidenceGrade("confidence").default("unscored").notNull(),
+    reviewState: reviewState("review_state").default("pending").notNull(),
+    isRelatedParty: boolean("is_related_party").default(false).notNull(),
+    isCircular: boolean("is_circular").default(false).notNull(),
+    isVendorFinanced: boolean("is_vendor_financed").default(false).notNull(),
+    methodologyVersionId: text("methodology_version_id").notNull().references(() => methodologyVersions.id),
+    createdBy: uuid("created_by"),
+    reviewedBy: uuid("reviewed_by"),
+    reviewedAt: timestamp("reviewed_at", { withTimezone: true }),
+    isSample: boolean("is_sample").default(false).notNull(),
+    ...auditColumns,
+  },
+  (table) => [
+    index("relationships_from_to_idx").on(table.fromCompanyId, table.toCompanyId),
+    index("relationships_observation_idx").on(table.observationId),
+    index("relationships_review_state_idx").on(table.reviewState),
+    check("relationships_distinct_companies", sql`${table.fromCompanyId} <> ${table.toCompanyId}`),
+    check("relationships_period_order", sql`${table.periodStart} is null or ${table.periodEnd} is null or ${table.periodStart} <= ${table.periodEnd}`),
+    check("relationships_amount_currency", sql`${table.amount} is null or nullif(btrim(${table.currency}), '') is not null`),
+  ],
+);
+
+export const scenarioRuns = ledger.table(
+  "scenario_runs",
+  {
+    id: uuid("id").defaultRandom().primaryKey(),
+    scenarioKey: text("scenario_key").notNull(),
+    methodologyVersionId: text("methodology_version_id").notNull().references(() => methodologyVersions.id),
+    state: scenarioRunState("state").default("draft").notNull(),
+    assumptions: jsonb("assumptions").default([]).notNull(),
+    result: jsonb("result"),
+    contentSha256: text("content_sha256"),
+    createdBy: uuid("created_by"),
+    completedAt: timestamp("completed_at", { withTimezone: true }),
+    isSample: boolean("is_sample").default(false).notNull(),
+    ...auditColumns,
+  },
+  (table) => [
+    index("scenario_runs_key_created_idx").on(table.scenarioKey, table.createdAt),
+    check("scenario_runs_key_format", sql`${table.scenarioKey} ~ '^[a-z0-9]+(?:-[a-z0-9]+)*$'`),
+    check("scenario_runs_sha256_format", sql`${table.contentSha256} is null or ${table.contentSha256} ~ '^[0-9a-f]{64}$'`),
+    check("scenario_runs_completed_shape", sql`${table.state} <> 'completed' or (${table.result} is not null and ${table.contentSha256} is not null and ${table.completedAt} is not null)`),
+  ],
+);
+
 export const publishedSnapshots = ledger.table(
   "published_snapshots",
   {
@@ -482,3 +554,5 @@ export type NewClaim = typeof claims.$inferInsert;
 export type MetricObservation = typeof metricObservations.$inferSelect;
 export type NewMetricObservation = typeof metricObservations.$inferInsert;
 export type PublishedSnapshot = typeof publishedSnapshots.$inferSelect;
+export type Relationship = typeof relationships.$inferSelect;
+export type ScenarioRun = typeof scenarioRuns.$inferSelect;

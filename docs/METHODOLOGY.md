@@ -47,6 +47,12 @@ The PR 6 calculation engine is pure and deterministic. It accepts normalized met
 
 Coverage, intensity, circularity, and confidence-weighted metrics must define zero-denominator behavior and preserve units.
 
+## Circularity and scenarios
+
+Circularity adjustments are observation-linked. An approved, non-sample relationship may identify an observation as related-party, circular, or vendor-financed; that observation is deducted at most once even when multiple relationship records support the classification. Gross flow remains unchanged and visible. The circularity ratio is `adjustment / gross flow`; it is `null`, not zero, when gross flow is zero.
+
+Directed cycles are analytical signals, not automatic proof that every value on the cycle is circular. Only reviewed relationship flags linked to an observation change adjusted flow. Scenario runs apply explicit, ordered assumptions to a preserved baseline and report deltas. They do not overwrite observations, change reviewed facts, or publish themselves.
+
 ## Publication requirements
 
-Headline metrics must expose confirmed and estimated portions, exclusions, circularity adjustment, source count, freshness, and methodology version. Formula changes require tests, a decision entry, and a methodology-version update.
+Headline metrics must expose confirmed and estimated portions, exclusions, circularity adjustment, source count, freshness, and methodology version. Formula changes require tests, a decision entry, and a methodology-version update. PR 9 adds analytical machinery but does not change the active `v0.1.0` headline KPI formulas.

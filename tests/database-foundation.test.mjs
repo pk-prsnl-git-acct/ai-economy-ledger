@@ -2,7 +2,10 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
 
-const migration = readFileSync("supabase/migrations/0000_ledger_foundation.sql", "utf8");
+const migration = [
+  readFileSync("supabase/migrations/0000_ledger_foundation.sql", "utf8"),
+  readFileSync("supabase/migrations/0001_circularity_scenarios.sql", "utf8"),
+].join("\n");
 const schema = readFileSync("src/server/db/schema.ts", "utf8");
 
 test("database dependencies and migration tooling are pinned", () => {
@@ -30,6 +33,8 @@ test("typed schema and SQL migration contain the canonical ledger tables", () =>
     "review_queue",
     "update_log",
     "app_health_checks",
+    "relationships",
+    "scenario_runs",
   ];
 
   for (const table of tables) {
@@ -40,6 +45,16 @@ test("typed schema and SQL migration contain the canonical ledger tables", () =>
       new RegExp(`ALTER TABLE \"ledger\"\\.\"${table}\" ENABLE ROW LEVEL SECURITY`),
     );
   }
+});
+
+test("relationship and scenario storage preserves review and public isolation", () => {
+  assert.match(migration, /relationships_claim_id_claims_id_fk/);
+  assert.match(migration, /relationships_observation_id_metric_observations_id_fk/);
+  assert.match(migration, /relationships_validate_review/);
+  assert.match(migration, /relationships_protect_reviewed/);
+  assert.match(migration, /REVOKE ALL ON "ledger"\."relationships", "ledger"\."scenario_runs" FROM PUBLIC, anon, authenticated/);
+  assert.match(migration, /CREATE POLICY "admins_write_scenario_runs"/);
+  assert.doesNotMatch(migration, /GRANT [^;]*"ledger"\."scenario_runs"[^;]* TO anon/i);
 });
 
 test("authorization is isolated from user-editable metadata", () => {

@@ -5,7 +5,7 @@ Last updated: 2026-07-11
 ## Current state
 
 - Phase: auditable prototype planning
-- Active scope: logical PR 9 is next; logical PR 8 merged as GitHub PR `#9`
+- Active scope: logical PR 9 implementation and review
 - Production application: static local Ledger Dark prototype; not deployed
 - Production data: schema foundation applied; no published snapshots yet
 - Repository visibility: public; owner-controlled writes
@@ -27,6 +27,7 @@ Last updated: 2026-07-11
 - PR 6 is merged as GitHub PR `#7`
 - PR 7 is merged as GitHub PR `#8` and combines the former PR 7.5 checkpoint scope
 - PR 8 is merged as GitHub PR `#9` and combines the former PR 8.5 checkpoint scope
+- PR 9 adds relationship/circularity and deterministic scenario contracts; migration `0001` is not applied to hosted Supabase by this PR
 - Main requires PRs and resolved review conversations and blocks deletion/force pushes
 - GitHub now requires the `quality` check and requires PR branches to be current with `main`
 - The ruleset still requires one approval; owner-authored PRs use the administrator bypass until another maintainer can approve them
@@ -67,9 +68,10 @@ Last updated: 2026-07-11
 - Static admin pages are deliberately visible route placeholders, not protected tools; they contain no write controls or backend connection. Authentication remains PR 8 scope.
 - PR 5 templates are repository contracts only; they are not a production upload surface and must remain sample/verified-isolated until the protected admin workflow exists.
 - PR 6 calculations are pure local functions; they do not read from or write to Supabase and are not yet public snapshot/API outputs.
+- PR 9 includes a new migration that requires a separately approved hosted Supabase apply before production can use relationship or scenario storage.
 - PR 7 adds a draft-only deterministic publication runtime and GET-only public API adapter. No production snapshot exists and no hosted environment was changed.
 - PR 8 protects admin routes and adds bootstrap/RLS smoke scripts. No production role grant, hosted database mutation, published snapshot, Cloudflare change, or deployment is part of the PR by itself.
 
 ## Next decision gate
 
-Logical PR 8 is merged and synchronized. Logical PR 9 is the next implementation gate.
+Logical PR 9 is in implementation. Its repository scope does not authorize a hosted migration apply or public release.

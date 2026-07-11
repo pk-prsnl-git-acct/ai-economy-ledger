@@ -19,7 +19,7 @@ app_health_checks      app_user_roles
 
 `metric_observations` is the universal time-series fact layer. Each observation carries entity, metric, value, units, reported and normalized currency values, period, recognition and cash-flow types, source/claim references, confidence, review status, methodology version, and sample status.
 
-Funding deals, obligation-specific views, compute infrastructure, relationships, assumptions, and scenario runs remain planned extensions. They will reference the universal observation and provenance layers rather than duplicate their trust semantics.
+Funding deals, obligation-specific views, and compute infrastructure remain planned extensions. PR 9 adds reviewed relationships and scenario runs while referencing the universal observation and provenance layers rather than duplicating their trust semantics.
 
 ## Schema boundaries
 
@@ -41,6 +41,10 @@ Cash-flow types must distinguish equity, debt, grants, project finance, credits,
 
 Directed relationship records represent investor, vendor, customer, cloud, compute, data-center, subsidiary, partner, lender, and borrower edges. Each relationship may carry amounts, periods, sources, confidence, related-party flags, and circularity flags.
 
+`relationships` are directed, claim-backed edges between distinct companies. An optional observation link makes an adjustment traceable to the exact value affected. Approved relationship records are immutable under the same review trigger used by claims and observations.
+
+`scenario_runs` hold an ordered assumption payload and an optional deterministic result/hash. They are reviewer-readable and admin-written. A completed run must contain a result, hash, and completion timestamp; it is analysis state and is never part of the anonymous publication surface by default.
+
 ## Security model
 
 - RLS on business tables
@@ -57,7 +61,7 @@ Public reads call `api.list_published_snapshots` and `api.get_published_snapshot
 
 PostgreSQL 17 is the project baseline. Drizzle generates schema DDL into `supabase/migrations`, while the Supabase CLI applies and tests the full migration locally. Direct schema pushes and uncaptured remote dashboard changes are prohibited. See [`supabase/README.md`](../supabase/README.md).
 
-All schema changes must be migration-driven and update this document.
+All schema changes must be migration-driven and update this document. Migration `0001_circularity_scenarios.sql` is repository-reviewed schema only until a separately approved hosted apply is recorded.
 
 ## Import template contract
 

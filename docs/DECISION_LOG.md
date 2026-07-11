@@ -113,3 +113,10 @@ Material decisions use stable identifiers and remain append-only. Reversals refe
 - Status: accepted
 - Decision: Protect admin routes through server-side Supabase session verification and `private.app_user_roles` lookup rather than adding browser-side auth helpers or trusting user metadata.
 - Rationale: reviewer/admin authorization must remain immediately revocable, database-backed, and unavailable to client-side manipulation. Avoiding a browser auth dependency also keeps service-role and database credentials out of public bundles while preserving the existing Supabase Auth and RLS model.
+
+## DEC-017 — Evidence-linked circularity and non-publishing scenarios
+
+- Date: 2026-07-11
+- Status: accepted
+- Decision: Treat directed cycles as analytical signals while allowing adjusted totals to change only through approved, non-sample relationships linked to exact observations. Evaluate scenarios as deterministic baseline-preserving transformations that cannot publish or mutate canonical facts.
+- Rationale: graph topology alone does not prove double counting. Observation links make deductions auditable, one-time adjustment prevents duplicate edges from double-subtracting, and a non-publishing scenario boundary keeps assumptions visibly separate from reviewed evidence.
