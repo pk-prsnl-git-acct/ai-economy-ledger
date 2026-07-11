@@ -32,7 +32,8 @@
 
 ## PR 3 — Supabase data foundation
 
-- Status: in progress
+- Status: ready for review
+- Pull request: `#3`
 - Branch: `agent/supabase-data-foundation`
 - Purpose: establish the canonical ledger schema, migration workflow, RLS authorization, public snapshot API, and typed Drizzle data layer
 - Runtime: PostgreSQL 17 / Supabase CLI 2.109.1 / Drizzle ORM 0.45.2 / postgres.js 3.4.9
@@ -41,3 +42,4 @@
 - Integrity: source requirements, typed observation values, review metadata, revision lineage, sample isolation, append-only audit/revision records, and immutable approved records are database-enforced
 - Deployment impact: migration and hosted configuration documentation only; no remote migration, public API change, or production deployment
 - Verification: Drizzle migration check, strict TypeScript, static database contract tests, local Supabase migration reset, pgTAP RLS tests, database lint, application build, and Cloudflare preview
+- GitHub: required `quality` check passed; merge remains gated by repository review/approval rules
