@@ -99,3 +99,10 @@ Material decisions use stable identifiers and remain append-only. Reversals refe
 - Status: accepted
 - Decision: Implement PR 6 KPI formulas as pure local calculation functions with fixed-scale decimal arithmetic, approved/non-sample filtering, and diagnostics before connecting them to database reads, public APIs, or published snapshots.
 - Rationale: financial formula behavior needs deterministic tests and review before runtime wiring. Keeping the module side-effect-free prevents sample data, pending records, or low-confidence exclusions from becoming public output by accident.
+
+## DEC-015 — Separate deterministic generation from public delivery and approval
+
+- Date: 2026-07-11
+- Status: accepted
+- Decision: Generate versioned content-hashed snapshots through a pure builder and persist them as drafts only. Deliver public data through the existing publishable-key RPC boundary, and reserve the authenticated review/publish transition for PR 8.
+- Rationale: this keeps calculation reproducibility, editorial approval, and anonymous delivery as independently testable trust boundaries. A generator cannot make its own output public, and public routes cannot query canonical records.

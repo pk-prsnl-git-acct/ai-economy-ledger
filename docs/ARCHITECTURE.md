@@ -99,6 +99,10 @@ PR 5 establishes a repository-level import contract, not a production ingestion 
 
 PR 6 establishes the first pure calculation module under `src/server/modules/kpi`. It performs fixed-scale decimal arithmetic over approved, non-sample observation-shaped records and returns deterministic totals plus diagnostics. It intentionally has no database adapter, public API, snapshot publication, or production runtime side effect.
 
+PR 7 wires the publication modular-monolith boundary. A server-only PostgreSQL adapter joins source registry, source documents, approved claims, current observations, and companies; a pure read-model builder filters every sample/review boundary and computes confidence and freshness; and a deterministic generator combines that evidence with PR 6 KPIs into a versioned SHA-256 snapshot. Generation can persist only a draft. Public HTTP GET routes call the existing `api` schema RPCs with a publishable key, so PostgreSQL remains the enforcement point for published/non-sample visibility and canonical tables remain unreachable.
+
+Publication is deliberately two-stage: deterministic draft generation followed by a separately authorized review/publish transition in PR 8. If payload size, request volume, or cache invalidation becomes material, retain the same content-hash contract while moving immutable payload delivery to R2.
+
 Local development uses `next dev`; runtime verification builds the OpenNext artifact and smoke-tests it through Wrangler/workerd. The application does not opt into Next.js Edge Runtime because OpenNext Cloudflare targets the Node.js runtime compatibility layer.
 
 See [Decision Log](DECISION_LOG.md) for accepted decisions and trade-offs.

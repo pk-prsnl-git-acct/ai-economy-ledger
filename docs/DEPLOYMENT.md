@@ -82,6 +82,12 @@ Production database foundation was applied to project ref `vupwphakeyvvhaoxuvuw`
 
 Cloudflare production remains untouched. There is still no deployed Worker or live application origin.
 
+## Public snapshot runtime
+
+PR 7 adds `GET /api/v1/snapshots` and `GET /api/v1/snapshots/{slug}?version=N`. These server routes call only `api.list_published_snapshots()` and `api.get_published_snapshot()` using `SUPABASE_PUBLISHABLE_KEY` (with the public build-time equivalent as a local fallback). They do not accept writes and never use a service-role or secret key.
+
+Snapshot generation requires a server-side `DATABASE_URL`, produces a deterministic draft, and does not publish it. No generation job, production snapshot, Cloudflare deployment, environment change, or hosted database change is part of PR 7. Before deployment, configure the publishable variables as Cloudflare secrets/intentional public variables and repeat the anonymous RPC isolation smoke.
+
 GitHub Actions validates code. Cloudflare Workers Builds and Cloudflare-native services run the product.
 
 ## Domain plan

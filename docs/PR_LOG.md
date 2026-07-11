@@ -100,3 +100,15 @@
 - Data/schema impact: none
 - Deployment impact: none; Cloudflare and Supabase production untouched
 - GitHub: required `quality` check passed; merged by rebase with the documented solo-maintainer administrator bypass
+
+## PR 7 — Publication runtime and read-only public API
+
+- Status: implementation complete; GitHub review pending
+- Pull request: pending
+- Branch: `agent/pr7-publication-runtime`
+- Purpose: wire reviewed source, claim, observation, confidence, freshness, revision, KPI, and snapshot contracts into an auditable publication runtime
+- Scope: server-only canonical lineage adapter; deterministic public read model and snapshot hash; draft-only persistence service; GET-only snapshot list/detail API through existing Supabase RPCs
+- Security: approved/current/non-sample filtering at generation; published/non-sample filtering remains database-enforced at delivery; no private review/storage/actor fields in payloads; no service-role or secret key in the public adapter
+- Verification: unit and contract tests cover eligibility, leakage prevention, confidence/freshness, deterministic ordering/hash, repository lineage, draft-only persistence, publishable-key RPC use, and absence of write routes
+- Data/schema impact: none; uses the merged PR 3 schema and RPCs without migration changes
+- Deployment impact: none; no production snapshot, Supabase mutation, Cloudflare change, or deployment
