@@ -130,7 +130,9 @@
 
 ## PR 9 — Circularity and scenario engine
 
-- Status: implementation complete; GitHub review pending
+- Status: implementation complete; GitHub review in progress
+- Pull request: `#10`
+- Branch: `agent/pr9-circularity-scenarios`
 - Internal label: logical PR 9
 - Purpose: make relationship-driven circularity adjustments auditable and add deterministic, baseline-preserving scenario analysis
 - Scope: typed relationship/scenario schema; reviewed migration; RLS policies; pure circularity analysis; directed-cycle signals; deterministic scenario operators; tests and methodology/architecture records

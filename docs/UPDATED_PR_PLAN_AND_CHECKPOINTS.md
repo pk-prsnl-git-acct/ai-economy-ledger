@@ -68,6 +68,7 @@ GitHub PR numbers do not have to match logical PR labels. The logical labels bel
 - Logical PR 6 is merged as GitHub PR `#7`.
 - Logical PR 7 is merged as GitHub PR `#8` in one combined scope including the former PR 7.5 publication/API checkpoint.
 - Logical PR 8 is merged as GitHub PR `#9` in one combined scope including the former PR 8.5 admin bootstrap/RLS smoke checkpoint.
+- Logical PR 9 is implemented as GitHub PR `#10`.
 - Logical PR 4 is the only active internal label for the Ledger Dark UX shell and route skeleton work. Do not refer to the active work as PR 4.5 unless the owner explicitly re-splits it.
 - Logical PR 5 is the only internal label for sample workbook, CSV import templates, demo import, and sample isolation work. Do not refer to that merged scope as PR 5.5 unless the owner explicitly re-splits it.
 - PR 7 and PR 7.5 are now planned as one combined implementation by default. Re-split them only if published snapshots/public API must be deferred for scope-control reasons discovered during PR 7.
