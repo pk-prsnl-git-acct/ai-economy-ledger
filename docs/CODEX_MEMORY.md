@@ -119,3 +119,4 @@ This document contains durable implementation context for future coding sessions
 - `pnpm admin:bootstrap` grants the first reviewer/admin role only when local private env provides `DATABASE_URL` and `ADMIN_BOOTSTRAP_USER_ID`.
 - `pnpm admin:rls-smoke` verifies anonymous denial, unmapped authenticated isolation, and the mapped reviewer path when `RLS_SMOKE_REVIEWER_USER_ID` is configured.
 - PR 8 makes no schema migration, hosted Supabase mutation by itself, Cloudflare mutation, production role grant, published snapshot, or deployment.
+- Logical PR 8 was merged as GitHub PR `#9`; it includes the former PR 8.5 checkpoint scope.

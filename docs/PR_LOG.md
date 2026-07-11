@@ -116,7 +116,7 @@
 
 ## PR 8 — Admin authentication, review queue, and RLS smoke
 
-- Status: in progress
+- Status: merged
 - Pull request: `#9`
 - Branch: `agent/pr8-admin-auth-review`
 - Internal label: logical PR 8; includes the admin bootstrap/RLS smoke checkpoint previously tracked as PR 8.5
@@ -126,3 +126,4 @@
 - Verification: strict TypeScript and admin runtime tests cover protected route wiring, Supabase cookie support, private role-table checks, server-only review queue reads, bootstrap guardrails, RLS smoke coverage, and public/client secret isolation
 - Data/schema impact: none; uses the merged PR 3 schema without migration changes
 - Deployment impact: none; no production role grant, Supabase mutation, published snapshot, Cloudflare change, or deployment
+- GitHub: required `quality` check passed; merged by rebase with the documented solo-maintainer administrator bypass
