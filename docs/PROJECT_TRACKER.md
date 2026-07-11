@@ -4,8 +4,8 @@ Last updated: 2026-07-11
 
 ## Current state
 
-- Phase: auditable prototype KPI engine
-- Active scope: logical PR 6 — KPI calculation engine, methodology-linked formulas, and tests
+- Phase: auditable prototype planning
+- Active scope: no implementation branch active; waiting for owner approval to begin logical PR 7
 - Production application: static local Ledger Dark prototype; not deployed
 - Production data: schema foundation applied; no published snapshots yet
 - Repository visibility: public; owner-controlled writes
@@ -24,7 +24,7 @@ Last updated: 2026-07-11
 - PR 3.5 is merged as GitHub PR `#4`
 - PR 4 is merged as GitHub PR `#5`; it includes the former PR 4.5 route skeleton checkpoint scope
 - PR 5 is merged as GitHub PR `#6`; it includes the former PR 5.5 demo import/sample isolation checkpoint scope
-- Logical PR 6 is active as GitHub PR `#7` on `agent/pr6-kpi-calculation-engine`
+- PR 6 is merged as GitHub PR `#7`
 - Main requires PRs and resolved review conversations and blocks deletion/force pushes
 - GitHub now requires the `quality` check and requires PR branches to be current with `main`
 - The ruleset still requires one approval; owner-authored PRs use the administrator bypass until another maintainer can approve them
@@ -68,4 +68,4 @@ Last updated: 2026-07-11
 
 ## Next decision gate
 
-Review logical PR 6. Confirm fixed-scale arithmetic, approved/non-sample filtering, low-confidence net revenue treatment, and formula test coverage before moving to logical PR 7.
+Confirm logical PR 7 scope and acceptance criteria before implementation begins. The next expected work is source/claim/observation runtime wiring, published snapshots, and the read-only public API.

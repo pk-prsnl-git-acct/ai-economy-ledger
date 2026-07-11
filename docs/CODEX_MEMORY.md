@@ -99,3 +99,4 @@ This document contains durable implementation context for future coding sessions
 - KPI totals use fixed-scale decimal arithmetic and return decimal strings.
 - Verified KPI totals include only approved, non-sample, numeric observations; excluded rows are reported in diagnostics.
 - Low and unscored revenue stay visible in gross AI economic flow but are excluded from net external AI revenue by default.
+- Logical PR 6 was merged as GitHub PR `#7`; it changes repository logic and tests only, with no Supabase or Cloudflare production mutation.
