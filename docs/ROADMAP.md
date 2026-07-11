@@ -19,16 +19,16 @@ PR 2.5 is considered satisfied by PR 2's OpenNext build and workerd HTTP smoke e
 
 - PR 4: Ledger Dark static UX shell with placeholder/sample data only, including full required public/admin route skeleton and navigation coverage
 - PR 4.5: only split out if PR 4 needs a follow-up checkpoint for route coverage
-- PR 5: sample workbook and CSV import templates
-- PR 5.5: demo import run and sample isolation verification
+- PR 5: sample workbook and CSV import templates, including demo import run and sample isolation verification
+- PR 5.5: only split out if PR 5 needs a follow-up checkpoint for demo import/sample isolation
 - PR 6: KPI calculation engine, formula docs, and tests
-- PR 7: source registry, claims, metric observations, confidence, freshness, and revision runtime
-- PR 7.5: published snapshots and read-only public API
+- PR 7: source registry, claims, metric observations, confidence, freshness, revision runtime, published snapshots, and read-only public API
+- PR 7.5: only split out if PR 7 needs a follow-up checkpoint for publication/API isolation
 
 ## Admin And Review
 
-- PR 8: Supabase Auth integration, admin route guard, and review queue
-- PR 8.5: first admin/reviewer bootstrap and RLS smoke verification
+- PR 8: Supabase Auth integration, admin route guard, review queue, first admin/reviewer bootstrap, and RLS smoke verification
+- PR 8.5: only split out if PR 8 needs a follow-up checkpoint for bootstrap/RLS proof
 
 ## Differentiated Analysis
 

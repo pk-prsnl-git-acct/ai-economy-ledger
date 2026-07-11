@@ -67,8 +67,11 @@ This document contains durable implementation context for future coding sessions
 
 ## Roadmap checkpoints
 
-- The July 2026 amendment adds explicit checkpoint PRs: 2.5 Cloudflare/OpenNext preview smoke, 3.5 Supabase remote migration apply, 3.6 roadmap amendment if needed, 5.5 demo import/sample isolation, 7.5 published snapshots/public API, 8.5 admin bootstrap/RLS smoke, and 11 production deploy/domain smoke.
+- The July 2026 amendment adds explicit checkpoint PRs: 2.5 Cloudflare/OpenNext preview smoke, 3.5 Supabase remote migration apply, 3.6 roadmap amendment if needed, and 11 production deploy/domain smoke.
 - PR 4 now absorbs route skeleton and navigation coverage by default. Re-create a separate logical PR 4.5 only if PR 4 needs to ship in two owner-approved parts.
+- PR 5 now absorbs demo import and sample isolation verification by default. Re-create a separate logical PR 5.5 only if PR 5 needs to ship in two owner-approved parts.
+- PR 7 now absorbs published snapshots and public API by default. Re-create a separate logical PR 7.5 only if PR 7 needs to ship in two owner-approved parts.
+- PR 8 now absorbs admin bootstrap and RLS smoke verification by default. Re-create a separate logical PR 8.5 only if PR 8 needs to ship in two owner-approved parts.
 - PR 2.5 is currently considered satisfied by PR 2's OpenNext build and workerd HTTP smoke evidence. Re-open a checkpoint if later runtime changes invalidate that evidence.
 - PR 3.6 is unnecessary if PR 3.5 merges with `docs/UPDATED_PR_PLAN_AND_CHECKPOINTS.md` and the matching roadmap/tracker/log/decision updates.
 - After each PR/checkpoint, stop and report summary, files changed, checks, data/schema impact, deployment impact, security/RLS impact, known risks, and next recommended PR.

@@ -85,3 +85,10 @@ Material decisions use stable identifiers and remain append-only. Reversals refe
 - Status: accepted
 - Decision: Treat the Ledger Dark UX shell and the full required route skeleton/navigation coverage as one default logical PR 4 scope. Keep a separate logical PR 4.5 only when route coverage must be deferred for scope-control reasons discovered during implementation.
 - Rationale: the route skeleton is part of making the shell usable and reviewable. Splitting it by default adds process overhead without much additional risk reduction, while still allowing a follow-up checkpoint if PR 4 becomes too large.
+
+## DEC-013 — Combine PR 5, PR 7, and PR 8 with their related half-step checkpoints by default
+
+- Date: 2026-07-11
+- Status: accepted
+- Decision: Treat PR 5 with demo import/sample isolation, PR 7 with published snapshots/public API, and PR 8 with admin bootstrap/RLS smoke as combined default scopes. Keep separate logical PR 5.5, 7.5, or 8.5 only when those proof steps must be deferred for scope-control reasons discovered during implementation.
+- Rationale: these verification steps are tightly coupled to the main feature scopes and are usually part of making the feature reviewable. Keeping them together by default reduces coordination overhead while preserving the option to split if a scope grows too large.
