@@ -59,7 +59,7 @@
 
 ## PR 4 — Ledger Dark UX shell and route checkpoint
 
-- Status: draft
+- Status: ready for owner review
 - Pull request: `#5`
 - Branch: `agent/pr4-app-shell-routes`
 - Internal label: logical PR 4; includes the route skeleton checkpoint previously tracked as PR 4.5
@@ -72,3 +72,4 @@
 - Verification: strict TypeScript, lint, 21 repository/route tests, static Next.js production build for all routes, representative multi-route OpenNext/workerd HTTP smoke, and browser desktop/mobile semantic and responsive smoke
 - Data/schema impact: none
 - Deployment impact: none; Cloudflare and Supabase production untouched
+- GitHub: required `quality` check passed; PR marked ready for review
