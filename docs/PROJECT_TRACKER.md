@@ -36,8 +36,8 @@ Last updated: 2026-07-11
 | PR 3 | Supabase schema, migrations, RLS, and typed database layer |
 | PR 3.5 | Hosted Supabase migration apply and verification record |
 | PR 3.6 | Roadmap amendment and checkpoint documentation, only if not absorbed into PR 3.5 |
-| PR 4 | Static Ledger Dark experience using sample placeholders |
-| PR 4.5 | Full required route skeleton and navigation coverage |
+| PR 4 | Static Ledger Dark experience using sample placeholders plus full required route skeleton and navigation coverage |
+| PR 4.5 | Route skeleton and navigation checkpoint, only if PR 4 must be split |
 | PR 5 | Sample workbook and CSV import contracts |
 | PR 5.5 | Demo import run and sample isolation verification |
 | PR 6 | KPI calculation engine and tests |

@@ -46,7 +46,7 @@
 
 ## PR 3.5 — Production Supabase migration apply record
 
-- Status: draft
+- Status: ready for review
 - Pull request: `#4`
 - Branch: `agent/pr3_5-prod-supabase-apply`
 - Purpose: apply the already-reviewed PR 3 migration to the existing hosted Supabase project, record the live verification outcome, and add the missing roadmap checkpoint amendment
@@ -54,4 +54,4 @@
 - Scope control: no schema changes beyond merged `supabase/migrations/0000_ledger_foundation.sql`; no dashboard table creation; local private env only
 - Deployment impact: hosted Supabase mutated; Cloudflare production untouched
 - Verification: remote migration history includes `0000`; expected `ledger` and `private` tables exist; RLS enabled where expected; anon has no table grants; anon can execute only the intended `api` snapshot RPCs; anonymous canonical reads and writes fail; read-only health query succeeds; no service-role key reference found in browser-facing code
-- Roadmap amendment: added logical checkpoint PRs 2.5, 3.6, 4.5, 5.5, 7.5, 8.5, and 11; PR 3.6 is unnecessary if this PR merges with the amendment docs
+- Roadmap amendment: added logical checkpoint PRs 2.5, 3.6, 5.5, 7.5, 8.5, and 11; `PR 4` now absorbs `PR 4.5` by default, and PR 3.6 is unnecessary if this PR merges with the amendment docs

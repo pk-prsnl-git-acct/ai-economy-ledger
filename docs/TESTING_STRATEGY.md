@@ -29,7 +29,7 @@ Testing protects financial correctness, source lineage, data isolation, authoriz
 |---|---|
 | PR 2.5 Cloudflare/OpenNext preview smoke | OpenNext build and Worker-like HTTP smoke evidence |
 | PR 3.5 Supabase remote migration apply | remote migration history, expected tables, RLS, anon denial, explicit public RPC grants, read-only health query |
-| PR 4.5 route skeleton | all required public/admin routes render placeholders with navigation and warnings |
+| PR 4 route skeleton coverage | all required public/admin routes render placeholders with navigation and warnings before deeper product work continues |
 | PR 5.5 demo import isolation | sample flags preserved and sample rows excluded from verified totals |
 | PR 7.5 public read API | published snapshot generation and public read-only API isolation tests |
 | PR 8.5 admin/RLS smoke | first-admin bootstrap, admin write proof, public write denial, service-role server-only proof |
