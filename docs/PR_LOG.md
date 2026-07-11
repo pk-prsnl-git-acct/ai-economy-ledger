@@ -117,7 +117,7 @@
 ## PR 8 — Admin authentication, review queue, and RLS smoke
 
 - Status: in progress
-- Pull request: pending
+- Pull request: `#9`
 - Branch: `agent/pr8-admin-auth-review`
 - Internal label: logical PR 8; includes the admin bootstrap/RLS smoke checkpoint previously tracked as PR 8.5
 - Purpose: protect admin routes behind Supabase Auth plus the private reviewer/admin role table and expose the first server-read review queue surface
