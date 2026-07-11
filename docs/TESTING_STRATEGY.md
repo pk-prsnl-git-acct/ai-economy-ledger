@@ -33,6 +33,7 @@ Testing protects financial correctness, source lineage, data isolation, authoriz
 | PR 5 demo import isolation | sample flags preserved and sample rows excluded from verified totals before verified metrics work continues |
 | PR 7 public API isolation | published snapshot generation and public read-only API isolation tests before public dashboard rollout |
 | PR 8 admin/RLS smoke | first-admin bootstrap script, admin read proof, public denial, unmapped authenticated isolation, and service-role server-only proof before broader admin rollout |
+| PR 10 readiness/Cron | protected internal health route, read-only freshness states, Worker scheduled handler, no-store responses, and structured log summaries without secrets |
 | PR 11 production deploy smoke | domain, Worker, routes, admin protection, health, cache, logs, rollback evidence |
 
 ## Critical test inventory
@@ -46,6 +47,7 @@ Testing protects financial correctness, source lineage, data isolation, authoriz
 - claim approval/rejection and metric revision history
 - public-read/admin-write authorization and RLS
 - read-only Supabase health behavior
+- protected readiness route and scheduled health behavior
 - deterministic published snapshots
 
 ## Coverage policy
@@ -54,6 +56,6 @@ New critical domain modules target at least 90% branch coverage. General applica
 
 ## CI progression
 
-CI now validates repository/secret safety, Next.js ESLint, strict TypeScript, Drizzle migration integrity, database contract tests, data-directory safety, import-template header stability, demo sample isolation, KPI formula behavior, the full OpenNext Worker build, and an HTTP smoke test in workerd. PR 3 also adds local Supabase migration reset, pgTAP RLS/integrity tests, and database lint commands. PR 4 adds static route and trust-state tests. PR 5 proves sample import isolation. PR 6 tests fixed-scale KPI behavior. PR 7 adds unit and contract tests for full-lineage eligibility, superseded/sample/unapproved exclusion, confidence and freshness fields, private-field leakage, deterministic hashes, draft-only persistence, publishable-key use, and GET-only public routes. PR 8 adds admin runtime tests for dynamic route protection, Supabase session-cookie handling, private role-table checks, server-only review queue reads, bootstrap script guardrails, RLS smoke coverage, and service-role absence from browser-facing code. Container-based database integration is required locally for schema PRs; it can move into CI when runtime cost and contributor volume justify a dedicated database job. Later PRs add automated accessibility, interaction-level Playwright, and broader security jobs without turning GitHub Actions into production infrastructure.
+CI now validates repository/secret safety, Next.js ESLint, strict TypeScript, Drizzle migration integrity, database contract tests, data-directory safety, import-template header stability, demo sample isolation, KPI formula behavior, the full OpenNext Worker build, and an HTTP smoke test in workerd. PR 3 also adds local Supabase migration reset, pgTAP RLS/integrity tests, and database lint commands. PR 4 adds static route and trust-state tests. PR 5 proves sample import isolation. PR 6 tests fixed-scale KPI behavior. PR 7 adds unit and contract tests for full-lineage eligibility, superseded/sample/unapproved exclusion, confidence and freshness fields, private-field leakage, deterministic hashes, draft-only persistence, publishable-key use, and GET-only public routes. PR 8 adds admin runtime tests for dynamic route protection, Supabase session-cookie handling, private role-table checks, server-only review queue reads, bootstrap script guardrails, RLS smoke coverage, and service-role absence from browser-facing code. PR 10 adds readiness tests for degraded/down/ok states, protected no-store health responses, Worker scheduled-handler wiring, and structured log summaries without secrets. Container-based database integration is required locally for schema PRs; it can move into CI when runtime cost and contributor volume justify a dedicated database job. Later PRs add automated accessibility, interaction-level Playwright, and broader security jobs without turning GitHub Actions into production infrastructure.
 
 Flaky tests are defects. Quarantine requires an owner, tracking issue, and removal deadline.

@@ -3,6 +3,8 @@ import type { ReactNode } from "react";
 import { AppShell, ConfidenceBadge, DataQualityPanel, HeroSection, RouteDirectory } from "@/components/ledger";
 import { getAdminSession, type AdminSession } from "@/src/server/admin/session";
 import { listReviewQueueItems, type ReviewQueueItem } from "@/src/server/admin/review-queue";
+import { evaluateReadiness } from "@/src/server/modules/health/readiness.mjs";
+import { listPublishedSnapshots } from "@/src/server/public-snapshots";
 import { adminRoutes, type RouteDefinition } from "@/src/ui/site-map";
 
 function roleLabel(session: Extract<AdminSession, { status: "authorized" }>) {
@@ -96,6 +98,35 @@ export async function ReviewQueuePanel() {
       {error ? <p className="admin-muted">{error}</p> : null}
       {!error && items.length === 0 ? <p className="admin-muted">No pending review items are visible for this reviewer.</p> : null}
       {items.map((item) => <QueueItem item={item} key={item.id} />)}
+    </section>
+  );
+}
+
+export async function AdminHealthPanel() {
+  const report = await evaluateReadiness({
+    env: process.env,
+    listSnapshots: listPublishedSnapshots,
+  });
+
+  return (
+    <section className="panel queue-panel">
+      <div className="panel-heading">
+        <div>
+          <p className="panel-label">Readiness</p>
+          <h2>Production health</h2>
+        </div>
+        <ConfidenceBadge level={report.status === "ok" ? "High" : report.status === "degraded" ? "Medium" : "Low"} />
+      </div>
+      <p className="admin-muted">Last checked {report.checkedAt}. Published snapshots visible: {report.summary.publishedSnapshotCount}.</p>
+      {report.checks.map((check) => (
+        <article className="queue-item" key={check.name}>
+          <div>
+            <strong>{check.name.replaceAll("_", " ")}</strong>
+            <p>{check.message}</p>
+          </div>
+          <span className="disabled-action">{check.status}</span>
+        </article>
+      ))}
     </section>
   );
 }

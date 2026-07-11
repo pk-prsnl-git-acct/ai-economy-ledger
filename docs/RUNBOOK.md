@@ -19,6 +19,17 @@ git diff --cached
 git check-ignore .env.local
 ```
 
+## Readiness and scheduled health
+
+Use this before production deployment, after environment changes, and when Cloudflare Cron logs show degraded or down readiness.
+
+1. Confirm `HEALTHCHECK_TOKEN`, `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY`, and `NEXT_PUBLIC_SITE_URL` are configured in the target Worker environment.
+2. Call `GET /api/internal/health` with `x-healthcheck-token` or `Authorization: Bearer ...`.
+3. Treat `ok` as ready, `degraded` as deployable only when the reason is expected and recorded, and `down` as a deploy blocker.
+4. For pre-launch environments, `published_snapshot_presence` and `published_snapshot_freshness` may be `warn` because no real snapshot has been published yet.
+5. Check Cloudflare logs for structured `scheduled_readiness_check` events after Cron runs. Preserve logs without tokens or database credentials.
+6. If the public snapshot RPC fails, verify Supabase Data API exposed schemas, publishable key configuration, and the two intended `api` RPC execute grants before changing application code.
+
 ## Failed deployment
 
 1. Stop further promotion.

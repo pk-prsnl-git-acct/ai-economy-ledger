@@ -5,7 +5,7 @@ Last updated: 2026-07-11
 ## Current state
 
 - Phase: auditable prototype planning
-- Active scope: logical PR 9 database follow-up is closed; logical PR 10 is next
+- Active scope: logical PR 10 in implementation
 - Production application: static local Ledger Dark prototype; not deployed
 - Production data: schema foundation plus relationship/scenario schema applied; no published snapshots yet
 - Repository visibility: public; owner-controlled writes
@@ -29,6 +29,7 @@ Last updated: 2026-07-11
 - PR 8 is merged as GitHub PR `#9` and combines the former PR 8.5 checkpoint scope
 - PR 9 adds relationship/circularity and deterministic scenario contracts; its reviewed hosted migration follow-up is now applied and verified
 - PR 9 is merged as GitHub PR `#10`; its required `quality` check passed
+- PR 10 adds protected readiness checks, Cloudflare Cron wiring, and production readiness documentation; deployment remains PR 11 scope
 - Main requires PRs and resolved review conversations and blocks deletion/force pushes
 - GitHub now requires the `quality` check and requires PR branches to be current with `main`
 - The ruleset still requires one approval; owner-authored PRs use the administrator bypass until another maintainer can approve them
@@ -71,7 +72,8 @@ Last updated: 2026-07-11
 - PR 6 calculations are pure local functions; they do not read from or write to Supabase and are not yet public snapshot/API outputs.
 - PR 7 adds a draft-only deterministic publication runtime and GET-only public API adapter. No production snapshot exists and no hosted environment was changed.
 - PR 8 protects admin routes and adds bootstrap/RLS smoke scripts. No production role grant, hosted database mutation, published snapshot, Cloudflare change, or deployment is part of the PR by itself.
+- PR 10 readiness may report `degraded` until the first real published snapshot exists; this is expected before launch and must not be hidden in PR 11.
 
 ## Next decision gate
 
-Logical PR 9 is fully closed, including the hosted Supabase apply record for migration `0001`. Logical PR 10 is the next implementation gate.
+Logical PR 10 is underway. It should close readiness and Cron configuration only; production Worker deploy, domain binding, final smoke, and rollback evidence remain logical PR 11.
