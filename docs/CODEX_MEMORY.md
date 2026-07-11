@@ -100,3 +100,12 @@ This document contains durable implementation context for future coding sessions
 - Verified KPI totals include only approved, non-sample, numeric observations; excluded rows are reported in diagnostics.
 - Low and unscored revenue stay visible in gross AI economic flow but are excluded from net external AI revenue by default.
 - Logical PR 6 was merged as GitHub PR `#7`; it changes repository logic and tests only, with no Supabase or Cloudflare production mutation.
+
+## Publication runtime foundation
+
+- PR 7 uses a server-only PostgreSQL adapter for canonical source/claim/observation lineage, then passes flattened rows through pure eligibility and snapshot builders.
+- Publishable rows require approved claims and observations, non-sample company/source/document/claim/observation state, and no approved successor revision.
+- Snapshots have canonical JSON SHA-256 hashes, explicit versions and generation timestamps, source/observation counts, confidence distribution, and freshness state.
+- Snapshot generation persists drafts only. The review/publish transition remains PR 8 scope.
+- Public Next.js routes are GET-only and call only the two existing `api` RPCs with a publishable key; service-role and secret keys are absent from the adapter and routes.
+- PR 7 makes no schema migration, hosted Supabase write, Cloudflare mutation, production snapshot, or deployment.

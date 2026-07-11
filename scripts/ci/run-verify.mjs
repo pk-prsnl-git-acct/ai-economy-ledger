@@ -13,7 +13,8 @@ const checks = [
       "tests/database-foundation.test.mjs",
       "tests/ux-shell.test.mjs",
       "tests/import-templates.test.mjs",
-      "tests/kpi-calculations.test.mjs"
+      "tests/kpi-calculations.test.mjs",
+      "tests/publication-runtime.test.mjs"
     ]
   ],
   ["validate:data", ["scripts/ci/validate-data.mjs"]]
