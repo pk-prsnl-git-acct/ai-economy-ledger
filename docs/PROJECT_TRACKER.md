@@ -38,13 +38,13 @@ Last updated: 2026-07-11
 | PR 3.6 | Roadmap amendment and checkpoint documentation, only if not absorbed into PR 3.5 |
 | PR 4 | Static Ledger Dark experience using sample placeholders plus full required route skeleton and navigation coverage |
 | PR 4.5 | Route skeleton and navigation checkpoint, only if PR 4 must be split |
-| PR 5 | Sample workbook and CSV import contracts |
-| PR 5.5 | Demo import run and sample isolation verification |
+| PR 5 | Sample workbook and CSV import contracts plus demo import and sample isolation verification |
+| PR 5.5 | Demo import and sample isolation checkpoint, only if PR 5 must be split |
 | PR 6 | KPI calculation engine and tests |
-| PR 7 | Source, claim, observation, confidence, and revision runtime |
-| PR 7.5 | Published snapshots and public read API |
-| PR 8 | Admin authentication and review queue |
-| PR 8.5 | Admin bootstrap and RLS smoke verification |
+| PR 7 | Source, claim, observation, confidence, revision runtime, published snapshots, and public read API |
+| PR 7.5 | Published snapshots and public API checkpoint, only if PR 7 must be split |
+| PR 8 | Admin authentication, review queue, admin bootstrap, and RLS smoke verification |
+| PR 8.5 | Admin bootstrap and RLS smoke checkpoint, only if PR 8 must be split |
 | PR 9 | Circularity and scenario engine |
 | PR 10 | Scheduled health checks and production readiness |
 | PR 11 | Production deploy, domain binding, and final smoke test |

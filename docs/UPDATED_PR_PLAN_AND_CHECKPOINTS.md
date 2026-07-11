@@ -32,13 +32,13 @@ GitHub PR numbers do not have to match logical PR labels. The logical labels bel
 | PR 3.6 | Roadmap amendment and checkpoint documentation | Only needed if checkpoint docs are not included in PR 3.5 |
 | PR 4 | Ledger Dark static UX shell from mockups plus full required route skeleton and navigation coverage | Sample placeholders only, no production data connection; all public/admin route placeholders exist |
 | PR 4.5 | Route skeleton and navigation checkpoint, only if PR 4 intentionally ships in two parts | All public/admin route placeholders exist before deeper product work |
-| PR 5 | Sample workbook and CSV import templates | Templates and mappings preserve sample labels |
-| PR 5.5 | Demo import run and sample isolation verification | Sample rows cannot enter verified totals |
+| PR 5 | Sample workbook and CSV import templates plus demo import and sample isolation verification | Templates and mappings preserve sample labels; sample rows cannot enter verified totals |
+| PR 5.5 | Demo import and sample isolation checkpoint, only if PR 5 intentionally ships in two parts | Sample rows cannot enter verified totals before verified metrics work continues |
 | PR 6 | KPI calculation engine and tests | Pure formulas, methodology docs, confidence/sample tests |
-| PR 7 | Source registry, claims, observations runtime model | Traceability runtime and revision/freshness read models |
-| PR 7.5 | Published snapshots and public read API | Read-only public surface exposes approved published data only |
-| PR 8 | Admin auth and review queue | Protected admin/reviewer workflow aligned with RLS |
-| PR 8.5 | Admin bootstrap and RLS smoke verification | First-admin path and write protections verified |
+| PR 7 | Source registry, claims, observations runtime model plus published snapshots and public read API | Traceability runtime, revision/freshness read models, and approved read-only public surface |
+| PR 7.5 | Published snapshots and public API checkpoint, only if PR 7 intentionally ships in two parts | Read-only public surface exposes approved published data only |
+| PR 8 | Admin auth and review queue plus admin bootstrap and RLS smoke verification | Protected admin/reviewer workflow aligned with RLS and first-admin path verified |
+| PR 8.5 | Admin bootstrap and RLS smoke checkpoint, only if PR 8 intentionally ships in two parts | First-admin path and write protections verified before broader admin rollout |
 | PR 9 | Circularity and scenario engine | AI economy relationship/circularity analysis with tests |
 | PR 10 | Cloudflare Cron, observability, production readiness | Read-only keep-alive, freshness checks, readiness runbook |
 | PR 11 | Production deploy, domain, final smoke test | Worker, domain, secrets, cache, health, and rollback verified |
@@ -64,6 +64,9 @@ GitHub PR numbers do not have to match logical PR labels. The logical labels bel
 - PR 3.5 is active as GitHub PR `#4`; it records the hosted Supabase migration apply and this roadmap amendment.
 - PR 3.6 is not needed if GitHub PR `#4` merges with this document and related roadmap updates.
 - PR 4 and PR 4.5 are now planned as one combined implementation by default. Re-split them only if route coverage must be deferred for scope-control reasons discovered during PR 4.
+- PR 5 and PR 5.5 are now planned as one combined implementation by default. Re-split them only if demo import/sample isolation proof must be deferred for scope-control reasons discovered during PR 5.
+- PR 7 and PR 7.5 are now planned as one combined implementation by default. Re-split them only if published snapshots/public API must be deferred for scope-control reasons discovered during PR 7.
+- PR 8 and PR 8.5 are now planned as one combined implementation by default. Re-split them only if admin bootstrap/RLS smoke verification must be deferred for scope-control reasons discovered during PR 8.
 
 ## Required Stop Output
 
