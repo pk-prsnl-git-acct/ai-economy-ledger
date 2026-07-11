@@ -4,9 +4,9 @@ Last updated: 2026-07-11
 
 ## Current state
 
-- Phase: production database foundation record
-- Active scope: PR 3.5 — hosted Supabase migration apply record plus roadmap checkpoint amendment
-- Production application: minimal local placeholder; not deployed
+- Phase: auditable prototype UX
+- Active scope: PR 4 — Ledger Dark static shell plus complete route/navigation checkpoint
+- Production application: static local Ledger Dark prototype; not deployed
 - Production data: schema foundation applied; no published snapshots yet
 - Repository visibility: public; owner-controlled writes
 
@@ -21,7 +21,8 @@ Last updated: 2026-07-11
 - PR 1 is merged and its required GitHub `quality` CI job passed
 - PR 2 is merged; its Next.js/OpenNext runtime and Cloudflare preview checks passed, satisfying logical PR 2.5 unless runtime changes invalidate that evidence
 - PR 3 is merged; its reviewed migration is now applied to hosted Supabase
-- PR 3.5 is open as GitHub PR `#4`
+- PR 3.5 is merged as GitHub PR `#4`
+- PR 4 implementation is active on `agent/pr4-app-shell-routes`
 - Main requires PRs and resolved review conversations and blocks deletion/force pushes
 - GitHub now requires the `quality` check and requires PR branches to be current with `main`
 - The ruleset still requires one approval; owner-authored PRs use the administrator bypass until another maintainer can approve them
@@ -59,7 +60,8 @@ Last updated: 2026-07-11
 - Direct dependency versions are pinned; updates must preserve Next.js/OpenNext and lint-parser compatibility.
 - Open-source differentiation must come from trust, methodology, curation, and execution rather than hidden code.
 - Application traffic is still not wired to Supabase; live schema now exists before the first production app deploy, so future releases must preserve the current RLS/public-surface contract.
+- Static admin pages are deliberately visible route placeholders, not protected tools; they contain no write controls or backend connection. Authentication remains PR 8 scope.
 
 ## Next decision gate
 
-Review PR 3.5's production apply and roadmap checkpoint record before any application feature work expands the public or authenticated data surface. After PR 3.5, stop and wait for explicit owner approval before starting PR 4.
+Review the combined PR 4 + 4.5 implementation. Confirm all public/admin placeholders, responsive navigation, sample warnings, admin access warnings, and route metadata before approving PR 5.

@@ -75,3 +75,11 @@ This document contains durable implementation context for future coding sessions
 - PR 2.5 is currently considered satisfied by PR 2's OpenNext build and workerd HTTP smoke evidence. Re-open a checkpoint if later runtime changes invalidate that evidence.
 - PR 3.6 is unnecessary if PR 3.5 merges with `docs/UPDATED_PR_PLAN_AND_CHECKPOINTS.md` and the matching roadmap/tracker/log/decision updates.
 - After each PR/checkpoint, stop and report summary, files changed, checks, data/schema impact, deployment impact, security/RLS impact, known risks, and next recommended PR.
+
+## UX foundation
+
+- PR 4 centralizes public/admin route definitions in `src/ui/site-map.ts` and builds navigation and route-directory coverage from that source. Preserve this contract when replacing placeholders with product pages.
+- Static UI primitives live in `components/ledger.tsx`; they are Server Components and have no production data or browser-side secret dependency.
+- All headline placeholders must retain sample, confidence, freshness, source, and methodology states until PR 7 replaces them with approved published snapshots.
+- Admin routes before PR 8 are discoverable static previews only. They must keep the admin access warning and contain no functional write controls or misleading authentication state.
+- PR 4 browser verification covered the dashboard at desktop width and the review queue at a 390px mobile viewport. Development-only HMR WebSocket errors occurred when Playwright used `127.0.0.1` against a `localhost` dev origin; production compilation and application responses were unaffected.

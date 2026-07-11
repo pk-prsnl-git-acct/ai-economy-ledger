@@ -10,7 +10,8 @@ const checks = [
       "--test",
       "tests/repository.test.mjs",
       "tests/runtime-scaffold.test.mjs",
-      "tests/database-foundation.test.mjs"
+      "tests/database-foundation.test.mjs",
+      "tests/ux-shell.test.mjs"
     ]
   ],
   ["validate:data", ["scripts/ci/validate-data.mjs"]]

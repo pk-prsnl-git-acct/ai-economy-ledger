@@ -18,9 +18,15 @@ test("runtime dependencies and scripts are pinned", () => {
 test("CI builds and smoke-tests the Workers artifact", () => {
   const workflow = readFileSync(".github/workflows/ci.yml", "utf8");
   const workspace = readFileSync("pnpm-workspace.yaml", "utf8");
+  const smoke = readFileSync("scripts/ci/cloudflare-preview-smoke.mjs", "utf8");
 
   assert.match(workflow, /pnpm build:cloudflare/);
   assert.match(workflow, /pnpm test:cloudflare-preview/);
+  for (const route of ["/companies", "/methodology", "/admin/review-queue"]) {
+    assert.match(smoke, new RegExp(route.replaceAll("/", "\\/")));
+  }
+  assert.match(smoke, /fictional placeholders/);
+  assert.match(smoke, /Static admin preview/);
   for (const dependency of ["esbuild", "rclone.js", "sharp", "unrs-resolver", "workerd"]) {
     assert.match(workspace, new RegExp(`${dependency.replace(".", "\\.")}: true`));
   }
@@ -45,12 +51,15 @@ test("OpenNext is configured for Node runtime without remote cache bindings", ()
   assert.doesNotMatch(appSources, /runtime\s*=\s*["']edge["']/);
 });
 
-test("placeholder page publishes no financial figures", () => {
+test("static dashboard publishes no numeric financial claims", () => {
   const page = readFileSync("app/page.tsx", "utf8");
+  const components = readFileSync("components/ledger.tsx", "utf8");
 
-  assert.match(page, /no financial figures are/);
-  assert.match(page, /Sample data will remain clearly isolated/);
+  assert.match(page, /SampleDataWarning/);
+  assert.match(components, /fictional placeholders/);
+  assert.match(components, /excluded from verified totals/);
   assert.doesNotMatch(page, /\$\d/);
+  assert.doesNotMatch(components, /\$\d/);
 });
 
 test("local development variables stay ignored", () => {
