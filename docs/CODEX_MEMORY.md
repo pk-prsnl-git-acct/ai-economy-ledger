@@ -92,3 +92,10 @@ This document contains durable implementation context for future coding sessions
 - PR 5 import templates live under `data/import-templates`; fictional demo rows live under `data/sample/demo-import`.
 - The sample workbook is generated at `data/sample/ai_economy_ledger_sample_import.xlsx` from the same demo contract.
 - `scripts/import/import-contracts.mjs` is the local validation source for template headers, sample/review-state lockstep, and verified-total exclusion.
+
+## KPI calculation foundation
+
+- PR 6 calculation logic lives in `src/server/modules/kpi/calculations.mjs`.
+- KPI totals use fixed-scale decimal arithmetic and return decimal strings.
+- Verified KPI totals include only approved, non-sample, numeric observations; excluded rows are reported in diagnostics.
+- Low and unscored revenue stay visible in gross AI economic flow but are excluded from net external AI revenue by default.
