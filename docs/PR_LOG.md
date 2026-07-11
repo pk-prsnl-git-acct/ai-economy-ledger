@@ -130,7 +130,7 @@
 
 ## PR 9 — Circularity and scenario engine
 
-- Status: implementation complete; GitHub review in progress
+- Status: merged
 - Pull request: `#10`
 - Branch: `agent/pr9-circularity-scenarios`
 - Internal label: logical PR 9
@@ -139,3 +139,5 @@
 - Requirements enhancement: topology is a signal only, adjustment requires an approved non-sample relationship linked to an observation, duplicate edges cannot double-subtract, zero gross has an explicit null ratio, and scenarios cannot mutate facts or publish
 - Data/schema impact: adds `ledger.relationships`, `ledger.scenario_runs`, related enums, triggers, grants, and RLS through migration `0001_circularity_scenarios.sql`; hosted migration is not applied by this PR
 - Deployment impact: none; no Supabase apply, Cloudflare mutation, snapshot publication, or production deployment
+- Verification: 46 tests, strict TypeScript, lint, Drizzle migration check, data validation, OpenNext Cloudflare build, workerd preview smoke, and required GitHub `quality` check passed
+- GitHub: merged by rebase with the documented solo-maintainer administrator bypass

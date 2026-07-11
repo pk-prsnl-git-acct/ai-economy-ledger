@@ -127,3 +127,4 @@ This document contains durable implementation context for future coding sessions
 - Multiple qualifying edges linked to the same observation deduct it once. Gross flow stays visible, and a zero gross denominator produces a null ratio.
 - Scenario evaluation sorts explicit assumptions, preserves the baseline, reports deltas, and has no database write or publication capability.
 - `ledger.relationships` and `ledger.scenario_runs` are RLS-protected and absent from the anonymous API. Migration `0001_circularity_scenarios.sql` must not be applied remotely without separate owner approval and an apply record.
+- Logical PR 9 merged as GitHub PR `#10`; local Docker was unavailable during the PR, so structural migration checks passed but hosted migration `0001` remains deliberately unapplied.

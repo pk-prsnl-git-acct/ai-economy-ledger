@@ -5,7 +5,7 @@ Last updated: 2026-07-11
 ## Current state
 
 - Phase: auditable prototype planning
-- Active scope: logical PR 9 is GitHub PR `#10`, awaiting quality gate and merge
+- Active scope: logical PR 9 merged as GitHub PR `#10`; logical PR 10 is next
 - Production application: static local Ledger Dark prototype; not deployed
 - Production data: schema foundation applied; no published snapshots yet
 - Repository visibility: public; owner-controlled writes
@@ -28,6 +28,7 @@ Last updated: 2026-07-11
 - PR 7 is merged as GitHub PR `#8` and combines the former PR 7.5 checkpoint scope
 - PR 8 is merged as GitHub PR `#9` and combines the former PR 8.5 checkpoint scope
 - PR 9 adds relationship/circularity and deterministic scenario contracts; migration `0001` is not applied to hosted Supabase by this PR
+- PR 9 is merged as GitHub PR `#10`; its required `quality` check passed
 - Main requires PRs and resolved review conversations and blocks deletion/force pushes
 - GitHub now requires the `quality` check and requires PR branches to be current with `main`
 - The ruleset still requires one approval; owner-authored PRs use the administrator bypass until another maintainer can approve them
@@ -74,4 +75,4 @@ Last updated: 2026-07-11
 
 ## Next decision gate
 
-Logical PR 9 is in implementation. Its repository scope does not authorize a hosted migration apply or public release.
+Logical PR 9 is merged and synchronized. Logical PR 10 is the next implementation gate; hosted migration `0001` remains unapplied pending explicit approval.
