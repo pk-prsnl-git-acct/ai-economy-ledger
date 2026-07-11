@@ -72,6 +72,7 @@ This document contains durable implementation context for future coding sessions
 - Logical PR 4 was merged as GitHub PR `#5`; do not rename internal roadmap scopes to match GitHub numbers.
 - PR 5 now absorbs demo import and sample isolation verification by default. Re-create a separate logical PR 5.5 only if PR 5 needs to ship in two owner-approved parts.
 - Logical PR 5 owns the sample workbook, CSV import templates, demo import fixtures, and sample isolation validation. It must not add production database writes or a protected admin import flow.
+- Logical PR 5 was merged as GitHub PR `#6`; post-merge tracker and PR log state must be updated before any later PR begins.
 - PR 7 now absorbs published snapshots and public API by default. Re-create a separate logical PR 7.5 only if PR 7 needs to ship in two owner-approved parts.
 - PR 8 now absorbs admin bootstrap and RLS smoke verification by default. Re-create a separate logical PR 8.5 only if PR 8 needs to ship in two owner-approved parts.
 - PR 2.5 is currently considered satisfied by PR 2's OpenNext build and workerd HTTP smoke evidence. Re-open a checkpoint if later runtime changes invalidate that evidence.

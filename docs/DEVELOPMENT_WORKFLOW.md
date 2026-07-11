@@ -146,7 +146,14 @@ git pull --ff-only origin main
 git branch -d <merged-branch>
 ```
 
-Delete the remote branch when no longer needed. Update release notes, tracker state, or operational documentation when the merge changes delivered capability.
+Delete the remote branch when no longer needed. Before any later PR begins, update release notes, `PROJECT_TRACKER.md`, `PR_LOG.md`, `CODEX_MEMORY.md`, and any roadmap/status docs touched by the merged scope so the repository reflects the post-merge state rather than the pre-merge review state.
+
+Post-merge tracking minimum:
+
+- mark the merged logical PR as `merged` everywhere it was previously `draft`, `in progress`, or `ready for review`
+- move `PROJECT_TRACKER.md` from the merged active scope to either the next approved logical PR or an explicit waiting state
+- record the final GitHub PR number and merge outcome in `PR_LOG.md`
+- update the next decision gate to the next unstarted logical PR
 
 After each logical PR or checkpoint, stop and report summary, files changed, checks run, data/schema impact, deployment impact, security/RLS impact, known risks, and the next recommended PR. Do not start the next logical PR without explicit owner approval.
 
