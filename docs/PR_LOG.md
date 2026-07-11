@@ -59,8 +59,8 @@
 
 ## PR 4 — Ledger Dark UX shell and route checkpoint
 
-- Status: in progress
-- Pull request: pending
+- Status: draft
+- Pull request: `#5`
 - Branch: `agent/pr4-app-shell-routes`
 - Purpose: establish the static Ledger Dark design system, reusable trust components, and every required public/admin route before deeper product work
 - Public routes: dashboard, companies, funding, revenue/debt, compute/infrastructure, circularity, methodology, sources, and downloads
