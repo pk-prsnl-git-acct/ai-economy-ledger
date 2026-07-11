@@ -120,3 +120,10 @@ Material decisions use stable identifiers and remain append-only. Reversals refe
 - Status: accepted
 - Decision: Treat directed cycles as analytical signals while allowing adjusted totals to change only through approved, non-sample relationships linked to exact observations. Evaluate scenarios as deterministic baseline-preserving transformations that cannot publish or mutate canonical facts.
 - Rationale: graph topology alone does not prove double counting. Observation links make deductions auditable, one-time adjustment prevents duplicate edges from double-subtracting, and a non-publishing scenario boundary keeps assumptions visibly separate from reviewed evidence.
+
+## DEC-018 — Read-only readiness before production deploy
+
+- Date: 2026-07-11
+- Status: accepted
+- Decision: Implement production readiness as a protected read-only health route plus a Cloudflare Cron Worker wrapper that delegates normal HTTP traffic to OpenNext and scheduled events to the health route.
+- Rationale: OpenNext owns the generated HTTP Worker, while Cloudflare Cron requires a scheduled event handler. A thin wrapper keeps the adapter path intact, adds scheduled checks without production mutation, and makes readiness observable before the first domain deployment.

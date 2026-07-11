@@ -129,3 +129,10 @@ This document contains durable implementation context for future coding sessions
 - `ledger.relationships` and `ledger.scenario_runs` are RLS-protected and absent from the anonymous API. After owner approval, hosted project `vupwphakeyvvhaoxuvuw` received `0001_circularity_scenarios.sql` on 2026-07-11 using ignored local private environment values only.
 - Post-apply verification confirmed remote history version `0001`, expected `relationships` and `scenario_runs` tables, RLS on both, zero `anon` table grants, only the two intended `api` RPC execute grants for `anon`, denied anonymous REST access to the new tables, denied anonymous writes, and a successful read-only health query.
 - Logical PR 9 merged as GitHub PR `#10`; the later hosted apply record closes the remaining production database gap from that PR without changing Cloudflare or publishing any snapshot.
+
+## Production readiness foundation
+
+- PR 10 uses `worker.mjs` as the committed Worker entrypoint. It delegates fetch requests to `.open-next/worker.js` and implements Cloudflare `scheduled` by calling `/api/internal/health` in-process.
+- `GET /api/internal/health` is protected by `HEALTHCHECK_TOKEN`, returns `no-store`, uses only publishable Supabase access through the public snapshot RPC adapter, and logs summarized readiness without secrets.
+- Readiness states are `ok`, `degraded`, and `down`. Missing runtime config or RPC failure is `down`; no published snapshot or stale snapshot is `degraded`.
+- Cloudflare Cron is configured for every 30 minutes in `wrangler.toml`, but no Worker is deployed and no DNS/domain change happens until PR 11.

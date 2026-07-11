@@ -24,7 +24,7 @@ GitHub hosts code, reviews, documentation, and optional quality checks. It is no
 ## Runtime responsibilities
 
 - Cloudflare request path: pages, lightweight APIs, authorization checks, cached public snapshots
-- Cloudflare Cron: keep-alive reads, freshness scans, publication triggers
+- Cloudflare Cron: read-only readiness checks and freshness scans
 - Cloudflare Queues: later asynchronous ingestion and normalization
 - Cloudflare Workflows: later durable multi-step jobs and retries
 - Supabase: authentication, canonical relational data, RLS, review state, revisions
@@ -89,7 +89,7 @@ Revisit connection pooling and add Cloudflare Hyperdrive only after production t
 
 ## Implemented runtime foundation
 
-PR 2 establishes Next.js 16 App Router on React 19, Tailwind CSS 4, and the OpenNext Cloudflare adapter. `wrangler.toml` targets `.open-next/worker.js`, enables `nodejs_compat`, serves `.open-next/assets`, and enables Worker observability. No database binding, R2 cache, Queue, Workflow, custom domain, or production deployment is configured yet.
+PR 2 establishes Next.js 16 App Router on React 19, Tailwind CSS 4, and the OpenNext Cloudflare adapter. No database binding, R2 cache, Queue, Workflow, custom domain, or production deployment is configured yet.
 
 PR 3 establishes the PostgreSQL 17 schema contract, local Supabase workflow, typed Drizzle schema/client, RLS role model, provenance and revision constraints, and public snapshot RPC boundary. It does not apply the migration to hosted Supabase or connect an application route to production data.
 
@@ -106,6 +106,8 @@ Publication is deliberately two-stage: deterministic draft generation followed b
 PR 8 establishes the protected admin runtime boundary. Admin routes are dynamic Server Components that read a Supabase session cookie, verify the token with Supabase Auth using the publishable key, and then check reviewer/admin authorization against `private.app_user_roles` through the server-only database connection. The review queue is read through a dedicated server repository. Browser code never receives service-role or database credentials, and the PR adds explicit bootstrap and RLS smoke scripts without running them against production by default.
 
 PR 9 adds pure `circularity` and `scenario-engine` modules plus reviewed persistence contracts. Circularity analysis consumes approved, non-sample observations and evidence-backed directed relationships, preserves gross flow, deduplicates observation-level adjustments, and reports graph cycles separately from adjustment decisions. Scenario evaluation transforms an in-memory copy of observations with explicit assumptions and returns baseline/scenario/delta output; it cannot overwrite canonical facts or publish a snapshot. Relationship and scenario tables remain inside `ledger`, protected by RLS, and are absent from the anonymous `api` schema.
+
+PR 10 wraps the generated OpenNext Worker with a stable `worker.mjs` entrypoint. Normal HTTP traffic delegates to `.open-next/worker.js`; Cloudflare scheduled events call the protected `/api/internal/health` route in-process every 30 minutes and emit structured readiness logs. The readiness evaluator is read-only: it verifies required public Supabase environment, healthcheck token configuration, snapshot RPC availability, published snapshot presence, and latest snapshot freshness. Empty published data is `degraded` rather than `down`, which keeps pre-launch production readiness honest without pretending the ledger has live data.
 
 Local development uses `next dev`; runtime verification builds the OpenNext artifact and smoke-tests it through Wrangler/workerd. The application does not opt into Next.js Edge Runtime because OpenNext Cloudflare targets the Node.js runtime compatibility layer.
 

@@ -17,6 +17,7 @@ const checks = [
       "tests/publication-runtime.test.mjs",
       "tests/admin-runtime.test.mjs",
       "tests/circularity-scenarios.test.mjs",
+      "tests/health-readiness.test.mjs",
     ]
   ],
   ["validate:data", ["scripts/ci/validate-data.mjs"]]

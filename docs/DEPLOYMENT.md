@@ -20,7 +20,8 @@ Environment values must never flow implicitly between tiers.
 |---|---|
 | `next.config.ts` | Next.js options and OpenNext local binding bridge |
 | `open-next.config.ts` | OpenNext adapter behavior; no remote cache yet |
-| `wrangler.toml` | Worker entry point, compatibility date/flags, assets, observability |
+| `worker.mjs` | Worker wrapper that delegates HTTP to OpenNext and handles scheduled readiness checks |
+| `wrangler.toml` | Worker entry point, compatibility date/flags, assets, observability, Cron trigger |
 | `.dev.vars.example` | non-secret local Worker variable shape |
 | `.env.example` | complete placeholder-only application variable contract |
 | `public/_headers` | immutable caching for fingerprinted Next.js assets |
@@ -39,6 +40,19 @@ pnpm cf-typegen
 ```
 
 `pnpm build:cloudflare` produces the ignored `.open-next/` artifact. The preview smoke test starts that artifact in workerd, requests `/`, checks HTTP success and the expected application/data-warning text, then stops the process.
+
+## Health and readiness
+
+PR 10 adds a protected read-only health route at `GET /api/internal/health`. It requires `HEALTHCHECK_TOKEN` through `x-healthcheck-token` or `Authorization: Bearer ...`, returns `cache-control: no-store`, and never uses service-role credentials. The route evaluates required public Supabase configuration, healthcheck token configuration, public snapshot RPC availability, published snapshot presence, and latest snapshot freshness.
+
+Cloudflare Cron is configured for every 30 minutes in `wrangler.toml`. The committed Worker wrapper delegates normal HTTP requests to the generated OpenNext Worker and handles scheduled events by calling `/api/internal/health` in-process with the configured token, then logging a structured `scheduled_readiness_check` record. An empty published snapshot set reports `degraded` instead of `down` until the first real snapshot is published.
+
+Required production variables before PR 11 deploy:
+
+- `NEXT_PUBLIC_SITE_URL`
+- `SUPABASE_URL`
+- `SUPABASE_PUBLISHABLE_KEY`
+- `HEALTHCHECK_TOKEN`
 
 ## Planned Workers Builds configuration
 

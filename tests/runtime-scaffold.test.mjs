@@ -36,10 +36,12 @@ test("Cloudflare configuration targets the intended Worker safely", () => {
   const wrangler = readFileSync("wrangler.toml", "utf8");
 
   assert.match(wrangler, /name = "ai-economy-ledger"/);
-  assert.match(wrangler, /main = "\.open-next\/worker\.js"/);
+  assert.match(wrangler, /main = "worker\.mjs"/);
   assert.match(wrangler, /compatibility_date = "2026-07-10"/);
   assert.match(wrangler, /"nodejs_compat"/);
   assert.match(wrangler, /directory = "\.open-next\/assets"/);
+  assert.match(wrangler, /\[triggers\]/);
+  assert.match(wrangler, /crons = \["\*\/30 \* \* \* \*"\]/);
 });
 
 test("OpenNext is configured for Node runtime without remote cache bindings", () => {

@@ -142,3 +142,16 @@
 - Verification: 46 tests, strict TypeScript, lint, Drizzle migration check, data validation, OpenNext Cloudflare build, workerd preview smoke, and required GitHub `quality` check passed
 - Hosted follow-up verification: remote migration history includes `0001`; `ledger.relationships` and `ledger.scenario_runs` exist; RLS is enabled on both; `anon` still has zero table grants and only the two intended `api` RPC execute grants; anonymous REST reads/writes to the new tables fail; read-only health query succeeded; no service-role key reference was found in browser-facing code
 - GitHub: merged by rebase with the documented solo-maintainer administrator bypass
+
+## PR 10 — Scheduled health checks and production readiness
+
+- Status: in progress
+- Pull request: pending
+- Branch: `agent/pr10-health-cron-readiness`
+- Internal label: logical PR 10
+- Purpose: add read-only production readiness checks, Cloudflare Cron wiring, structured health logs, and deployment/runbook coverage before first production deploy
+- Requirements enhancement: no published snapshots is `degraded` rather than `down`, while missing config, missing token, or public snapshot RPC failure is `down`
+- Scope: pure readiness evaluator; protected no-store internal health route; admin health panel; Worker wrapper with `scheduled`; 30-minute Cron trigger; tests and operational documentation
+- Data/schema impact: none
+- Deployment impact: configuration only; no Worker deploy, domain binding, DNS change, Supabase mutation, snapshot publication, or production secret write
+- Security: health route requires `HEALTHCHECK_TOKEN`, uses publishable Supabase access only, emits summarized logs without secrets, and keeps service-role keys out of browser-facing code

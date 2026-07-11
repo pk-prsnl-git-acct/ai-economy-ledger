@@ -1,6 +1,6 @@
 "$schema" = "./node_modules/wrangler/config-schema.json"
 name = "ai-economy-ledger"
-main = ".open-next/worker.js"
+main = "worker.mjs"
 compatibility_date = "2026-07-10"
 compatibility_flags = ["nodejs_compat", "global_fetch_strictly_public"]
 
@@ -10,3 +10,6 @@ binding = "ASSETS"
 
 [observability]
 enabled = true
+
+[triggers]
+crons = ["*/30 * * * *"]
