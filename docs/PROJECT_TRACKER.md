@@ -5,9 +5,9 @@ Last updated: 2026-07-11
 ## Current state
 
 - Phase: auditable prototype planning
-- Active scope: logical PR 9 merged as GitHub PR `#10`; logical PR 10 is next
+- Active scope: logical PR 9 database follow-up is closed; logical PR 10 is next
 - Production application: static local Ledger Dark prototype; not deployed
-- Production data: schema foundation applied; no published snapshots yet
+- Production data: schema foundation plus relationship/scenario schema applied; no published snapshots yet
 - Repository visibility: public; owner-controlled writes
 
 ## Infrastructure readiness
@@ -15,7 +15,7 @@ Last updated: 2026-07-11
 - GitHub account, repository, and owner permissions verified
 - Cloudflare account, active zone, Workers API, and DNS read access verified
 - Supabase Auth, JWKS, and server-side REST access verified
-- Hosted Supabase project `vupwphakeyvvhaoxuvuw` now has migration version `0000` applied
+- Hosted Supabase project `vupwphakeyvvhaoxuvuw` now has migration versions `0000` and `0001` applied
 - Public domain has no deployed application origin yet
 - Supabase public data access remains intentionally unconfigured before schema and RLS work
 - PR 1 is merged and its required GitHub `quality` CI job passed
@@ -27,7 +27,7 @@ Last updated: 2026-07-11
 - PR 6 is merged as GitHub PR `#7`
 - PR 7 is merged as GitHub PR `#8` and combines the former PR 7.5 checkpoint scope
 - PR 8 is merged as GitHub PR `#9` and combines the former PR 8.5 checkpoint scope
-- PR 9 adds relationship/circularity and deterministic scenario contracts; migration `0001` is not applied to hosted Supabase by this PR
+- PR 9 adds relationship/circularity and deterministic scenario contracts; its reviewed hosted migration follow-up is now applied and verified
 - PR 9 is merged as GitHub PR `#10`; its required `quality` check passed
 - Main requires PRs and resolved review conversations and blocks deletion/force pushes
 - GitHub now requires the `quality` check and requires PR branches to be current with `main`
@@ -69,10 +69,9 @@ Last updated: 2026-07-11
 - Static admin pages are deliberately visible route placeholders, not protected tools; they contain no write controls or backend connection. Authentication remains PR 8 scope.
 - PR 5 templates are repository contracts only; they are not a production upload surface and must remain sample/verified-isolated until the protected admin workflow exists.
 - PR 6 calculations are pure local functions; they do not read from or write to Supabase and are not yet public snapshot/API outputs.
-- PR 9 includes a new migration that requires a separately approved hosted Supabase apply before production can use relationship or scenario storage.
 - PR 7 adds a draft-only deterministic publication runtime and GET-only public API adapter. No production snapshot exists and no hosted environment was changed.
 - PR 8 protects admin routes and adds bootstrap/RLS smoke scripts. No production role grant, hosted database mutation, published snapshot, Cloudflare change, or deployment is part of the PR by itself.
 
 ## Next decision gate
 
-Logical PR 9 is merged and synchronized. Logical PR 10 is the next implementation gate; hosted migration `0001` remains unapplied pending explicit approval.
+Logical PR 9 is fully closed, including the hosted Supabase apply record for migration `0001`. Logical PR 10 is the next implementation gate.
