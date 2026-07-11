@@ -42,3 +42,39 @@ git check-ignore .env.local
 3. Identify source, claim, observation, and aggregate impact.
 4. Correct through a revision record and republish deterministically.
 5. Add a regression test.
+
+## Hosted Supabase migration apply
+
+Use this when a reviewed migration in `supabase/migrations/` must be applied to the live Supabase project.
+
+### Preconditions
+
+1. Confirm the exact project ref and project URL.
+2. Confirm the migration scope is already merged and reviewed.
+3. Use only ignored local environment files; never paste secrets into commands, docs, or chat.
+4. Confirm the target migration list with a dry run before applying.
+
+### Procedure
+
+1. Load local private environment values only.
+2. Prefer the IPv4 pooler database URL when the direct database endpoint is not reachable from the current network.
+3. List remote migration history.
+4. Run `supabase db push --dry-run` and confirm only the intended migration files would apply.
+5. Run `supabase db push --include-all --yes` against the target database URL.
+6. Verify:
+   `supabase_migrations.schema_migrations` includes the expected version,
+   expected tables exist,
+   RLS is enabled on the expected tables,
+   `anon` has no canonical table grants,
+   public access is limited to the intended `api` RPCs,
+   anonymous canonical writes fail,
+   a read-only health query succeeds.
+7. Scan source code to confirm service-role secrets are not referenced in browser-facing code.
+8. Record the apply in `DEPLOYMENT.md`, `RUNBOOK.md`, `PR_LOG.md`, `CODEX_MEMORY.md`, and `PROJECT_TRACKER.md`.
+
+### Rollback guidance
+
+1. Do not drop the newly created schemas or tables as a first response.
+2. If the migration succeeded structurally but behavior is wrong, prefer a forward corrective migration.
+3. Pause any application rollout before attempting further database changes.
+4. Capture migration history, verification results, and the exact corrective plan in project memory before proceeding.
