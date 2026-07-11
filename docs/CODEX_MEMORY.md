@@ -69,9 +69,9 @@ This document contains durable implementation context for future coding sessions
 
 - The July 2026 amendment adds explicit checkpoint PRs: 2.5 Cloudflare/OpenNext preview smoke, 3.5 Supabase remote migration apply, 3.6 roadmap amendment if needed, and 11 production deploy/domain smoke.
 - PR 4 now absorbs route skeleton and navigation coverage by default. Re-create a separate logical PR 4.5 only if PR 4 needs to ship in two owner-approved parts.
-- The active Ledger Dark route work remains logical PR 4 even though GitHub assigned it PR `#5`; do not rename the internal roadmap scope to PR 5.
-- Logical PR 4 is implemented, committed, pushed, CI-green, and ready for owner review; it is not merged yet.
+- Logical PR 4 was merged as GitHub PR `#5`; do not rename internal roadmap scopes to match GitHub numbers.
 - PR 5 now absorbs demo import and sample isolation verification by default. Re-create a separate logical PR 5.5 only if PR 5 needs to ship in two owner-approved parts.
+- Logical PR 5 owns the sample workbook, CSV import templates, demo import fixtures, and sample isolation validation. It must not add production database writes or a protected admin import flow.
 - PR 7 now absorbs published snapshots and public API by default. Re-create a separate logical PR 7.5 only if PR 7 needs to ship in two owner-approved parts.
 - PR 8 now absorbs admin bootstrap and RLS smoke verification by default. Re-create a separate logical PR 8.5 only if PR 8 needs to ship in two owner-approved parts.
 - PR 2.5 is currently considered satisfied by PR 2's OpenNext build and workerd HTTP smoke evidence. Re-open a checkpoint if later runtime changes invalidate that evidence.
@@ -85,3 +85,9 @@ This document contains durable implementation context for future coding sessions
 - All headline placeholders must retain sample, confidence, freshness, source, and methodology states until PR 7 replaces them with approved published snapshots.
 - Admin routes before PR 8 are discoverable static previews only. They must keep the admin access warning and contain no functional write controls or misleading authentication state.
 - PR 4 browser verification covered the dashboard at desktop width and the review queue at a 390px mobile viewport. Development-only HMR WebSocket errors occurred when Playwright used `127.0.0.1` against a `localhost` dev origin; production compilation and application responses were unaffected.
+
+## Import template foundation
+
+- PR 5 import templates live under `data/import-templates`; fictional demo rows live under `data/sample/demo-import`.
+- The sample workbook is generated at `data/sample/ai_economy_ledger_sample_import.xlsx` from the same demo contract.
+- `scripts/import/import-contracts.mjs` is the local validation source for template headers, sample/review-state lockstep, and verified-total exclusion.

@@ -1,0 +1,4 @@
+claim_key,document_key,company_slug,kind,claim_text,asserted_at,period_start,period_end,confidence,review_state,review_notes,is_sample
+sample-claim-nebula-capital,sample-doc-nebula,sample-nebula-compute,fact,Sample Nebula raised fictional demo capital,2026-01-15T00:00:00Z,2026-01-01,2026-03-31,unscored,sample,Demo row; not verified,true
+sample-claim-nebula-compute,sample-doc-nebula,sample-nebula-compute,commitment,Sample Nebula signed a fictional compute commitment,2026-01-15T00:00:00Z,2026-01-01,2026-12-31,unscored,sample,Demo row; not verified,true
+sample-claim-orbit-revenue,sample-doc-orbit,sample-orbit-ai,estimate,Sample Orbit reported fictional AI revenue run rate,2026-02-20T00:00:00Z,2026-01-01,2026-12-31,unscored,sample,Demo row; not verified,true

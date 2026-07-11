@@ -1,0 +1,4 @@
+key,label,description,value_type,default_unit,methodology_version_id,is_active
+sample.capital_in,Sample capital in,Demo-only capital inflow metric,monetary,USD,v0.1.0,true
+sample.ai_revenue_run_rate,Sample AI revenue run rate,Demo-only annualized revenue metric,monetary,USD,v0.1.0,true
+sample.compute_commitment,Sample compute commitment,Demo-only infrastructure obligation metric,monetary,USD,v0.1.0,true

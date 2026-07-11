@@ -58,3 +58,7 @@ Public reads call `api.list_published_snapshots` and `api.get_published_snapshot
 PostgreSQL 17 is the project baseline. Drizzle generates schema DDL into `supabase/migrations`, while the Supabase CLI applies and tests the full migration locally. Direct schema pushes and uncaptured remote dashboard changes are prohibited. See [`supabase/README.md`](../supabase/README.md).
 
 All schema changes must be migration-driven and update this document.
+
+## Import template contract
+
+PR 5 adds CSV templates for companies, metric definitions, source registry records, source documents, claims, and metric observations. These templates are repository contracts for staging data, not a production upload API. The demo import uses fictional sample rows only, and local validation requires sample rows to preserve sample review state and stay excluded from verified totals.

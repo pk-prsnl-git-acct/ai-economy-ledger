@@ -95,6 +95,8 @@ PR 3 establishes the PostgreSQL 17 schema contract, local Supabase workflow, typ
 
 PR 4 establishes a static Server Component presentation layer. `src/ui/site-map.ts` is the route/navigation contract, `src/ui/metadata.ts` standardizes route metadata, and `components/ledger.tsx` contains the reusable Ledger Dark shell and trust-state primitives. All required public and admin routes are statically generated. The pages contain fictional placeholders only and intentionally make no database, authentication, or write calls; later PRs replace page interiors while retaining the route and trust contracts.
 
+PR 5 establishes a repository-level import contract, not a production ingestion surface. CSV headers live under `data/import-templates`, fictional demo rows live under `data/sample/demo-import`, and the sample workbook mirrors those rows for contributor-friendly review. Local validation proves sample rows keep their sample labels and cannot enter verified totals before KPI work begins.
+
 Local development uses `next dev`; runtime verification builds the OpenNext artifact and smoke-tests it through Wrangler/workerd. The application does not opt into Next.js Edge Runtime because OpenNext Cloudflare targets the Node.js runtime compatibility layer.
 
 See [Decision Log](DECISION_LOG.md) for accepted decisions and trade-offs.

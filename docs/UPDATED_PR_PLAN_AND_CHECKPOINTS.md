@@ -63,10 +63,10 @@ GitHub PR numbers do not have to match logical PR labels. The logical labels bel
 - Logical PR 3 is merged as GitHub PR `#3`.
 - Logical PR 3.5 is merged as GitHub PR `#4`; it records the hosted Supabase migration apply and this roadmap amendment.
 - Logical PR 3.6 is not needed because GitHub PR `#4` merged with this document and related roadmap updates.
-- Logical PR 4 is implemented in GitHub PR `#5` on `agent/pr4-app-shell-routes`; it includes the former route skeleton/checkpoint scope that was labeled logical PR 4.5.
-- Logical PR 5 begins only after GitHub PR `#5` is reviewed, approved, and merged.
+- Logical PR 4 is merged as GitHub PR `#5`; it includes the former route skeleton/checkpoint scope that was labeled logical PR 4.5.
+- Logical PR 5 is active on `agent/pr5-import-templates-sample-isolation`; it includes the former demo import/sample isolation checkpoint scope that was labeled logical PR 5.5.
 - Logical PR 4 is the only active internal label for the Ledger Dark UX shell and route skeleton work. Do not refer to the active work as PR 4.5 unless the owner explicitly re-splits it.
-- PR 5 and PR 5.5 are now planned as one combined implementation by default. Re-split them only if demo import/sample isolation proof must be deferred for scope-control reasons discovered during PR 5.
+- Logical PR 5 is the only active internal label for sample workbook, CSV import templates, demo import, and sample isolation work. Do not refer to the active work as PR 5.5 unless the owner explicitly re-splits it.
 - PR 7 and PR 7.5 are now planned as one combined implementation by default. Re-split them only if published snapshots/public API must be deferred for scope-control reasons discovered during PR 7.
 - PR 8 and PR 8.5 are now planned as one combined implementation by default. Re-split them only if admin bootstrap/RLS smoke verification must be deferred for scope-control reasons discovered during PR 8.
 

@@ -1,0 +1,4 @@
+observation_key,company_slug,metric_key,claim_key,numeric_value,text_value,boolean_value,unit,reported_currency,normalized_value,normalized_currency,period_type,period_start,period_end,as_of_date,recognition_type,cash_flow_type,confidence,review_state,methodology_version_id,is_sample
+sample-obs-nebula-capital,sample-nebula-compute,sample.capital_in,sample-claim-nebula-capital,125000000,,,USD,USD,125000000,USD,quarter,2026-01-01,2026-03-31,2026-03-31,announced,equity,unscored,sample,v0.1.0,true
+sample-obs-nebula-compute,sample-nebula-compute,sample.compute_commitment,sample-claim-nebula-compute,42000000,,,USD,USD,42000000,USD,year,2026-01-01,2026-12-31,2026-01-15,committed,cloud_credit,unscored,sample,v0.1.0,true
+sample-obs-orbit-run-rate,sample-orbit-ai,sample.ai_revenue_run_rate,sample-claim-orbit-revenue,18000000,,,USD,USD,18000000,USD,run_rate,2026-01-01,2026-12-31,2026-02-20,run_rate,run_rate_revenue,unscored,sample,v0.1.0,true

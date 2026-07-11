@@ -1,0 +1,3 @@
+slug,legal_name,display_name,description,jurisdiction_code,website_url,lei,status,is_sample
+sample-nebula-compute,Sample Nebula Compute Inc.,Sample Nebula Compute,Fictional infrastructure company for demo imports only,US,,,active,true
+sample-orbit-ai,Sample Orbit AI Ltd.,Sample Orbit AI,Fictional application company for demo imports only,GB,,,active,true

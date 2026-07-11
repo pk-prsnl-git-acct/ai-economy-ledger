@@ -1,0 +1,3 @@
+source_key,publisher,source_type,canonical_url,license_status,redistribution_allowed,license_notes,license_reviewed_at,is_sample
+sample-source-nebula,Sample Ledger Demo,other,https://example.invalid/ai-economy-ledger/sample-nebula,permitted,true,Demo-only fictional source,2026-07-11T00:00:00Z,true
+sample-source-orbit,Sample Ledger Demo,other,https://example.invalid/ai-economy-ledger/sample-orbit,permitted,true,Demo-only fictional source,2026-07-11T00:00:00Z,true
