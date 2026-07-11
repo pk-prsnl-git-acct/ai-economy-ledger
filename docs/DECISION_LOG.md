@@ -92,3 +92,10 @@ Material decisions use stable identifiers and remain append-only. Reversals refe
 - Status: accepted
 - Decision: Treat PR 5 with demo import/sample isolation, PR 7 with published snapshots/public API, and PR 8 with admin bootstrap/RLS smoke as combined default scopes. Keep separate logical PR 5.5, 7.5, or 8.5 only when those proof steps must be deferred for scope-control reasons discovered during implementation.
 - Rationale: these verification steps are tightly coupled to the main feature scopes and are usually part of making the feature reviewable. Keeping them together by default reduces coordination overhead while preserving the option to split if a scope grows too large.
+
+## DEC-014 — Keep KPI calculations pure before publication wiring
+
+- Date: 2026-07-11
+- Status: accepted
+- Decision: Implement PR 6 KPI formulas as pure local calculation functions with fixed-scale decimal arithmetic, approved/non-sample filtering, and diagnostics before connecting them to database reads, public APIs, or published snapshots.
+- Rationale: financial formula behavior needs deterministic tests and review before runtime wiring. Keeping the module side-effect-free prevents sample data, pending records, or low-confidence exclusions from becoming public output by accident.

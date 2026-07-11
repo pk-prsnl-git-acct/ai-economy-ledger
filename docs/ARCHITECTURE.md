@@ -97,6 +97,8 @@ PR 4 establishes a static Server Component presentation layer. `src/ui/site-map.
 
 PR 5 establishes a repository-level import contract, not a production ingestion surface. CSV headers live under `data/import-templates`, fictional demo rows live under `data/sample/demo-import`, and the sample workbook mirrors those rows for contributor-friendly review. Local validation proves sample rows keep their sample labels and cannot enter verified totals before KPI work begins.
 
+PR 6 establishes the first pure calculation module under `src/server/modules/kpi`. It performs fixed-scale decimal arithmetic over approved, non-sample observation-shaped records and returns deterministic totals plus diagnostics. It intentionally has no database adapter, public API, snapshot publication, or production runtime side effect.
+
 Local development uses `next dev`; runtime verification builds the OpenNext artifact and smoke-tests it through Wrangler/workerd. The application does not opt into Next.js Edge Runtime because OpenNext Cloudflare targets the Node.js runtime compatibility layer.
 
 See [Decision Log](DECISION_LOG.md) for accepted decisions and trade-offs.

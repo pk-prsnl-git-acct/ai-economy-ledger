@@ -87,3 +87,14 @@
 - Data/schema impact: repository sample/template files only; no database schema or hosted data changes
 - Deployment impact: none; Cloudflare and Supabase production untouched
 - GitHub: required `quality` check passed; merged by rebase with the documented solo-maintainer administrator bypass
+
+## PR 6 — KPI calculation engine
+
+- Status: in progress
+- Branch: `agent/pr6-kpi-calculation-engine`
+- Purpose: add pure KPI formulas for capital in, obligations, gross AI economic flow, and net external AI revenue before publication/runtime wiring
+- Scope control: no database reads or writes, schema migrations, public API, published snapshots, admin workflow, Supabase mutation, or Cloudflare deployment
+- Methodology: implements the existing `v0.1.0` formulas with explicit approved/non-sample filtering, fixed-scale decimal arithmetic, and conservative net revenue exclusions
+- Verification: unit tests cover decimal precision, sample/unapproved exclusion, debt dual treatment, gross vs net revenue, confidence exclusion, and explicit low-confidence override
+- Data/schema impact: none
+- Deployment impact: none; Cloudflare and Supabase production untouched

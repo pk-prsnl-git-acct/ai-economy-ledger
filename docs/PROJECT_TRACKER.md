@@ -4,8 +4,8 @@ Last updated: 2026-07-11
 
 ## Current state
 
-- Phase: auditable prototype planning
-- Active scope: no implementation branch active; waiting for owner approval to begin logical PR 6
+- Phase: auditable prototype KPI engine
+- Active scope: logical PR 6 — KPI calculation engine, methodology-linked formulas, and tests
 - Production application: static local Ledger Dark prototype; not deployed
 - Production data: schema foundation applied; no published snapshots yet
 - Repository visibility: public; owner-controlled writes
@@ -24,6 +24,7 @@ Last updated: 2026-07-11
 - PR 3.5 is merged as GitHub PR `#4`
 - PR 4 is merged as GitHub PR `#5`; it includes the former PR 4.5 route skeleton checkpoint scope
 - PR 5 is merged as GitHub PR `#6`; it includes the former PR 5.5 demo import/sample isolation checkpoint scope
+- Logical PR 6 is active on `agent/pr6-kpi-calculation-engine`
 - Main requires PRs and resolved review conversations and blocks deletion/force pushes
 - GitHub now requires the `quality` check and requires PR branches to be current with `main`
 - The ruleset still requires one approval; owner-authored PRs use the administrator bypass until another maintainer can approve them
@@ -63,7 +64,8 @@ Last updated: 2026-07-11
 - Application traffic is still not wired to Supabase; live schema now exists before the first production app deploy, so future releases must preserve the current RLS/public-surface contract.
 - Static admin pages are deliberately visible route placeholders, not protected tools; they contain no write controls or backend connection. Authentication remains PR 8 scope.
 - PR 5 templates are repository contracts only; they are not a production upload surface and must remain sample/verified-isolated until the protected admin workflow exists.
+- PR 6 calculations are pure local functions; they do not read from or write to Supabase and are not yet public snapshot/API outputs.
 
 ## Next decision gate
 
-Confirm logical PR 6 scope and acceptance criteria before implementation begins. PR 5 is complete; the next expected work is KPI calculation logic, methodology-linked formulas, and tests.
+Review logical PR 6. Confirm fixed-scale arithmetic, approved/non-sample filtering, low-confidence net revenue treatment, and formula test coverage before moving to logical PR 7.
