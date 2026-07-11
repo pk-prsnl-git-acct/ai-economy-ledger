@@ -4,7 +4,7 @@
 
 The Cloudflare/OpenNext runtime is configured and verified locally. Nothing has been deployed, no Worker has been created, and DNS remains unchanged.
 
-The Supabase migration is also repository-only. Hosted Supabase has not been mutated.
+Hosted Supabase project `vupwphakeyvvhaoxuvuw` was migrated on 2026-07-11 by applying the reviewed `0000_ledger_foundation.sql` migration from repository history. No additional schema changes were introduced beyond the merged PR 3 migration files.
 
 ## Environments
 
@@ -66,6 +66,21 @@ Enable non-production branch builds when preview URLs are desired. Build variabl
 - post-deploy smoke and logs checked
 
 For a database release, first configure hosted Data API exposed schemas to `api` (and required Supabase system schemas), never `ledger` or `private`. Apply `supabase/migrations` with the direct database connection in one coordinated operation. Confirm migration history, anonymous denial on canonical tables, public RPC behavior, and reviewer/admin authorization before connecting application traffic.
+
+## Hosted Supabase release record
+
+Production database foundation was applied to project ref `vupwphakeyvvhaoxuvuw` on 2026-07-11 using local private environment values only.
+
+- Applied migration history: `0000_ledger_foundation.sql`
+- Remote migration history now includes version `0000`
+- Expected `ledger` tables exist and `private.app_user_roles` exists
+- RLS is enabled on all expected `ledger` tables and `private.app_user_roles`
+- `anon` has no table grants on `ledger`, `private`, or `api`
+- `anon` may execute only `api.list_published_snapshots()` and `api.get_published_snapshot()`
+- Anonymous canonical reads and writes were verified to fail with permission errors
+- Read-only database health query succeeded after apply
+
+Cloudflare production remains untouched. There is still no deployed Worker or live application origin.
 
 GitHub Actions validates code. Cloudflare Workers Builds and Cloudflare-native services run the product.
 

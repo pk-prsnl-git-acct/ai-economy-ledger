@@ -61,3 +61,5 @@ This document contains durable implementation context for future coding sessions
 - Serverless pooled connections disable prepared statements and cap each Worker isolate at one database connection. Direct connections are migration-only.
 - No PR or merge authorizes `supabase db push`; hosted migrations remain a separately approved release action.
 - Next.js 16.2.10 still declares vulnerable PostCSS 8.4.31 internally; the repository overrides all PostCSS resolutions to the already-pinned 8.5.16 patched release. Preserve the override until Next.js updates its dependency.
+- Hosted project `vupwphakeyvvhaoxuvuw` received migration version `0000` on 2026-07-11. The direct database endpoint required IPv6 from this network, so the apply used the local IPv4 pooler connection from ignored environment files after a dry run confirmed only `0000_ledger_foundation.sql`.
+- Post-apply verification on 2026-07-11 confirmed the expected `ledger` tables, `private.app_user_roles`, RLS enablement, zero `anon` table grants, only two `api` RPC grants for `anon`, denied anonymous canonical reads/writes, and a successful read-only health query.

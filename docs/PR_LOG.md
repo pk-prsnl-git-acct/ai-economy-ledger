@@ -32,7 +32,7 @@
 
 ## PR 3 — Supabase data foundation
 
-- Status: ready for review
+- Status: merged
 - Pull request: `#3`
 - Branch: `agent/supabase-data-foundation`
 - Purpose: establish the canonical ledger schema, migration workflow, RLS authorization, public snapshot API, and typed Drizzle data layer
@@ -42,4 +42,15 @@
 - Integrity: source requirements, typed observation values, review metadata, revision lineage, sample isolation, append-only audit/revision records, and immutable approved records are database-enforced
 - Deployment impact: migration and hosted configuration documentation only; no remote migration, public API change, or production deployment
 - Verification: Drizzle migration check, strict TypeScript, static database contract tests, local Supabase migration reset, pgTAP RLS tests, database lint, application build, and Cloudflare preview
-- GitHub: required `quality` check passed; merge remains gated by repository review/approval rules
+- GitHub: required `quality` check passed; merged by rebase with the documented solo-maintainer administrator bypass
+
+## PR 3.5 — Production Supabase migration apply record
+
+- Status: ready for review
+- Pull request: pending branch publish
+- Branch: `agent/pr3_5-prod-supabase-apply`
+- Purpose: apply the already-reviewed PR 3 migration to the existing hosted Supabase project and record the live verification outcome
+- Target: Supabase project ref `vupwphakeyvvhaoxuvuw`
+- Scope control: no schema changes beyond merged `supabase/migrations/0000_ledger_foundation.sql`; no dashboard table creation; local private env only
+- Deployment impact: hosted Supabase mutated; Cloudflare production untouched
+- Verification: remote migration history includes `0000`; expected `ledger` and `private` tables exist; RLS enabled where expected; anon has no table grants; anon can execute only the intended `api` snapshot RPCs; anonymous canonical reads and writes fail; read-only health query succeeds; no service-role key reference found in browser-facing code
