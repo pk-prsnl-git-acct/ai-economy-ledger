@@ -17,7 +17,7 @@ The original PR plan correctly established a small, reviewed, one-PR-at-a-time w
 - Do not use GitHub Actions as production runtime.
 - Do not change production infrastructure without explicit approval and an audit record.
 
-GitHub PR numbers do not have to match logical PR labels. The logical labels below are the project roadmap labels.
+GitHub PR numbers do not have to match logical PR labels. The logical labels below are the project roadmap labels and remain the canonical internal planning structure. When the numbers differ, write both values explicitly as `logical PR X` and `GitHub PR #Y`.
 
 ## Logical PR Sequence
 
@@ -58,12 +58,14 @@ GitHub PR numbers do not have to match logical PR labels. The logical labels bel
 
 ## Current Mapping
 
-- PR 1 is merged as GitHub PR `#1`.
-- PR 2 is merged as GitHub PR `#2`; it already included OpenNext build and workerd HTTP smoke evidence, so PR 2.5 is considered satisfied unless future runtime changes invalidate it.
-- PR 3 is merged as GitHub PR `#3`.
-- PR 3.5 is active as GitHub PR `#4`; it records the hosted Supabase migration apply and this roadmap amendment.
-- PR 3.6 is not needed if GitHub PR `#4` merges with this document and related roadmap updates.
-- PR 4 and PR 4.5 are now planned as one combined implementation by default. Re-split them only if route coverage must be deferred for scope-control reasons discovered during PR 4.
+- Logical PR 1 is merged as GitHub PR `#1`.
+- Logical PR 2 is merged as GitHub PR `#2`; it already included OpenNext build and workerd HTTP smoke evidence, so logical PR 2.5 is considered satisfied unless future runtime changes invalidate it.
+- Logical PR 3 is merged as GitHub PR `#3`.
+- Logical PR 3.5 is merged as GitHub PR `#4`; it records the hosted Supabase migration apply and this roadmap amendment.
+- Logical PR 3.6 is not needed because GitHub PR `#4` merged with this document and related roadmap updates.
+- Logical PR 4 is implemented in GitHub PR `#5` on `agent/pr4-app-shell-routes`; it includes the former route skeleton/checkpoint scope that was labeled logical PR 4.5.
+- Logical PR 5 begins only after GitHub PR `#5` is reviewed, approved, and merged.
+- Logical PR 4 is the only active internal label for the Ledger Dark UX shell and route skeleton work. Do not refer to the active work as PR 4.5 unless the owner explicitly re-splits it.
 - PR 5 and PR 5.5 are now planned as one combined implementation by default. Re-split them only if demo import/sample isolation proof must be deferred for scope-control reasons discovered during PR 5.
 - PR 7 and PR 7.5 are now planned as one combined implementation by default. Re-split them only if published snapshots/public API must be deferred for scope-control reasons discovered during PR 7.
 - PR 8 and PR 8.5 are now planned as one combined implementation by default. Re-split them only if admin bootstrap/RLS smoke verification must be deferred for scope-control reasons discovered during PR 8.

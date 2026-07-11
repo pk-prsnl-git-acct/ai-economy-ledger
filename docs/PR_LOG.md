@@ -62,6 +62,7 @@
 - Status: draft
 - Pull request: `#5`
 - Branch: `agent/pr4-app-shell-routes`
+- Internal label: logical PR 4; includes the route skeleton checkpoint previously tracked as PR 4.5
 - Purpose: establish the static Ledger Dark design system, reusable trust components, and every required public/admin route before deeper product work
 - Public routes: dashboard, companies, funding, revenue/debt, compute/infrastructure, circularity, methodology, sources, and downloads
 - Admin routes: overview, review queue, sources, companies, import, claims, metric revisions, health, and update log

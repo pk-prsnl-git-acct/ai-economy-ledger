@@ -69,6 +69,7 @@ This document contains durable implementation context for future coding sessions
 
 - The July 2026 amendment adds explicit checkpoint PRs: 2.5 Cloudflare/OpenNext preview smoke, 3.5 Supabase remote migration apply, 3.6 roadmap amendment if needed, and 11 production deploy/domain smoke.
 - PR 4 now absorbs route skeleton and navigation coverage by default. Re-create a separate logical PR 4.5 only if PR 4 needs to ship in two owner-approved parts.
+- The active Ledger Dark route work remains logical PR 4 even though GitHub assigned it PR `#5`; do not rename the internal roadmap scope to PR 5.
 - PR 5 now absorbs demo import and sample isolation verification by default. Re-create a separate logical PR 5.5 only if PR 5 needs to ship in two owner-approved parts.
 - PR 7 now absorbs published snapshots and public API by default. Re-create a separate logical PR 7.5 only if PR 7 needs to ship in two owner-approved parts.
 - PR 8 now absorbs admin bootstrap and RLS smoke verification by default. Re-create a separate logical PR 8.5 only if PR 8 needs to ship in two owner-approved parts.
