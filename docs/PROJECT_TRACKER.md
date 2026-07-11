@@ -5,7 +5,7 @@ Last updated: 2026-07-11
 ## Current state
 
 - Phase: auditable prototype UX
-- Active scope: logical PR 4 — Ledger Dark static shell plus complete route/navigation checkpoint, currently GitHub PR `#5`
+- Active scope: logical PR 4 — Ledger Dark static shell plus complete route/navigation checkpoint, ready for owner review as GitHub PR `#5`
 - Production application: static local Ledger Dark prototype; not deployed
 - Production data: schema foundation applied; no published snapshots yet
 - Repository visibility: public; owner-controlled writes
@@ -22,7 +22,7 @@ Last updated: 2026-07-11
 - PR 2 is merged; its Next.js/OpenNext runtime and Cloudflare preview checks passed, satisfying logical PR 2.5 unless runtime changes invalidate that evidence
 - PR 3 is merged; its reviewed migration is now applied to hosted Supabase
 - PR 3.5 is merged as GitHub PR `#4`
-- Logical PR 4 implementation is active as GitHub PR `#5` on `agent/pr4-app-shell-routes`; this PR includes the former PR 4.5 route skeleton checkpoint scope
+- Logical PR 4 implementation is ready for owner review as GitHub PR `#5` on `agent/pr4-app-shell-routes`; this PR includes the former PR 4.5 route skeleton checkpoint scope
 - GitHub PR `#5` is not logical PR 5; logical PR 5 starts only after logical PR 4 is merged
 - Main requires PRs and resolved review conversations and blocks deletion/force pushes
 - GitHub now requires the `quality` check and requires PR branches to be current with `main`
