@@ -109,3 +109,4 @@ This document contains durable implementation context for future coding sessions
 - Snapshot generation persists drafts only. The review/publish transition remains PR 8 scope.
 - Public Next.js routes are GET-only and call only the two existing `api` RPCs with a publishable key; service-role and secret keys are absent from the adapter and routes.
 - PR 7 makes no schema migration, hosted Supabase write, Cloudflare mutation, production snapshot, or deployment.
+- Logical PR 7 is GitHub PR `#8`; it includes the former PR 7.5 checkpoint scope.
