@@ -12,7 +12,7 @@ The original PR plan correctly established a small, reviewed, one-PR-at-a-time w
 - Stop after each PR or checkpoint and wait for owner approval.
 - Do not start PR 4 until PR 3.5 is reviewed and approved.
 - Do not invent verified financial data or treat sample data as real.
-- Do not broaden checkpoint PRs into feature implementation.
+- Do not broaden checkpoint PRs into feature implementation unless the roadmap explicitly allows that pairing.
 - Do not commit or print secrets.
 - Do not use GitHub Actions as production runtime.
 - Do not change production infrastructure without explicit approval and an audit record.
@@ -30,8 +30,8 @@ GitHub PR numbers do not have to match logical PR labels. The logical labels bel
 | PR 3 | Supabase schema, Drizzle scaffold, RLS, typed data layer | Reviewed migration files and local DB/RLS tests |
 | PR 3.5 | Supabase remote migration apply and verification | Hosted schema applied, RLS/public surface verified |
 | PR 3.6 | Roadmap amendment and checkpoint documentation | Only needed if checkpoint docs are not included in PR 3.5 |
-| PR 4 | Ledger Dark static UX shell from mockups | Sample placeholders only, no production data connection |
-| PR 4.5 | Full required route skeleton and navigation coverage | All public/admin route placeholders exist |
+| PR 4 | Ledger Dark static UX shell from mockups plus full required route skeleton and navigation coverage | Sample placeholders only, no production data connection; all public/admin route placeholders exist |
+| PR 4.5 | Route skeleton and navigation checkpoint, only if PR 4 intentionally ships in two parts | All public/admin route placeholders exist before deeper product work |
 | PR 5 | Sample workbook and CSV import templates | Templates and mappings preserve sample labels |
 | PR 5.5 | Demo import run and sample isolation verification | Sample rows cannot enter verified totals |
 | PR 6 | KPI calculation engine and tests | Pure formulas, methodology docs, confidence/sample tests |
@@ -63,6 +63,7 @@ GitHub PR numbers do not have to match logical PR labels. The logical labels bel
 - PR 3 is merged as GitHub PR `#3`.
 - PR 3.5 is active as GitHub PR `#4`; it records the hosted Supabase migration apply and this roadmap amendment.
 - PR 3.6 is not needed if GitHub PR `#4` merges with this document and related roadmap updates.
+- PR 4 and PR 4.5 are now planned as one combined implementation by default. Re-split them only if route coverage must be deferred for scope-control reasons discovered during PR 4.
 
 ## Required Stop Output
 

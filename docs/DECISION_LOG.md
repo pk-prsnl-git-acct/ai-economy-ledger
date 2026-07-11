@@ -78,3 +78,10 @@ Material decisions use stable identifiers and remain append-only. Reversals refe
 - Status: accepted
 - Decision: Add named checkpoint PRs between large implementation phases: Cloudflare/OpenNext preview smoke, hosted Supabase migration apply, route skeleton, demo import/sample isolation, published snapshot/public API, admin bootstrap/RLS smoke, and production deploy/domain smoke.
 - Rationale: the product needs proof at operational boundaries, not only code review. Checkpoint PRs prevent skipped migrations, unsafe public access, static mock data being mistaken for live data, sample data leaking into verified totals, and production deploys without final smoke evidence.
+
+## DEC-012 — Combine PR 4 and route skeleton coverage by default
+
+- Date: 2026-07-11
+- Status: accepted
+- Decision: Treat the Ledger Dark UX shell and the full required route skeleton/navigation coverage as one default logical PR 4 scope. Keep a separate logical PR 4.5 only when route coverage must be deferred for scope-control reasons discovered during implementation.
+- Rationale: the route skeleton is part of making the shell usable and reviewable. Splitting it by default adds process overhead without much additional risk reduction, while still allowing a follow-up checkpoint if PR 4 becomes too large.
