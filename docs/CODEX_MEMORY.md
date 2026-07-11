@@ -120,3 +120,10 @@ This document contains durable implementation context for future coding sessions
 - `pnpm admin:rls-smoke` verifies anonymous denial, unmapped authenticated isolation, and the mapped reviewer path when `RLS_SMOKE_REVIEWER_USER_ID` is configured.
 - PR 8 makes no schema migration, hosted Supabase mutation by itself, Cloudflare mutation, production role grant, published snapshot, or deployment.
 - Logical PR 8 was merged as GitHub PR `#9`; it includes the former PR 8.5 checkpoint scope.
+
+## Circularity and scenario foundation
+
+- PR 9 circularity analysis changes adjusted flow only through approved, non-sample relationship records linked to exact observations. Graph cycles are reported as signals and do not independently cause deductions.
+- Multiple qualifying edges linked to the same observation deduct it once. Gross flow stays visible, and a zero gross denominator produces a null ratio.
+- Scenario evaluation sorts explicit assumptions, preserves the baseline, reports deltas, and has no database write or publication capability.
+- `ledger.relationships` and `ledger.scenario_runs` are RLS-protected and absent from the anonymous API. Migration `0001_circularity_scenarios.sql` must not be applied remotely without separate owner approval and an apply record.

@@ -15,7 +15,8 @@ const checks = [
       "tests/import-templates.test.mjs",
       "tests/kpi-calculations.test.mjs",
       "tests/publication-runtime.test.mjs",
-      "tests/admin-runtime.test.mjs"
+      "tests/admin-runtime.test.mjs",
+      "tests/circularity-scenarios.test.mjs",
     ]
   ],
   ["validate:data", ["scripts/ci/validate-data.mjs"]]

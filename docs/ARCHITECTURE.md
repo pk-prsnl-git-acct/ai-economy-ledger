@@ -105,6 +105,8 @@ Publication is deliberately two-stage: deterministic draft generation followed b
 
 PR 8 establishes the protected admin runtime boundary. Admin routes are dynamic Server Components that read a Supabase session cookie, verify the token with Supabase Auth using the publishable key, and then check reviewer/admin authorization against `private.app_user_roles` through the server-only database connection. The review queue is read through a dedicated server repository. Browser code never receives service-role or database credentials, and the PR adds explicit bootstrap and RLS smoke scripts without running them against production by default.
 
+PR 9 adds pure `circularity` and `scenario-engine` modules plus reviewed persistence contracts. Circularity analysis consumes approved, non-sample observations and evidence-backed directed relationships, preserves gross flow, deduplicates observation-level adjustments, and reports graph cycles separately from adjustment decisions. Scenario evaluation transforms an in-memory copy of observations with explicit assumptions and returns baseline/scenario/delta output; it cannot overwrite canonical facts or publish a snapshot. Relationship and scenario tables remain inside `ledger`, protected by RLS, and are absent from the anonymous `api` schema.
+
 Local development uses `next dev`; runtime verification builds the OpenNext artifact and smoke-tests it through Wrangler/workerd. The application does not opt into Next.js Edge Runtime because OpenNext Cloudflare targets the Node.js runtime compatibility layer.
 
 See [Decision Log](DECISION_LOG.md) for accepted decisions and trade-offs.

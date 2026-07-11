@@ -38,6 +38,7 @@ Testing protects financial correctness, source lineage, data isolation, authoriz
 ## Critical test inventory
 
 - capital, obligation, gross/net revenue, circularity, and confidence-weighted formulas
+- observation-linked circularity adjustment deduplication, cycle detection, zero-denominator behavior, sample/review isolation, deterministic scenario ordering, and invalid-assumption rejection
 - zero, negative, missing, stale, mixed-currency, and mixed-period inputs
 - source confidence and freshness boundaries
 - sample data excluded from verified totals

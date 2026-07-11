@@ -1,0 +1,2537 @@
+{
+  "id": "f06c0021-c5e2-4468-b215-5927f88561e6",
+  "prevId": "77c4ad06-a0a6-497e-9f76-21c530a4a84d",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "ledger.app_health_checks": {
+      "name": "app_health_checks",
+      "schema": "ledger",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "component": {
+          "name": "component",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "status": {
+          "name": "status",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "checked_at": {
+          "name": "checked_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "latency_ms": {
+          "name": "latency_ms",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "details": {
+          "name": "details",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'{}'::jsonb"
+        }
+      },
+      "indexes": {
+        "app_health_checks_component_checked_idx": {
+          "name": "app_health_checks_component_checked_idx",
+          "columns": [
+            {
+              "expression": "component",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "checked_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "app_health_checks_status": {
+          "name": "app_health_checks_status",
+          "value": "\"ledger\".\"app_health_checks\".\"status\" in ('ok', 'degraded', 'failed')"
+        },
+        "app_health_checks_latency": {
+          "name": "app_health_checks_latency",
+          "value": "\"ledger\".\"app_health_checks\".\"latency_ms\" is null or \"ledger\".\"app_health_checks\".\"latency_ms\" >= 0"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "private.app_user_roles": {
+      "name": "app_user_roles",
+      "schema": "private",
+      "columns": {
+        "user_id": {
+          "name": "user_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "role": {
+          "name": "role",
+          "type": "app_role",
+          "typeSchema": "private",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "granted_by": {
+          "name": "granted_by",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "granted_at": {
+          "name": "granted_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "app_user_roles_user_id_role_pk": {
+          "name": "app_user_roles_user_id_role_pk",
+          "columns": [
+            "user_id",
+            "role"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "ledger.claims": {
+      "name": "claims",
+      "schema": "ledger",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "source_document_id": {
+          "name": "source_document_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "company_id": {
+          "name": "company_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "kind": {
+          "name": "kind",
+          "type": "claim_kind",
+          "typeSchema": "ledger",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "claim_text": {
+          "name": "claim_text",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "asserted_at": {
+          "name": "asserted_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "period_start": {
+          "name": "period_start",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "period_end": {
+          "name": "period_end",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "confidence": {
+          "name": "confidence",
+          "type": "confidence_grade",
+          "typeSchema": "ledger",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'unscored'"
+        },
+        "review_state": {
+          "name": "review_state",
+          "type": "review_state",
+          "typeSchema": "ledger",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'pending'"
+        },
+        "review_notes": {
+          "name": "review_notes",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_by": {
+          "name": "created_by",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "reviewed_by": {
+          "name": "reviewed_by",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "reviewed_at": {
+          "name": "reviewed_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_sample": {
+          "name": "is_sample",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "claims_document_idx": {
+          "name": "claims_document_idx",
+          "columns": [
+            {
+              "expression": "source_document_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "claims_company_state_idx": {
+          "name": "claims_company_state_idx",
+          "columns": [
+            {
+              "expression": "company_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "review_state",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "claims_source_document_id_source_documents_id_fk": {
+          "name": "claims_source_document_id_source_documents_id_fk",
+          "tableFrom": "claims",
+          "tableTo": "source_documents",
+          "schemaTo": "ledger",
+          "columnsFrom": [
+            "source_document_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "claims_company_id_companies_id_fk": {
+          "name": "claims_company_id_companies_id_fk",
+          "tableFrom": "claims",
+          "tableTo": "companies",
+          "schemaTo": "ledger",
+          "columnsFrom": [
+            "company_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "claims_source_required": {
+          "name": "claims_source_required",
+          "value": "\"ledger\".\"claims\".\"kind\" = 'assumption' or \"ledger\".\"claims\".\"source_document_id\" is not null"
+        },
+        "claims_period_order": {
+          "name": "claims_period_order",
+          "value": "\"ledger\".\"claims\".\"period_start\" is null or \"ledger\".\"claims\".\"period_end\" is null or \"ledger\".\"claims\".\"period_start\" <= \"ledger\".\"claims\".\"period_end\""
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "ledger.companies": {
+      "name": "companies",
+      "schema": "ledger",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "slug": {
+          "name": "slug",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "legal_name": {
+          "name": "legal_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "display_name": {
+          "name": "display_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "jurisdiction_code": {
+          "name": "jurisdiction_code",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "website_url": {
+          "name": "website_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "lei": {
+          "name": "lei",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "status": {
+          "name": "status",
+          "type": "company_status",
+          "typeSchema": "ledger",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'active'"
+        },
+        "is_sample": {
+          "name": "is_sample",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "companies_slug_key": {
+          "name": "companies_slug_key",
+          "columns": [
+            {
+              "expression": "slug",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "companies_display_name_idx": {
+          "name": "companies_display_name_idx",
+          "columns": [
+            {
+              "expression": "display_name",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "companies_slug_format": {
+          "name": "companies_slug_format",
+          "value": "\"ledger\".\"companies\".\"slug\" ~ '^[a-z0-9]+(?:-[a-z0-9]+)*$'"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "ledger.company_aliases": {
+      "name": "company_aliases",
+      "schema": "ledger",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "company_id": {
+          "name": "company_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "alias": {
+          "name": "alias",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "alias_type": {
+          "name": "alias_type",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'name'"
+        },
+        "is_sample": {
+          "name": "is_sample",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "company_aliases_company_alias_key": {
+          "name": "company_aliases_company_alias_key",
+          "columns": [
+            {
+              "expression": "company_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "alias",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "company_aliases_alias_idx": {
+          "name": "company_aliases_alias_idx",
+          "columns": [
+            {
+              "expression": "alias",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "company_aliases_company_id_companies_id_fk": {
+          "name": "company_aliases_company_id_companies_id_fk",
+          "tableFrom": "company_aliases",
+          "tableTo": "companies",
+          "schemaTo": "ledger",
+          "columnsFrom": [
+            "company_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "ledger.methodology_versions": {
+      "name": "methodology_versions",
+      "schema": "ledger",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "status": {
+          "name": "status",
+          "type": "methodology_status",
+          "typeSchema": "ledger",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'draft'"
+        },
+        "summary": {
+          "name": "summary",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "effective_at": {
+          "name": "effective_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_by": {
+          "name": "created_by",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "ledger.metric_definitions": {
+      "name": "metric_definitions",
+      "schema": "ledger",
+      "columns": {
+        "key": {
+          "name": "key",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "label": {
+          "name": "label",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "value_type": {
+          "name": "value_type",
+          "type": "value_type",
+          "typeSchema": "ledger",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "default_unit": {
+          "name": "default_unit",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "methodology_version_id": {
+          "name": "methodology_version_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "is_active": {
+          "name": "is_active",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "metric_definitions_methodology_version_id_methodology_versions_id_fk": {
+          "name": "metric_definitions_methodology_version_id_methodology_versions_id_fk",
+          "tableFrom": "metric_definitions",
+          "tableTo": "methodology_versions",
+          "schemaTo": "ledger",
+          "columnsFrom": [
+            "methodology_version_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "ledger.metric_observations": {
+      "name": "metric_observations",
+      "schema": "ledger",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "company_id": {
+          "name": "company_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "metric_key": {
+          "name": "metric_key",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "claim_id": {
+          "name": "claim_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "numeric_value": {
+          "name": "numeric_value",
+          "type": "numeric(30, 8)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "text_value": {
+          "name": "text_value",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "boolean_value": {
+          "name": "boolean_value",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "unit": {
+          "name": "unit",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "reported_currency": {
+          "name": "reported_currency",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "normalized_value": {
+          "name": "normalized_value",
+          "type": "numeric(30, 8)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "normalized_currency": {
+          "name": "normalized_currency",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "period_type": {
+          "name": "period_type",
+          "type": "period_type",
+          "typeSchema": "ledger",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'unspecified'"
+        },
+        "period_start": {
+          "name": "period_start",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "period_end": {
+          "name": "period_end",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "as_of_date": {
+          "name": "as_of_date",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "recognition_type": {
+          "name": "recognition_type",
+          "type": "recognition_type",
+          "typeSchema": "ledger",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "cash_flow_type": {
+          "name": "cash_flow_type",
+          "type": "cash_flow_type",
+          "typeSchema": "ledger",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "confidence": {
+          "name": "confidence",
+          "type": "confidence_grade",
+          "typeSchema": "ledger",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'unscored'"
+        },
+        "review_state": {
+          "name": "review_state",
+          "type": "review_state",
+          "typeSchema": "ledger",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'pending'"
+        },
+        "methodology_version_id": {
+          "name": "methodology_version_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "supersedes_observation_id": {
+          "name": "supersedes_observation_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "revision_reason": {
+          "name": "revision_reason",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_by": {
+          "name": "created_by",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "reviewed_by": {
+          "name": "reviewed_by",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "reviewed_at": {
+          "name": "reviewed_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_sample": {
+          "name": "is_sample",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "metric_observations_company_metric_period_idx": {
+          "name": "metric_observations_company_metric_period_idx",
+          "columns": [
+            {
+              "expression": "company_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "metric_key",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "period_end",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "metric_observations_review_state_idx": {
+          "name": "metric_observations_review_state_idx",
+          "columns": [
+            {
+              "expression": "review_state",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "metric_observations_claim_idx": {
+          "name": "metric_observations_claim_idx",
+          "columns": [
+            {
+              "expression": "claim_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "metric_observations_supersedes_key": {
+          "name": "metric_observations_supersedes_key",
+          "columns": [
+            {
+              "expression": "supersedes_observation_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "where": "\"ledger\".\"metric_observations\".\"review_state\" = 'approved'",
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "metric_observations_company_id_companies_id_fk": {
+          "name": "metric_observations_company_id_companies_id_fk",
+          "tableFrom": "metric_observations",
+          "tableTo": "companies",
+          "schemaTo": "ledger",
+          "columnsFrom": [
+            "company_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "metric_observations_metric_key_metric_definitions_key_fk": {
+          "name": "metric_observations_metric_key_metric_definitions_key_fk",
+          "tableFrom": "metric_observations",
+          "tableTo": "metric_definitions",
+          "schemaTo": "ledger",
+          "columnsFrom": [
+            "metric_key"
+          ],
+          "columnsTo": [
+            "key"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "metric_observations_claim_id_claims_id_fk": {
+          "name": "metric_observations_claim_id_claims_id_fk",
+          "tableFrom": "metric_observations",
+          "tableTo": "claims",
+          "schemaTo": "ledger",
+          "columnsFrom": [
+            "claim_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "metric_observations_methodology_version_id_methodology_versions_id_fk": {
+          "name": "metric_observations_methodology_version_id_methodology_versions_id_fk",
+          "tableFrom": "metric_observations",
+          "tableTo": "methodology_versions",
+          "schemaTo": "ledger",
+          "columnsFrom": [
+            "methodology_version_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "metric_observations_supersedes_observation_id_metric_observations_id_fk": {
+          "name": "metric_observations_supersedes_observation_id_metric_observations_id_fk",
+          "tableFrom": "metric_observations",
+          "tableTo": "metric_observations",
+          "schemaTo": "ledger",
+          "columnsFrom": [
+            "supersedes_observation_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "metric_observations_one_value": {
+          "name": "metric_observations_one_value",
+          "value": "num_nonnulls(\"ledger\".\"metric_observations\".\"numeric_value\", \"ledger\".\"metric_observations\".\"text_value\", \"ledger\".\"metric_observations\".\"boolean_value\") = 1"
+        },
+        "metric_observations_period_order": {
+          "name": "metric_observations_period_order",
+          "value": "\"ledger\".\"metric_observations\".\"period_start\" is null or \"ledger\".\"metric_observations\".\"period_end\" is null or \"ledger\".\"metric_observations\".\"period_start\" <= \"ledger\".\"metric_observations\".\"period_end\""
+        },
+        "metric_observations_revision_reason": {
+          "name": "metric_observations_revision_reason",
+          "value": "\"ledger\".\"metric_observations\".\"supersedes_observation_id\" is null or nullif(btrim(\"ledger\".\"metric_observations\".\"revision_reason\"), '') is not null"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "ledger.metric_revisions": {
+      "name": "metric_revisions",
+      "schema": "ledger",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "prior_observation_id": {
+          "name": "prior_observation_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "revised_observation_id": {
+          "name": "revised_observation_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "reason": {
+          "name": "reason",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_by": {
+          "name": "created_by",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "metric_revisions_revised_key": {
+          "name": "metric_revisions_revised_key",
+          "columns": [
+            {
+              "expression": "revised_observation_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "metric_revisions_prior_observation_id_metric_observations_id_fk": {
+          "name": "metric_revisions_prior_observation_id_metric_observations_id_fk",
+          "tableFrom": "metric_revisions",
+          "tableTo": "metric_observations",
+          "schemaTo": "ledger",
+          "columnsFrom": [
+            "prior_observation_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "metric_revisions_revised_observation_id_metric_observations_id_fk": {
+          "name": "metric_revisions_revised_observation_id_metric_observations_id_fk",
+          "tableFrom": "metric_revisions",
+          "tableTo": "metric_observations",
+          "schemaTo": "ledger",
+          "columnsFrom": [
+            "revised_observation_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "metric_revisions_distinct_observations": {
+          "name": "metric_revisions_distinct_observations",
+          "value": "\"ledger\".\"metric_revisions\".\"prior_observation_id\" <> \"ledger\".\"metric_revisions\".\"revised_observation_id\""
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "ledger.published_snapshots": {
+      "name": "published_snapshots",
+      "schema": "ledger",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "slug": {
+          "name": "slug",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "version": {
+          "name": "version",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "state": {
+          "name": "state",
+          "type": "publication_state",
+          "typeSchema": "ledger",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'draft'"
+        },
+        "methodology_version_id": {
+          "name": "methodology_version_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "payload": {
+          "name": "payload",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "content_sha256": {
+          "name": "content_sha256",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "source_count": {
+          "name": "source_count",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "observation_count": {
+          "name": "observation_count",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "generated_by": {
+          "name": "generated_by",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "generated_at": {
+          "name": "generated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "published_at": {
+          "name": "published_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "withdrawn_at": {
+          "name": "withdrawn_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_sample": {
+          "name": "is_sample",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "published_snapshots_slug_version_key": {
+          "name": "published_snapshots_slug_version_key",
+          "columns": [
+            {
+              "expression": "slug",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "version",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "published_snapshots_public_idx": {
+          "name": "published_snapshots_public_idx",
+          "columns": [
+            {
+              "expression": "slug",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "state",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "published_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "published_snapshots_methodology_version_id_methodology_versions_id_fk": {
+          "name": "published_snapshots_methodology_version_id_methodology_versions_id_fk",
+          "tableFrom": "published_snapshots",
+          "tableTo": "methodology_versions",
+          "schemaTo": "ledger",
+          "columnsFrom": [
+            "methodology_version_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "published_snapshots_positive_version": {
+          "name": "published_snapshots_positive_version",
+          "value": "\"ledger\".\"published_snapshots\".\"version\" > 0"
+        },
+        "published_snapshots_sha256_format": {
+          "name": "published_snapshots_sha256_format",
+          "value": "\"ledger\".\"published_snapshots\".\"content_sha256\" ~ '^[0-9a-f]{64}$'"
+        },
+        "published_snapshots_publishable": {
+          "name": "published_snapshots_publishable",
+          "value": "\"ledger\".\"published_snapshots\".\"state\" <> 'published' or (\"ledger\".\"published_snapshots\".\"published_at\" is not null and not \"ledger\".\"published_snapshots\".\"is_sample\")"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "ledger.relationships": {
+      "name": "relationships",
+      "schema": "ledger",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "from_company_id": {
+          "name": "from_company_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "to_company_id": {
+          "name": "to_company_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "relationship_type": {
+          "name": "relationship_type",
+          "type": "relationship_type",
+          "typeSchema": "ledger",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "claim_id": {
+          "name": "claim_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "observation_id": {
+          "name": "observation_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "amount": {
+          "name": "amount",
+          "type": "numeric(30, 8)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "currency": {
+          "name": "currency",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "period_start": {
+          "name": "period_start",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "period_end": {
+          "name": "period_end",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "confidence": {
+          "name": "confidence",
+          "type": "confidence_grade",
+          "typeSchema": "ledger",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'unscored'"
+        },
+        "review_state": {
+          "name": "review_state",
+          "type": "review_state",
+          "typeSchema": "ledger",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'pending'"
+        },
+        "is_related_party": {
+          "name": "is_related_party",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "is_circular": {
+          "name": "is_circular",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "is_vendor_financed": {
+          "name": "is_vendor_financed",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "methodology_version_id": {
+          "name": "methodology_version_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_by": {
+          "name": "created_by",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "reviewed_by": {
+          "name": "reviewed_by",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "reviewed_at": {
+          "name": "reviewed_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_sample": {
+          "name": "is_sample",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "relationships_from_to_idx": {
+          "name": "relationships_from_to_idx",
+          "columns": [
+            {
+              "expression": "from_company_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "to_company_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "relationships_observation_idx": {
+          "name": "relationships_observation_idx",
+          "columns": [
+            {
+              "expression": "observation_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "relationships_review_state_idx": {
+          "name": "relationships_review_state_idx",
+          "columns": [
+            {
+              "expression": "review_state",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "relationships_from_company_id_companies_id_fk": {
+          "name": "relationships_from_company_id_companies_id_fk",
+          "tableFrom": "relationships",
+          "tableTo": "companies",
+          "schemaTo": "ledger",
+          "columnsFrom": [
+            "from_company_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "relationships_to_company_id_companies_id_fk": {
+          "name": "relationships_to_company_id_companies_id_fk",
+          "tableFrom": "relationships",
+          "tableTo": "companies",
+          "schemaTo": "ledger",
+          "columnsFrom": [
+            "to_company_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "relationships_claim_id_claims_id_fk": {
+          "name": "relationships_claim_id_claims_id_fk",
+          "tableFrom": "relationships",
+          "tableTo": "claims",
+          "schemaTo": "ledger",
+          "columnsFrom": [
+            "claim_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "relationships_observation_id_metric_observations_id_fk": {
+          "name": "relationships_observation_id_metric_observations_id_fk",
+          "tableFrom": "relationships",
+          "tableTo": "metric_observations",
+          "schemaTo": "ledger",
+          "columnsFrom": [
+            "observation_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "relationships_methodology_version_id_methodology_versions_id_fk": {
+          "name": "relationships_methodology_version_id_methodology_versions_id_fk",
+          "tableFrom": "relationships",
+          "tableTo": "methodology_versions",
+          "schemaTo": "ledger",
+          "columnsFrom": [
+            "methodology_version_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "relationships_distinct_companies": {
+          "name": "relationships_distinct_companies",
+          "value": "\"ledger\".\"relationships\".\"from_company_id\" <> \"ledger\".\"relationships\".\"to_company_id\""
+        },
+        "relationships_period_order": {
+          "name": "relationships_period_order",
+          "value": "\"ledger\".\"relationships\".\"period_start\" is null or \"ledger\".\"relationships\".\"period_end\" is null or \"ledger\".\"relationships\".\"period_start\" <= \"ledger\".\"relationships\".\"period_end\""
+        },
+        "relationships_amount_currency": {
+          "name": "relationships_amount_currency",
+          "value": "\"ledger\".\"relationships\".\"amount\" is null or nullif(btrim(\"ledger\".\"relationships\".\"currency\"), '') is not null"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "ledger.review_queue": {
+      "name": "review_queue",
+      "schema": "ledger",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "subject_type": {
+          "name": "subject_type",
+          "type": "review_subject_type",
+          "typeSchema": "ledger",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "claim_id": {
+          "name": "claim_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "observation_id": {
+          "name": "observation_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "snapshot_id": {
+          "name": "snapshot_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "priority": {
+          "name": "priority",
+          "type": "review_priority",
+          "typeSchema": "ledger",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'normal'"
+        },
+        "state": {
+          "name": "state",
+          "type": "review_state",
+          "typeSchema": "ledger",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'pending'"
+        },
+        "assigned_to": {
+          "name": "assigned_to",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "due_at": {
+          "name": "due_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "notes": {
+          "name": "notes",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "resolved_at": {
+          "name": "resolved_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "review_queue_state_priority_idx": {
+          "name": "review_queue_state_priority_idx",
+          "columns": [
+            {
+              "expression": "state",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "priority",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "review_queue_claim_id_claims_id_fk": {
+          "name": "review_queue_claim_id_claims_id_fk",
+          "tableFrom": "review_queue",
+          "tableTo": "claims",
+          "schemaTo": "ledger",
+          "columnsFrom": [
+            "claim_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "review_queue_observation_id_metric_observations_id_fk": {
+          "name": "review_queue_observation_id_metric_observations_id_fk",
+          "tableFrom": "review_queue",
+          "tableTo": "metric_observations",
+          "schemaTo": "ledger",
+          "columnsFrom": [
+            "observation_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "review_queue_snapshot_id_published_snapshots_id_fk": {
+          "name": "review_queue_snapshot_id_published_snapshots_id_fk",
+          "tableFrom": "review_queue",
+          "tableTo": "published_snapshots",
+          "schemaTo": "ledger",
+          "columnsFrom": [
+            "snapshot_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "review_queue_one_subject": {
+          "name": "review_queue_one_subject",
+          "value": "num_nonnulls(\"ledger\".\"review_queue\".\"claim_id\", \"ledger\".\"review_queue\".\"observation_id\", \"ledger\".\"review_queue\".\"snapshot_id\") = 1"
+        },
+        "review_queue_subject_matches": {
+          "name": "review_queue_subject_matches",
+          "value": "(\"ledger\".\"review_queue\".\"subject_type\" = 'claim' and \"ledger\".\"review_queue\".\"claim_id\" is not null)\n        or (\"ledger\".\"review_queue\".\"subject_type\" = 'observation' and \"ledger\".\"review_queue\".\"observation_id\" is not null)\n        or (\"ledger\".\"review_queue\".\"subject_type\" = 'snapshot' and \"ledger\".\"review_queue\".\"snapshot_id\" is not null)"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "ledger.scenario_runs": {
+      "name": "scenario_runs",
+      "schema": "ledger",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "scenario_key": {
+          "name": "scenario_key",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "methodology_version_id": {
+          "name": "methodology_version_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "state": {
+          "name": "state",
+          "type": "scenario_run_state",
+          "typeSchema": "ledger",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'draft'"
+        },
+        "assumptions": {
+          "name": "assumptions",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'[]'::jsonb"
+        },
+        "result": {
+          "name": "result",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "content_sha256": {
+          "name": "content_sha256",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_by": {
+          "name": "created_by",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "completed_at": {
+          "name": "completed_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_sample": {
+          "name": "is_sample",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "scenario_runs_key_created_idx": {
+          "name": "scenario_runs_key_created_idx",
+          "columns": [
+            {
+              "expression": "scenario_key",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "scenario_runs_methodology_version_id_methodology_versions_id_fk": {
+          "name": "scenario_runs_methodology_version_id_methodology_versions_id_fk",
+          "tableFrom": "scenario_runs",
+          "tableTo": "methodology_versions",
+          "schemaTo": "ledger",
+          "columnsFrom": [
+            "methodology_version_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "scenario_runs_key_format": {
+          "name": "scenario_runs_key_format",
+          "value": "\"ledger\".\"scenario_runs\".\"scenario_key\" ~ '^[a-z0-9]+(?:-[a-z0-9]+)*$'"
+        },
+        "scenario_runs_sha256_format": {
+          "name": "scenario_runs_sha256_format",
+          "value": "\"ledger\".\"scenario_runs\".\"content_sha256\" is null or \"ledger\".\"scenario_runs\".\"content_sha256\" ~ '^[0-9a-f]{64}$'"
+        },
+        "scenario_runs_completed_shape": {
+          "name": "scenario_runs_completed_shape",
+          "value": "\"ledger\".\"scenario_runs\".\"state\" <> 'completed' or (\"ledger\".\"scenario_runs\".\"result\" is not null and \"ledger\".\"scenario_runs\".\"content_sha256\" is not null and \"ledger\".\"scenario_runs\".\"completed_at\" is not null)"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "ledger.source_documents": {
+      "name": "source_documents",
+      "schema": "ledger",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "source_registry_id": {
+          "name": "source_registry_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "title": {
+          "name": "title",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "document_url": {
+          "name": "document_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "published_at": {
+          "name": "published_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "accessed_at": {
+          "name": "accessed_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "content_sha256": {
+          "name": "content_sha256",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "storage_locator": {
+          "name": "storage_locator",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "excerpt": {
+          "name": "excerpt",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "captured_by": {
+          "name": "captured_by",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_sample": {
+          "name": "is_sample",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "source_documents_url_hash_key": {
+          "name": "source_documents_url_hash_key",
+          "columns": [
+            {
+              "expression": "document_url",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "content_sha256",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "source_documents_registry_idx": {
+          "name": "source_documents_registry_idx",
+          "columns": [
+            {
+              "expression": "source_registry_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "source_documents_source_registry_id_source_registry_id_fk": {
+          "name": "source_documents_source_registry_id_source_registry_id_fk",
+          "tableFrom": "source_documents",
+          "tableTo": "source_registry",
+          "schemaTo": "ledger",
+          "columnsFrom": [
+            "source_registry_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {
+        "source_documents_sha256_format": {
+          "name": "source_documents_sha256_format",
+          "value": "\"ledger\".\"source_documents\".\"content_sha256\" is null or \"ledger\".\"source_documents\".\"content_sha256\" ~ '^[0-9a-f]{64}$'"
+        }
+      },
+      "isRLSEnabled": false
+    },
+    "ledger.source_registry": {
+      "name": "source_registry",
+      "schema": "ledger",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "publisher": {
+          "name": "publisher",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "source_type": {
+          "name": "source_type",
+          "type": "source_type",
+          "typeSchema": "ledger",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "canonical_url": {
+          "name": "canonical_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "license_status": {
+          "name": "license_status",
+          "type": "license_status",
+          "typeSchema": "ledger",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'unknown'"
+        },
+        "redistribution_allowed": {
+          "name": "redistribution_allowed",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "license_notes": {
+          "name": "license_notes",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "license_reviewed_at": {
+          "name": "license_reviewed_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "is_sample": {
+          "name": "is_sample",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "source_registry_canonical_url_key": {
+          "name": "source_registry_canonical_url_key",
+          "columns": [
+            {
+              "expression": "canonical_url",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "ledger.update_log": {
+      "name": "update_log",
+      "schema": "ledger",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "event_type": {
+          "name": "event_type",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "subject_type": {
+          "name": "subject_type",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "subject_id": {
+          "name": "subject_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "actor_id": {
+          "name": "actor_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "details": {
+          "name": "details",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'{}'::jsonb"
+        },
+        "occurred_at": {
+          "name": "occurred_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "update_log_subject_idx": {
+          "name": "update_log_subject_idx",
+          "columns": [
+            {
+              "expression": "subject_type",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "subject_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "occurred_at",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {
+    "private.app_role": {
+      "name": "app_role",
+      "schema": "private",
+      "values": [
+        "reviewer",
+        "admin"
+      ]
+    },
+    "ledger.cash_flow_type": {
+      "name": "cash_flow_type",
+      "schema": "ledger",
+      "values": [
+        "equity",
+        "debt",
+        "grant",
+        "project_finance",
+        "cloud_credit",
+        "capex",
+        "lease",
+        "power_obligation",
+        "recognized_revenue",
+        "run_rate_revenue",
+        "customer_prepayment",
+        "vendor_financing",
+        "other"
+      ]
+    },
+    "ledger.claim_kind": {
+      "name": "claim_kind",
+      "schema": "ledger",
+      "values": [
+        "fact",
+        "estimate",
+        "commitment",
+        "assumption"
+      ]
+    },
+    "ledger.company_status": {
+      "name": "company_status",
+      "schema": "ledger",
+      "values": [
+        "active",
+        "acquired",
+        "inactive",
+        "unknown"
+      ]
+    },
+    "ledger.confidence_grade": {
+      "name": "confidence_grade",
+      "schema": "ledger",
+      "values": [
+        "high",
+        "medium",
+        "low",
+        "unscored"
+      ]
+    },
+    "ledger.license_status": {
+      "name": "license_status",
+      "schema": "ledger",
+      "values": [
+        "permitted",
+        "attribution_required",
+        "restricted",
+        "unknown"
+      ]
+    },
+    "ledger.methodology_status": {
+      "name": "methodology_status",
+      "schema": "ledger",
+      "values": [
+        "draft",
+        "active",
+        "retired"
+      ]
+    },
+    "ledger.period_type": {
+      "name": "period_type",
+      "schema": "ledger",
+      "values": [
+        "instant",
+        "day",
+        "month",
+        "quarter",
+        "half_year",
+        "year",
+        "multi_year",
+        "run_rate",
+        "unspecified"
+      ]
+    },
+    "ledger.publication_state": {
+      "name": "publication_state",
+      "schema": "ledger",
+      "values": [
+        "draft",
+        "published",
+        "withdrawn"
+      ]
+    },
+    "ledger.recognition_type": {
+      "name": "recognition_type",
+      "schema": "ledger",
+      "values": [
+        "announced",
+        "committed",
+        "received",
+        "recognized",
+        "run_rate",
+        "estimated",
+        "face_value",
+        "cash_equivalent"
+      ]
+    },
+    "ledger.relationship_type": {
+      "name": "relationship_type",
+      "schema": "ledger",
+      "values": [
+        "investor",
+        "vendor",
+        "customer",
+        "cloud",
+        "compute",
+        "data_center",
+        "subsidiary",
+        "partner",
+        "lender",
+        "borrower",
+        "other"
+      ]
+    },
+    "ledger.review_priority": {
+      "name": "review_priority",
+      "schema": "ledger",
+      "values": [
+        "low",
+        "normal",
+        "high",
+        "urgent"
+      ]
+    },
+    "ledger.review_state": {
+      "name": "review_state",
+      "schema": "ledger",
+      "values": [
+        "sample",
+        "pending",
+        "approved",
+        "rejected",
+        "needs_more_sources",
+        "stale",
+        "superseded"
+      ]
+    },
+    "ledger.review_subject_type": {
+      "name": "review_subject_type",
+      "schema": "ledger",
+      "values": [
+        "claim",
+        "observation",
+        "snapshot"
+      ]
+    },
+    "ledger.scenario_run_state": {
+      "name": "scenario_run_state",
+      "schema": "ledger",
+      "values": [
+        "draft",
+        "completed",
+        "failed"
+      ]
+    },
+    "ledger.source_type": {
+      "name": "source_type",
+      "schema": "ledger",
+      "values": [
+        "regulatory_filing",
+        "company_release",
+        "official_dataset",
+        "court_record",
+        "research_report",
+        "news",
+        "transcript",
+        "website",
+        "other"
+      ]
+    },
+    "ledger.value_type": {
+      "name": "value_type",
+      "schema": "ledger",
+      "values": [
+        "monetary",
+        "percentage",
+        "count",
+        "ratio",
+        "text",
+        "boolean"
+      ]
+    }
+  },
+  "schemas": {
+    "ledger": "ledger",
+    "private": "private"
+  },
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

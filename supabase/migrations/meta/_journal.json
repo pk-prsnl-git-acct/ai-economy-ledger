@@ -8,6 +8,13 @@
       "when": 1783701607029,
       "tag": "0000_ledger_foundation",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1783791328385,
+      "tag": "0001_circularity_scenarios",
+      "breakpoints": true
     }
   ]
 }

@@ -127,3 +127,13 @@
 - Data/schema impact: none; uses the merged PR 3 schema without migration changes
 - Deployment impact: none; no production role grant, Supabase mutation, published snapshot, Cloudflare change, or deployment
 - GitHub: required `quality` check passed; merged by rebase with the documented solo-maintainer administrator bypass
+
+## PR 9 — Circularity and scenario engine
+
+- Status: implementation complete; GitHub review pending
+- Internal label: logical PR 9
+- Purpose: make relationship-driven circularity adjustments auditable and add deterministic, baseline-preserving scenario analysis
+- Scope: typed relationship/scenario schema; reviewed migration; RLS policies; pure circularity analysis; directed-cycle signals; deterministic scenario operators; tests and methodology/architecture records
+- Requirements enhancement: topology is a signal only, adjustment requires an approved non-sample relationship linked to an observation, duplicate edges cannot double-subtract, zero gross has an explicit null ratio, and scenarios cannot mutate facts or publish
+- Data/schema impact: adds `ledger.relationships`, `ledger.scenario_runs`, related enums, triggers, grants, and RLS through migration `0001_circularity_scenarios.sql`; hosted migration is not applied by this PR
+- Deployment impact: none; no Supabase apply, Cloudflare mutation, snapshot publication, or production deployment
