@@ -103,7 +103,7 @@
 
 ## PR 7 — Publication runtime and read-only public API
 
-- Status: draft; implementation complete and awaiting review
+- Status: merged
 - Pull request: `#8`
 - Branch: `agent/pr7-publication-runtime`
 - Purpose: wire reviewed source, claim, observation, confidence, freshness, revision, KPI, and snapshot contracts into an auditable publication runtime
@@ -112,3 +112,4 @@
 - Verification: unit and contract tests cover eligibility, leakage prevention, confidence/freshness, deterministic ordering/hash, repository lineage, draft-only persistence, publishable-key RPC use, and absence of write routes
 - Data/schema impact: none; uses the merged PR 3 schema and RPCs without migration changes
 - Deployment impact: none; no production snapshot, Supabase mutation, Cloudflare change, or deployment
+- GitHub: required `quality` check passed; draft was marked ready and merged by rebase with the documented solo-maintainer administrator bypass

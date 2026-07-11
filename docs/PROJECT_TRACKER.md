@@ -5,7 +5,7 @@ Last updated: 2026-07-11
 ## Current state
 
 - Phase: auditable prototype planning
-- Active scope: logical PR 7 is open for review as GitHub PR `#8`
+- Active scope: logical PR 8 is next; logical PR 7 merged as GitHub PR `#8`
 - Production application: static local Ledger Dark prototype; not deployed
 - Production data: schema foundation applied; no published snapshots yet
 - Repository visibility: public; owner-controlled writes
@@ -25,7 +25,7 @@ Last updated: 2026-07-11
 - PR 4 is merged as GitHub PR `#5`; it includes the former PR 4.5 route skeleton checkpoint scope
 - PR 5 is merged as GitHub PR `#6`; it includes the former PR 5.5 demo import/sample isolation checkpoint scope
 - PR 6 is merged as GitHub PR `#7`
-- PR 7 is open as GitHub PR `#8` and combines the former PR 7.5 checkpoint scope
+- PR 7 is merged as GitHub PR `#8` and combines the former PR 7.5 checkpoint scope
 - Main requires PRs and resolved review conversations and blocks deletion/force pushes
 - GitHub now requires the `quality` check and requires PR branches to be current with `main`
 - The ruleset still requires one approval; owner-authored PRs use the administrator bypass until another maintainer can approve them
@@ -70,4 +70,4 @@ Last updated: 2026-07-11
 
 ## Next decision gate
 
-Review logical PR 7 and its required `quality` check. Do not begin logical PR 8 until PR 7 is merged and post-merge tracking is synchronized.
+Logical PR 7 is merged and synchronized. Logical PR 8 is the next implementation gate.
