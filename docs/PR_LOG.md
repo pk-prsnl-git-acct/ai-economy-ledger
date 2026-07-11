@@ -46,8 +46,8 @@
 
 ## PR 3.5 — Production Supabase migration apply record
 
-- Status: ready for review
-- Pull request: pending branch publish
+- Status: draft
+- Pull request: `#4`
 - Branch: `agent/pr3_5-prod-supabase-apply`
 - Purpose: apply the already-reviewed PR 3 migration to the existing hosted Supabase project and record the live verification outcome
 - Target: Supabase project ref `vupwphakeyvvhaoxuvuw`
