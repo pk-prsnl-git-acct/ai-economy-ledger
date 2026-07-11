@@ -137,7 +137,8 @@
 - Purpose: make relationship-driven circularity adjustments auditable and add deterministic, baseline-preserving scenario analysis
 - Scope: typed relationship/scenario schema; reviewed migration; RLS policies; pure circularity analysis; directed-cycle signals; deterministic scenario operators; tests and methodology/architecture records
 - Requirements enhancement: topology is a signal only, adjustment requires an approved non-sample relationship linked to an observation, duplicate edges cannot double-subtract, zero gross has an explicit null ratio, and scenarios cannot mutate facts or publish
-- Data/schema impact: adds `ledger.relationships`, `ledger.scenario_runs`, related enums, triggers, grants, and RLS through migration `0001_circularity_scenarios.sql`; hosted migration is not applied by this PR
-- Deployment impact: none; no Supabase apply, Cloudflare mutation, snapshot publication, or production deployment
+- Data/schema impact: adds `ledger.relationships`, `ledger.scenario_runs`, related enums, triggers, grants, and RLS through migration `0001_circularity_scenarios.sql`; the reviewed migration was later applied to hosted Supabase on 2026-07-11 under ignored local private environment values only
+- Deployment impact: no Cloudflare mutation, snapshot publication, or production deployment; hosted Supabase remote history now includes `0001`
 - Verification: 46 tests, strict TypeScript, lint, Drizzle migration check, data validation, OpenNext Cloudflare build, workerd preview smoke, and required GitHub `quality` check passed
+- Hosted follow-up verification: remote migration history includes `0001`; `ledger.relationships` and `ledger.scenario_runs` exist; RLS is enabled on both; `anon` still has zero table grants and only the two intended `api` RPC execute grants; anonymous REST reads/writes to the new tables fail; read-only health query succeeded; no service-role key reference was found in browser-facing code
 - GitHub: merged by rebase with the documented solo-maintainer administrator bypass

@@ -4,7 +4,7 @@
 
 The Cloudflare/OpenNext runtime is configured and verified locally. Nothing has been deployed, no Worker has been created, and DNS remains unchanged.
 
-Hosted Supabase project `vupwphakeyvvhaoxuvuw` was migrated on 2026-07-11 by applying the reviewed `0000_ledger_foundation.sql` migration from repository history. No additional schema changes were introduced beyond the merged PR 3 migration files.
+Hosted Supabase project `vupwphakeyvvhaoxuvuw` was migrated on 2026-07-11 by applying the reviewed `0000_ledger_foundation.sql` and `0001_circularity_scenarios.sql` migrations from repository history. No additional schema changes were introduced beyond the merged PR 3 and PR 9 migration files.
 
 ## Environments
 
@@ -69,15 +69,15 @@ For a database release, first configure hosted Data API exposed schemas to `api`
 
 ## Hosted Supabase release record
 
-Production database foundation was applied to project ref `vupwphakeyvvhaoxuvuw` on 2026-07-11 using local private environment values only.
+Production database foundation and the PR 9 relationship/scenario follow-up were applied to project ref `vupwphakeyvvhaoxuvuw` on 2026-07-11 using local private environment values only.
 
-- Applied migration history: `0000_ledger_foundation.sql`
-- Remote migration history now includes version `0000`
-- Expected `ledger` tables exist and `private.app_user_roles` exists
-- RLS is enabled on all expected `ledger` tables and `private.app_user_roles`
+- Applied migration history: `0000_ledger_foundation.sql`, `0001_circularity_scenarios.sql`
+- Remote migration history now includes versions `0000` and `0001`
+- Expected `ledger` tables exist, including `relationships` and `scenario_runs`, and `private.app_user_roles` exists
+- RLS is enabled on all expected `ledger` tables, including `relationships` and `scenario_runs`, and on `private.app_user_roles`
 - `anon` has no table grants on `ledger`, `private`, or `api`
 - `anon` may execute only `api.list_published_snapshots()` and `api.get_published_snapshot()`
-- Anonymous canonical reads and writes were verified to fail with permission errors
+- Anonymous canonical reads and writes were verified to fail; the new PR 9 tables are not exposed on the public REST surface
 - Read-only database health query succeeded after apply
 
 Cloudflare production remains untouched. There is still no deployed Worker or live application origin.

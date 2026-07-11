@@ -72,6 +72,10 @@ Use this when a reviewed migration in `supabase/migrations/` must be applied to 
 7. Scan source code to confirm service-role secrets are not referenced in browser-facing code.
 8. Record the apply in `DEPLOYMENT.md`, `RUNBOOK.md`, `PR_LOG.md`, `CODEX_MEMORY.md`, and `PROJECT_TRACKER.md`.
 
+### Recorded example
+
+On 2026-07-11, hosted project `vupwphakeyvvhaoxuvuw` received `0001_circularity_scenarios.sql` after a dry run confirmed it was the only pending migration. The direct endpoint was not reachable from the current network, so the apply used the ignored local IPv4 pooler connection. Verification confirmed remote history version `0001`, expected `ledger.relationships` and `ledger.scenario_runs` tables, RLS enabled on both, zero `anon` table grants, only the two existing `api` RPC execute grants for `anon`, denied anonymous REST access to the new tables, denied anonymous writes, and a successful read-only health query.
+
 ### Rollback guidance
 
 1. Do not drop the newly created schemas or tables as a first response.
