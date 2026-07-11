@@ -24,7 +24,7 @@ Last updated: 2026-07-11
 - PR 3.5 is merged as GitHub PR `#4`
 - PR 4 is merged as GitHub PR `#5`; it includes the former PR 4.5 route skeleton checkpoint scope
 - PR 5 is merged as GitHub PR `#6`; it includes the former PR 5.5 demo import/sample isolation checkpoint scope
-- Logical PR 6 is active on `agent/pr6-kpi-calculation-engine`
+- Logical PR 6 is active as GitHub PR `#7` on `agent/pr6-kpi-calculation-engine`
 - Main requires PRs and resolved review conversations and blocks deletion/force pushes
 - GitHub now requires the `quality` check and requires PR branches to be current with `main`
 - The ruleset still requires one approval; owner-authored PRs use the administrator bypass until another maintainer can approve them

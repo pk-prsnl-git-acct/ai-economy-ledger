@@ -90,7 +90,8 @@
 
 ## PR 6 — KPI calculation engine
 
-- Status: in progress
+- Status: draft
+- Pull request: `#7`
 - Branch: `agent/pr6-kpi-calculation-engine`
 - Purpose: add pure KPI formulas for capital in, obligations, gross AI economic flow, and net external AI revenue before publication/runtime wiring
 - Scope control: no database reads or writes, schema migrations, public API, published snapshots, admin workflow, Supabase mutation, or Cloudflare deployment
