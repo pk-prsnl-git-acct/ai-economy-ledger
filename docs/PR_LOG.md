@@ -103,8 +103,8 @@
 
 ## PR 7 — Publication runtime and read-only public API
 
-- Status: implementation complete; GitHub review pending
-- Pull request: pending
+- Status: draft; implementation complete and awaiting review
+- Pull request: `#8`
 - Branch: `agent/pr7-publication-runtime`
 - Purpose: wire reviewed source, claim, observation, confidence, freshness, revision, KPI, and snapshot contracts into an auditable publication runtime
 - Scope: server-only canonical lineage adapter; deterministic public read model and snapshot hash; draft-only persistence service; GET-only snapshot list/detail API through existing Supabase RPCs
