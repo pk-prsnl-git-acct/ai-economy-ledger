@@ -42,14 +42,12 @@ async function stopPreview() {
 
 try {
   let response;
-  let body = "";
 
   for (let attempt = 0; attempt < 60; attempt += 1) {
     if (preview.exitCode !== null) throw new Error(`Cloudflare preview exited before becoming ready.\n${output}`);
 
     try {
       response = await fetch(`http://127.0.0.1:${port}/`);
-      body = await response.text();
       if (response.ok) break;
     } catch {
       // The local Worker is still starting.
@@ -59,10 +57,24 @@ try {
   }
 
   if (!response?.ok) throw new Error(`Cloudflare preview did not become healthy.\n${output}`);
-  if (!body.includes("AI Economy Ledger")) throw new Error("Preview response did not contain the expected application identity.");
-  if (!body.includes("no financial figures")) throw new Error("Preview response did not preserve the foundation data warning.");
 
-  console.log(`Cloudflare preview smoke passed with HTTP ${response.status}.`);
+  const routeChecks = [
+    ["/", ["AI Economy Ledger", "fictional placeholders", "excluded from verified totals"]],
+    ["/companies", ["Company comparison preview", "Sample interface only"]],
+    ["/methodology", ["Trust comes from showing the math", "Core equation"]],
+    ["/admin/review-queue", ["Static admin preview", "Review unavailable"]]
+  ];
+
+  for (const [route, expectedText] of routeChecks) {
+    const routeResponse = await fetch(`http://127.0.0.1:${port}${route}`);
+    const body = await routeResponse.text();
+    if (!routeResponse.ok) throw new Error(`Cloudflare preview route ${route} returned HTTP ${routeResponse.status}.`);
+    for (const text of expectedText) {
+      if (!body.includes(text)) throw new Error(`Cloudflare preview route ${route} did not contain: ${text}`);
+    }
+  }
+
+  console.log(`Cloudflare preview smoke passed for ${routeChecks.length} representative routes.`);
 } finally {
   await stopPreview();
 }

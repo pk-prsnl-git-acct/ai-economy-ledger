@@ -46,7 +46,7 @@
 
 ## PR 3.5 — Production Supabase migration apply record
 
-- Status: ready for review
+- Status: merged
 - Pull request: `#4`
 - Branch: `agent/pr3_5-prod-supabase-apply`
 - Purpose: apply the already-reviewed PR 3 migration to the existing hosted Supabase project, record the live verification outcome, and add the missing roadmap checkpoint amendment
@@ -55,3 +55,19 @@
 - Deployment impact: hosted Supabase mutated; Cloudflare production untouched
 - Verification: remote migration history includes `0000`; expected `ledger` and `private` tables exist; RLS enabled where expected; anon has no table grants; anon can execute only the intended `api` snapshot RPCs; anonymous canonical reads and writes fail; read-only health query succeeds; no service-role key reference found in browser-facing code
 - Roadmap amendment: added logical checkpoint PRs 2.5, 3.6, and 11; `PR 4`, `PR 5`, `PR 7`, and `PR 8` now absorb their related half-step checkpoints by default, and PR 3.6 is unnecessary if this PR merges with the amendment docs
+- GitHub: required `quality` check passed; merged by rebase with the documented solo-maintainer administrator bypass
+
+## PR 4 — Ledger Dark UX shell and route checkpoint
+
+- Status: in progress
+- Pull request: pending
+- Branch: `agent/pr4-app-shell-routes`
+- Purpose: establish the static Ledger Dark design system, reusable trust components, and every required public/admin route before deeper product work
+- Public routes: dashboard, companies, funding, revenue/debt, compute/infrastructure, circularity, methodology, sources, and downloads
+- Admin routes: overview, review queue, sources, companies, import, claims, metric revisions, health, and update log
+- Scope control: fictional sample placeholders only; no numeric financial claims, database calls, authentication, write controls, or production data connection
+- Trust UX: visible sample, confidence, freshness, source, methodology, production-connection, and admin-access states
+- Metadata: every route declares title, description, canonical URL, and Open Graph basics
+- Verification: strict TypeScript, lint, 21 repository/route tests, static Next.js production build for all routes, representative multi-route OpenNext/workerd HTTP smoke, and browser desktop/mobile semantic and responsive smoke
+- Data/schema impact: none
+- Deployment impact: none; Cloudflare and Supabase production untouched
