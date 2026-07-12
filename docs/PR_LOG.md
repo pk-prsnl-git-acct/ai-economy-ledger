@@ -145,8 +145,8 @@
 
 ## PR 10 — Scheduled health checks and production readiness
 
-- Status: in progress
-- Pull request: pending
+- Status: merged
+- Pull request: GitHub PR `#12`
 - Branch: `agent/pr10-health-cron-readiness`
 - Internal label: logical PR 10
 - Purpose: add read-only production readiness checks, Cloudflare Cron wiring, structured health logs, and deployment/runbook coverage before first production deploy
@@ -155,3 +155,19 @@
 - Data/schema impact: none
 - Deployment impact: configuration only; no Worker deploy, domain binding, DNS change, Supabase mutation, snapshot publication, or production secret write
 - Security: health route requires `HEALTHCHECK_TOKEN`, uses publishable Supabase access only, emits summarized logs without secrets, and keeps service-role keys out of browser-facing code
+- Verification: required GitHub `quality` check passed before merge
+- GitHub: merged by rebase with the documented solo-maintainer administrator bypass
+
+## PR 11 — Production deploy, domain binding, and final smoke
+
+- Status: blocked after partial production deployment
+- Pull request: pending
+- Branch: `agent/pr11-production-deploy-record`
+- Internal label: logical PR 11
+- Purpose: deploy the reviewed Cloudflare/OpenNext Worker, bind `aieconomyledger.com`, upload required runtime values from ignored local environment, and run final production smoke checks
+- Production actions completed on 2026-07-12: built the OpenNext artifact; deployed Worker `ai-economy-ledger`; uploaded required runtime variables/secrets without printing them; confirmed deployment version `26d5b5e5-acd2-4dd4-9265-ca400239ad0e`; confirmed zone Worker route `aieconomyledger.com/* -> ai-economy-ledger`
+- Smoke results: `/` and `/methodology` return HTTP 200 from production; `/api/v1/snapshots` returns HTTP 502; protected `/api/internal/health` returns HTTP 503/down
+- Blocker 1: hosted Supabase Data API exposes only `public` and `graphql_public`; the intended public RPCs live in schema `api`, so PostgREST cannot resolve `api.list_published_snapshots()` through the production REST endpoint
+- Blocker 2: Cloudflare schedules endpoint returns 403 for the current token; current schedule list is empty, so the configured 30-minute Cron trigger is not attached in production
+- Deployment impact: production Worker and zone route changed; Supabase schema and data were not changed; no published snapshot was created
+- Required next action: approve and apply provider configuration fixes, then rerun PR 11 smoke before merge
