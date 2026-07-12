@@ -171,3 +171,17 @@
 - Deployment impact: production Worker, route, workers.dev account subdomain, Cron schedule, and Supabase PostgREST exposed-schema config changed; Supabase schema/data were not changed; no published snapshot was created
 - Verification: 53 tests, strict TypeScript, OpenNext Cloudflare build, local workerd preview smoke, production route smoke, protected health smoke, direct Supabase public RPC smoke, and Cloudflare schedule API verification
 - GitHub: merged as PR `#13` by rebase with the documented solo-maintainer administrator bypass
+
+## PR 12 — Canonical www redirect and end-to-end production verification
+
+- Status: ready for review
+- Pull request: pending
+- Branch: `agent/pr12-www-canonical-e2e`
+- Internal label: logical PR 12
+- Purpose: complete the deploy-adjacent decision gate by making `www.aieconomyledger.com` redirect canonically to `aieconomyledger.com` and rerunning end-to-end production checks
+- Scope: Worker-level 308 redirect for `www`; committed Cloudflare route config for apex and `www`; static tests; production/browser/API smoke
+- Data/schema impact: none
+- Deployment impact: Cloudflare Worker code and route configuration only; no Supabase schema/data change and no snapshot publication
+- Production smoke: apex and methodology return HTTP 200; `www` root redirects to apex with HTTP 308; nested `www` path/query redirects preserve path and query; public snapshots return `{"data":[]}`; protected health remains `degraded` only because no snapshot is published; Cloudflare schedule still includes `*/30 * * * *`
+- Browser E2E: Playwright loaded the apex dashboard and verified `https://www.aieconomyledger.com/methodology?x=1` lands on `https://aieconomyledger.com/methodology?x=1`
+- Verification: 53 tests, strict TypeScript, OpenNext Cloudflare build, production HTTP/API/health/schedule smoke, and Playwright browser E2E

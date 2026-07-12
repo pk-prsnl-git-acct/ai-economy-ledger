@@ -41,6 +41,17 @@ On 2026-07-12, production deploy was completed with explicit approval.
 5. Cloudflare Cron `*/30 * * * *` was attached and verified through the schedules API.
 6. Final smoke passed for the expected pre-snapshot state: `/api/v1/snapshots` returns `{"data":[]}` and `/api/internal/health` returns `degraded` only because no snapshot has been published yet.
 
+### Canonical domain smoke
+
+Use this after any Cloudflare route, DNS, or Worker redirect change.
+
+1. Confirm `https://aieconomyledger.com/` returns HTTP 200.
+2. Confirm `https://www.aieconomyledger.com/` returns HTTP 308 with `Location: https://aieconomyledger.com/`.
+3. Confirm nested `www` paths preserve path and query during redirect.
+4. Confirm `/api/v1/snapshots` returns the expected public JSON shape.
+5. Confirm protected `/api/internal/health` returns `degraded` only for no published snapshot before launch.
+6. Confirm the Cloudflare schedules API still includes `*/30 * * * *`.
+
 ## Failed deployment
 
 1. Stop further promotion.

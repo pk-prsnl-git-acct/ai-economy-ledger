@@ -3,6 +3,10 @@ name = "ai-economy-ledger"
 main = "worker.mjs"
 compatibility_date = "2026-07-10"
 compatibility_flags = ["nodejs_compat", "global_fetch_strictly_public"]
+routes = [
+  { pattern = "aieconomyledger.com/*", zone_name = "aieconomyledger.com" },
+  { pattern = "www.aieconomyledger.com/*", zone_name = "aieconomyledger.com" },
+]
 
 [assets]
 directory = ".open-next/assets"

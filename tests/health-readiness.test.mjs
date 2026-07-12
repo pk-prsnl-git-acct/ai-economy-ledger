@@ -90,11 +90,15 @@ test("Cloudflare Worker wrapper delegates fetch and handles scheduled readiness 
   const wrangler = readFileSync("wrangler.toml", "utf8");
 
   assert.match(worker, /openNextWorker\.fetch\(request, env, ctx\)/);
+  assert.match(worker, /redirectWwwToApex\(request\)/);
+  assert.match(worker, /Response\.redirect\(url\.toString\(\), 308\)/);
   assert.match(worker, /scheduled\(controller, env, ctx\)/);
   assert.match(worker, /\/api\/internal\/health/);
   assert.match(worker, /scheduled_readiness_check/);
   assert.match(worker, /x-healthcheck-token/);
   assert.match(wrangler, /main = "worker\.mjs"/);
+  assert.match(wrangler, /pattern = "aieconomyledger\.com\/\*"/);
+  assert.match(wrangler, /pattern = "www\.aieconomyledger\.com\/\*"/);
   assert.match(wrangler, /\[triggers\]/);
   assert.match(wrangler, /crons = \["\*\/30 \* \* \* \*"\]/);
 });
