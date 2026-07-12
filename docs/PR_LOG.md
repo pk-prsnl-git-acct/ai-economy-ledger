@@ -185,3 +185,10 @@
 - Production smoke: apex and methodology return HTTP 200; `www` root redirects to apex with HTTP 308; nested `www` path/query redirects preserve path and query; public snapshots return `{"data":[]}`; protected health remains `degraded` only because no snapshot is published; Cloudflare schedule still includes `*/30 * * * *`
 - Browser E2E: Playwright loaded the apex dashboard and verified `https://www.aieconomyledger.com/methodology?x=1` lands on `https://aieconomyledger.com/methodology?x=1`
 - Verification: 53 tests, strict TypeScript, OpenNext Cloudflare build, production HTTP/API/health/schedule smoke, and Playwright browser E2E
+
+## Operational hardening — OpenNext generated env sanitization
+
+- Status: in progress
+- Purpose: prevent ignored local `.open-next/` build artifacts from retaining private env values after a Cloudflare build
+- Scope: post-build sanitizer for `.open-next/cloudflare/next-env.mjs`; generated-output secret scan for `.open-next/`; script/test coverage
+- Verification: `pnpm build:cloudflare` now sanitizes the generated fallback env file and passes the generated-output secret scan

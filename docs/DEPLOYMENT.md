@@ -41,6 +41,13 @@ pnpm cf-typegen
 
 `pnpm build:cloudflare` produces the ignored `.open-next/` artifact. The preview smoke test starts that artifact in workerd, requests `/`, checks HTTP success and the expected application/data-warning text, then stops the process.
 
+The build now hardens generated fallback env output in two steps:
+
+- `scripts/ci/sanitize-opennext-env.mjs` rewrites `.open-next/cloudflare/next-env.mjs` to keep only intentional public keys and the minimal non-secret Supabase runtime fallbacks.
+- `scripts/ci/scan-opennext-output.mjs` scans generated `.open-next/` text artifacts for real secret-value patterns and rejects any secret-key entries that reappear in the generated fallback env file.
+
+This is required because OpenNext writes a local fallback env module during build. Real deployment secrets must continue to come from Cloudflare runtime bindings, not from generated local artifacts.
+
 ## Health and readiness
 
 PR 10 adds a protected read-only health route at `GET /api/internal/health`. It requires `HEALTHCHECK_TOKEN` through `x-healthcheck-token` or `Authorization: Bearer ...`, returns `cache-control: no-store`, and never uses service-role credentials. The route evaluates required public Supabase configuration, healthcheck token configuration, public snapshot RPC availability, published snapshot presence, and latest snapshot freshness.

@@ -19,6 +19,12 @@ git diff --cached
 git check-ignore .env.local
 ```
 
+After any Cloudflare build intended for preview or deploy, also confirm:
+
+1. `pnpm build:cloudflare` finishes with the sanitize and generated-output scan steps.
+2. `.open-next/cloudflare/next-env.mjs` contains only public fallback values plus `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY`, and `SUPABASE_JWKS_URL`.
+3. No generated `.open-next/` text artifact contains live private-token patterns or credential-bearing database URLs.
+
 ## Readiness and scheduled health
 
 Use this before production deployment, after environment changes, and when Cloudflare Cron logs show degraded or down readiness.
