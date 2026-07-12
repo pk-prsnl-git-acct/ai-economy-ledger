@@ -30,13 +30,16 @@ Use this before production deployment, after environment changes, and when Cloud
 5. Check Cloudflare logs for structured `scheduled_readiness_check` events after Cron runs. Preserve logs without tokens or database credentials.
 6. If the public snapshot RPC fails, verify Supabase Data API exposed schemas, publishable key configuration, and the two intended `api` RPC execute grants before changing application code.
 
-### PR 11 production deploy blocker record
+### PR 11 production deploy record
 
-On 2026-07-12, production deploy was attempted with explicit approval. Worker upload, runtime variables/secrets, and zone route `aieconomyledger.com/* -> ai-economy-ledger` succeeded. Final readiness did not pass.
+On 2026-07-12, production deploy was completed with explicit approval.
 
-1. Supabase blocker: the hosted Data API exposes only `public` and `graphql_public`; the intended public RPCs are in schema `api`, so `GET /api/v1/snapshots` returns 502 and protected health returns 503/down. Fix by exposing only the intended `api` schema in the hosted Supabase Data API configuration, then rerun public RPC isolation checks.
-2. Cloudflare blocker: the current Cloudflare token can deploy the Worker and route but receives 403 on the Worker schedules endpoint. The schedule list is empty. Fix by granting the token permission to manage Worker Cron triggers or by using an approved token/account session with that permission, then attach the configured `*/30 * * * *` schedule.
-3. Do not mark PR 11 complete until `/api/v1/snapshots` reaches the intended no-snapshot state, `/api/internal/health` is `degraded` only for no published snapshot, and Cloudflare schedules show the 30-minute Cron trigger.
+1. Worker upload, runtime variables/secrets, and zone route `aieconomyledger.com/* -> ai-economy-ledger` succeeded.
+2. Hosted Supabase Data API was configured to expose the intended `api` schema while leaving `ledger` and `private` unexposed.
+3. Public snapshot RPC calls were fixed to send PostgREST `accept-profile: api` and `content-profile: api` headers.
+4. Cloudflare account workers.dev subdomain `aieconomyledger.workers.dev` was initialized because Cron schedules require an account workers.dev subdomain.
+5. Cloudflare Cron `*/30 * * * *` was attached and verified through the schedules API.
+6. Final smoke passed for the expected pre-snapshot state: `/api/v1/snapshots` returns `{"data":[]}` and `/api/internal/health` returns `degraded` only because no snapshot has been published yet.
 
 ## Failed deployment
 

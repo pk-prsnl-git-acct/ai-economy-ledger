@@ -136,6 +136,8 @@ This document contains durable implementation context for future coding sessions
 - `GET /api/internal/health` is protected by `HEALTHCHECK_TOKEN`, returns `no-store`, uses only publishable Supabase access through the public snapshot RPC adapter, and logs summarized readiness without secrets.
 - Readiness states are `ok`, `degraded`, and `down`. Missing runtime config or RPC failure is `down`; no published snapshot or stale snapshot is `degraded`.
 - Logical PR 10 merged as GitHub PR `#12`.
-- PR 11 production deploy attempt on 2026-07-12 succeeded for Worker upload, runtime secret/var upload, and route `aieconomyledger.com/* -> ai-economy-ledger`.
-- PR 11 is blocked because hosted Supabase Data API does not expose schema `api`, so public snapshot RPCs fail and health is correctly `down`; expose `api` without exposing `ledger` or `private` before final smoke.
-- PR 11 is also blocked because the current Cloudflare token receives 403 on the Worker schedules endpoint; Cron schedule list is empty despite `wrangler.toml` containing `*/30 * * * *`.
+- PR 11 production deploy on 2026-07-12 succeeded for Worker upload, runtime secret/var upload, route `aieconomyledger.com/* -> ai-economy-ledger`, and Cron `*/30 * * * *`.
+- Hosted Supabase Data API now exposes `api` for the intended public RPCs while `ledger` and `private` remain unexposed.
+- Public snapshot RPC calls must include PostgREST `accept-profile: api` and `content-profile: api` headers.
+- Cloudflare account workers.dev subdomain `aieconomyledger.workers.dev` was initialized because Cloudflare requires a workers.dev account subdomain before Worker Cron schedules can be attached.
+- Production health is expected to be `degraded`, not `down`, until the first real published snapshot exists.
