@@ -141,5 +141,8 @@ This document contains durable implementation context for future coding sessions
 - Public snapshot RPC calls must include PostgREST `accept-profile: api` and `content-profile: api` headers.
 - Cloudflare account workers.dev subdomain `aieconomyledger.workers.dev` was initialized because Cloudflare requires a workers.dev account subdomain before Worker Cron schedules can be attached.
 - Production health is expected to be `degraded`, not `down`, until the first real published snapshot exists.
-- Logical PR 12 owns the canonical `www.aieconomyledger.com` redirect and production E2E verification; it must not publish a snapshot or mutate Supabase data.
-- OpenNext generates `.open-next/cloudflare/next-env.mjs` from local env during build; repository hardening now sanitizes that file after build and scans `.open-next/` output for secret-value patterns so ignored local artifacts do not retain private credentials.
+- Logical PR 12 was merged as GitHub PR `#15`; it owns the canonical `www.aieconomyledger.com` redirect and production E2E verification and did not publish a snapshot or mutate Supabase data.
+- OpenNext generated-env hardening was merged as GitHub PR `#16` at commit `8d2d634177f762f933d341eb8f81efd01c868ace`. It sanitizes `.open-next/cloudflare/next-env.mjs` after build and scans `.open-next/` output so ignored local artifacts do not retain private credentials.
+- Logical PR 12.2 added deterministic sanitizer/scanner regression coverage, exact-value scanning for sensitive environment variables present during build, and an explicit generated-env allowlist for approved browser/public keys only.
+- The generated-output secret scan has passed after OpenNext build hardening. Scanner diagnostics must continue to report only file paths and pattern/variable names, never detected secret values.
+- The next active product phase is PR 13: autonomous data strategy beginning with the data charter, AI-economy ontology, and coverage contract.

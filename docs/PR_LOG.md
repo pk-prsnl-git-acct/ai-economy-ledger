@@ -174,8 +174,8 @@
 
 ## PR 12 — Canonical www redirect and end-to-end production verification
 
-- Status: ready for review
-- Pull request: pending
+- Status: merged
+- Pull request: GitHub PR `#15`
 - Branch: `agent/pr12-www-canonical-e2e`
 - Internal label: logical PR 12
 - Purpose: complete the deploy-adjacent decision gate by making `www.aieconomyledger.com` redirect canonically to `aieconomyledger.com` and rerunning end-to-end production checks
@@ -185,10 +185,27 @@
 - Production smoke: apex and methodology return HTTP 200; `www` root redirects to apex with HTTP 308; nested `www` path/query redirects preserve path and query; public snapshots return `{"data":[]}`; protected health remains `degraded` only because no snapshot is published; Cloudflare schedule still includes `*/30 * * * *`
 - Browser E2E: Playwright loaded the apex dashboard and verified `https://www.aieconomyledger.com/methodology?x=1` lands on `https://aieconomyledger.com/methodology?x=1`
 - Verification: 53 tests, strict TypeScript, OpenNext Cloudflare build, production HTTP/API/health/schedule smoke, and Playwright browser E2E
+- GitHub: merged as PR `#15` by rebase with the documented solo-maintainer administrator bypass
 
 ## Operational hardening — OpenNext generated env sanitization
 
-- Status: in progress
+- Status: complete
+- Pull request: GitHub PR `#16`
 - Purpose: prevent ignored local `.open-next/` build artifacts from retaining private env values after a Cloudflare build
 - Scope: post-build sanitizer for `.open-next/cloudflare/next-env.mjs`; generated-output secret scan for `.open-next/`; script/test coverage
 - Verification: `pnpm build:cloudflare` now sanitizes the generated fallback env file and passes the generated-output secret scan
+- GitHub: merged as PR `#16`; merge commit `8d2d634177f762f933d341eb8f81efd01c868ace`
+
+## PR 12.2 — OpenNext secret-hardening regression coverage and project-memory cleanup
+
+- Status: merged
+- Branch: `agent/pr12-2-opennext-secret-regression`
+- Internal label: logical PR 12.2
+- Purpose: close stale project-memory status and add deterministic regression coverage for OpenNext generated-env sanitization and generated-output secret scanning
+- Scope: importable sanitizer/scanner helpers, behavioral tests using temporary generated-output fixtures, exact-value scanning for sensitive environment variables present during build, and targeted documentation cleanup
+- NEXT_PUBLIC handling: sanitizer now keeps only the explicitly approved browser/public keys from `.env.example`, current browser-facing code, and deployment docs instead of allowing every `NEXT_PUBLIC_*`
+- Security: scanner reports only generated file paths plus pattern/variable names; it never prints detected secret values
+- Data/schema impact: none
+- Deployment impact: none; no Cloudflare production deploy, DNS change, Supabase schema/data mutation, snapshot publication, or PR 13 data work
+- Verification: sanitizer/scanner behavioral tests, generated-output scan, full repository test suite, strict TypeScript, OpenNext Cloudflare build, Cloudflare preview smoke, diff whitespace check, and Git status check
+- Next phase: PR 13 begins the autonomous data strategy with the data charter, AI-economy ontology, and coverage contract

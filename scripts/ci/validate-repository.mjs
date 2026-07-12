@@ -97,15 +97,22 @@ if (existsSync(".env.example")) {
 const secretPatterns = [
   /gh[pousr]_[A-Za-z0-9_]{30,}/,
   /sb_secret_[A-Za-z0-9_-]{20,}/,
+  /cfut_[A-Za-z0-9_-]{20,}/,
   /postgres(?:ql)?:\/\/[^\s:@]+:[^\s@]+@/
 ];
+
+const syntheticCredentialFixtureFiles = new Set([
+  "tests/opennext-secret-hardening.test.mjs"
+]);
 
 for (const file of trackedFiles) {
   if (!existsSync(file) || !statSync(file).isFile()) continue;
   if (![".md", ".json", ".mjs", ".js", ".ts", ".tsx", ".yml", ".yaml", ".example"].includes(extname(file)) && file !== ".env.example") continue;
   const contents = readFileSync(file, "utf8");
   if (contents.split("\n").some((line) => /[ \t]+$/.test(line))) failures.push(`Trailing whitespace: ${file}`);
-  if (secretPatterns.some((pattern) => pattern.test(contents))) failures.push(`Potential credential found: ${file}`);
+  if (!syntheticCredentialFixtureFiles.has(file) && secretPatterns.some((pattern) => pattern.test(contents))) {
+    failures.push(`Potential credential found: ${file}`);
+  }
 }
 
 if (mode === "typecheck") {
