@@ -142,3 +142,4 @@ This document contains durable implementation context for future coding sessions
 - Cloudflare account workers.dev subdomain `aieconomyledger.workers.dev` was initialized because Cloudflare requires a workers.dev account subdomain before Worker Cron schedules can be attached.
 - Production health is expected to be `degraded`, not `down`, until the first real published snapshot exists.
 - Logical PR 12 owns the canonical `www.aieconomyledger.com` redirect and production E2E verification; it must not publish a snapshot or mutate Supabase data.
+- OpenNext generates `.open-next/cloudflare/next-env.mjs` from local env during build; repository hardening now sanitizes that file after build and scans `.open-next/` output for secret-value patterns so ignored local artifacts do not retain private credentials.

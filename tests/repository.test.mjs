@@ -37,3 +37,12 @@ test("repository-managed Git hooks are configured", () => {
   assert.equal(hooksPath, ".githooks");
   assert.ok(nodePath.endsWith("/node"));
 });
+
+test("Cloudflare build scripts sanitize and scan generated output", () => {
+  const pkg = JSON.parse(readFileSync("package.json", "utf8"));
+  assert.match(pkg.scripts["build:cloudflare"], /sanitize-opennext-env\.mjs/);
+  assert.match(pkg.scripts["build:cloudflare"], /scan-opennext-output\.mjs/);
+  assert.match(pkg.scripts.preview, /pnpm build:cloudflare/);
+  assert.match(pkg.scripts.deploy, /pnpm build:cloudflare/);
+  assert.match(pkg.scripts.upload, /pnpm build:cloudflare/);
+});
