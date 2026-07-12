@@ -4,8 +4,8 @@ Last updated: 2026-07-12
 
 ## Current state
 
-- Phase: auditable prototype planning
-- Active scope: logical PR 12.2 OpenNext secret-hardening regression coverage and project-memory cleanup
+- Phase: public application maintenance while data-engine work incubates privately
+- Active scope: public repository is stable after logical PR 12.2; Logical PR 13 onward moves to the private data-engine repository
 - Production application: Cloudflare Worker deployed and routed; production readiness is degraded only because no snapshot is published yet
 - Production data: schema foundation plus relationship/scenario schema applied; no published snapshots yet
 - Repository visibility: public; owner-controlled writes
@@ -33,7 +33,9 @@ Last updated: 2026-07-12
 - PR 11 production deployment completed on 2026-07-12; Worker upload, secrets/vars, zone route, Supabase public RPC exposure, Cloudflare Cron schedule, and final smoke passed for the expected pre-snapshot state
 - PR 12 is merged as GitHub PR `#15`; canonical `www` redirect and end-to-end production verification are complete
 - GitHub PR `#16` completed OpenNext generated-env hardening; `.open-next` generated-output secret scan passed
-- PR 12.2 adds behavioral regression coverage for the sanitizer/scanner and updates project memory before PR 13
+- PR 12.2 added behavioral regression coverage for the sanitizer/scanner and updated project memory before the data-engine split
+- Logical PR 13 onward is incubated in private repository `pk-prsnl-git-acct/ai-economy-ledger-data-engine`
+- The public repository remains independently cloneable, buildable, testable, and deployable without private repository access
 - Main requires PRs and resolved review conversations and blocks deletion/force pushes
 - GitHub now requires the `quality` check and requires PR branches to be current with `main`
 - The ruleset still requires one approval; owner-authored PRs use the administrator bypass until another maintainer can approve them
@@ -62,7 +64,7 @@ Last updated: 2026-07-12
 | PR 11 | Production deploy, domain binding, and final smoke test |
 | PR 12 | Canonical `www` redirect and end-to-end production verification |
 | PR 12.2 | OpenNext secret-hardening regression coverage and project-memory cleanup |
-| PR 13 | Data charter, AI-economy ontology, and coverage contract |
+| PR 13 | Private data-engine repository: data charter, AI-economy ontology, and coverage contract |
 
 ## Current risks
 
@@ -83,4 +85,4 @@ Last updated: 2026-07-12
 
 ## Next decision gate
 
-Logical PR 12 is complete. After PR 12.2 closes the OpenNext hardening regression gap and memory cleanup, the next active product phase is PR 13: Data Charter, AI-Economy Ontology and Coverage Contract. Publishing the first real snapshot remains a later data gate because no approved production snapshot exists yet.
+Logical PR 12.2 is complete. The next active data phase, Logical PR 13, is incubated in the private data-engine repository so connector, ontology, validation, and source-feasibility work can proceed without introducing a private dependency into this public application. Only reviewed, redistribution-safe components and published outputs should return to the public repository. Publishing the first real snapshot remains a later data gate because no approved production snapshot exists yet.

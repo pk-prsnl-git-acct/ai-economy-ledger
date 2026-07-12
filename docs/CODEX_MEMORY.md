@@ -145,4 +145,6 @@ This document contains durable implementation context for future coding sessions
 - OpenNext generated-env hardening was merged as GitHub PR `#16` at commit `8d2d634177f762f933d341eb8f81efd01c868ace`. It sanitizes `.open-next/cloudflare/next-env.mjs` after build and scans `.open-next/` output so ignored local artifacts do not retain private credentials.
 - Logical PR 12.2 added deterministic sanitizer/scanner regression coverage, exact-value scanning for sensitive environment variables present during build, and an explicit generated-env allowlist for approved browser/public keys only.
 - The generated-output secret scan has passed after OpenNext build hardening. Scanner diagnostics must continue to report only file paths and pattern/variable names, never detected secret values.
-- The next active product phase is PR 13: autonomous data strategy beginning with the data charter, AI-economy ontology, and coverage contract.
+- Logical PR 13 onward is incubated in private repository `pk-prsnl-git-acct/ai-economy-ledger-data-engine`.
+- This public repository must remain independently cloneable, buildable, testable, and deployable without private repository access.
+- Only reviewed, redistribution-safe components and published outputs should return from the private data-engine work to the public repository.

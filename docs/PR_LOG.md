@@ -208,4 +208,12 @@
 - Data/schema impact: none
 - Deployment impact: none; no Cloudflare production deploy, DNS change, Supabase schema/data mutation, snapshot publication, or PR 13 data work
 - Verification: sanitizer/scanner behavioral tests, generated-output scan, full repository test suite, strict TypeScript, OpenNext Cloudflare build, Cloudflare preview smoke, diff whitespace check, and Git status check
-- Next phase: PR 13 begins the autonomous data strategy with the data charter, AI-economy ontology, and coverage contract
+- Next phase: PR 13 begins in private repository `pk-prsnl-git-acct/ai-economy-ledger-data-engine`; this public repository remains independent and receives only reviewed, redistribution-safe components and published outputs
+
+## Public docs alignment — private data-engine incubation
+
+- Status: in progress
+- Purpose: align public project memory with the private data-engine repository split after bootstrap
+- Scope: docs-only memory update; no private strategy content, application code, Supabase, Cloudflare, DNS, or production data changes
+- Public/private boundary: public app remains independently cloneable, buildable, testable, and deployable; private data-engine work has no runtime dependency here
+- Verification: pending
