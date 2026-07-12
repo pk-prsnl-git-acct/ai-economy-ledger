@@ -38,7 +38,7 @@ async function callSnapshotRpc<T>(functionName: string, body: object): Promise<T
 
   const response = await fetch(`${url}/rest/v1/rpc/${functionName}`, {
     method: "POST",
-    headers: { apikey: key, "content-type": "application/json" },
+    headers: { apikey: key, "content-type": "application/json", "accept-profile": "api", "content-profile": "api" },
     body: JSON.stringify(body),
     cache: "no-store",
   });

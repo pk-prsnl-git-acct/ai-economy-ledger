@@ -2,7 +2,7 @@
 
 ## Current state
 
-The Cloudflare/OpenNext runtime is deployed to Worker `ai-economy-ledger` and `aieconomyledger.com/*` is routed to it through a Cloudflare zone Worker route. Production readiness is not complete: public snapshot RPC access is down and the Cloudflare Cron schedule is not attached.
+The Cloudflare/OpenNext runtime is deployed to Worker `ai-economy-ledger` and `aieconomyledger.com/*` is routed to it through a Cloudflare zone Worker route. Production readiness is `degraded` only because no real snapshot has been published yet; this is the expected pre-launch state.
 
 Hosted Supabase project `vupwphakeyvvhaoxuvuw` was migrated on 2026-07-11 by applying the reviewed `0000_ledger_foundation.sql` and `0001_circularity_scenarios.sql` migrations from repository history. No additional schema changes were introduced beyond the merged PR 3 and PR 9 migration files.
 
@@ -60,9 +60,12 @@ PR 11 deployment record on 2026-07-12:
 - Runtime variables/secrets were uploaded from ignored local `.env.local` without printing values.
 - Zone Worker route `aieconomyledger.com/* -> ai-economy-ledger` is active.
 - `/` and `/methodology` return HTTP 200 from production.
-- `/api/v1/snapshots` returns HTTP 502 because the hosted Supabase Data API does not expose the intended `api` schema.
-- `/api/internal/health` returns HTTP 503/down, as designed for public snapshot RPC failure.
-- Cloudflare schedule list is empty because the current token receives 403 on the Worker schedules endpoint.
+- Hosted Supabase Data API exposes `api` for the intended public RPCs; `ledger` and `private` remain unexposed.
+- Public snapshot RPC calls send PostgREST `accept-profile: api` and `content-profile: api` headers.
+- `/api/v1/snapshots` returns HTTP 200 with an empty `data` array before the first published snapshot.
+- `/api/internal/health` returns HTTP 200 with status `degraded` only because no published snapshot exists.
+- Account workers.dev subdomain `aieconomyledger.workers.dev` is initialized because Cloudflare requires a workers.dev account subdomain before Worker Cron schedules can be attached.
+- Cloudflare schedule list includes `*/30 * * * *`.
 
 ## Planned Workers Builds configuration
 
@@ -104,13 +107,13 @@ Production database foundation and the PR 9 relationship/scenario follow-up were
 - Anonymous canonical reads and writes were verified to fail; the new PR 9 tables are not exposed on the public REST surface
 - Read-only database health query succeeded after apply
 
-Cloudflare production is partially deployed. The live Worker route exists, but final readiness remains blocked by provider configuration.
+Cloudflare production is deployed and the live Worker route exists. Final readiness is intentionally `degraded` until the first real published snapshot exists.
 
 ## Public snapshot runtime
 
 PR 7 adds `GET /api/v1/snapshots` and `GET /api/v1/snapshots/{slug}?version=N`. These server routes call only `api.list_published_snapshots()` and `api.get_published_snapshot()` using `SUPABASE_PUBLISHABLE_KEY` (with the public build-time equivalent as a local fallback). They do not accept writes and never use a service-role or secret key.
 
-Snapshot generation requires a server-side `DATABASE_URL`, produces a deterministic draft, and does not publish it. No generation job, production snapshot, Cloudflare deployment, environment change, or hosted database change is part of PR 7. Before final production readiness, configure hosted Supabase Data API exposed schemas so the intended `api` RPCs are reachable while `ledger` and `private` remain unexposed, then repeat the anonymous RPC isolation smoke.
+Snapshot generation requires a server-side `DATABASE_URL`, produces a deterministic draft, and does not publish it. No generation job, production snapshot, Cloudflare deployment, environment change, or hosted database change is part of PR 7. Hosted Supabase Data API now exposes the intended `api` schema so public RPCs are reachable while `ledger` and `private` remain unexposed.
 
 ## Protected admin runtime
 

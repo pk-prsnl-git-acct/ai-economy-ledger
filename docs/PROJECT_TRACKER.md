@@ -5,8 +5,8 @@ Last updated: 2026-07-12
 ## Current state
 
 - Phase: auditable prototype planning
-- Active scope: logical PR 11 production deploy blocked on provider configuration
-- Production application: Cloudflare Worker deployed and routed; production readiness is down
+- Active scope: logical PR 11 production deploy ready for PR completion
+- Production application: Cloudflare Worker deployed and routed; production readiness is degraded only because no snapshot is published yet
 - Production data: schema foundation plus relationship/scenario schema applied; no published snapshots yet
 - Repository visibility: public; owner-controlled writes
 
@@ -17,7 +17,7 @@ Last updated: 2026-07-12
 - Supabase Auth, JWKS, and server-side REST access verified
 - Hosted Supabase project `vupwphakeyvvhaoxuvuw` now has migration versions `0000` and `0001` applied
 - Public domain `aieconomyledger.com/*` routes to Worker `ai-economy-ledger`
-- Supabase Data API does not yet expose the intended `api` schema, so public snapshot RPCs fail through PostgREST
+- Supabase Data API exposes the intended `api` schema for public snapshot RPCs while `ledger` and `private` remain unexposed
 - PR 1 is merged and its required GitHub `quality` CI job passed
 - PR 2 is merged; its Next.js/OpenNext runtime and Cloudflare preview checks passed, satisfying logical PR 2.5 unless runtime changes invalidate that evidence
 - PR 3 is merged; its reviewed migration is now applied to hosted Supabase
@@ -30,7 +30,7 @@ Last updated: 2026-07-12
 - PR 9 adds relationship/circularity and deterministic scenario contracts; its reviewed hosted migration follow-up is now applied and verified
 - PR 9 is merged as GitHub PR `#10`; its required `quality` check passed
 - PR 10 is merged as GitHub PR `#12`; it adds protected readiness checks, Cloudflare Cron wiring, and production readiness documentation
-- PR 11 attempted production deployment on 2026-07-12; Worker upload, secrets/vars, and zone route succeeded, but final readiness smoke is blocked by Supabase Data API schema exposure and Cloudflare Cron schedule permissions
+- PR 11 production deployment completed on 2026-07-12; Worker upload, secrets/vars, zone route, Supabase public RPC exposure, Cloudflare Cron schedule, and final smoke passed for the expected pre-snapshot state
 - Main requires PRs and resolved review conversations and blocks deletion/force pushes
 - GitHub now requires the `quality` check and requires PR branches to be current with `main`
 - The ruleset still requires one approval; owner-authored PRs use the administrator bypass until another maintainer can approve them
@@ -64,7 +64,7 @@ Last updated: 2026-07-12
 - AI-specific revenue allocations can create false precision.
 - The legacy Supabase anon key is obsolete; use the publishable-key model when the client is implemented.
 - Domain routing now points `aieconomyledger.com/*` at the production Worker through a zone Worker route.
-- Cloudflare custom-domain record inspection/binding and Cron schedule attachment are blocked by current token permissions; current schedule list is empty.
+- Cloudflare Worker route is live, the account workers.dev subdomain is initialized as `aieconomyledger.workers.dev`, and the 30-minute Cron schedule is attached.
 - Direct dependency versions are pinned; updates must preserve Next.js/OpenNext and lint-parser compatibility.
 - Open-source differentiation must come from trust, methodology, curation, and execution rather than hidden code.
 - Application traffic is still not wired to Supabase; live schema now exists before the first production app deploy, so future releases must preserve the current RLS/public-surface contract.
@@ -73,8 +73,8 @@ Last updated: 2026-07-12
 - PR 6 calculations are pure local functions; they do not read from or write to Supabase and are not yet public snapshot/API outputs.
 - PR 7 adds a draft-only deterministic publication runtime and GET-only public API adapter. No production snapshot exists and no hosted environment was changed.
 - PR 8 protects admin routes and adds bootstrap/RLS smoke scripts. No production role grant, hosted database mutation, published snapshot, Cloudflare change, or deployment is part of the PR by itself.
-- PR 10 readiness may report `degraded` until the first real published snapshot exists; however current production readiness is `down` because public snapshot RPC access fails before reaching the no-snapshot condition.
+- PR 10 readiness reports `degraded` in production until the first real published snapshot exists; this is the expected pre-launch state.
 
 ## Next decision gate
 
-Logical PR 11 is blocked. To complete it, expose only the intended Supabase `api` schema through the hosted Data API and provide/authorize Cloudflare permissions that can attach Worker Cron schedules. After those are corrected, rerun production smoke before merging PR 11.
+Logical PR 11 is ready for PR completion. Next scope should decide whether to publish a first real snapshot, redirect `www`, or move into the next product/data PR.

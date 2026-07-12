@@ -160,14 +160,13 @@
 
 ## PR 11 — Production deploy, domain binding, and final smoke
 
-- Status: blocked after partial production deployment
-- Pull request: pending
+- Status: ready for review
+- Pull request: GitHub PR `#13`
 - Branch: `agent/pr11-production-deploy-record`
 - Internal label: logical PR 11
 - Purpose: deploy the reviewed Cloudflare/OpenNext Worker, bind `aieconomyledger.com`, upload required runtime values from ignored local environment, and run final production smoke checks
-- Production actions completed on 2026-07-12: built the OpenNext artifact; deployed Worker `ai-economy-ledger`; uploaded required runtime variables/secrets without printing them; confirmed deployment version `26d5b5e5-acd2-4dd4-9265-ca400239ad0e`; confirmed zone Worker route `aieconomyledger.com/* -> ai-economy-ledger`
-- Smoke results: `/` and `/methodology` return HTTP 200 from production; `/api/v1/snapshots` returns HTTP 502; protected `/api/internal/health` returns HTTP 503/down
-- Blocker 1: hosted Supabase Data API exposes only `public` and `graphql_public`; the intended public RPCs live in schema `api`, so PostgREST cannot resolve `api.list_published_snapshots()` through the production REST endpoint
-- Blocker 2: Cloudflare schedules endpoint returns 403 for the current token; current schedule list is empty, so the configured 30-minute Cron trigger is not attached in production
-- Deployment impact: production Worker and zone route changed; Supabase schema and data were not changed; no published snapshot was created
-- Required next action: approve and apply provider configuration fixes, then rerun PR 11 smoke before merge
+- Production actions completed on 2026-07-12: built the OpenNext artifact; deployed Worker `ai-economy-ledger`; uploaded required runtime variables/secrets without printing them; confirmed zone Worker route `aieconomyledger.com/* -> ai-economy-ledger`; exposed hosted Supabase Data API schema `api` without exposing `ledger` or `private`; initialized account workers.dev subdomain `aieconomyledger`; attached Cloudflare Cron `*/30 * * * *`
+- Code fix: public snapshot RPC calls now send PostgREST `accept-profile: api` and `content-profile: api` headers
+- Smoke results: `/` and `/methodology` return HTTP 200 from production; `/api/v1/snapshots` returns HTTP 200 with `{"data":[]}`; protected `/api/internal/health` returns HTTP 200 with status `degraded` only because no published snapshot exists; Cloudflare schedule list includes `*/30 * * * *`
+- Deployment impact: production Worker, route, workers.dev account subdomain, Cron schedule, and Supabase PostgREST exposed-schema config changed; Supabase schema/data were not changed; no published snapshot was created
+- Verification: 53 tests, strict TypeScript, OpenNext Cloudflare build, local workerd preview smoke, production route smoke, protected health smoke, direct Supabase public RPC smoke, and Cloudflare schedule API verification

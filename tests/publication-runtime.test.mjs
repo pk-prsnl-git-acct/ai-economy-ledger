@@ -121,6 +121,8 @@ test("public API adapter uses publishable credentials and contains no privileged
   const detailRoute = await readFile(new URL("../app/api/v1/snapshots/[slug]/route.ts", import.meta.url), "utf8");
   assert.match(adapter, /SUPABASE_PUBLISHABLE_KEY/);
   assert.doesNotMatch(`${adapter}\n${listRoute}\n${detailRoute}`, /SERVICE_ROLE|SECRET_KEY/);
+  assert.match(adapter, /"accept-profile": "api"/);
+  assert.match(adapter, /"content-profile": "api"/);
   assert.match(adapter, /list_published_snapshots/);
   assert.match(adapter, /get_published_snapshot/);
   assert.doesNotMatch(`${listRoute}\n${detailRoute}`, /POST|PUT|PATCH|DELETE/);
