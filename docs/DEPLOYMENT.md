@@ -2,7 +2,7 @@
 
 ## Current state
 
-The Cloudflare/OpenNext runtime is configured and verified locally. Nothing has been deployed, no Worker has been created, and DNS remains unchanged.
+The Cloudflare/OpenNext runtime is deployed to Worker `ai-economy-ledger` and `aieconomyledger.com/*` is routed to it through a Cloudflare zone Worker route. Production readiness is not complete: public snapshot RPC access is down and the Cloudflare Cron schedule is not attached.
 
 Hosted Supabase project `vupwphakeyvvhaoxuvuw` was migrated on 2026-07-11 by applying the reviewed `0000_ledger_foundation.sql` and `0001_circularity_scenarios.sql` migrations from repository history. No additional schema changes were introduced beyond the merged PR 3 and PR 9 migration files.
 
@@ -10,7 +10,7 @@ Hosted Supabase project `vupwphakeyvvhaoxuvuw` was migrated on 2026-07-11 by app
 
 - Local: ignored `.env.local` plus ignored `.dev.vars`
 - Preview: future Cloudflare non-production Worker versions with isolated variables
-- Production: future `ai-economy-ledger` Worker on `aieconomyledger.com`
+- Production: `ai-economy-ledger` Worker on `aieconomyledger.com`
 
 Environment values must never flow implicitly between tiers.
 
@@ -54,6 +54,16 @@ Required production variables before PR 11 deploy:
 - `SUPABASE_PUBLISHABLE_KEY`
 - `HEALTHCHECK_TOKEN`
 
+PR 11 deployment record on 2026-07-12:
+
+- Worker upload succeeded.
+- Runtime variables/secrets were uploaded from ignored local `.env.local` without printing values.
+- Zone Worker route `aieconomyledger.com/* -> ai-economy-ledger` is active.
+- `/` and `/methodology` return HTTP 200 from production.
+- `/api/v1/snapshots` returns HTTP 502 because the hosted Supabase Data API does not expose the intended `api` schema.
+- `/api/internal/health` returns HTTP 503/down, as designed for public snapshot RPC failure.
+- Cloudflare schedule list is empty because the current token receives 403 on the Worker schedules endpoint.
+
 ## Planned Workers Builds configuration
 
 Do not enable until this PR is reviewed and the Worker is intentionally created.
@@ -94,13 +104,13 @@ Production database foundation and the PR 9 relationship/scenario follow-up were
 - Anonymous canonical reads and writes were verified to fail; the new PR 9 tables are not exposed on the public REST surface
 - Read-only database health query succeeded after apply
 
-Cloudflare production remains untouched. There is still no deployed Worker or live application origin.
+Cloudflare production is partially deployed. The live Worker route exists, but final readiness remains blocked by provider configuration.
 
 ## Public snapshot runtime
 
 PR 7 adds `GET /api/v1/snapshots` and `GET /api/v1/snapshots/{slug}?version=N`. These server routes call only `api.list_published_snapshots()` and `api.get_published_snapshot()` using `SUPABASE_PUBLISHABLE_KEY` (with the public build-time equivalent as a local fallback). They do not accept writes and never use a service-role or secret key.
 
-Snapshot generation requires a server-side `DATABASE_URL`, produces a deterministic draft, and does not publish it. No generation job, production snapshot, Cloudflare deployment, environment change, or hosted database change is part of PR 7. Before deployment, configure the publishable variables as Cloudflare secrets/intentional public variables and repeat the anonymous RPC isolation smoke.
+Snapshot generation requires a server-side `DATABASE_URL`, produces a deterministic draft, and does not publish it. No generation job, production snapshot, Cloudflare deployment, environment change, or hosted database change is part of PR 7. Before final production readiness, configure hosted Supabase Data API exposed schemas so the intended `api` RPCs are reachable while `ledger` and `private` remain unexposed, then repeat the anonymous RPC isolation smoke.
 
 ## Protected admin runtime
 
@@ -112,9 +122,9 @@ GitHub Actions validates code. Cloudflare Workers Builds and Cloudflare-native s
 
 ## Domain plan
 
-`aieconomyledger.com` is active on Cloudflare but has no deployed application origin. After a Worker preview is approved:
+`aieconomyledger.com/*` is currently routed to Worker `ai-economy-ledger`. The route-style binding is live. Remaining domain work:
 
-1. Bind `aieconomyledger.com` as the Worker custom domain.
+1. Decide whether route-style binding is sufficient or whether a Worker custom-domain record is still required.
 2. Redirect `www.aieconomyledger.com` to the canonical host.
 3. Remove/replace only the obsolete Namecheap parking web records.
 4. Preserve MX and SPF/TXT email records as DNS-only.
