@@ -1,9 +1,13 @@
 import openNextWorker from "./.open-next/worker.js";
 
 const HEALTH_PATH = "/api/internal/health";
+const CANONICAL_HOST = "aieconomyledger.com";
+const WWW_HOST = `www.${CANONICAL_HOST}`;
 
 const worker = {
   fetch(request, env, ctx) {
+    const canonicalRedirect = redirectWwwToApex(request);
+    if (canonicalRedirect) return canonicalRedirect;
     return openNextWorker.fetch(request, env, ctx);
   },
 
@@ -13,6 +17,14 @@ const worker = {
 };
 
 export default worker;
+
+function redirectWwwToApex(request) {
+  const url = new URL(request.url);
+  if (url.hostname !== WWW_HOST) return undefined;
+
+  url.hostname = CANONICAL_HOST;
+  return Response.redirect(url.toString(), 308);
+}
 
 async function runScheduledHealthcheck(controller, env, ctx) {
   const startedAt = new Date().toISOString();

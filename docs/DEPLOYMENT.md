@@ -125,13 +125,12 @@ GitHub Actions validates code. Cloudflare Workers Builds and Cloudflare-native s
 
 ## Domain plan
 
-`aieconomyledger.com/*` is currently routed to Worker `ai-economy-ledger`. The route-style binding is live. Remaining domain work:
+`aieconomyledger.com/*` is currently routed to Worker `ai-economy-ledger`. PR 12 routes `www.aieconomyledger.com/*` to the same Worker and redirects `www` requests to the apex with HTTP 308. Remaining domain work:
 
 1. Decide whether route-style binding is sufficient or whether a Worker custom-domain record is still required.
-2. Redirect `www.aieconomyledger.com` to the canonical host.
-3. Remove/replace only the obsolete Namecheap parking web records.
-4. Preserve MX and SPF/TXT email records as DNS-only.
-5. Validate HTTPS before considering Full (Strict), TLS minimum changes, or HSTS.
+2. Remove/replace only obsolete Namecheap parking web records that remain unnecessary after route coverage.
+3. Preserve MX and SPF/TXT email records as DNS-only.
+4. Validate HTTPS before considering Full (Strict), TLS minimum changes, or HSTS.
 
 ## Rollback
 

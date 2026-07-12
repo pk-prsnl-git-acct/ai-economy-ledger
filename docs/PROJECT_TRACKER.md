@@ -5,7 +5,7 @@ Last updated: 2026-07-12
 ## Current state
 
 - Phase: auditable prototype planning
-- Active scope: logical PR 11 production deploy complete; next scope pending
+- Active scope: logical PR 12 canonical domain and E2E verification ready for PR completion
 - Production application: Cloudflare Worker deployed and routed; production readiness is degraded only because no snapshot is published yet
 - Production data: schema foundation plus relationship/scenario schema applied; no published snapshots yet
 - Repository visibility: public; owner-controlled writes
@@ -16,7 +16,7 @@ Last updated: 2026-07-12
 - Cloudflare account, active zone, Workers API, and DNS read access verified
 - Supabase Auth, JWKS, and server-side REST access verified
 - Hosted Supabase project `vupwphakeyvvhaoxuvuw` now has migration versions `0000` and `0001` applied
-- Public domain `aieconomyledger.com/*` routes to Worker `ai-economy-ledger`
+- Public domain `aieconomyledger.com/*` routes to Worker `ai-economy-ledger`; PR 12 adds `www.aieconomyledger.com/*` canonical redirect coverage
 - Supabase Data API exposes the intended `api` schema for public snapshot RPCs while `ledger` and `private` remain unexposed
 - PR 1 is merged and its required GitHub `quality` CI job passed
 - PR 2 is merged; its Next.js/OpenNext runtime and Cloudflare preview checks passed, satisfying logical PR 2.5 unless runtime changes invalidate that evidence
@@ -57,13 +57,14 @@ Last updated: 2026-07-12
 | PR 9 | Circularity and scenario engine |
 | PR 10 | Scheduled health checks and production readiness |
 | PR 11 | Production deploy, domain binding, and final smoke test |
+| PR 12 | Canonical `www` redirect and end-to-end production verification |
 
 ## Current risks
 
 - Public data licensing must be decided per source before redistribution.
 - AI-specific revenue allocations can create false precision.
 - The legacy Supabase anon key is obsolete; use the publishable-key model when the client is implemented.
-- Domain routing now points `aieconomyledger.com/*` at the production Worker through a zone Worker route.
+- Domain routing points `aieconomyledger.com/*` at the production Worker through a zone Worker route; PR 12 routes `www.aieconomyledger.com/*` to the Worker for canonical redirect.
 - Cloudflare Worker route is live, the account workers.dev subdomain is initialized as `aieconomyledger.workers.dev`, and the 30-minute Cron schedule is attached.
 - Direct dependency versions are pinned; updates must preserve Next.js/OpenNext and lint-parser compatibility.
 - Open-source differentiation must come from trust, methodology, curation, and execution rather than hidden code.
@@ -77,4 +78,4 @@ Last updated: 2026-07-12
 
 ## Next decision gate
 
-Logical PR 11 is merged as GitHub PR `#13`. Next scope should decide whether to publish a first real snapshot, redirect `www`, or move into the next product/data PR.
+Logical PR 12 completes the deploy-adjacent decision gate by redirecting `www` to the apex and running end-to-end production checks. Publishing the first real snapshot remains the next data gate because no approved production snapshot exists yet.
