@@ -5,7 +5,7 @@ Last updated: 2026-07-12
 ## Current state
 
 - Phase: auditable prototype planning
-- Active scope: logical PR 11 production deploy ready for PR completion
+- Active scope: logical PR 11 production deploy complete; next scope pending
 - Production application: Cloudflare Worker deployed and routed; production readiness is degraded only because no snapshot is published yet
 - Production data: schema foundation plus relationship/scenario schema applied; no published snapshots yet
 - Repository visibility: public; owner-controlled writes
@@ -77,4 +77,4 @@ Last updated: 2026-07-12
 
 ## Next decision gate
 
-Logical PR 11 is ready for PR completion. Next scope should decide whether to publish a first real snapshot, redirect `www`, or move into the next product/data PR.
+Logical PR 11 is merged as GitHub PR `#13`. Next scope should decide whether to publish a first real snapshot, redirect `www`, or move into the next product/data PR.

@@ -160,7 +160,7 @@
 
 ## PR 11 — Production deploy, domain binding, and final smoke
 
-- Status: ready for review
+- Status: merged
 - Pull request: GitHub PR `#13`
 - Branch: `agent/pr11-production-deploy-record`
 - Internal label: logical PR 11
@@ -170,3 +170,4 @@
 - Smoke results: `/` and `/methodology` return HTTP 200 from production; `/api/v1/snapshots` returns HTTP 200 with `{"data":[]}`; protected `/api/internal/health` returns HTTP 200 with status `degraded` only because no published snapshot exists; Cloudflare schedule list includes `*/30 * * * *`
 - Deployment impact: production Worker, route, workers.dev account subdomain, Cron schedule, and Supabase PostgREST exposed-schema config changed; Supabase schema/data were not changed; no published snapshot was created
 - Verification: 53 tests, strict TypeScript, OpenNext Cloudflare build, local workerd preview smoke, production route smoke, protected health smoke, direct Supabase public RPC smoke, and Cloudflare schedule API verification
+- GitHub: merged as PR `#13` by rebase with the documented solo-maintainer administrator bypass
