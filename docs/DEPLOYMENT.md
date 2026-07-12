@@ -44,9 +44,11 @@ pnpm cf-typegen
 The build now hardens generated fallback env output in two steps:
 
 - `scripts/ci/sanitize-opennext-env.mjs` rewrites `.open-next/cloudflare/next-env.mjs` to keep only intentional public keys and the minimal non-secret Supabase runtime fallbacks.
-- `scripts/ci/scan-opennext-output.mjs` scans generated `.open-next/` text artifacts for real secret-value patterns and rejects any secret-key entries that reappear in the generated fallback env file.
+- `scripts/ci/scan-opennext-output.mjs` scans generated `.open-next/` text artifacts for real secret-value patterns, sensitive environment values present during the build, and any secret-key entries that reappear in the generated fallback env file. Failure output reports only the generated file path and pattern/variable name, never detected secret values.
 
 This is required because OpenNext writes a local fallback env module during build. Real deployment secrets must continue to come from Cloudflare runtime bindings, not from generated local artifacts.
+
+The generated fallback env allowlist is explicit. It keeps only `NEXTJS_ENV`, `NEXT_PUBLIC_SITE_URL`, `NEXT_PUBLIC_APP_NAME`, `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, legacy placeholder `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY`, and `SUPABASE_JWKS_URL`. Do not add new `NEXT_PUBLIC_*` variables unless browser-facing code and deployment documentation require them.
 
 ## Health and readiness
 

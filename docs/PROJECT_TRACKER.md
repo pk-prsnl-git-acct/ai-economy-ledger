@@ -5,7 +5,7 @@ Last updated: 2026-07-12
 ## Current state
 
 - Phase: auditable prototype planning
-- Active scope: logical PR 12 canonical domain and E2E verification ready for PR completion
+- Active scope: logical PR 12.2 OpenNext secret-hardening regression coverage and project-memory cleanup
 - Production application: Cloudflare Worker deployed and routed; production readiness is degraded only because no snapshot is published yet
 - Production data: schema foundation plus relationship/scenario schema applied; no published snapshots yet
 - Repository visibility: public; owner-controlled writes
@@ -16,7 +16,7 @@ Last updated: 2026-07-12
 - Cloudflare account, active zone, Workers API, and DNS read access verified
 - Supabase Auth, JWKS, and server-side REST access verified
 - Hosted Supabase project `vupwphakeyvvhaoxuvuw` now has migration versions `0000` and `0001` applied
-- Public domain `aieconomyledger.com/*` routes to Worker `ai-economy-ledger`; PR 12 adds `www.aieconomyledger.com/*` canonical redirect coverage
+- Public domain `aieconomyledger.com/*` routes to Worker `ai-economy-ledger`; logical PR 12 / GitHub PR `#15` added `www.aieconomyledger.com/*` canonical redirect coverage
 - Supabase Data API exposes the intended `api` schema for public snapshot RPCs while `ledger` and `private` remain unexposed
 - PR 1 is merged and its required GitHub `quality` CI job passed
 - PR 2 is merged; its Next.js/OpenNext runtime and Cloudflare preview checks passed, satisfying logical PR 2.5 unless runtime changes invalidate that evidence
@@ -31,6 +31,9 @@ Last updated: 2026-07-12
 - PR 9 is merged as GitHub PR `#10`; its required `quality` check passed
 - PR 10 is merged as GitHub PR `#12`; it adds protected readiness checks, Cloudflare Cron wiring, and production readiness documentation
 - PR 11 production deployment completed on 2026-07-12; Worker upload, secrets/vars, zone route, Supabase public RPC exposure, Cloudflare Cron schedule, and final smoke passed for the expected pre-snapshot state
+- PR 12 is merged as GitHub PR `#15`; canonical `www` redirect and end-to-end production verification are complete
+- GitHub PR `#16` completed OpenNext generated-env hardening; `.open-next` generated-output secret scan passed
+- PR 12.2 adds behavioral regression coverage for the sanitizer/scanner and updates project memory before PR 13
 - Main requires PRs and resolved review conversations and blocks deletion/force pushes
 - GitHub now requires the `quality` check and requires PR branches to be current with `main`
 - The ruleset still requires one approval; owner-authored PRs use the administrator bypass until another maintainer can approve them
@@ -58,13 +61,15 @@ Last updated: 2026-07-12
 | PR 10 | Scheduled health checks and production readiness |
 | PR 11 | Production deploy, domain binding, and final smoke test |
 | PR 12 | Canonical `www` redirect and end-to-end production verification |
+| PR 12.2 | OpenNext secret-hardening regression coverage and project-memory cleanup |
+| PR 13 | Data charter, AI-economy ontology, and coverage contract |
 
 ## Current risks
 
 - Public data licensing must be decided per source before redistribution.
 - AI-specific revenue allocations can create false precision.
 - The legacy Supabase anon key is obsolete; use the publishable-key model when the client is implemented.
-- Domain routing points `aieconomyledger.com/*` at the production Worker through a zone Worker route; PR 12 routes `www.aieconomyledger.com/*` to the Worker for canonical redirect.
+- Domain routing points `aieconomyledger.com/*` and `www.aieconomyledger.com/*` at the production Worker through zone Worker routes; `www` canonically redirects to the apex.
 - Cloudflare Worker route is live, the account workers.dev subdomain is initialized as `aieconomyledger.workers.dev`, and the 30-minute Cron schedule is attached.
 - Direct dependency versions are pinned; updates must preserve Next.js/OpenNext and lint-parser compatibility.
 - Open-source differentiation must come from trust, methodology, curation, and execution rather than hidden code.
@@ -78,4 +83,4 @@ Last updated: 2026-07-12
 
 ## Next decision gate
 
-Logical PR 12 completes the deploy-adjacent decision gate by redirecting `www` to the apex and running end-to-end production checks. Publishing the first real snapshot remains the next data gate because no approved production snapshot exists yet.
+Logical PR 12 is complete. After PR 12.2 closes the OpenNext hardening regression gap and memory cleanup, the next active product phase is PR 13: Data Charter, AI-Economy Ontology and Coverage Contract. Publishing the first real snapshot remains a later data gate because no approved production snapshot exists yet.

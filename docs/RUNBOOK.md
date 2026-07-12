@@ -22,8 +22,8 @@ git check-ignore .env.local
 After any Cloudflare build intended for preview or deploy, also confirm:
 
 1. `pnpm build:cloudflare` finishes with the sanitize and generated-output scan steps.
-2. `.open-next/cloudflare/next-env.mjs` contains only public fallback values plus `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY`, and `SUPABASE_JWKS_URL`.
-3. No generated `.open-next/` text artifact contains live private-token patterns or credential-bearing database URLs.
+2. `.open-next/cloudflare/next-env.mjs` contains only the explicit generated-env allowlist: `NEXTJS_ENV`, `NEXT_PUBLIC_SITE_URL`, `NEXT_PUBLIC_APP_NAME`, `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, legacy placeholder `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY`, and `SUPABASE_JWKS_URL`.
+3. No generated `.open-next/` text artifact contains live private-token patterns, credential-bearing database URLs, or exact sensitive environment values from the build environment. Scanner failures must report only paths and pattern/variable names, never secret values.
 
 ## Readiness and scheduled health
 
