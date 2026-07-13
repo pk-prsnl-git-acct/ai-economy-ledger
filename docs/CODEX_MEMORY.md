@@ -151,6 +151,7 @@ This document contains durable implementation context for future coding sessions
 
 ## Logical PR 30.1B public trust bridge
 
+- Public PR30.1B is GitHub PR `#25`.
 - Private PR30.1A merged in `ai-economy-ledger-data-engine` as GitHub PR `#44`
   at `7fa20b4b669dfc1704201c78aaf3406dbd55cdbb`.
 - PR30.1B consumes that contract through

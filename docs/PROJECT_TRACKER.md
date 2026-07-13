@@ -91,7 +91,7 @@ Last updated: 2026-07-13
 
 ## Next decision gate
 
-Logical PR 30.1B is active after private PR30.1A merged at
+Logical PR 30.1B is GitHub PR `#25` and is active after private PR30.1A merged at
 `7fa20b4b669dfc1704201c78aaf3406dbd55cdbb`. After PR30.1B merges and final
 verification passes, Logical PR 31 may resume in the private data-engine plan.
 Do not begin PR31 inside this public bridge PR.

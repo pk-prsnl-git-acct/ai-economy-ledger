@@ -3,7 +3,8 @@
 ## Logical PR 30.1B — Authenticated admin review and trust-state UI
 
 - Status: in progress
-- Pull request: pending
+- Pull request: GitHub PR `#25`
+- Pull request URL: `https://github.com/pk-prsnl-git-acct/ai-economy-ledger/pull/25`
 - Branch: `feat/logical-pr-30-1b-admin-trust-ui`
 - Purpose: consume the merged private PR30.1A contract in the public app through
   fixture-backed CI adapters, protected admin review routes, and public
@@ -19,7 +20,9 @@
 - Security: reuses existing Supabase session and `private.app_user_roles`
   authorization; no second auth system, service-role key, private credential, or
   unrestricted evidence path
-- Verification: pending
+- Verification: local `pnpm verify`, `pnpm build`, `pnpm build:cloudflare`, and
+  pre-push verify/OpenNext/Cloudflare preview smoke passed before PR-number
+  metadata update
 - Next active task after merge and post-merge verification: Logical PR 31, but
   do not begin it in this PR
 
