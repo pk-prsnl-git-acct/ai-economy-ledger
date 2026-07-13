@@ -1,5 +1,28 @@
 # Pull Request Log
 
+## Logical PR 30.1B — Authenticated admin review and trust-state UI
+
+- Status: in progress
+- Pull request: pending
+- Branch: `feat/logical-pr-30-1b-admin-trust-ui`
+- Purpose: consume the merged private PR30.1A contract in the public app through
+  fixture-backed CI adapters, protected admin review routes, and public
+  trust-state rendering
+- Scope: `/admin/review`, `/admin/review/[reviewCaseId]`,
+  `/admin/settings/data-trust`, server-only PR30.1A contract adapter, safe
+  fixture transport, version/stale/idempotency action checks, visibility policy
+  UI, trust-state badges and public disclosure rendering, tests, builds, and docs
+- Data impact: rights-safe contract fixture only; no raw source documents,
+  private-engine operational data, published snapshot, or production dataset
+- Deployment impact: none; no Cloudflare/Supabase production configuration or
+  secret changes
+- Security: reuses existing Supabase session and `private.app_user_roles`
+  authorization; no second auth system, service-role key, private credential, or
+  unrestricted evidence path
+- Verification: pending
+- Next active task after merge and post-merge verification: Logical PR 31, but
+  do not begin it in this PR
+
 ## PR 1 — Repository scaffold and project memory
 
 - Status: merged

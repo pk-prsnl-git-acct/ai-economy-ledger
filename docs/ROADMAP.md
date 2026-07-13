@@ -1,5 +1,15 @@
 # Roadmap
 
+## Current Bridge
+
+- Logical PR 30.1A is complete in the private data-engine repository and defines
+  the progressive-trust/admin-review contract.
+- Logical PR 30.1B adds the public authenticated admin review and trust-state UI
+  bridge without enabling publication or requiring a live private-engine
+  endpoint in CI.
+- Logical PR 31 remains blocked until PR30.1B merges and post-merge verification
+  passes.
+
 ## Execution Contract
 
 The project advances one logical PR/checkpoint at a time. Each step must update the project memory docs when it changes architecture, data, deployment, security, methodology, or workflow state. See [Updated PR Plan and Checkpoints](UPDATED_PR_PLAN_AND_CHECKPOINTS.md).

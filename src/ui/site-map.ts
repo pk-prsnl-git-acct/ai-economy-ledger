@@ -20,7 +20,9 @@ export const publicRoutes = [
 
 export const adminRoutes = [
   { href: "/admin", label: "Overview", eyebrow: "Admin workspace", title: "Operate the review pipeline.", description: "A static preview of the future protected operations workspace." },
+  { href: "/admin/review", label: "Trust review", eyebrow: "Progressive trust", title: "Review source-attributed public records.", description: "Protected queue for trust-state upgrades, stale-safe decisions, and safe evidence review." },
   { href: "/admin/review-queue", label: "Review queue", eyebrow: "Evidence review", title: "Approve evidence before publication.", description: "A future queue for human review, conflict resolution, and publication decisions." },
+  { href: "/admin/settings/data-trust", label: "Data trust settings", eyebrow: "Visibility policy", title: "Manage public trust display settings.", description: "Protected controls for non-mutating visibility policy and trust-state display defaults." },
   { href: "/admin/sources", label: "Sources", eyebrow: "Source operations", title: "Register and assess source material.", description: "A future workspace for source metadata, licensing, freshness, and retrieval status." },
   { href: "/admin/companies", label: "Companies", eyebrow: "Entity operations", title: "Resolve companies and economic roles.", description: "A future workspace for canonical entities, aliases, segments, and relationships." },
   { href: "/admin/import", label: "Import", eyebrow: "Controlled ingestion", title: "Stage data before it becomes a claim.", description: "A future guarded import flow with validation, sample isolation, and dry-run reporting." },

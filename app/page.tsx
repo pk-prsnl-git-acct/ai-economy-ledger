@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
-import { AppShell, DataTable, FinancialChartCard, HeroSection, KpiCard, SampleDataWarning } from "@/components/ledger";
+import { AppShell, DataTable, FinancialChartCard, HeroSection, KpiCard, PublicTrustLedger, SampleDataWarning } from "@/components/ledger";
+import { getHeadlineRecords, listPublicTrustRecords } from "@/src/server/admin/public-trust/contract";
 import { routeMetadata } from "@/src/ui/metadata";
 import { findPublicRoute } from "@/src/ui/site-map";
 
@@ -9,6 +10,8 @@ const route = findPublicRoute("/");
 export const metadata: Metadata = routeMetadata(route.title, route.description, route.href);
 
 export default function HomePage() {
+  const trustRecords = listPublicTrustRecords();
+  const headlineRecords = getHeadlineRecords();
   return (
     <AppShell>
       <HeroSection route={route} />
@@ -23,6 +26,7 @@ export default function HomePage() {
         <FinancialChartCard title="Capital and revenue over time" />
         <FinancialChartCard title="Gross and adjusted flow" variant="bars" />
       </section>
+      <PublicTrustLedger records={trustRecords} headlineCount={headlineRecords.length} />
       <DataTable />
     </AppShell>
   );

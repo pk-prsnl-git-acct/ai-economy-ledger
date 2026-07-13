@@ -3,7 +3,7 @@ import { existsSync, readFileSync } from "node:fs";
 import test from "node:test";
 
 const publicRoutes = ["/", "/companies", "/funding", "/revenue-debt", "/compute-infra", "/circularity", "/methodology", "/sources", "/downloads"];
-const adminRoutes = ["/admin", "/admin/review-queue", "/admin/sources", "/admin/companies", "/admin/import", "/admin/claims", "/admin/metric-revisions", "/admin/health", "/admin/update-log"];
+const adminRoutes = ["/admin", "/admin/review", "/admin/settings/data-trust", "/admin/review-queue", "/admin/sources", "/admin/companies", "/admin/import", "/admin/claims", "/admin/metric-revisions", "/admin/health", "/admin/update-log"];
 
 function pagePath(route) {
   return route === "/" ? "app/page.tsx" : `app${route}/page.tsx`;
@@ -37,6 +37,20 @@ test("static UX exposes trust and access warnings without backend code", () => {
   assert.match(components, /Static admin preview/);
   assert.match(components, /Authentication and write actions are intentionally unavailable/);
   assert.doesNotMatch(`${components}\n${appSources}`, /src\/server\/db|SUPABASE_SERVICE_ROLE|SUPABASE_SECRET/);
+});
+
+test("public dashboard renders progressive trust states with visible disclosure", () => {
+  const home = readFileSync("app/page.tsx", "utf8");
+  const components = readFileSync("components/ledger.tsx", "utf8");
+
+  assert.match(home, /PublicTrustLedger/);
+  assert.match(home, /listPublicTrustRecords/);
+  assert.match(home, /getHeadlineRecords/);
+  assert.match(components, /Source-attributed — not yet human verified/);
+  assert.match(components, /Human verified/);
+  assert.match(components, /Conflict detected/);
+  assert.match(components, /Verified-only views include/);
+  assert.match(components, /disclosure\.label/);
 });
 
 test("every route declares canonical metadata", () => {

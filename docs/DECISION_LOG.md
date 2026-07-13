@@ -2,6 +2,18 @@
 
 Material decisions use stable identifiers and remain append-only. Reversals reference the superseded decision.
 
+## 2026-07-13 — Public app consumes PR30.1A through a fixture-backed trust adapter
+
+- Decision: implement PR30.1B with protected admin Server Components and a
+  server-only PR30.1A contract adapter, backed by rights-safe fixtures in CI.
+- Why: the public app needs trust-state UI and review workflows before the first
+  production dataset, but CI must not require private-engine endpoints,
+  production secrets, raw evidence, or publication enablement.
+- Consequence: `/admin/review`, `/admin/review/[reviewCaseId]`, and
+  `/admin/settings/data-trust` reuse the existing Supabase session and
+  `private.app_user_roles` authorization path; public values render explicit
+  trust labels and unverified disclosures; Logical PR 31 remains unstarted.
+
 ## DEC-001 — Cloudflare-first runtime
 
 - Date: 2026-07-09

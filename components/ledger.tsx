@@ -3,6 +3,7 @@ import type { Route } from "next";
 import type { ReactNode } from "react";
 
 import { adminRoutes, publicRoutes, type RouteDefinition } from "@/src/ui/site-map";
+import type { PublicTrustRecord } from "@/src/server/admin/public-trust/contract";
 
 export function AppShell({ children, admin = false }: { children: ReactNode; admin?: boolean }) {
   return (
@@ -74,6 +75,19 @@ export function FreshnessBadge({ label = "Sample · not updated" }: { label?: st
   return <span className="badge badge-freshness">{label}</span>;
 }
 
+export function TrustStateBadge({ record }: { record: PublicTrustRecord }) {
+  const label = record.conflictStatus !== "none"
+    ? "Conflict detected"
+    : record.trustState === "human_verified"
+      ? "Human verified"
+      : record.trustState === "system_validated"
+        ? "System validated"
+        : record.trustState === "superseded"
+          ? "Superseded / historical"
+          : "Source-attributed — not yet human verified";
+  return <span className={`badge trust-badge trust-${record.conflictStatus !== "none" ? "conflict" : record.trustState}`}>{label}</span>;
+}
+
 export function SourceLink({ href = "/sources", children = "View sources" }: { href?: string; children?: ReactNode }) {
   return <Link className="source-link" href={href as Route}>{children} <span aria-hidden="true">↗</span></Link>;
 }
@@ -132,6 +146,51 @@ export function DataTable({ title = "Illustrative company ledger" }: { title?: s
       <div className="panel-heading"><div><p className="panel-label">Sample records</p><h2>{title}</h2></div><SourceLink /></div>
       <div className="table-scroll"><table><thead><tr><th>Company</th><th>Segment</th><th>Value state</th><th>Confidence</th></tr></thead>
         <tbody>{rows.map((row) => <tr key={row[0]}>{row.map((cell) => <td key={cell}>{cell}</td>)}</tr>)}</tbody></table></div>
+    </section>
+  );
+}
+
+export function PublicTrustLedger({ records, headlineCount }: { records: PublicTrustRecord[]; headlineCount: number }) {
+  const verified = records.filter((record) => record.trustState === "human_verified");
+  return (
+    <section className="panel table-panel trust-ledger" aria-labelledby="public-trust-heading">
+      <div className="panel-heading">
+        <div>
+          <p className="panel-label">Progressive trust preview</p>
+          <h2 id="public-trust-heading">Source-attributed values stay visibly labelled</h2>
+        </div>
+        <FreshnessBadge label={`${headlineCount} headline-safe records`} />
+      </div>
+      <p className="admin-muted">
+        Latest/source-attributed views may show unverified data with source attribution. Verified-only views include {verified.length} human-verified record{verified.length === 1 ? "" : "s"} and exclude unverified records.
+      </p>
+      <div className="table-scroll">
+        <table>
+          <caption className="sr-only">Public trust-state records</caption>
+          <thead>
+            <tr>
+              <th>Company</th>
+              <th>Metric</th>
+              <th>Value</th>
+              <th>Trust state</th>
+              <th>Source</th>
+              <th>Disclosure</th>
+            </tr>
+          </thead>
+          <tbody>
+            {records.map((record) => (
+              <tr key={record.stableRecordId}>
+                <td>{record.entity.displayName}</td>
+                <td>{record.metric.displayLabel}</td>
+                <td>{record.value} {record.unit}</td>
+                <td><TrustStateBadge record={record} /></td>
+                <td><SourceLink href={record.source.url}>{record.source.name}</SourceLink><br /><span className="cell-muted">{record.source.filingOrPublicationDate}</span></td>
+                <td>{record.disclosure.label}<br /><span className="cell-muted">Updated {record.lastUpdatedAt.slice(0, 10)}</span></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </section>
   );
 }

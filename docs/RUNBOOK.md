@@ -36,6 +36,21 @@ Use this before production deployment, after environment changes, and when Cloud
 5. Check Cloudflare logs for structured `scheduled_readiness_check` events after Cron runs. Preserve logs without tokens or database credentials.
 6. If the public snapshot RPC fails, verify Supabase Data API exposed schemas, publishable key configuration, and the two intended `api` RPC execute grants before changing application code.
 
+## PR30.1B admin trust review
+
+1. Admin trust routes are protected Server Components under `/admin/review`,
+   `/admin/review/[reviewCaseId]`, and `/admin/settings/data-trust`.
+2. Authentication and authorization reuse the existing Supabase session cookie
+   and `private.app_user_roles`; do not create a separate login or trust
+   client-provided roles.
+3. CI uses the rights-safe fixture transport in
+   `src/server/admin/public-trust/contract.ts`; production private-engine
+   endpoints and secrets are not required by this PR.
+4. Review actions must send reason code, exact record version, exact evidence
+   version, policy version, and idempotency key. Stale decisions fail closed.
+5. Visibility settings control display only and must not mutate evidence, trust
+   state, review history, or certification.
+
 ### PR 11 production deploy record
 
 On 2026-07-12, production deploy was completed with explicit approval.
