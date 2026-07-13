@@ -109,6 +109,14 @@ PR 9 adds pure `circularity` and `scenario-engine` modules plus reviewed persist
 
 PR 10 wraps the generated OpenNext Worker with a stable `worker.mjs` entrypoint. Normal HTTP traffic delegates to `.open-next/worker.js`; Cloudflare scheduled events call the protected `/api/internal/health` route in-process every 30 minutes and emit structured readiness logs. The readiness evaluator is read-only: it verifies required public Supabase environment, healthcheck token configuration, snapshot RPC availability, published snapshot presence, and latest snapshot freshness. Empty published data is `degraded` rather than `down`, which keeps pre-launch production readiness honest without pretending the ledger has live data.
 
+PR30.1B adds the public bridge for the private data-engine PR30.1A trust
+contract. The adapter under `src/server/admin/public-trust/` is server-only,
+fixture-backed for CI, and fails closed on contract-version mismatch. Admin
+routes reuse Supabase Auth plus `private.app_user_roles`; they do not introduce a
+second login system or expose private-engine credentials. Public pages can render
+source-attributed unverified records only with visible source/disclosure
+metadata, while verified-only views exclude unverified records.
+
 Local development uses `next dev`; runtime verification builds the OpenNext artifact and smoke-tests it through Wrangler/workerd. The application does not opt into Next.js Edge Runtime because OpenNext Cloudflare targets the Node.js runtime compatibility layer.
 
 See [Decision Log](DECISION_LOG.md) for accepted decisions and trade-offs.

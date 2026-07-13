@@ -1,0 +1,232 @@
+{
+  "contractVersion": "public-trust-admin-review@30.1A.0",
+  "policyVersion": "public-trust-policy@30.1A.0",
+  "description": "Rights-safe cross-repository contract for public trust states, public visibility, and protected admin review operations.",
+  "trustStateEnum": [
+    "source_attributed_unverified",
+    "system_validated",
+    "human_verified",
+    "rejected",
+    "superseded"
+  ],
+  "disclosureCodeEnum": [
+    "source_attributed_unverified_disclosure",
+    "system_validated_disclosure",
+    "human_verified_disclosure",
+    "conflict_disclosure",
+    "superseded_history_disclosure"
+  ],
+  "visibilityPolicyDefaults": {
+    "show_source_attributed_unverified": true,
+    "show_system_validated": true,
+    "show_human_verified": true,
+    "show_conflicted_records": true,
+    "exclude_conflicted_from_headlines": true,
+    "exclude_unverified_from_verified_aggregates": true,
+    "show_superseded_history": false,
+    "preview_disclosure_required": true
+  },
+  "publicRecordPayload": {
+    "stableRecordId": "public-record:nvidia:ai-capex:fy2025",
+    "recordVersion": "record-version:nvidia:ai-capex:fy2025:v1",
+    "entity": {
+      "entityId": "entity:nvidia",
+      "displayName": "NVIDIA Corporation"
+    },
+    "metric": {
+      "metricId": "metric:ai-capex",
+      "displayLabel": "AI capital expenditure"
+    },
+    "period": {
+      "periodId": "period:fy2025",
+      "label": "FY 2025"
+    },
+    "value": "1250000.00",
+    "unit": "USD",
+    "source": {
+      "name": "SEC EDGAR",
+      "url": "https://www.sec.gov/Archives/fixture/nvidia-10k-index.html",
+      "reference": "sec:fixture:nvidia:10-k:2025",
+      "documentType": "10-K",
+      "filingOrPublicationDate": "2025-02-26"
+    },
+    "evidence": {
+      "documentVersion": "evidence-version:nvidia:10-k:2025:v1",
+      "safeEvidenceRef": "safe-ref:nvidia:capex:fy2025",
+      "coordinates": {
+        "section": "MD&A",
+        "table": "Capital expenditures",
+        "row": 1,
+        "column": "amount"
+      },
+      "rawContentAvailable": false
+    },
+    "extraction": {
+      "method": "deterministic_xbrl",
+      "pipelineRunId": "pipeline-run:pr30-1a:fixture",
+      "modelAssisted": false
+    },
+    "trustState": "source_attributed_unverified",
+    "reviewRequired": true,
+    "humanVerified": false,
+    "conflictStatus": "none",
+    "amendmentStatus": "original",
+    "duplicateGroupStatus": "unique",
+    "anomalyStatus": "none",
+    "firstSeenAt": "2026-07-13T00:00:00.000Z",
+    "lastUpdatedAt": "2026-07-13T00:00:00.000Z",
+    "disclosure": {
+      "code": "source_attributed_unverified_disclosure",
+      "label": "Source-attributed value that has not yet completed human review."
+    },
+    "policyVersion": "public-trust-policy@30.1A.0",
+    "contractVersion": "public-trust-admin-review@30.1A.0",
+    "publicationLane": "latest_source_attributed",
+    "publicationEnabled": false
+  },
+  "reviewQueueResponse": {
+    "contractVersion": "public-trust-admin-review@30.1A.0",
+    "page": {
+      "limit": 25,
+      "cursor": "opaque-fixture-cursor",
+      "hasMore": false
+    },
+    "filters": {
+      "company": "entity:nvidia",
+      "metric": "metric:ai-capex",
+      "source": "SEC EDGAR",
+      "trustState": "source_attributed_unverified",
+      "reviewPriority": "normal",
+      "conflict": "none",
+      "anomaly": "none",
+      "modelAssisted": false,
+      "queueAge": "P0D"
+    },
+    "cases": [
+      {
+        "reviewCaseId": "review-case:fixture:nvidia",
+        "reviewQueueStatus": "open",
+        "reviewPriority": "normal",
+        "queueAge": "P0D",
+        "groupedObservationCount": 1
+      }
+    ]
+  },
+  "reviewDetailResponse": {
+    "reviewCaseId": "review-case:fixture:nvidia",
+    "recordVersion": "record-version:nvidia:ai-capex:fy2025:v1",
+    "evidenceVersion": "evidence-version:nvidia:10-k:2025:v1",
+    "trustState": "source_attributed_unverified",
+    "currentRecordRef": "public-record:nvidia:ai-capex:fy2025"
+  },
+  "evidenceSafeBundle": {
+    "mode": "safe_reference",
+    "sourceName": "SEC EDGAR",
+    "sourceUrl": "https://www.sec.gov/Archives/fixture/nvidia-10k-index.html",
+    "safeEvidenceRef": "safe-ref:nvidia:capex:fy2025",
+    "coordinates": {
+      "section": "MD&A",
+      "table": "Capital expenditures",
+      "row": 1,
+      "column": "amount"
+    },
+    "documentVersion": "evidence-version:nvidia:10-k:2025:v1",
+    "rawContentAvailable": false
+  },
+  "groupedObservationResponse": {
+    "duplicateGroupStatus": "group:amazon-cloud-contract-2025",
+    "countingAction": "count_once",
+    "groupedObservationCount": 2,
+    "observations": [
+      "public-record:amazon:cloud-contract:fy2025:company",
+      "public-record:amazon:cloud-contract:fy2025:customer"
+    ]
+  },
+  "reviewHistoryResponse": {
+    "reviewCaseId": "review-case:fixture:nvidia",
+    "events": [
+      {
+        "eventType": "case_created",
+        "actor": "system",
+        "appendOnly": true,
+        "createdAt": "2026-07-13T00:00:00.000Z"
+      }
+    ]
+  },
+  "backlogMetricsResponse": {
+    "unresolvedCaseCount": 1,
+    "dailyInflow": 1,
+    "dailyAdjudicationThroughput": 0,
+    "oldestUnresolvedCase": "review-case:fixture:nvidia",
+    "unresolvedByTrustState": {
+      "source_attributed_unverified": 1
+    },
+    "unresolvedBySource": {
+      "SEC EDGAR": 1
+    },
+    "unresolvedByPriority": {
+      "normal": 1
+    }
+  },
+  "decisionRequest": {
+    "action": "approve_human_verified",
+    "reasonCode": "safe_fixture_review",
+    "note": "Evidence-safe fixture review.",
+    "expectedRecordVersion": "record-version:nvidia:ai-capex:fy2025:v1",
+    "expectedEvidenceVersion": "evidence-version:nvidia:10-k:2025:v1",
+    "policyVersion": "public-trust-policy@30.1A.0",
+    "idempotencyKey": "idempotency:fixture:nvidia:approve"
+  },
+  "decisionResponse": {
+    "decisionAccepted": true,
+    "resultingTrustState": "human_verified",
+    "reviewRequired": false,
+    "humanVerified": true,
+    "publicationEnabled": false,
+    "auditEvent": {
+      "appendOnly": true
+    }
+  },
+  "visibilityPolicyRequest": {
+    "settings": {
+      "show_source_attributed_unverified": true,
+      "show_conflicted_records": true
+    },
+    "reasonCode": "admin_preview_setting"
+  },
+  "visibilityPolicyResponse": {
+    "policyVersion": "public-trust-policy@30.1A.0",
+    "contractVersion": "public-trust-admin-review@30.1A.0",
+    "settings": {
+      "show_source_attributed_unverified": true,
+      "show_system_validated": true,
+      "show_human_verified": true,
+      "show_conflicted_records": true,
+      "exclude_conflicted_from_headlines": true,
+      "exclude_unverified_from_verified_aggregates": true,
+      "show_superseded_history": false,
+      "preview_disclosure_required": true
+    }
+  },
+  "authorizationError": {
+    "status": 403,
+    "code": "admin_authorization_required",
+    "message": "Authenticated administrator authorization is required."
+  },
+  "validationError": {
+    "status": 422,
+    "code": "invalid_admin_decision",
+    "message": "Reason code, exact record version, exact evidence version, active policy version, and idempotency key are required."
+  },
+  "staleVersionResponse": {
+    "status": 409,
+    "code": "stale_record_or_evidence_version",
+    "message": "Reload before deciding."
+  },
+  "contractVersionMismatchResponse": {
+    "status": 426,
+    "code": "contract_version_mismatch",
+    "expected": "public-trust-admin-review@30.1A.0",
+    "message": "Fail closed on incompatible public trust contract versions."
+  }
+}

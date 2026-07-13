@@ -4,6 +4,9 @@ import test from "node:test";
 
 const adminPages = [
   "app/admin/page.tsx",
+  "app/admin/review/page.tsx",
+  "app/admin/review/[reviewCaseId]/page.tsx",
+  "app/admin/settings/data-trust/page.tsx",
   "app/admin/review-queue/page.tsx",
   "app/admin/sources/page.tsx",
   "app/admin/companies/page.tsx",
@@ -53,6 +56,56 @@ test("review queue is read through a server-only database boundary", () => {
   assert.match(source, /left join ledger\.metric_observations/);
   assert.match(source, /left join ledger\.published_snapshots/);
   assert.doesNotMatch(source, /insert into|update ledger|delete from/i);
+});
+
+test("PR30.1B consumes the private PR30.1A trust contract through server-only adapters", () => {
+  const contract = readFileSync("src/server/admin/public-trust/contract.ts", "utf8");
+  const actions = readFileSync("src/server/admin/public-trust/actions.ts", "utf8");
+  const admin = readFileSync("components/admin.tsx", "utf8");
+
+  assert.match(contract, /import "server-only"/);
+  assert.match(contract, /public-trust-admin-review@30\.1A\.0/);
+  assert.match(contract, /contract_version_mismatch/);
+  assert.match(contract, /listTrustReviewCases/);
+  assert.match(contract, /getTrustReviewCase/);
+  assert.match(contract, /getVisibilityPolicy/);
+  assert.match(contract, /evaluateDecisionRequest/);
+  assert.match(contract, /stale_record_or_evidence_version/);
+  assert.match(actions, /"use server"/);
+  assert.match(actions, /getAdminSession\("admin"\)/);
+  assert.match(admin, /TrustReviewDashboard/);
+  assert.match(admin, /TrustReviewDetail/);
+  assert.match(admin, /DataTrustSettingsPanel/);
+  assert.match(admin, /expectedRecordVersion/);
+  assert.match(admin, /expectedEvidenceVersion/);
+  assert.match(admin, /idempotencyKey/);
+  assert.doesNotMatch(`${contract}\n${actions}\n${admin}`, /SUPABASE_SERVICE_ROLE|service_role|private-engine secret|signed_url/i);
+});
+
+test("PR30.1B admin UI exposes required review, visibility, and safe evidence states", () => {
+  const admin = readFileSync("components/admin.tsx", "utf8");
+  const siteMap = readFileSync("src/ui/site-map.ts", "utf8");
+
+  for (const route of ["/admin/review", "/admin/settings/data-trust"]) {
+    assert.match(siteMap, new RegExp(`href: ["']${route.replaceAll("/", "\\/")}["']`));
+  }
+  for (const action of ["approve_human_verified", "reject", "request_more_evidence", "defer", "reopen", "supersede"]) {
+    assert.match(admin, new RegExp(action));
+  }
+  for (const setting of [
+    "show_source_attributed_unverified",
+    "show_system_validated",
+    "show_human_verified",
+    "show_conflicted_records",
+    "exclude_conflicted_from_headlines",
+    "exclude_unverified_from_verified_aggregates",
+    "show_superseded_history",
+    "preview_disclosure_required",
+  ]) {
+    assert.match(readFileSync("src/server/admin/public-trust/contract.ts", "utf8"), new RegExp(setting));
+  }
+  assert.match(admin, /safe evidence coordinates only/);
+  assert.match(admin, /does not mutate trust state, evidence, review decisions, or certification history/);
 });
 
 test("bootstrap and RLS smoke scripts are explicit private-env operations", () => {

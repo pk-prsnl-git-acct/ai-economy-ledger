@@ -57,6 +57,17 @@ Reviewer and admin authorization uses `private.app_user_roles` linked to `auth.u
 
 Public reads call `api.list_published_snapshots` and `api.get_published_snapshot`. The functions return only rows with `state = published` and `is_sample = false`; anonymous roles receive no grants on canonical ledger tables.
 
+## Progressive trust display contract
+
+PR30.1B imports the PR30.1A public trust/admin review contract as a rights-safe
+fixture under `data/contracts/public-trust/`. The fixture is not a published
+dataset. It models source-attributed unverified, system-validated,
+human-verified, rejected, and superseded states; safe evidence references;
+visibility settings; review-case payloads; stale-version responses; and
+contract-version mismatch handling. Public UI must exclude rejected and
+superseded records from current values, exclude conflicted records from headline
+counts by default, and exclude unverified records from verified-only views.
+
 ## Migration workflow
 
 PostgreSQL 17 is the project baseline. Drizzle generates schema DDL into `supabase/migrations`, while the Supabase CLI applies and tests the full migration locally. Direct schema pushes and uncaptured remote dashboard changes are prohibited. See [`supabase/README.md`](../supabase/README.md).

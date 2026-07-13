@@ -148,3 +148,21 @@ This document contains durable implementation context for future coding sessions
 - Logical PR 13 onward is incubated in private repository `pk-prsnl-git-acct/ai-economy-ledger-data-engine`.
 - This public repository must remain independently cloneable, buildable, testable, and deployable without private repository access.
 - Only reviewed, redistribution-safe components and published outputs should return from the private data-engine work to the public repository.
+
+## Logical PR 30.1B public trust bridge
+
+- Public PR30.1B is GitHub PR `#25`.
+- Private PR30.1A merged in `ai-economy-ledger-data-engine` as GitHub PR `#44`
+  at `7fa20b4b669dfc1704201c78aaf3406dbd55cdbb`.
+- PR30.1B consumes that contract through
+  `src/server/admin/public-trust/contract.ts` and the rights-safe fixture at
+  `data/contracts/public-trust/pr30_1a_public_trust_admin_review_contract.json`.
+- Admin trust routes are `/admin/review`, `/admin/review/[reviewCaseId]`, and
+  `/admin/settings/data-trust`; they reuse `getAdminSession` and
+  `private.app_user_roles`.
+- Public trust-state rendering lives in `components/ledger.tsx` and must keep
+  source-attributed unverified values visibly disclosed and excluded from
+  verified-only views.
+- Do not add a second auth system, expose service-role/private credentials,
+  require live private-engine endpoints for CI, enable publication, mutate
+  production infrastructure, or begin Logical PR 31 in PR30.1B.

@@ -1,11 +1,13 @@
 # Project Tracker
 
-Last updated: 2026-07-12
+Last updated: 2026-07-13
 
 ## Current state
 
-- Phase: public application maintenance while data-engine work incubates privately
-- Active scope: public repository is stable after logical PR 12.2; Logical PR 13 onward moves to the private data-engine repository
+- Phase: Logical PR 30.1B public bridge
+- Active scope: authenticated admin trust review UI and public trust-state
+  rendering, consuming the merged private PR30.1A contract through
+  fixture-backed CI adapters
 - Production application: Cloudflare Worker deployed and routed; production readiness is degraded only because no snapshot is published yet
 - Production data: schema foundation plus relationship/scenario schema applied; no published snapshots yet
 - Repository visibility: public; owner-controlled writes
@@ -65,6 +67,7 @@ Last updated: 2026-07-12
 | PR 12 | Canonical `www` redirect and end-to-end production verification |
 | PR 12.2 | OpenNext secret-hardening regression coverage and project-memory cleanup |
 | PR 13 | Private data-engine repository: data charter, AI-economy ontology, and coverage contract |
+| PR 30.1B | Public bridge: authenticated admin review and trust-state UI after private PR30.1A |
 
 ## Current risks
 
@@ -82,7 +85,13 @@ Last updated: 2026-07-12
 - PR 7 adds a draft-only deterministic publication runtime and GET-only public API adapter. No production snapshot exists and no hosted environment was changed.
 - PR 8 protects admin routes and adds bootstrap/RLS smoke scripts. No production role grant, hosted database mutation, published snapshot, Cloudflare change, or deployment is part of the PR by itself.
 - PR 10 readiness reports `degraded` in production until the first real published snapshot exists; this is the expected pre-launch state.
+- PR30.1B consumes a rights-safe PR30.1A fixture contract only. It does not
+  require a live private-engine endpoint or production secret in CI, does not
+  enable publication, and does not begin Logical PR 31.
 
 ## Next decision gate
 
-Logical PR 12.2 is complete. The next active data phase, Logical PR 13, is incubated in the private data-engine repository so connector, ontology, validation, and source-feasibility work can proceed without introducing a private dependency into this public application. Only reviewed, redistribution-safe components and published outputs should return to the public repository. Publishing the first real snapshot remains a later data gate because no approved production snapshot exists yet.
+Logical PR 30.1B is GitHub PR `#25` and is active after private PR30.1A merged at
+`7fa20b4b669dfc1704201c78aaf3406dbd55cdbb`. After PR30.1B merges and final
+verification passes, Logical PR 31 may resume in the private data-engine plan.
+Do not begin PR31 inside this public bridge PR.
