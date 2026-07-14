@@ -36,8 +36,9 @@ export function artifactResponse(request: Request, bytes: Buffer, name: string, 
 
 export function apiError(error: unknown) {
   const message = error instanceof Error ? error.message : "Unknown release error";
+  const status = error instanceof Error && "status" in error && error.status === 503 ? 503 : 400;
   return Response.json({ error: { code: "release_contract_rejected", message } }, {
-    status: 400,
+    status,
     headers: { "Cache-Control": "no-store", "X-Content-Type-Options": "nosniff" }
   });
 }

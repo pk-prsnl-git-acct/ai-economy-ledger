@@ -308,3 +308,17 @@
 - Safety: no browser policy recomputation, live private endpoint, deployment, publication, hosted migration, secret, DNS, Worker, queue, or production data mutation
 - Validation: 85 tests, data validation, Next production build, Cloudflare/OpenNext build, generated-output secret scan, and preview smoke for 14 pages and 10 API routes
 - Next: merge and verify PR `#29`; PR37 is the final planned logical PR and no later implementation task is authorized
+
+## Production activation — Verified private release transport
+
+- Status: in review
+- Pull request: GitHub PR `#30`
+- URL: `https://github.com/pk-prsnl-git-acct/ai-economy-ledger/pull/30`
+- Branch: `feat/production-release-transport`
+- Private dependency: data-engine production activation GitHub PR `#53`, merged at `590aa67c1d60bf0fafc9b8c923dff1b9429d9243`
+- Purpose: replace embedded candidate reads in production with an exact read-only Cloudflare service binding to the private engine while preserving embedded, credential-free CI
+- Scope: production transport, runtime adapters, live-aware pages, release/quality/analytics APIs, safe error boundary, service binding, preview isolation, and focused compatibility tests
+- Safety: production fails closed on missing bindings, invalid pointers, hash/length/contract mismatches, private material, sample rows, visibility failures, verified-lane failures, critical quality breaches, or unsupported analytics; no public source-of-truth trust/review tables are added
+- Deployment impact: configuration and application code only while in review; no production secret value, publication decision, hosted migration, or live resource mutation is committed
+- Validation: 85 tests, strict TypeScript, migration check, data validation, OpenNext production build, generated-output secret scan, and local preview smoke for 14 pages and 10 API routes
+- Next: merge and verify PR `#30`, then deploy only after the private service, read token, promoted release, smoke, monitoring, and rollback gates are ready

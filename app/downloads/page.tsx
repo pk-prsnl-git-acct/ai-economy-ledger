@@ -7,6 +7,7 @@ import { routeMetadata } from "@/src/ui/metadata";
 import { findPublicRoute } from "@/src/ui/site-map";
 const route = findPublicRoute("/downloads");
 export const metadata: Metadata = routeMetadata(route.title, route.description, route.href);
+export const dynamic = "force-dynamic";
 export default function DownloadsPage() {
   return (
     <AppShell>

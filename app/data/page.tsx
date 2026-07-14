@@ -2,18 +2,26 @@ import type { Metadata } from "next";
 
 import { AppShell, HeroSection } from "@/components/ledger";
 import { CandidateNotice, DataNavigation, DownloadLink } from "@/components/data-release";
-import { currentReleaseId, getReleaseManifest, getReleaseRecords } from "@/src/server/data-releases/contract";
+import { currentReleaseId, getReleaseManifest, getReleaseRecords, listReleases } from "@/src/server/data-releases/runtime";
 import { findPublicRoute } from "@/src/ui/site-map";
 import { routeMetadata } from "@/src/ui/metadata";
 
 const route = findPublicRoute("/data");
 export const metadata: Metadata = routeMetadata(route.title, route.description, route.href);
 
-export default function DataPage() {
-  const releaseId = currentReleaseId();
-  const manifest = getReleaseManifest(releaseId);
-  const latest = getReleaseRecords(releaseId, "latest_source_attributed").records;
-  const verified = getReleaseRecords(releaseId, "verified").records;
+export const dynamic = "force-dynamic";
+
+export default async function DataPage() {
+  const releaseId = await currentReleaseId();
+  const [manifest, latestResult, verifiedResult, releases] = await Promise.all([
+    getReleaseManifest(releaseId),
+    getReleaseRecords(releaseId, "latest_source_attributed"),
+    getReleaseRecords(releaseId, "verified"),
+    listReleases(),
+  ]);
+  const latest = latestResult.records;
+  const verified = verifiedResult.records;
+  const published = releases.find((release) => release.releaseId === releaseId)?.status === "published";
   const base = `/api/data/releases/${encodeURIComponent(releaseId)}`;
   return (
     <AppShell>
@@ -23,7 +31,7 @@ export default function DataPage() {
       <section className="release-metrics" aria-label="Release summary">
         <article className="panel release-stat"><span>Latest source-attributed</span><strong>{latest.length}</strong><small>Includes {latest.filter((record) => record.reviewRequired).length} review-pending</small></article>
         <article className="panel release-stat"><span>Verified lane</span><strong>{verified.length}</strong><small>Explicit private-engine decisions</small></article>
-        <article className="panel release-stat"><span>Publication</span><strong>Off</strong><small>Candidate only</small></article>
+        <article className="panel release-stat"><span>Publication</span><strong>{published ? "Live" : "Off"}</strong><small>{published ? "Published release" : "Candidate only"}</small></article>
       </section>
       <section className="panel download-panel">
         <div className="panel-heading"><div><p className="panel-label">Release {manifest.releaseSequence}</p><h2>{releaseId}</h2></div><span className="badge">{manifest.releaseStatus}</span></div>

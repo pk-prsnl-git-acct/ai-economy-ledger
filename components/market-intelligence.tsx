@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { Route } from "next";
 import type { CSSProperties, ReactNode } from "react";
 
-import type { AnalyticalRecord, ViewAvailability } from "@/src/server/market-intelligence/contract";
+import type { AnalyticalRecord, ViewAvailability } from "@/src/server/market-intelligence/runtime";
 
 function title(value: string) {
   return value.replaceAll("-", " ").replaceAll("_", " ");

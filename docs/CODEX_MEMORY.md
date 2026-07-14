@@ -223,3 +223,10 @@ This document contains durable implementation context for future coding sessions
 - `/api/data/analytics` and `/api/data/analytics/[artifact]` expose safe cache-aware release-candidate data only.
 - No live private transport, deployment, publication, hosted migration, secret, DNS, queue, Worker, or production data mutation is enabled.
 - PR37 is the final planned logical PR. Do not invent a later logical PR.
+
+## Production activation transport
+
+- Public production activation is GitHub PR `#30`, paired with private data-engine PR `#53` merged at `590aa67c1d60bf0fafc9b8c923dff1b9429d9243`.
+- Production uses a server-only Cloudflare service binding and distinct read token; the browser receives neither the token nor private operational payloads.
+- Missing or inconsistent release, quality, analytics, artifact, rights, sample, visibility, or lane proof fails closed without substituting embedded fixtures.
+- Preview and CI explicitly use embedded mode and require no live endpoint or production credential.

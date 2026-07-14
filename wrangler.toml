@@ -15,5 +15,15 @@ binding = "ASSETS"
 [observability]
 enabled = true
 
+[vars]
+RELEASE_TRANSPORT_MODE = "production"
+
+[[services]]
+binding = "DATA_ENGINE"
+service = "ai-economy-ledger-data-engine"
+
+[env.preview.vars]
+RELEASE_TRANSPORT_MODE = "embedded"
+
 [triggers]
 crons = ["*/30 * * * *"]
