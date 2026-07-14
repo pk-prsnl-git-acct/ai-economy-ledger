@@ -154,3 +154,10 @@ Material decisions use stable identifiers and remain append-only. Reversals refe
 - Status: accepted
 - Decision: Implement production readiness as a protected read-only health route plus a Cloudflare Cron Worker wrapper that delegates normal HTTP traffic to OpenNext and scheduled events to the health route.
 - Rationale: OpenNext owns the generated HTTP Worker, while Cloudflare Cron requires a scheduled event handler. A thin wrapper keeps the adapter path intact, adds scheduled checks without production mutation, and makes readiness observable before the first domain deployment.
+
+## DEC-019 — Hash-bound public dataset distribution
+
+- Date: 2026-07-14
+- Status: accepted
+- Decision: Treat the private data engine's manifest hash as the public release trust root. Serve only the fixed, reviewed artifact set after server-side contract, hash, byte-length, membership, and private-material validation; cache versioned bytes immutably while revalidating mutable indexes and correction feeds.
+- Rationale: public distribution must be independently buildable and transparent without importing private policy or infrastructure. Binding every download to one reviewed manifest prevents silent artifact drift, while separate cache classes preserve immutable history and timely correction discovery.

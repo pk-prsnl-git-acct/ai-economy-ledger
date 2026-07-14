@@ -185,3 +185,24 @@ This document contains durable implementation context for future coding sessions
 - Do not add a second auth system, expose service-role/private credentials,
   require live private-engine endpoints for CI, enable publication, mutate
   production infrastructure, or begin Logical PR 31 in PR30.1B.
+
+## Logical PR34 public dataset distribution
+
+- Private Logical PR34 merged as data-engine GitHub PR `#49` at
+  `eb353b70bcf80066fd62ff8ef9d03efa4ac5bdd2` and produced release candidate
+  `dataset-release:1:5424bda5073c2a1a09cb` with manifest SHA-256
+  `30b8a9ccb5687695ef4603b57e57879c3e8718f17b5f5b2cc51d397a59e0c7f3`.
+- The public repository consumes only the reviewed, redistribution-safe,
+  hash-bound artifact bundle. Its server-only adapter validates the exact
+  `@34.0.0` contracts, artifact set, hashes, byte lengths, release membership,
+  and publication-disabled gate before serving any bytes.
+- Versioned release artifacts use immutable one-year caching and SHA-256 ETags.
+  Mutable release indexes and the correction feed use 60-second revalidation.
+- The first candidate has 6 latest source-attributed records, 4 human-verified
+  records, 60 expected coverage cells, 4 covered cells, 6.67% coverage, and no
+  revisions, corrections, sample rows, production publication, Supabase
+  mutation, Cloudflare deployment, or private-engine runtime dependency.
+- Public code must consume explicit private-engine visibility, verified-lane,
+  headline, and publication decisions. It must not recompute private trust or
+  autonomy policy, present system validation as human review, or convert absent
+  coverage into zero-valued observations.

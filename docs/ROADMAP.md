@@ -2,14 +2,14 @@
 
 ## Current Bridge
 
-- Private Logical PR33 is merged as data-engine GitHub PR `#48` and defines the
-  stable progressive-autonomy/public-trust contract.
-- Public GitHub PR `#26`, the merged PR33 compatibility bridge, consumes explicit
-  private-engine decisions, corrects verified/headline selection, and adds
-  distinct trust, autonomy, and certification presentation without enabling
-  publication or requiring a live private-engine endpoint in CI.
-- Logical PR34 is the next private task after both repositories pass post-merge
-  verification; it has not begun in this initiative.
+- Private Logical PR34 is merged as data-engine GitHub PR `#49` and defines the
+  deterministic public dataset release, coverage, source manifest, revision,
+  correction, and integrity contracts.
+- The public PR34 distribution bridge serves only the reviewed candidate bundle,
+  verifies its private-engine trust root, and exposes downloads plus transparent
+  coverage and history views without enabling production publication.
+- Logical PR35 is the next private task only after the public bridge merges and
+  both repositories pass post-merge verification.
 
 ## Execution Contract
 

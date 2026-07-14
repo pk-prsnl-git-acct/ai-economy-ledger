@@ -7,3 +7,6 @@
 *.webp binary
 *.xlsx binary
 *.zip binary
+
+# Private-engine release CSV bytes are hash-bound RFC 4180 artifacts.
+data/releases/pr34_release_candidate/*.csv binary

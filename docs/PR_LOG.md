@@ -271,3 +271,16 @@
 - Scope: docs-only memory update; no private strategy content, application code, Supabase, Cloudflare, DNS, or production data changes
 - Public/private boundary: public app remains independently cloneable, buildable, testable, and deployable; private data-engine work has no runtime dependency here
 - Verification: pending
+
+## Logical PR34 — Public dataset distribution bridge
+
+- Status: in review
+- Branch: `feat/pr34-public-dataset-distribution`
+- Private dependency: data-engine GitHub PR `#49`, merged at `eb353b70bcf80066fd62ff8ef9d03efa4ac5bdd2`
+- Purpose: distribute the reviewed PR34 release candidate through stable downloads, release APIs, coverage/source transparency, and append-only history surfaces
+- Release identity: `dataset-release:1:5424bda5073c2a1a09cb`; manifest SHA-256 `30b8a9ccb5687695ef4603b57e57879c3e8718f17b5f5b2cc51d397a59e0c7f3`
+- Scope: server-only hash/contract validator; JSON/CSV artifacts; release, record, coverage, source, revision, artifact, and correction APIs; responsive data pages; ETag and cache policy; Cloudflare preview smoke and contract tests
+- Data impact: adds a redistribution-safe candidate with 6 source-attributed records, 4 human-verified records, 60 expected coverage cells, 4 covered cells, and zero revisions, corrections, or sample rows
+- Security: rejects unsafe release/artifact paths, missing/extra/hash-mismatched bytes, private material, stale contracts, invalid lane membership, and publication-enabled candidates; no private runtime dependency or browser credential
+- Deployment impact: none; no Cloudflare deploy, Supabase migration/data mutation, live publication, DNS change, secret write, or production infrastructure action
+- Verification: lint, strict TypeScript, migration check, data validation, 70 tests, Next.js build, OpenNext build, generated-output secret scan, 11-page/8-API workerd smoke, and desktop/mobile browser inspection pass; GitHub CI and post-merge verification pending

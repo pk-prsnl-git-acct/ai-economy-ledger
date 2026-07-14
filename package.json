@@ -17,6 +17,7 @@
     "lint:fix": "eslint . --fix",
     "typecheck": "tsc --noEmit",
     "test": "node --test tests/*.test.mjs",
+    "generate:data-release": "node scripts/data/generate-pr34-release-module.mjs",
     "validate:data": "node scripts/ci/validate-data.mjs",
     "build": "next build",
     "build:cloudflare": "opennextjs-cloudflare build && node scripts/ci/sanitize-opennext-env.mjs && node scripts/ci/scan-opennext-output.mjs",
