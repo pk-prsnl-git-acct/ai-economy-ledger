@@ -111,3 +111,14 @@ GitHub PR `#28` consumes merged private PR36 `#51` through an exact, server-only
 quality contract. Public and protected admin summaries are implemented without
 live transport or deployment. Logical PR37 remains a private-engine next task
 until PR36 merges and both repositories verify.
+
+## Logical PR37 public market intelligence
+
+Private PR37 is merged as data-engine GitHub PR `#52` at
+`2703363f6b444b438b7e1c23704a2845413896e1`. The public PR37 bridge validates
+its exact safe bundle and adds release-bound market, event, company, relationship,
+and analytics API surfaces. Publication and deployment remain disabled. PR37 is
+the final planned logical PR; no later implementation task is authorized.
+
+Public Logical PR37 is GitHub PR `#29`. Merge and synchronized-main verification
+of this PR complete the planned PR37 initiative; no future logical PR begins.

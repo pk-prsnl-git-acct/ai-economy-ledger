@@ -1,0 +1,11 @@
+{
+  "contractVersion": "market-intelligence@37.0.0",
+  "viewCatalogVersion": "analytical-view-catalog@37.0.0",
+  "derivedMetricCatalogVersion": "derived-metric-catalog@37.0.0",
+  "resultVersion": "analytical-result@37.0.0",
+  "buildVersion": "analytical-build@37.0.0",
+  "truthClasses": ["reported_fact", "system_validated_fact", "human_verified_fact", "derived_metric", "reviewed_estimate", "scenario", "unavailable"],
+  "availabilityStates": ["available", "available_with_limitations", "insufficient_coverage", "insufficient_history", "incompatible_units", "incompatible_periods", "rights_restricted", "methodology_pending", "no_eligible_data", "suspended"],
+  "publicationEnabled": false,
+  "browserPolicyRecomputationAllowed": false
+}

@@ -60,7 +60,10 @@ try {
 
   const routeChecks = [
     ["/", ["AI Economy Ledger", "fictional placeholders", "excluded from verified totals"]],
-    ["/companies", ["Company comparison preview", "Sample interface only"]],
+    ["/market", ["Useful analysis begins with what the data cannot say", "Limited views", "Missing values are unavailable"]],
+    ["/events", ["Source-attributed metric observations", "Mixed metrics are not aggregated"]],
+    ["/companies", ["Five companies, with the limits attached", "Not a complete financial statement"]],
+    ["/relationships", ["No edge without evidence", "does not draw a speculative network"]],
     ["/methodology", ["Trust comes from showing the math", "Core equation"]],
     ["/admin/review-queue", ["Protected admin access", "Supabase session required"]],
     ["/data", ["Latest source-attributed", "Candidate only", "missing values are never converted to zero"]],
@@ -91,7 +94,9 @@ try {
     [`/api/data/releases/${releasePath}/coverage?format=json`, "immutable", '"expectedCellCount":60'],
     [`/api/data/releases/${releasePath}/sources?format=json`, "immutable", "source-manifest@34.0.0"],
     [`/api/data/releases/${releasePath}/revisions`, "immutable", '"revisions":[]'],
-    ["/api/data/corrections", "max-age=60", '"corrections":[]']
+    ["/api/data/corrections", "max-age=60", '"corrections":[]'],
+    ["/api/data/analytics", "max-age=60", "public-market-intelligence@37.0.0"],
+    ["/api/data/analytics/view-catalog.json", "immutable", "available_with_limitations"]
   ];
 
   for (const [route, cacheFragment, expectedText] of apiChecks) {
@@ -109,6 +114,11 @@ try {
   const rejected = await fetch(`http://127.0.0.1:${port}/api/data/releases/${releasePath}/records?lane=private&format=json`);
   if (rejected.status !== 400 || !rejected.headers.get("cache-control")?.includes("no-store")) {
     throw new Error("Cloudflare preview did not reject an unsupported record lane safely.");
+  }
+
+  const unsafeAnalytics = await fetch(`http://127.0.0.1:${port}/api/data/analytics/private.json`);
+  if (unsafeAnalytics.status !== 400 || !unsafeAnalytics.headers.get("cache-control")?.includes("no-store")) {
+    throw new Error("Cloudflare preview did not reject an unsafe analytics artifact path.");
   }
 
   console.log(`Cloudflare preview smoke passed for ${routeChecks.length} pages and ${apiChecks.length} API routes.`);

@@ -294,3 +294,17 @@
 - Scope: server-only hash/release verification, public `/data/quality`, and protected `/admin/health` quality details
 - Safety: fixture transport only; no browser policy recomputation, live endpoint, alert, enforcement, deployment, secret, or publication
 - Validation: 75 tests, Next production build, Cloudflare/OpenNext build and secret scan, preview smoke for 11 pages and 8 API routes
+
+## Logical PR37 — Public market-intelligence compatibility and design
+
+- Status: in review
+- Pull request: GitHub PR `#29`
+- URL: `https://github.com/pk-prsnl-git-acct/ai-economy-ledger/pull/29`
+- Branch: `agent/pr37-market-intelligence-public`
+- Private dependency: data-engine GitHub PR `#52`, merge `2703363f6b444b438b7e1c23704a2845413896e1`
+- Contract: `public-market-intelligence@37.0.0` consuming exact private `market-intelligence@37.0.0` and `analytical-build@37.0.0` bytes
+- Scope: server-only release/quality/artifact validation, `/market`, `/events`, `/companies`, `/relationships`, and immutable analytics APIs
+- Initial proof: 4 limited views, 7 unavailable/insufficient/methodology-pending views, 6 source records, 5 companies, 4/60 named coverage cells, and no unsupported market-wide total
+- Safety: no browser policy recomputation, live private endpoint, deployment, publication, hosted migration, secret, DNS, Worker, queue, or production data mutation
+- Validation: 85 tests, data validation, Next production build, Cloudflare/OpenNext build, generated-output secret scan, and preview smoke for 14 pages and 10 API routes
+- Next: merge and verify PR `#29`; PR37 is the final planned logical PR and no later implementation task is authorized
