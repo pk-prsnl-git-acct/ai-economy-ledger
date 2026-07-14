@@ -17,6 +17,7 @@ const checks = [
       "tests/publication-runtime.test.mjs",
       "tests/admin-runtime.test.mjs",
       "tests/pr33-public-trust-compatibility.test.mjs",
+      "tests/pr34-public-data-distribution.test.mjs",
       "tests/circularity-scenarios.test.mjs",
       "tests/health-readiness.test.mjs",
     ]

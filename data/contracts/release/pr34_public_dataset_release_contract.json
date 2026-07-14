@@ -1,0 +1,69 @@
+{
+  "contractVersion": "public-dataset-release@34.0.0",
+  "recordSchemaVersion": "public-record@34.0.0",
+  "coverageSchemaVersion": "coverage@34.0.0",
+  "correctionFeedSchemaVersion": "correction-feed@34.0.0",
+  "sourceManifestVersion": "source-manifest@34.0.0",
+  "buildImplementationVersion": "public-dataset-builder@34.0.0",
+  "authority": "private_data_engine",
+  "publicationEnabled": false,
+  "integrity": {
+    "algorithm": "sha256",
+    "trustRoot": "release_index_manifest_hash",
+    "manifestBindsArtifactDescriptors": true,
+    "checksumsNamesEveryArtifact": true,
+    "rejectMissingExtraOrMismatchedArtifacts": true
+  },
+  "requiredArtifacts": [
+    "manifest.json",
+    "records-latest-source-attributed.json",
+    "records-latest-source-attributed.csv",
+    "records-verified.json",
+    "records-verified.csv",
+    "coverage.json",
+    "coverage.csv",
+    "sources.json",
+    "sources.csv",
+    "revisions.json",
+    "corrections.json",
+    "methodology-changelog.json",
+    "data-dictionary.json",
+    "checksums.json",
+    "README.md"
+  ],
+  "releaseStatuses": [
+    "candidate",
+    "approved_for_publication",
+    "published",
+    "withdrawn",
+    "superseded",
+    "failed"
+  ],
+  "lanes": {
+    "latest_source_attributed": "Explicit private visibility decision; may contain disclosed source_attributed_unverified, system_validated, and human_verified records.",
+    "verified": "Explicit private verified-lane decision; system validation remains distinguishable from attributable human verification."
+  },
+  "coverageDimensions": [
+    "entity",
+    "metric_family",
+    "fiscal_period",
+    "source_class"
+  ],
+  "correctionPagination": {
+    "ordering": "effectiveAt_then_correctionId",
+    "cursor": "zero_padded_monotonic_decimal",
+    "maximumPageSize": 1000
+  },
+  "serialization": {
+    "json": "canonical_sorted_keys_utf8_lf",
+    "csv": "rfc4180_utf8_crlf_formula_neutralized",
+    "decimal": "exact_string"
+  },
+  "cachePolicy": {
+    "versionedArtifact": "public, max-age=31536000, immutable",
+    "mutableIndex": "public, max-age=60, must-revalidate",
+    "etag": "quoted_sha256_artifact_or_index_hash"
+  },
+  "publicPolicyRecomputationAllowed": false,
+  "browserPrivateEngineAccessAllowed": false
+}

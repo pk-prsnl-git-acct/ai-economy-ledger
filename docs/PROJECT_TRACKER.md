@@ -4,11 +4,10 @@ Last updated: 2026-07-14
 
 ## Current state
 
-- Phase: Logical PR33 public compatibility bridge complete
-- Completed scope: public GitHub PR `#26` consumes the merged private PR33
-  progressive-trust contract, corrects verified/headline selectors, and renders
-  explicit autonomy, certification, and eligibility decisions through
-  fixture-backed CI adapters
+- Phase: Logical PR34 public dataset distribution in review
+- Current scope: consume private PR34's reviewed release candidate through a
+  hash-verifying server-only adapter, immutable downloads, release and history
+  APIs, and accessible release, coverage, source, revision, and correction pages
 - Production application: Cloudflare Worker deployed and routed; production readiness is degraded only because no snapshot is published yet
 - Production data: schema foundation plus relationship/scenario schema applied; no published snapshots yet
 - Repository visibility: public; owner-controlled writes
@@ -70,6 +69,7 @@ Last updated: 2026-07-14
 | PR 13 | Private data-engine repository: data charter, AI-economy ontology, and coverage contract |
 | PR 30.1B | Public bridge: authenticated admin review and trust-state UI after private PR30.1A |
 | PR 33 public compatibility | Explicit autonomy/certification decisions and verified-lane UI after private PR33 |
+| PR 34 public distribution | Hash-bound dataset downloads, release APIs, coverage/source/history pages, and cache validation after private PR34 |
 
 ## Current risks
 
@@ -94,11 +94,14 @@ Last updated: 2026-07-14
   `@33.0.0` contract. It does not connect to a live private endpoint, recompute
   certification policy, mutate Supabase, deploy Cloudflare, publish data, or
   begin Logical PR34.
+- The PR34 public bundle is a local/CI release candidate with publication
+  disabled. The distribution surface does not mutate Supabase or Cloudflare,
+  deploy production code, publish a live snapshot, or require private-engine
+  access at build or runtime.
 
 ## Next decision gate
 
-Private Logical PR33 is merged as data-engine GitHub PR `#48` at
-`8cb0a68edf178503944f949a28d15baba9d1d9b0`. After this separate public
-compatibility GitHub PR `#26` and both repositories pass final verification,
-the private task pointer to Logical PR34 is the exact next task. PR34 was not
-begun in this public bridge PR.
+Private Logical PR34 is merged as data-engine GitHub PR `#49` at
+`eb353b70bcf80066fd62ff8ef9d03efa4ac5bdd2`. Merge and post-merge verification
+of the public PR34 distribution surface are the remaining gates before the
+private task pointer advances to Logical PR35. Do not begin PR35 in this work.

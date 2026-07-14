@@ -62,7 +62,14 @@ try {
     ["/", ["AI Economy Ledger", "fictional placeholders", "excluded from verified totals"]],
     ["/companies", ["Company comparison preview", "Sample interface only"]],
     ["/methodology", ["Trust comes from showing the math", "Core equation"]],
-    ["/admin/review-queue", ["Protected admin access", "Supabase session required"]]
+    ["/admin/review-queue", ["Protected admin access", "Supabase session required"]],
+    ["/data", ["Latest source-attributed", "Candidate only", "missing values are never converted to zero"]],
+    ["/data/releases", ["dataset-release:1:5424bda5073c2a1a09cb", "30b8a9ccb5687695"]],
+    ["/data/releases/dataset-release%3A1%3A5424bda5073c2a1a09cb", ["Trust and decisions stay separate", "Human verified"]],
+    ["/data/coverage", ["Expected cells", "6.67%", "Denominator limits"]],
+    ["/data/sources", ["source-manifest@34.0.0", "Official source"]],
+    ["/data/revisions", ["No prior release, so no semantic delta"]],
+    ["/data/corrections", ["No public corrections in this first candidate"]]
   ];
 
   for (const [route, expectedText] of routeChecks) {
@@ -74,7 +81,37 @@ try {
     }
   }
 
-  console.log(`Cloudflare preview smoke passed for ${routeChecks.length} representative routes.`);
+  const releaseId = "dataset-release:1:5424bda5073c2a1a09cb";
+  const releasePath = encodeURIComponent(releaseId);
+  const apiChecks = [
+    ["/api/data/releases", "max-age=60", "public-dataset-release@34.0.0"],
+    [`/api/data/releases/${releasePath}`, "immutable", releaseId],
+    [`/api/data/releases/${releasePath}/records?lane=latest_source_attributed&format=json`, "immutable", "source_attributed_unverified"],
+    [`/api/data/releases/${releasePath}/records?lane=verified&format=csv`, "immutable", "stableRecordId"],
+    [`/api/data/releases/${releasePath}/coverage?format=json`, "immutable", '"expectedCellCount":60'],
+    [`/api/data/releases/${releasePath}/sources?format=json`, "immutable", "source-manifest@34.0.0"],
+    [`/api/data/releases/${releasePath}/revisions`, "immutable", '"revisions":[]'],
+    ["/api/data/corrections", "max-age=60", '"corrections":[]']
+  ];
+
+  for (const [route, cacheFragment, expectedText] of apiChecks) {
+    const routeResponse = await fetch(`http://127.0.0.1:${port}${route}`);
+    const body = await routeResponse.text();
+    if (!routeResponse.ok) throw new Error(`Cloudflare preview API ${route} returned HTTP ${routeResponse.status}.`);
+    if (!routeResponse.headers.get("cache-control")?.includes(cacheFragment)) throw new Error(`Cloudflare preview API ${route} has the wrong cache policy.`);
+    if (!body.includes(expectedText)) throw new Error(`Cloudflare preview API ${route} did not contain: ${expectedText}`);
+    const etag = routeResponse.headers.get("etag");
+    if (!etag) throw new Error(`Cloudflare preview API ${route} did not return an ETag.`);
+    const conditional = await fetch(`http://127.0.0.1:${port}${route}`, { headers: { "If-None-Match": etag } });
+    if (conditional.status !== 304) throw new Error(`Cloudflare preview API ${route} did not honor If-None-Match.`);
+  }
+
+  const rejected = await fetch(`http://127.0.0.1:${port}/api/data/releases/${releasePath}/records?lane=private&format=json`);
+  if (rejected.status !== 400 || !rejected.headers.get("cache-control")?.includes("no-store")) {
+    throw new Error("Cloudflare preview did not reject an unsupported record lane safely.");
+  }
+
+  console.log(`Cloudflare preview smoke passed for ${routeChecks.length} pages and ${apiChecks.length} API routes.`);
 } finally {
   await stopPreview();
 }
