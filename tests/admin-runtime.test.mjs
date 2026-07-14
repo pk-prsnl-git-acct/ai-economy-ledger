@@ -64,7 +64,7 @@ test("PR30.1B consumes the private PR30.1A trust contract through server-only ad
   const admin = readFileSync("components/admin.tsx", "utf8");
 
   assert.match(contract, /import "server-only"/);
-  assert.match(contract, /public-trust-admin-review@30\.1A\.0/);
+  assert.match(contract, /public-trust-admin-review@33\.0\.0/);
   assert.match(contract, /contract_version_mismatch/);
   assert.match(contract, /listTrustReviewCases/);
   assert.match(contract, /getTrustReviewCase/);
@@ -79,6 +79,9 @@ test("PR30.1B consumes the private PR30.1A trust contract through server-only ad
   assert.match(admin, /expectedRecordVersion/);
   assert.match(admin, /expectedEvidenceVersion/);
   assert.match(admin, /idempotencyKey/);
+  assert.match(admin, /system_validated/);
+  assert.match(admin, /autonomyDecisionKey/);
+  assert.match(admin, /certificationKey/);
   assert.doesNotMatch(`${contract}\n${actions}\n${admin}`, /SUPABASE_SERVICE_ROLE|service_role|private-engine secret|signed_url/i);
 });
 

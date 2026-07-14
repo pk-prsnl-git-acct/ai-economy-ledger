@@ -2,8 +2,8 @@ import "server-only";
 
 import contractFixture from "@/data/contracts/public-trust/pr30_1a_public_trust_admin_review_contract.json";
 
-export const PUBLIC_TRUST_CONTRACT_VERSION = "public-trust-admin-review@30.1A.0";
-export const PUBLIC_TRUST_POLICY_VERSION = "public-trust-policy@30.1A.0";
+export const PUBLIC_TRUST_CONTRACT_VERSION = "public-trust-admin-review@33.0.0";
+export const PUBLIC_TRUST_POLICY_VERSION = "public-trust-policy@33.0.0";
 
 export type TrustState =
   | "source_attributed_unverified"
@@ -11,6 +11,19 @@ export type TrustState =
   | "human_verified"
   | "rejected"
   | "superseded";
+
+export type AutonomyLevel =
+  | "manual_review_only"
+  | "shadow_evaluation"
+  | "certified_review_only"
+  | "certified_system_validation"
+  | "certified_auto_publication";
+
+export type CertificationState = "missing" | "active" | "suspended" | "expired" | "revoked";
+
+const TRUST_STATES = new Set<TrustState>(["source_attributed_unverified", "system_validated", "human_verified", "rejected", "superseded"]);
+const AUTONOMY_LEVELS = new Set<AutonomyLevel>(["manual_review_only", "shadow_evaluation", "certified_review_only", "certified_system_validation", "certified_auto_publication"]);
+const CERTIFICATION_STATES = new Set<CertificationState>(["missing", "active", "suspended", "expired", "revoked"]);
 
 export type ReviewAction =
   | "approve_human_verified"
@@ -52,6 +65,15 @@ export type PublicTrustRecord = {
   trustState: TrustState;
   reviewRequired: boolean;
   humanVerified: boolean;
+  publicVisibilityEligible: boolean;
+  verifiedLaneEligible: boolean;
+  headlineEligible: boolean;
+  publicationExecutionEligible: boolean;
+  autonomyLevel: AutonomyLevel;
+  certificationState: CertificationState;
+  certificationKey: string | null;
+  autonomyDecisionKey: string;
+  promotionReasonCodes: string[];
   conflictStatus: "none" | "unresolved_conflict";
   amendmentStatus: "original" | "restated_current" | "superseded_by_amendment";
   duplicateGroupStatus: string;
@@ -113,6 +135,54 @@ function assertContractVersion(contractVersion = PUBLIC_TRUST_CONTRACT_VERSION) 
   }
 }
 
+function assertProgressiveTrustDecision(record: PublicTrustRecord) {
+  assertContractVersion(record.contractVersion);
+  if (record.policyVersion !== PUBLIC_TRUST_POLICY_VERSION) throw new Error("policy_version_mismatch");
+  if (!record.autonomyDecisionKey || record.promotionReasonCodes.length === 0) {
+    throw new Error("progressive_trust_decision_missing");
+  }
+  if (record.humanVerified !== (record.trustState === "human_verified")) {
+    throw new Error("human_verification_state_mismatch");
+  }
+  if (record.trustState === "system_validated") {
+    if (["suspended", "expired", "revoked"].includes(record.certificationState) && (record.verifiedLaneEligible || record.headlineEligible)) {
+      throw new Error("inactive_certification_privilege");
+    }
+    if (record.certificationState !== "active" || !record.certificationKey) {
+      throw new Error("system_validation_certification_inactive");
+    }
+  }
+  if (!record.publicVisibilityEligible && (record.verifiedLaneEligible || record.headlineEligible)) {
+    throw new Error("progressive_trust_visibility_inconsistent");
+  }
+  if (record.verifiedLaneEligible && record.trustState === "source_attributed_unverified") {
+    throw new Error("unverified_record_in_verified_lane");
+  }
+  if (record.headlineEligible && !record.verifiedLaneEligible) {
+    throw new Error("headline_without_verified_lane");
+  }
+  if (record.publicationExecutionEligible || record.publicationEnabled) {
+    throw new Error("publication_execution_not_supported");
+  }
+  return record;
+}
+
+export function parsePublicTrustRecord(input: unknown): PublicTrustRecord {
+  if (!input || typeof input !== "object") throw new Error("invalid_public_trust_record");
+  const record = input as PublicTrustRecord;
+  if (!TRUST_STATES.has(record.trustState)) throw new Error("invalid_trust_state");
+  if (!AUTONOMY_LEVELS.has(record.autonomyLevel)) throw new Error("invalid_autonomy_level");
+  if (!CERTIFICATION_STATES.has(record.certificationState)) throw new Error("invalid_certification_state");
+  for (const field of ["reviewRequired", "humanVerified", "publicVisibilityEligible", "verifiedLaneEligible", "headlineEligible", "publicationExecutionEligible"] as const) {
+    if (typeof record[field] !== "boolean") throw new Error(`invalid_progressive_trust_field:${field}`);
+  }
+  if (record.publicationEnabled !== false) throw new Error("publication_enabled_payload_rejected");
+  if (!Array.isArray(record.promotionReasonCodes) || record.promotionReasonCodes.some((reason) => typeof reason !== "string")) {
+    throw new Error("invalid_promotion_reason_codes");
+  }
+  return assertProgressiveTrustDecision(record);
+}
+
 function disclosureFor(trustState: TrustState, conflictStatus = "none") {
   if (conflictStatus !== "none") {
     return {
@@ -172,12 +242,63 @@ const records = [
     trustState: "source_attributed_unverified",
     reviewRequired: true,
     humanVerified: false,
+    publicVisibilityEligible: true,
+    verifiedLaneEligible: false,
+    headlineEligible: false,
+    publicationExecutionEligible: false,
+    autonomyLevel: "manual_review_only",
+    certificationState: "missing",
+    certificationKey: null,
+    autonomyDecisionKey: "autonomy-decision:fixture:nvidia:remain-unverified",
+    promotionReasonCodes: ["remain_source_attributed_unverified", "verified_lane_blocked"],
     conflictStatus: "none",
     amendmentStatus: "original",
     duplicateGroupStatus: "unique",
     anomalyStatus: "none",
     firstSeenAt: "2026-07-13T00:00:00.000Z",
     lastUpdatedAt: "2026-07-13T00:00:00.000Z",
+  }),
+  record({
+    stableRecordId: "public-record:alphabet:ai-capex:fy2025",
+    recordVersion: "record-version:alphabet:ai-capex:fy2025:v1",
+    entity: { entityId: "entity:alphabet", displayName: "Alphabet Inc." },
+    metric: { metricId: "metric:ai-capex", displayLabel: "AI capital expenditure" },
+    period: { periodId: "period:fy2025", label: "FY 2025" },
+    value: "4200000.00",
+    unit: "USD",
+    source: {
+      name: "SEC EDGAR",
+      url: "https://www.sec.gov/Archives/fixture/alphabet-10k-index.html",
+      reference: "sec:fixture:alphabet:10-k:2025",
+      documentType: "10-K",
+      filingOrPublicationDate: "2025-02-05",
+    },
+    evidence: {
+      documentVersion: "evidence-version:alphabet:10-k:2025:v1",
+      safeEvidenceRef: "safe-ref:alphabet:capex:fy2025",
+      coordinates: { section: "Notes", table: "Capital expenditures", row: 1 },
+      rawContentAvailable: false,
+    },
+    extraction: { method: "deterministic_xbrl", pipelineRunId: "pipeline-run:pr33:fixture", modelAssisted: false },
+    trustState: "system_validated",
+    reviewRequired: true,
+    humanVerified: false,
+    publicVisibilityEligible: true,
+    verifiedLaneEligible: true,
+    headlineEligible: false,
+    publicationExecutionEligible: false,
+    autonomyLevel: "certified_system_validation",
+    certificationState: "active",
+    certificationKey: "certification:fixture:alphabet:sec-xbrl:v1",
+    autonomyDecisionKey: "autonomy-decision:fixture:alphabet:system-validated",
+    promotionReasonCodes: ["certification_active", "promote_to_system_validated", "verified_lane_permitted", "headline_blocked"],
+    conflictStatus: "none",
+    amendmentStatus: "original",
+    duplicateGroupStatus: "unique",
+    anomalyStatus: "none",
+    firstSeenAt: "2026-07-14T00:00:00.000Z",
+    lastUpdatedAt: "2026-07-14T00:00:00.000Z",
+    publicationLane: "verified",
   }),
   record({
     stableRecordId: "public-record:microsoft:ai-capex:fy2025",
@@ -204,6 +325,15 @@ const records = [
     trustState: "human_verified",
     reviewRequired: false,
     humanVerified: true,
+    publicVisibilityEligible: true,
+    verifiedLaneEligible: true,
+    headlineEligible: true,
+    publicationExecutionEligible: false,
+    autonomyLevel: "manual_review_only",
+    certificationState: "missing",
+    certificationKey: null,
+    autonomyDecisionKey: "autonomy-decision:fixture:microsoft:human-verified",
+    promotionReasonCodes: ["human_verified", "verified_lane_permitted", "headline_permitted"],
     conflictStatus: "none",
     amendmentStatus: "original",
     duplicateGroupStatus: "unique",
@@ -237,6 +367,15 @@ const records = [
     trustState: "source_attributed_unverified",
     reviewRequired: true,
     humanVerified: false,
+    publicVisibilityEligible: true,
+    verifiedLaneEligible: false,
+    headlineEligible: false,
+    publicationExecutionEligible: false,
+    autonomyLevel: "manual_review_only",
+    certificationState: "missing",
+    certificationKey: null,
+    autonomyDecisionKey: "autonomy-decision:fixture:tesla:conflict-review",
+    promotionReasonCodes: ["conflict_blocks_promotion", "headline_blocked"],
     conflictStatus: "unresolved_conflict",
     amendmentStatus: "original",
     duplicateGroupStatus: "unique",
@@ -269,6 +408,15 @@ const records = [
     trustState: "superseded",
     reviewRequired: true,
     humanVerified: false,
+    publicVisibilityEligible: false,
+    verifiedLaneEligible: false,
+    headlineEligible: false,
+    publicationExecutionEligible: false,
+    autonomyLevel: "manual_review_only",
+    certificationState: "missing",
+    certificationKey: null,
+    autonomyDecisionKey: "autonomy-decision:fixture:meta:superseded",
+    promotionReasonCodes: ["superseded_not_current"],
     conflictStatus: "none",
     amendmentStatus: "superseded_by_amendment",
     duplicateGroupStatus: "unique",
@@ -302,6 +450,15 @@ const records = [
     trustState: "rejected",
     reviewRequired: true,
     humanVerified: false,
+    publicVisibilityEligible: false,
+    verifiedLaneEligible: false,
+    headlineEligible: false,
+    publicationExecutionEligible: false,
+    autonomyLevel: "manual_review_only",
+    certificationState: "missing",
+    certificationKey: null,
+    autonomyDecisionKey: "autonomy-decision:fixture:oracle:rejected",
+    promotionReasonCodes: ["review_rejected"],
     conflictStatus: "none",
     amendmentStatus: "original",
     duplicateGroupStatus: "unique",
@@ -339,11 +496,26 @@ const reviewCases = records.filter((item) => item.reviewRequired && item.current
 
 export function validatePublicTrustContract(contractVersion = contractFixture.contractVersion) {
   assertContractVersion(contractVersion);
+  const requiredDecisionFields = [
+    "publicVisibilityEligible",
+    "verifiedLaneEligible",
+    "headlineEligible",
+    "publicationExecutionEligible",
+    "autonomyLevel",
+    "certificationState",
+    "certificationKey",
+    "autonomyDecisionKey",
+    "promotionReasonCodes",
+  ];
+  if (JSON.stringify(contractFixture.progressiveTrustDecisionFields) !== JSON.stringify(requiredDecisionFields)) {
+    throw new Error("progressive_trust_contract_fields_mismatch");
+  }
   return {
     contractVersion: PUBLIC_TRUST_CONTRACT_VERSION,
     policyVersion: PUBLIC_TRUST_POLICY_VERSION,
     trustStates: contractFixture.trustStateEnum,
     disclosureCodes: contractFixture.disclosureCodeEnum,
+    decisionFields: contractFixture.progressiveTrustDecisionFields,
   };
 }
 
@@ -362,17 +534,17 @@ export function getVisibilityPolicy(): VisibilityPolicy {
 
 export function listPublicTrustRecords({ view = "latest_source_attributed" }: { view?: "latest_source_attributed" | "verified" } = {}) {
   validatePublicTrustContract();
-  return records.filter((item) => {
+  return records.map(parsePublicTrustRecord).filter((item) => {
     if (!item.current) return false;
     if (["rejected", "superseded"].includes(item.trustState)) return false;
-    if (view === "verified") return item.trustState === "human_verified";
-    return ["source_attributed_unverified", "system_validated", "human_verified"].includes(item.trustState);
+    if (!item.publicVisibilityEligible) return false;
+    if (view === "verified") return item.verifiedLaneEligible;
+    return true;
   });
 }
 
 export function getHeadlineRecords() {
-  const policy = getVisibilityPolicy();
-  return listPublicTrustRecords().filter((item) => !(policy.settings.exclude_conflicted_from_headlines && item.conflictStatus !== "none"));
+  return listPublicTrustRecords().filter((item) => item.headlineEligible);
 }
 
 export function listTrustReviewCases({
@@ -461,10 +633,16 @@ export function evaluateDecisionRequest(input: {
   if (input.expectedRecordVersion !== reviewCase.currentRecord.recordVersion) throw new Error("stale_record_or_evidence_version");
   if (input.expectedEvidenceVersion !== reviewCase.currentRecord.evidence.documentVersion) throw new Error("stale_record_or_evidence_version");
   if (input.policyVersion !== PUBLIC_TRUST_POLICY_VERSION) throw new Error("policy_version_mismatch");
+  const humanApproved = input.action === "approve_human_verified";
   return {
     decisionAccepted: true,
     action: input.action,
-    resultingTrustState: input.action === "approve_human_verified" ? "human_verified" : reviewCase.currentRecord.trustState,
+    resultingTrustState: humanApproved ? "human_verified" : reviewCase.currentRecord.trustState,
+    reviewRequired: humanApproved ? false : reviewCase.currentRecord.reviewRequired,
+    humanVerified: humanApproved,
+    verifiedLaneEligible: humanApproved || reviewCase.currentRecord.verifiedLaneEligible,
+    headlineEligible: false,
+    publicationExecutionEligible: false,
     publicationEnabled: false,
     safeMessage: "Decision accepted by fixture transport. Production mutations remain disabled in CI.",
   };

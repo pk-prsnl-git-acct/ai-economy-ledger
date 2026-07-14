@@ -17,6 +17,24 @@ This document contains durable implementation context for future coding sessions
 - Keep private component environment files and `.env.local` out of Git.
 - Use only the repository-specific GitHub identity and PAT account.
 
+## PR33 public compatibility bridge
+
+- Private Logical PR33 merged as data-engine PR `#48` at
+  `8cb0a68edf178503944f949a28d15baba9d1d9b0`.
+- The copied public trust contract is `public-trust-admin-review@33.0.0` and
+  carries explicit visibility, verified-lane, headline, publication-execution,
+  autonomy, certification, decision-key, and reason-code fields.
+- Public selectors consume those explicit decisions. They must not infer
+  verified or headline eligibility from `trustState` alone or recreate private
+  certification logic in the browser.
+- `system_validated` and `human_verified` remain visibly distinct. Human
+  verification remains attributable-human-only; inactive certification fails
+  closed for stronger lanes without suppressing eligible source attribution.
+- Fixture transport remains CI-safe and server-only. No live private endpoint,
+  hosted migration, secret, deployment, or publication is part of this bridge.
+- After the public compatibility PR merges and both repositories verify,
+  private `CURRENT_TASK` points to Logical PR34. Do not begin PR34 here.
+
 ## Infrastructure observations
 
 - GitHub owner access and push/admin permission were verified on 2026-07-10.

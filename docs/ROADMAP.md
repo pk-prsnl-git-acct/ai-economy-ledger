@@ -2,13 +2,14 @@
 
 ## Current Bridge
 
-- Logical PR 30.1A is complete in the private data-engine repository and defines
-  the progressive-trust/admin-review contract.
-- Logical PR 30.1B adds the public authenticated admin review and trust-state UI
-  bridge without enabling publication or requiring a live private-engine
-  endpoint in CI.
-- Logical PR 31 remains blocked until PR30.1B merges and post-merge verification
-  passes.
+- Private Logical PR33 is merged as data-engine GitHub PR `#48` and defines the
+  stable progressive-autonomy/public-trust contract.
+- The public PR33 compatibility bridge consumes explicit private-engine
+  decisions, corrects verified/headline selection, and adds distinct trust,
+  autonomy, and certification presentation without enabling publication or
+  requiring a live private-engine endpoint in CI.
+- Logical PR34 remains unstarted until this public compatibility PR merges and
+  both repositories pass post-merge verification.
 
 ## Execution Contract
 

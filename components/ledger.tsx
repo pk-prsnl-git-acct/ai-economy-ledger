@@ -88,6 +88,34 @@ export function TrustStateBadge({ record }: { record: PublicTrustRecord }) {
   return <span className={`badge trust-badge trust-${record.conflictStatus !== "none" ? "conflict" : record.trustState}`}>{label}</span>;
 }
 
+export function AutonomyBadge({ record }: { record: PublicTrustRecord }) {
+  const inactiveCertification = ["suspended", "expired", "revoked"].includes(record.certificationState);
+  const label = inactiveCertification
+    ? `Certification ${record.certificationState}`
+    : record.autonomyLevel === "certified_system_validation"
+      ? "Certified system validation"
+      : record.autonomyLevel.replaceAll("_", " ");
+  return <span className={`badge autonomy-badge autonomy-${inactiveCertification ? "blocked" : record.certificationState}`}>{label}</span>;
+}
+
+export function TrustDecisionSummary({ record }: { record: PublicTrustRecord }) {
+  const decisions = [
+    ["Visible", record.publicVisibilityEligible],
+    ["Verified lane", record.verifiedLaneEligible],
+    ["Headline", record.headlineEligible],
+    ["Publish", record.publicationExecutionEligible],
+  ] as const;
+  return (
+    <div className="decision-stack" aria-label="Private engine eligibility decisions">
+      {decisions.map(([label, enabled]) => (
+        <span className={`decision-pill decision-${enabled ? "yes" : "no"}`} key={label}>
+          <span aria-hidden="true">{enabled ? "Yes" : "No"}</span> {label}
+        </span>
+      ))}
+    </div>
+  );
+}
+
 export function SourceLink({ href = "/sources", children = "View sources" }: { href?: string; children?: ReactNode }) {
   return <Link className="source-link" href={href as Route}>{children} <span aria-hidden="true">↗</span></Link>;
 }
@@ -150,8 +178,9 @@ export function DataTable({ title = "Illustrative company ledger" }: { title?: s
   );
 }
 
-export function PublicTrustLedger({ records, headlineCount }: { records: PublicTrustRecord[]; headlineCount: number }) {
-  const verified = records.filter((record) => record.trustState === "human_verified");
+export function PublicTrustLedger({ records, verifiedRecords, headlineCount }: { records: PublicTrustRecord[]; verifiedRecords: PublicTrustRecord[]; headlineCount: number }) {
+  const humanVerifiedCount = verifiedRecords.filter((record) => record.trustState === "human_verified").length;
+  const systemValidatedCount = verifiedRecords.filter((record) => record.trustState === "system_validated").length;
   return (
     <section className="panel table-panel trust-ledger" aria-labelledby="public-trust-heading">
       <div className="panel-heading">
@@ -162,7 +191,7 @@ export function PublicTrustLedger({ records, headlineCount }: { records: PublicT
         <FreshnessBadge label={`${headlineCount} headline-safe records`} />
       </div>
       <p className="admin-muted">
-        Latest/source-attributed views may show unverified data with source attribution. Verified-only views include {verified.length} human-verified record{verified.length === 1 ? "" : "s"} and exclude unverified records.
+        Latest/source-attributed views may show unverified data with source attribution. The verified lane follows explicit private-engine decisions: {humanVerifiedCount} human verified and {systemValidatedCount} system validated. These states remain distinct.
       </p>
       <div className="table-scroll">
         <table>
@@ -173,6 +202,7 @@ export function PublicTrustLedger({ records, headlineCount }: { records: PublicT
               <th>Metric</th>
               <th>Value</th>
               <th>Trust state</th>
+              <th>Decision</th>
               <th>Source</th>
               <th>Disclosure</th>
             </tr>
@@ -183,7 +213,8 @@ export function PublicTrustLedger({ records, headlineCount }: { records: PublicT
                 <td>{record.entity.displayName}</td>
                 <td>{record.metric.displayLabel}</td>
                 <td>{record.value} {record.unit}</td>
-                <td><TrustStateBadge record={record} /></td>
+                <td><div className="trust-context"><TrustStateBadge record={record} /><AutonomyBadge record={record} /></div></td>
+                <td><TrustDecisionSummary record={record} /></td>
                 <td><SourceLink href={record.source.url}>{record.source.name}</SourceLink><br /><span className="cell-muted">{record.source.filingOrPublicationDate}</span></td>
                 <td>{record.disclosure.label}<br /><span className="cell-muted">Updated {record.lastUpdatedAt.slice(0, 10)}</span></td>
               </tr>
