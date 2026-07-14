@@ -216,6 +216,7 @@ This document contains durable implementation context for future coding sessions
 
 ## Logical PR37 public market intelligence
 
+- Public Logical PR37 is GitHub PR `#29`, paired with merged private PR `#52`.
 - Private PR37 is GitHub PR `#52`, merged at `2703363f6b444b438b7e1c23704a2845413896e1`.
 - The public adapter validates exact contract bytes, analytics manifest, PR34 release trust root, PR36 quality binding, all artifact descriptors/checksums, and the fixed safe artifact set.
 - `/market`, `/events`, `/companies`, and `/relationships` render four limited views and honest unavailable states without browser policy recomputation or speculative charts/totals.

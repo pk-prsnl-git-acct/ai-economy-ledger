@@ -119,3 +119,6 @@ Private PR37 is merged as data-engine GitHub PR `#52` at
 its exact safe bundle and adds release-bound market, event, company, relationship,
 and analytics API surfaces. Publication and deployment remain disabled. PR37 is
 the final planned logical PR; no later implementation task is authorized.
+
+Public Logical PR37 is GitHub PR `#29`. Merge and synchronized-main verification
+of this PR complete the planned PR37 initiative; no future logical PR begins.
