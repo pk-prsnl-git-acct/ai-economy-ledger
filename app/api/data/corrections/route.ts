@@ -1,4 +1,4 @@
-import { correctionFeedHash, getCorrections } from "@/src/server/data-releases/contract";
+import { correctionFeedHash, getCorrections } from "@/src/server/data-releases/runtime";
 import { apiError, jsonResponse } from "@/src/server/data-releases/http";
 
 export async function GET(request: Request) {
@@ -6,7 +6,7 @@ export async function GET(request: Request) {
     const url = new URL(request.url);
     const after = url.searchParams.get("after");
     const limit = Number(url.searchParams.get("limit") ?? "100");
-    return jsonResponse(request, getCorrections({ after, limit }), correctionFeedHash({ after, limit }));
+    return jsonResponse(request, await getCorrections({ after, limit }), await correctionFeedHash({ after, limit }));
   } catch (error) {
     return apiError(error);
   }

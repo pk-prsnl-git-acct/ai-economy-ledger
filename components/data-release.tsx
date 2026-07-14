@@ -2,13 +2,15 @@ import Link from "next/link";
 import type { Route } from "next";
 import type { ReactNode } from "react";
 
-import type { PublicRecord } from "@/src/server/data-releases/contract";
+import { listReleases } from "@/src/server/data-releases/runtime";
+import type { PublicRecord } from "@/src/server/data-releases/runtime";
 
-export function CandidateNotice() {
+export async function CandidateNotice() {
+  const published = (await listReleases()).some((release) => release.status === "published");
   return (
-    <section className="warning-banner release-notice" aria-label="Release candidate notice">
-      <strong>Local/CI release candidate</strong>
-      <span>This bundle is hash verified but not a live production publication. Coverage is intentionally limited and missing values are never converted to zero.</span>
+    <section className="warning-banner release-notice" aria-label={published ? "Limited production release notice" : "Release candidate notice"}>
+      <strong>{published ? "Limited production release" : "Local/CI release candidate"}</strong>
+      <span>{published ? "This live bundle is hash verified, source-attributed, and intentionally limited. Review-pending data is disclosed and missing values are never converted to zero." : "This bundle is hash verified but not a live production publication. Coverage is intentionally limited and missing values are never converted to zero."}</span>
     </section>
   );
 }

@@ -1,11 +1,12 @@
-import { getAdminQualitySummary, getPublicQualitySummary } from "@/src/server/quality-observability/contract";
+import { getAdminQualitySummary, getPublicQualitySummary } from "@/src/server/quality-observability/runtime";
 
-export function PublicQualitySummary() {
-  const quality = getPublicQualitySummary();
+export async function PublicQualitySummary() {
+  const quality = await getPublicQualitySummary();
+  const live = !quality.coverageSummary.fixtureOnly;
   return <section className="quality-summary" aria-labelledby="quality-summary-heading">
-    <div className="panel quality-lead"><p className="panel-label">Release quality</p><h2 id="quality-summary-heading">Shadow proof, not production history</h2><p>The private engine verified this local candidate report. Missing telemetry remains visible and no SLO target is presented as achieved.</p><code>{quality.reportHash.slice(0, 20)}…</code></div>
+    <div className="panel quality-lead"><p className="panel-label">Release quality</p><h2 id="quality-summary-heading">{live ? "Bounded live quality window" : "Shadow proof, not production history"}</h2><p>{live ? "The private engine verified this limited live release. Long-term SLO attainment is not claimed and missing telemetry remains visible." : "The private engine verified this local candidate report. Missing telemetry remains visible and no SLO target is presented as achieved."}</p><code>{quality.reportHash.slice(0, 20)}…</code></div>
     <div className="quality-stat-grid">
-      <article className="panel quality-stat"><span>Measured</span><strong>{quality.measurableSloCount}</strong><small>shadow result</small></article>
+      <article className="panel quality-stat"><span>Measured</span><strong>{quality.measurableSloCount}</strong><small>{live ? "bounded window" : "shadow result"}</small></article>
       <article className="panel quality-stat"><span>Low sample</span><strong>{quality.insufficientSampleCount}</strong><small>not an SLO pass</small></article>
       <article className="panel quality-stat"><span>Unmeasurable</span><strong>{quality.unmeasurableCount}</strong><small>kept visible</small></article>
       <article className="panel quality-stat"><span>Material issues</span><strong>{quality.openMaterialOrCriticalIssueCount}</strong><small>open in fixture proof</small></article>
@@ -14,8 +15,8 @@ export function PublicQualitySummary() {
   </section>;
 }
 
-export function AdminQualitySummary() {
-  const quality = getAdminQualitySummary();
+export async function AdminQualitySummary() {
+  const quality = await getAdminQualitySummary();
   return <section className="panel queue-panel" aria-labelledby="admin-quality-heading"><div className="panel-heading"><div><p className="panel-label">Private-engine decision</p><h2 id="admin-quality-heading">Quality, SLO, and drift</h2></div><span className="disabled-action">{quality.overallStatus}</span></div>
     <dl className="quality-admin-list"><div><dt>Connector health</dt><dd>{quality.connectorHealth.status}</dd></div><div><dt>Review backlog</dt><dd>{quality.reviewBacklog.status}</dd></div><div><dt>Release integrity</dt><dd>{quality.releaseIntegrity.status}</dd></div><div><dt>Active enforcement SLOs</dt><dd>{quality.activeSloCount}</dd></div></dl>
     <p className="admin-muted">No external alert, connector suspension, publication, or production enforcement is active. This protected view does not recompute private policy.</p>
