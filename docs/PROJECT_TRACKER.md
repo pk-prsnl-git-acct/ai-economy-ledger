@@ -122,3 +122,9 @@ the final planned logical PR; no later implementation task is authorized.
 
 Public Logical PR37 is GitHub PR `#29`. Merge and synchronized-main verification
 of this PR complete the planned PR37 initiative; no future logical PR begins.
+
+Public production activation is GitHub PR `#30`, paired with merged private
+activation PR `#53`. Production mode consumes only the private engine's exact
+published pointer and hash-bound artifacts; preview and CI remain embedded.
+Deployment and limited publication remain separately gated by secrets, canary,
+quality, smoke, monitoring, and rollback verification.
