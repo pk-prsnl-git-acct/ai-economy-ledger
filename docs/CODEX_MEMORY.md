@@ -21,6 +21,7 @@ This document contains durable implementation context for future coding sessions
 
 - Private Logical PR33 merged as data-engine PR `#48` at
   `8cb0a68edf178503944f949a28d15baba9d1d9b0`.
+- The public compatibility bridge is GitHub PR `#26`.
 - The copied public trust contract is `public-trust-admin-review@33.0.0` and
   carries explicit visibility, verified-lane, headline, publication-execution,
   autonomy, certification, decision-key, and reason-code fields.

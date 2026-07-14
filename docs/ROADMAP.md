@@ -4,10 +4,10 @@
 
 - Private Logical PR33 is merged as data-engine GitHub PR `#48` and defines the
   stable progressive-autonomy/public-trust contract.
-- The public PR33 compatibility bridge consumes explicit private-engine
-  decisions, corrects verified/headline selection, and adds distinct trust,
-  autonomy, and certification presentation without enabling publication or
-  requiring a live private-engine endpoint in CI.
+- Public GitHub PR `#26`, the PR33 compatibility bridge, consumes explicit
+  private-engine decisions, corrects verified/headline selection, and adds
+  distinct trust, autonomy, and certification presentation without enabling
+  publication or requiring a live private-engine endpoint in CI.
 - Logical PR34 remains unstarted until this public compatibility PR merges and
   both repositories pass post-merge verification.
 

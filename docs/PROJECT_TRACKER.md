@@ -5,9 +5,10 @@ Last updated: 2026-07-14
 ## Current state
 
 - Phase: Logical PR33 public compatibility bridge
-- Active scope: consume the merged private PR33 progressive-trust contract,
-  correct verified/headline selectors, and render explicit autonomy,
-  certification, and eligibility decisions through fixture-backed CI adapters
+- Active scope: public GitHub PR `#26` consumes the merged private PR33
+  progressive-trust contract, corrects verified/headline selectors, and renders
+  explicit autonomy, certification, and eligibility decisions through
+  fixture-backed CI adapters
 - Production application: Cloudflare Worker deployed and routed; production readiness is degraded only because no snapshot is published yet
 - Production data: schema foundation plus relationship/scenario schema applied; no published snapshots yet
 - Repository visibility: public; owner-controlled writes
@@ -98,6 +99,6 @@ Last updated: 2026-07-14
 
 Private Logical PR33 is merged as data-engine GitHub PR `#48` at
 `8cb0a68edf178503944f949a28d15baba9d1d9b0`. After this separate public
-compatibility PR merges and both repositories pass final verification, the
-private task pointer to Logical PR34 becomes actionable. Do not begin PR34 in
-this public bridge PR.
+compatibility GitHub PR `#26` merges and both repositories pass final
+verification, the private task pointer to Logical PR34 becomes actionable. Do
+not begin PR34 in this public bridge PR.
