@@ -24,6 +24,7 @@ function hash(value: unknown) {
 
 function validate() {
   if (contract.contractVersion !== compatibility.privateContractVersion || report.qualityReportVersion !== compatibility.qualityReportVersion) throw new Error("PR36 quality contract mismatch");
+  if (hash(contract) !== compatibility.contractSemanticHash) throw new Error("PR36 quality contract hash mismatch");
   if (compatibility.browserPolicyRecomputationAllowed || compatibility.liveTransportEnabled || compatibility.publicationEnabled) throw new Error("PR36 public boundary mismatch");
   const { reportHash, ...semanticReport } = report;
   if (hash(semanticReport) !== reportHash || reportHash !== compatibility.reportSemanticHash) throw new Error("PR36 quality report hash mismatch");

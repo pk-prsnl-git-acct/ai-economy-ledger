@@ -14,6 +14,7 @@ test("PR36 exact private contract and report bytes are copied and version bound"
   assert.equal(hash(read("data/contracts/quality/pr36_observability_contract.json")), compatibility.privateContractSourceByteHash);
   assert.equal(hash(read("data/quality/pr36_release_quality_report.json")), compatibility.privateReportSourceByteHash);
   assert.equal(contract.contractVersion, "quality-observability@36.0.0");
+  assert.equal(compatibility.contractSemanticHash, "c3459cab67f171e99e9cf47892736c3971fc98280a4b23e220cf8eb2c215d8a3");
   assert.equal(report.qualityReportVersion, "release-quality-report@36.0.0");
   assert.equal(report.reportHash, compatibility.reportSemanticHash);
 });
@@ -22,6 +23,7 @@ test("PR36 public boundary is server-only, fail-closed, and does not recompute p
   const adapter = read("src/server/quality-observability/contract.ts").toString("utf8");
   assert.match(adapter, /import "server-only"/);
   assert.match(adapter, /quality report hash mismatch/);
+  assert.match(adapter, /quality contract hash mismatch/);
   assert.match(adapter, /release binding mismatch/);
   assert.match(adapter, /production claim rejected/);
   assert.doesNotMatch(adapter, /evaluateSlo|evaluateDrift|suspendCertification/);

@@ -3,6 +3,7 @@
   "privateContractVersion": "quality-observability@36.0.0",
   "qualityReportVersion": "release-quality-report@36.0.0",
   "privateContractSourceByteHash": "de41a9d72cf3561c8828b0282ffde66a4947049a91c62379d76acd9c064bade6",
+  "contractSemanticHash": "c3459cab67f171e99e9cf47892736c3971fc98280a4b23e220cf8eb2c215d8a3",
   "privateReportSourceByteHash": "7123bf31ebd36b55024081104e322e732de872bfc565ddb74c1b04b4eba01395",
   "reportSemanticHash": "ad96171b2428451ceb3308c808b2f24151c472bc152f376c135429804e0ca18c",
   "browserPolicyRecomputationAllowed": false,
