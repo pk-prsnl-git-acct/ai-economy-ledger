@@ -206,3 +206,10 @@ This document contains durable implementation context for future coding sessions
   headline, and publication decisions. It must not recompute private trust or
   autonomy policy, present system validation as human review, or convert absent
   coverage into zero-valued observations.
+## Logical PR36 public quality compatibility
+
+- Public PR36 is GitHub PR `#28`, paired with merged private PR `#51`.
+- The server-only adapter verifies exact copied contract/report bytes, semantic report hash, and the PR34 release manifest before returning safe summaries.
+- `/data/quality` keeps shadow, insufficient-sample, and unmeasurable states visible; `/admin/health` remains protected and adds quality/SLO/drift context.
+- The browser does not recompute SLO, drift, suspension, trust, or publication policy.
+- No live private transport, external alert, enforcement, deployment, secret, or publication is enabled.

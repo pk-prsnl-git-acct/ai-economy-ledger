@@ -51,3 +51,6 @@ PR 2.5 is considered satisfied by PR 2's OpenNext build and workerd HTTP smoke e
 - PR 11: Cloudflare Workers production deploy, domain binding, final smoke test, cache/health validation, and rollback record
 
 Broad scraping, paid data redistribution, automated private-market estimates, and complex network visualization remain outside v0.1.
+- Public Logical PR36 is GitHub PR `#28`, following merged private PR `#51`.
+  It adds server-verified quality summaries and protected health context without
+  production enforcement, alerting, deployment, or publication.
