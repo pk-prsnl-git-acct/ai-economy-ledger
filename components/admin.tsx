@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-import { AppShell, ConfidenceBadge, DataQualityPanel, HeroSection, RouteDirectory } from "@/components/ledger";
+import { AppShell, AutonomyBadge, ConfidenceBadge, DataQualityPanel, HeroSection, RouteDirectory, TrustDecisionSummary, TrustStateBadge } from "@/components/ledger";
 import { getAdminSession, type AdminSession } from "@/src/server/admin/session";
 import { submitTrustReviewDecision } from "@/src/server/admin/public-trust/actions";
 import {
@@ -73,7 +73,8 @@ function ReviewCaseCard({ reviewCase }: { reviewCase: TrustReviewCase }) {
     <article className="queue-item review-case-card">
       <div>
         <strong>{record.entity.displayName} · {record.metric.displayLabel}</strong>
-        <p>{record.trustState} · {reviewCase.reviewPriority} · {reviewCase.queueAge} · {record.source.name}</p>
+        <div className="trust-context trust-context-inline"><TrustStateBadge record={record} /><AutonomyBadge record={record} /></div>
+        <p>{reviewCase.reviewPriority} · {reviewCase.queueAge} · {record.source.name}</p>
         <p>{record.disclosure.label}</p>
       </div>
       <a className="disabled-action action-link" href={`/admin/review/${encodeURIComponent(reviewCase.reviewCaseId)}`}>Open detail</a>
@@ -89,7 +90,7 @@ export async function TrustReviewDashboard() {
       <div className="panel queue-panel">
         <div className="panel-heading">
           <div>
-            <p className="panel-label">PR30.1A contract {contract.contractVersion}</p>
+            <p className="panel-label">Progressive trust contract {contract.contractVersion}</p>
             <h2 id="trust-review-heading">Review queue</h2>
           </div>
           <ConfidenceBadge level="High" />
@@ -97,7 +98,7 @@ export async function TrustReviewDashboard() {
         <form className="filter-grid" aria-label="Review queue filters">
           <label>Company<input name="company" placeholder="NVIDIA" /></label>
           <label>Metric<select name="metric" defaultValue=""><option value="">Any metric</option><option value="metric:ai-capex">AI capex</option><option value="metric:ai-compute-capacity">AI compute capacity</option></select></label>
-          <label>Trust state<select name="trustState" defaultValue=""><option value="">Any state</option><option value="source_attributed_unverified">Source-attributed</option><option value="human_verified">Human verified</option></select></label>
+          <label>Trust state<select name="trustState" defaultValue=""><option value="">Any state</option><option value="source_attributed_unverified">Source-attributed</option><option value="system_validated">System validated</option><option value="human_verified">Human verified</option></select></label>
           <label>Priority<select name="reviewPriority" defaultValue=""><option value="">Any priority</option><option value="urgent">Urgent</option><option value="normal">Normal</option></select></label>
           <label>Conflict<select name="conflict" defaultValue=""><option value="">Any conflict</option><option value="unresolved_conflict">Unresolved</option><option value="none">None</option></select></label>
           <label>Model-assisted<select name="modelAssisted" defaultValue=""><option value="">Any provenance</option><option value="true">Model assisted</option><option value="false">Deterministic</option></select></label>
@@ -150,7 +151,11 @@ export async function TrustReviewDetail({ reviewCaseId }: { reviewCaseId: string
           <div><dt>Source</dt><dd><a href={record.source.url}>{record.source.name}</a> · {record.source.filingOrPublicationDate}</dd></div>
           <div><dt>Evidence</dt><dd>{reviewCase.evidenceSafeBundle.safeEvidenceRef} · {reviewCase.evidenceSafeBundle.documentVersion}</dd></div>
           <div><dt>Coordinates</dt><dd>{Object.entries(reviewCase.evidenceSafeBundle.coordinates).map(([key, value]) => `${key}: ${value}`).join(", ")}</dd></div>
-          <div><dt>Trust state</dt><dd>{record.trustState}</dd></div>
+          <div><dt>Trust state</dt><dd><div className="trust-context"><TrustStateBadge record={record} /><AutonomyBadge record={record} /></div></dd></div>
+          <div><dt>Eligibility</dt><dd><TrustDecisionSummary record={record} /></dd></div>
+          <div><dt>Certification</dt><dd>{record.certificationState}{record.certificationKey ? ` · ${record.certificationKey}` : " · no certification"}</dd></div>
+          <div><dt>Autonomy decision</dt><dd>{record.autonomyDecisionKey}</dd></div>
+          <div><dt>Decision reasons</dt><dd>{record.promotionReasonCodes.join(", ")}</dd></div>
           <div><dt>Conflict</dt><dd>{record.conflictStatus}</dd></div>
           <div><dt>Amendment</dt><dd>{record.amendmentStatus}</dd></div>
           <div><dt>Anomaly</dt><dd>{record.anomalyStatus}</dd></div>

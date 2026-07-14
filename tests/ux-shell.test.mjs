@@ -48,8 +48,10 @@ test("public dashboard renders progressive trust states with visible disclosure"
   assert.match(home, /getHeadlineRecords/);
   assert.match(components, /Source-attributed — not yet human verified/);
   assert.match(components, /Human verified/);
+  assert.match(components, /System validated/);
   assert.match(components, /Conflict detected/);
-  assert.match(components, /Verified-only views include/);
+  assert.match(components, /verified lane follows explicit private-engine decisions/);
+  assert.match(components, /TrustDecisionSummary/);
   assert.match(components, /disclosure\.label/);
 });
 

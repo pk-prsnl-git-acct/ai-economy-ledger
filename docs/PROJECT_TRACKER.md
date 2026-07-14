@@ -1,12 +1,13 @@
 # Project Tracker
 
-Last updated: 2026-07-13
+Last updated: 2026-07-14
 
 ## Current state
 
-- Phase: Logical PR 30.1B public bridge
-- Active scope: authenticated admin trust review UI and public trust-state
-  rendering, consuming the merged private PR30.1A contract through
+- Phase: Logical PR33 public compatibility bridge complete
+- Completed scope: public GitHub PR `#26` consumes the merged private PR33
+  progressive-trust contract, corrects verified/headline selectors, and renders
+  explicit autonomy, certification, and eligibility decisions through
   fixture-backed CI adapters
 - Production application: Cloudflare Worker deployed and routed; production readiness is degraded only because no snapshot is published yet
 - Production data: schema foundation plus relationship/scenario schema applied; no published snapshots yet
@@ -68,6 +69,7 @@ Last updated: 2026-07-13
 | PR 12.2 | OpenNext secret-hardening regression coverage and project-memory cleanup |
 | PR 13 | Private data-engine repository: data charter, AI-economy ontology, and coverage contract |
 | PR 30.1B | Public bridge: authenticated admin review and trust-state UI after private PR30.1A |
+| PR 33 public compatibility | Explicit autonomy/certification decisions and verified-lane UI after private PR33 |
 
 ## Current risks
 
@@ -88,10 +90,15 @@ Last updated: 2026-07-13
 - PR30.1B consumes a rights-safe PR30.1A fixture contract only. It does not
   require a live private-engine endpoint or production secret in CI, does not
   enable publication, and does not begin Logical PR 31.
+- The PR33 public bridge consumes a rights-safe copy of the merged private
+  `@33.0.0` contract. It does not connect to a live private endpoint, recompute
+  certification policy, mutate Supabase, deploy Cloudflare, publish data, or
+  begin Logical PR34.
 
 ## Next decision gate
 
-Logical PR 30.1B is GitHub PR `#25` and is active after private PR30.1A merged at
-`7fa20b4b669dfc1704201c78aaf3406dbd55cdbb`. After PR30.1B merges and final
-verification passes, Logical PR 31 may resume in the private data-engine plan.
-Do not begin PR31 inside this public bridge PR.
+Private Logical PR33 is merged as data-engine GitHub PR `#48` at
+`8cb0a68edf178503944f949a28d15baba9d1d9b0`. After this separate public
+compatibility GitHub PR `#26` and both repositories pass final verification,
+the private task pointer to Logical PR34 is the exact next task. PR34 was not
+begun in this public bridge PR.

@@ -1,6 +1,6 @@
 {
-  "contractVersion": "public-trust-admin-review@30.1A.0",
-  "policyVersion": "public-trust-policy@30.1A.0",
+  "contractVersion": "public-trust-admin-review@33.0.0",
+  "policyVersion": "public-trust-policy@33.0.0",
   "description": "Rights-safe cross-repository contract for public trust states, public visibility, and protected admin review operations.",
   "trustStateEnum": [
     "source_attributed_unverified",
@@ -26,6 +26,17 @@
     "show_superseded_history": false,
     "preview_disclosure_required": true
   },
+  "progressiveTrustDecisionFields": [
+    "publicVisibilityEligible",
+    "verifiedLaneEligible",
+    "headlineEligible",
+    "publicationExecutionEligible",
+    "autonomyLevel",
+    "certificationState",
+    "certificationKey",
+    "autonomyDecisionKey",
+    "promotionReasonCodes"
+  ],
   "publicRecordPayload": {
     "stableRecordId": "public-record:nvidia:ai-capex:fy2025",
     "recordVersion": "record-version:nvidia:ai-capex:fy2025:v1",
@@ -69,6 +80,15 @@
     "trustState": "source_attributed_unverified",
     "reviewRequired": true,
     "humanVerified": false,
+    "publicVisibilityEligible": true,
+    "verifiedLaneEligible": false,
+    "headlineEligible": false,
+    "publicationExecutionEligible": false,
+    "autonomyLevel": "manual_review_only",
+    "certificationState": "missing",
+    "certificationKey": null,
+    "autonomyDecisionKey": "autonomy-decision:fixture:nvidia:remain-unverified",
+    "promotionReasonCodes": ["remain_source_attributed_unverified", "verified_lane_blocked"],
     "conflictStatus": "none",
     "amendmentStatus": "original",
     "duplicateGroupStatus": "unique",
@@ -79,13 +99,13 @@
       "code": "source_attributed_unverified_disclosure",
       "label": "Source-attributed value that has not yet completed human review."
     },
-    "policyVersion": "public-trust-policy@30.1A.0",
-    "contractVersion": "public-trust-admin-review@30.1A.0",
+    "policyVersion": "public-trust-policy@33.0.0",
+    "contractVersion": "public-trust-admin-review@33.0.0",
     "publicationLane": "latest_source_attributed",
     "publicationEnabled": false
   },
   "reviewQueueResponse": {
-    "contractVersion": "public-trust-admin-review@30.1A.0",
+    "contractVersion": "public-trust-admin-review@33.0.0",
     "page": {
       "limit": 25,
       "cursor": "opaque-fixture-cursor",
@@ -174,7 +194,7 @@
     "note": "Evidence-safe fixture review.",
     "expectedRecordVersion": "record-version:nvidia:ai-capex:fy2025:v1",
     "expectedEvidenceVersion": "evidence-version:nvidia:10-k:2025:v1",
-    "policyVersion": "public-trust-policy@30.1A.0",
+    "policyVersion": "public-trust-policy@33.0.0",
     "idempotencyKey": "idempotency:fixture:nvidia:approve"
   },
   "decisionResponse": {
@@ -182,6 +202,9 @@
     "resultingTrustState": "human_verified",
     "reviewRequired": false,
     "humanVerified": true,
+    "verifiedLaneEligible": true,
+    "headlineEligible": false,
+    "publicationExecutionEligible": false,
     "publicationEnabled": false,
     "auditEvent": {
       "appendOnly": true
@@ -195,8 +218,8 @@
     "reasonCode": "admin_preview_setting"
   },
   "visibilityPolicyResponse": {
-    "policyVersion": "public-trust-policy@30.1A.0",
-    "contractVersion": "public-trust-admin-review@30.1A.0",
+    "policyVersion": "public-trust-policy@33.0.0",
+    "contractVersion": "public-trust-admin-review@33.0.0",
     "settings": {
       "show_source_attributed_unverified": true,
       "show_system_validated": true,
@@ -226,7 +249,7 @@
   "contractVersionMismatchResponse": {
     "status": 426,
     "code": "contract_version_mismatch",
-    "expected": "public-trust-admin-review@30.1A.0",
+    "expected": "public-trust-admin-review@33.0.0",
     "message": "Fail closed on incompatible public trust contract versions."
   }
 }

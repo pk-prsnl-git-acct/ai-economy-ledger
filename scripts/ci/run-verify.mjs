@@ -16,6 +16,7 @@ const checks = [
       "tests/kpi-calculations.test.mjs",
       "tests/publication-runtime.test.mjs",
       "tests/admin-runtime.test.mjs",
+      "tests/pr33-public-trust-compatibility.test.mjs",
       "tests/circularity-scenarios.test.mjs",
       "tests/health-readiness.test.mjs",
     ]

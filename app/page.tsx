@@ -11,6 +11,7 @@ export const metadata: Metadata = routeMetadata(route.title, route.description, 
 
 export default function HomePage() {
   const trustRecords = listPublicTrustRecords();
+  const verifiedRecords = listPublicTrustRecords({ view: "verified" });
   const headlineRecords = getHeadlineRecords();
   return (
     <AppShell>
@@ -26,7 +27,7 @@ export default function HomePage() {
         <FinancialChartCard title="Capital and revenue over time" />
         <FinancialChartCard title="Gross and adjusted flow" variant="bars" />
       </section>
-      <PublicTrustLedger records={trustRecords} headlineCount={headlineRecords.length} />
+      <PublicTrustLedger records={trustRecords} verifiedRecords={verifiedRecords} headlineCount={headlineRecords.length} />
       <DataTable />
     </AppShell>
   );

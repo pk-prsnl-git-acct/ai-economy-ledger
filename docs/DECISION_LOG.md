@@ -2,6 +2,21 @@
 
 Material decisions use stable identifiers and remain append-only. Reversals reference the superseded decision.
 
+## 2026-07-14 — Public app renders PR33 decisions without recomputing policy
+
+- Decision: consume the merged private PR33 `public-trust-admin-review@33.0.0`
+  contract through the existing server-only fixture adapter and render its
+  explicit visibility, verified-lane, headline, publication, autonomy, and
+  certification fields.
+- Why: `system_validated` may enter the verified lane only when the private
+  engine explicitly permits it; neither trust state nor browser logic is enough
+  to infer that privilege.
+- Consequence: selectors fail closed on incompatible or internally inconsistent
+  decisions, human and system verification remain visually distinct, inactive
+  certification cannot retain stronger lanes, and the browser does not recreate
+  private certification policy. Publication remains disabled and no production
+  infrastructure changes are included.
+
 ## 2026-07-13 — Public app consumes PR30.1A through a fixture-backed trust adapter
 
 - Decision: implement PR30.1B with protected admin Server Components and a
