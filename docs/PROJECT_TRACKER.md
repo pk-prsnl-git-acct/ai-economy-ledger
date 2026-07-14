@@ -105,3 +105,9 @@ Private Logical PR34 is merged as data-engine GitHub PR `#49` at
 `eb353b70bcf80066fd62ff8ef9d03efa4ac5bdd2`. Merge and post-merge verification
 of the public PR34 distribution surface are the remaining gates before the
 private task pointer advances to Logical PR35. Do not begin PR35 in this work.
+## Logical PR36 public compatibility
+
+GitHub PR `#28` consumes merged private PR36 `#51` through an exact, server-only
+quality contract. Public and protected admin summaries are implemented without
+live transport or deployment. Logical PR37 remains a private-engine next task
+until PR36 merges and both repositories verify.

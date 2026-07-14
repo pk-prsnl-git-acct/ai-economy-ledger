@@ -284,3 +284,13 @@
 - Security: rejects unsafe release/artifact paths, missing/extra/hash-mismatched bytes, private material, stale contracts, invalid lane membership, and publication-enabled candidates; no private runtime dependency or browser credential
 - Deployment impact: none; no Cloudflare deploy, Supabase migration/data mutation, live publication, DNS change, secret write, or production infrastructure action
 - Verification: lint, strict TypeScript, migration check, data validation, 70 tests, Next.js build, OpenNext build, generated-output secret scan, 11-page/8-API workerd smoke, and desktop/mobile browser inspection pass; GitHub CI and post-merge verification pending
+## Logical PR36 public quality compatibility
+
+- Status: in review
+- Pull request: GitHub PR `#28`
+- URL: `https://github.com/pk-prsnl-git-acct/ai-economy-ledger/pull/28`
+- Private dependency: data-engine GitHub PR `#51`, merge `f89d14b8ea600b1c73998b0742094bd24f914044`
+- Contract: `public-quality-observability@36.0.0` consuming exact private `quality-observability@36.0.0` and `release-quality-report@36.0.0` bytes
+- Scope: server-only hash/release verification, public `/data/quality`, and protected `/admin/health` quality details
+- Safety: fixture transport only; no browser policy recomputation, live endpoint, alert, enforcement, deployment, secret, or publication
+- Validation: 75 tests, Next production build, Cloudflare/OpenNext build and secret scan, preview smoke for 11 pages and 8 API routes

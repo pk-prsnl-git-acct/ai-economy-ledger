@@ -161,3 +161,8 @@ Material decisions use stable identifiers and remain append-only. Reversals refe
 - Status: accepted
 - Decision: Treat the private data engine's manifest hash as the public release trust root. Serve only the fixed, reviewed artifact set after server-side contract, hash, byte-length, membership, and private-material validation; cache versioned bytes immutably while revalidating mutable indexes and correction feeds.
 - Rationale: public distribution must be independently buildable and transparent without importing private policy or infrastructure. Binding every download to one reviewed manifest prevents silent artifact drift, while separate cache classes preserve immutable history and timely correction discovery.
+## 2026-07-14 — PR36 public UI consumes quality decisions without recomputation
+
+- Decision: copy the exact private quality contract/report and validate them in a server-only adapter before rendering safe public and protected admin summaries.
+- Rationale: quality status, drift, suspension, and trust decisions belong to the private engine; browser recomputation could diverge or expose restricted operational context.
+- Consequence: missing and low-sample evidence stays visible, while live transport, external alerts, production enforcement, deployment, secrets, and publication remain disabled.
