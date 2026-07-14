@@ -1,0 +1,14 @@
+{
+  "contractVersion": "public-market-intelligence@37.0.0",
+  "privateContractVersion": "market-intelligence@37.0.0",
+  "analyticsBuildVersion": "analytical-build@37.0.0",
+  "privateMergeCommit": "2703363f6b444b438b7e1c23704a2845413896e1",
+  "privateContractSourceByteHash": "9426b9ccbf24fec24ebb5f7af958b109a3b50cfff555d30bfbf1d8bc25a4731c",
+  "analyticsManifestSourceByteHash": "50ea35aa861ace8a0687f66c069297e9be593a3cd0ddc2b88b9722a154ab0979",
+  "releaseId": "dataset-release:1:5424bda5073c2a1a09cb",
+  "releaseManifestHash": "30b8a9ccb5687695ef4603b57e57879c3e8718f17b5f5b2cc51d397a59e0c7f3",
+  "qualityReportHash": "ad96171b2428451ceb3308c808b2f24151c472bc152f376c135429804e0ca18c",
+  "browserPolicyRecomputationAllowed": false,
+  "livePrivateTransportEnabled": false,
+  "publicationEnabled": false
+}

@@ -213,3 +213,12 @@ This document contains durable implementation context for future coding sessions
 - `/data/quality` keeps shadow, insufficient-sample, and unmeasurable states visible; `/admin/health` remains protected and adds quality/SLO/drift context.
 - The browser does not recompute SLO, drift, suspension, trust, or publication policy.
 - No live private transport, external alert, enforcement, deployment, secret, or publication is enabled.
+
+## Logical PR37 public market intelligence
+
+- Private PR37 is GitHub PR `#52`, merged at `2703363f6b444b438b7e1c23704a2845413896e1`.
+- The public adapter validates exact contract bytes, analytics manifest, PR34 release trust root, PR36 quality binding, all artifact descriptors/checksums, and the fixed safe artifact set.
+- `/market`, `/events`, `/companies`, and `/relationships` render four limited views and honest unavailable states without browser policy recomputation or speculative charts/totals.
+- `/api/data/analytics` and `/api/data/analytics/[artifact]` expose safe cache-aware release-candidate data only.
+- No live private transport, deployment, publication, hosted migration, secret, DNS, queue, Worker, or production data mutation is enabled.
+- PR37 is the final planned logical PR. Do not invent a later logical PR.

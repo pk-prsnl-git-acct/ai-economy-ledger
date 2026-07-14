@@ -54,3 +54,6 @@ Broad scraping, paid data redistribution, automated private-market estimates, an
 - Public Logical PR36 is GitHub PR `#28`, following merged private PR `#51`.
   It adds server-verified quality summaries and protected health context without
   production enforcement, alerting, deployment, or publication.
+- Private Logical PR37 is merged as GitHub PR `#52`. Its separate public bridge
+  is the terminal planned logical scope and renders only server-verified safe
+  analytical artifacts with honest limited and unavailable states.

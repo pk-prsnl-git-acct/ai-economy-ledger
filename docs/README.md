@@ -13,6 +13,7 @@ This directory is the durable project memory. Repository code, tests, data artif
 - [Source Policy](SOURCE_POLICY.md) — acceptable evidence and licensing rules
 - [Testing Strategy](TESTING_STRATEGY.md) — quality pyramid and release gates
 - [Public Quality Observability](PUBLIC_QUALITY_OBSERVABILITY.md) — server-verified PR36 release-quality and protected admin summaries
+- [Market Intelligence](MARKET_INTELLIGENCE.md) — release-bound analytical views, limitations, citation, and no-investment-advice boundary
 - [Development Workflow](DEVELOPMENT_WORKFLOW.md) — issue, branch, hooks, PR, CI, merge, and deployment boundaries
 - [Updated PR Plan and Checkpoints](UPDATED_PR_PLAN_AND_CHECKPOINTS.md) — logical PR sequence, operational checkpoint gates, and stop rules
 - [Governance](../GOVERNANCE.md) — decisions, roles, and release authority

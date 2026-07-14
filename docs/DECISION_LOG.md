@@ -166,3 +166,9 @@ Material decisions use stable identifiers and remain append-only. Reversals refe
 - Decision: copy the exact private quality contract/report and validate them in a server-only adapter before rendering safe public and protected admin summaries.
 - Rationale: quality status, drift, suspension, and trust decisions belong to the private engine; browser recomputation could diverge or expose restricted operational context.
 - Consequence: missing and low-sample evidence stays visible, while live transport, external alerts, production enforcement, deployment, secrets, and publication remain disabled.
+
+## 2026-07-14 — PR37 public analytics render private decisions verbatim
+
+- Decision: validate the exact private PR37 contract and artifacts in a server-only adapter, then render availability, truth, trust, coverage, quality, and lineage without browser recomputation.
+- Rationale: a five-company, six-record release supports useful limited profiles and ledger views but not defensible market totals, price indices, facility pipelines, relationship graphs, or trends.
+- Consequence: limited and unavailable states are first-class UI, missing data is never zero, immutable APIs expose only safe artifacts, and no deployment, publication, private endpoint, secret, or infrastructure mutation occurs.

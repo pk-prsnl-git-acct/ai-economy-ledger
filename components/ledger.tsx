@@ -20,7 +20,7 @@ export function AppShell({ children, admin = false }: { children: ReactNode; adm
 
 export function TopNav({ admin = false }: { admin?: boolean }) {
   const routes = admin ? adminRoutes : publicRoutes;
-  const primaryRoutes = admin ? routes.slice(0, 4) : routes.slice(0, 6);
+  const primaryRoutes = admin ? routes.slice(0, 4) : routes.slice(0, 7);
 
   return (
     <header className="top-nav">
