@@ -2,7 +2,7 @@
 
 ## PR33 public compatibility - Progressive trust decisions and UI
 
-- Status: in progress
+- Status: merged
 - Pull request: GitHub PR `#26`
 - Pull request URL: `https://github.com/pk-prsnl-git-acct/ai-economy-ledger/pull/26`
 - Branch: `agent/pr33-public-trust-compatibility`
@@ -20,7 +20,8 @@
   remain covered by repository contract tests
 - Deployment impact: none; no Cloudflare or Supabase mutation, hosted migration,
   secret change, production deployment, or publication
-- Verification: `pnpm verify` passed with 62 tests; `pnpm build`,
+- Verification: GitHub CI run `29306389893` passed on the reviewed head;
+  `pnpm verify` passed with 62 tests; `pnpm build`,
   `pnpm build:cloudflare`, generated-output secret scan, and four-route workerd
   preview smoke passed; desktop and 390px mobile visual review found no console
   errors
