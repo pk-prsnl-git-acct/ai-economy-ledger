@@ -9,7 +9,7 @@ export async function PublicQualitySummary() {
       <article className="panel quality-stat"><span>Measured</span><strong>{quality.measurableSloCount}</strong><small>{live ? "bounded window" : "shadow result"}</small></article>
       <article className="panel quality-stat"><span>Low sample</span><strong>{quality.insufficientSampleCount}</strong><small>not an SLO pass</small></article>
       <article className="panel quality-stat"><span>Unmeasurable</span><strong>{quality.unmeasurableCount}</strong><small>kept visible</small></article>
-      <article className="panel quality-stat"><span>Material issues</span><strong>{quality.openMaterialOrCriticalIssueCount}</strong><small>open in fixture proof</small></article>
+      <article className="panel quality-stat"><span>Material issues</span><strong>{quality.openMaterialOrCriticalIssueCount}</strong><small>{live ? "open in live report" : "open in fixture proof"}</small></article>
     </div>
     <section className="panel quality-limitations"><h2>Known limitations</h2><ul>{quality.knownLimitations.map((item) => <li key={item}>{item}</li>)}</ul></section>
   </section>;
