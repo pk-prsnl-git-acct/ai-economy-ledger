@@ -16,7 +16,7 @@ export function CandidateNotice() {
 export function DataNavigation() {
   const links = [
     ["Downloads", "/data"], ["Releases", "/data/releases"], ["Coverage", "/data/coverage"],
-    ["Sources", "/data/sources"], ["Revisions", "/data/revisions"], ["Corrections", "/data/corrections"]
+    ["Quality", "/data/quality"], ["Sources", "/data/sources"], ["Revisions", "/data/revisions"], ["Corrections", "/data/corrections"]
   ];
   return <nav className="data-nav" aria-label="Dataset navigation">{links.map(([label, href]) => <Link href={href as Route} key={href}>{label}</Link>)}</nav>;
 }

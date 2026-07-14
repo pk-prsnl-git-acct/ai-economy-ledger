@@ -1,0 +1,15 @@
+{
+  "contractVersion": "quality-observability@36.0.0",
+  "metricVersion": "quality-metric@36.0.0",
+  "sloCatalogVersion": "slo-catalog@36.0.0",
+  "driftDetectorVersion": "drift-detector@36.0.0",
+  "incidentVersion": "quality-incident@36.0.0",
+  "qualityReportVersion": "release-quality-report@36.0.0",
+  "measurementStatuses": ["not_measurable", "insufficient_sample", "shadow", "measured", "breached", "unknown"],
+  "sloStates": ["draft", "shadow", "active", "suspended", "retired"],
+  "severities": ["info", "warning", "material", "critical"],
+  "incidentStates": ["open", "investigating", "mitigated", "resolved", "false_positive", "accepted_risk"],
+  "productionActivation": false,
+  "externalAlertDelivery": false,
+  "publicationEnabled": false
+}
