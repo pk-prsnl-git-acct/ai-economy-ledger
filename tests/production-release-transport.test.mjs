@@ -15,6 +15,8 @@ test("production transport is private-service-bound and fails closed", () => {
   assert.match(transport, /production bindings unavailable/);
   assert.match(transport, /readonly status = 503/);
   assert.doesNotMatch(transport, /SUPABASE_SERVICE_ROLE|DATABASE_URL|OPERATOR_TOKEN/);
+  assert.match(wrangler, /\[env\.preview\.vars\][\s\S]*RELEASE_TRANSPORT_MODE\s*=\s*"embedded"/);
+  assert.match(readFileSync("scripts/ci/cloudflare-preview-smoke.mjs", "utf8"), /"--env", "preview"/);
 });
 
 test("published artifacts remain exact-release and hash bound", () => {

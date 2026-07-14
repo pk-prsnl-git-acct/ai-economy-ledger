@@ -12,7 +12,7 @@ if (!existsSync(workerPath)) {
 }
 
 let output = "";
-const preview = spawn(cliPath, ["preview", "--port", String(port)], {
+const preview = spawn(cliPath, ["preview", "--env", "preview", "--port", String(port)], {
   detached: process.platform !== "win32",
   env: { ...process.env, NO_COLOR: "1" },
   stdio: ["ignore", "pipe", "pipe"]
