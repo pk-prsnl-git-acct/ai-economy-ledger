@@ -35,6 +35,7 @@ test("quality and analytics are bound to the same release trust roots", () => {
   assert.match(quality, /report\.releaseManifestHash !== index\.manifestHash/);
   assert.match(quality, /report\.criticalBreachCount !== 0/);
   assert.match(quality, /report\.coverageSummary\.fixtureOnly/);
+  assert.ok(transport.includes('sha256(`${canonical(quality)}\\n`)'));
   assert.match(analytics, /manifest\.releaseManifestHash !== index\.manifestHash/);
   assert.match(analytics, /manifest\.qualityReportHash !== index\.qualityReportHash/);
   assert.match(analytics, /manifest\.publicationEnabled/);
