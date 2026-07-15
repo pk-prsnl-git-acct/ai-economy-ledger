@@ -2,11 +2,17 @@ import Link from "next/link";
 import type { Route } from "next";
 import type { ReactNode } from "react";
 
+import { isProductionReleaseUnavailable } from "@/src/server/data-releases/production-transport";
 import { listReleases } from "@/src/server/data-releases/runtime";
 import type { PublicRecord } from "@/src/server/data-releases/runtime";
 
 export async function CandidateNotice() {
-  const published = (await listReleases()).some((release) => release.status === "published");
+  let published = false;
+  try {
+    published = (await listReleases()).some((release) => release.status === "published");
+  } catch (error) {
+    if (!isProductionReleaseUnavailable(error)) throw error;
+  }
   return (
     <section className="warning-banner release-notice" aria-label={published ? "Limited production release notice" : "Release candidate notice"}>
       <strong>{published ? "Limited production release" : "Local/CI release candidate"}</strong>
@@ -21,6 +27,19 @@ export function DataNavigation() {
     ["Quality", "/data/quality"], ["Sources", "/data/sources"], ["Revisions", "/data/revisions"], ["Corrections", "/data/corrections"]
   ];
   return <nav className="data-nav" aria-label="Dataset navigation">{links.map(([label, href]) => <Link href={href as Route} key={href}>{label}</Link>)}</nav>;
+}
+
+export function ReleaseUnavailablePanel({ surface = "release data" }: { surface?: string }) {
+  return (
+    <section className="panel unavailable-view" role="status" aria-live="polite">
+      <span className="unavailable-glyph" aria-hidden="true">∅</span>
+      <p className="panel-label">Publication gate closed</p>
+      <h2>Production {surface} is not published yet</h2>
+      <p>The public application reached the private release service, but no current release pointer is enabled. No embedded fixture, candidate-only, or partial private data has been substituted.</p>
+      <div className="reason-list"><span>publication disabled</span><span>no current release pointer</span><span>fail closed</span></div>
+      <dl><div><dt>Public state</dt><dd>Unavailable</dd></div><div><dt>Next gate</dt><dd>Atomic promotion</dd></div></dl>
+    </section>
+  );
 }
 
 export function DecisionBadges({ record }: { record: PublicRecord }) {

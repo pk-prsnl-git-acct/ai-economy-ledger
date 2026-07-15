@@ -61,6 +61,11 @@ export class ProductionReleaseTransportError extends Error {
   constructor(message: string) { super(`Production release transport rejected: ${message}`); }
 }
 
+export function isProductionReleaseUnavailable(error: unknown) {
+  return error instanceof ProductionReleaseTransportError
+    && /private service returned 503|production bindings unavailable|Cloudflare context unavailable/i.test(error.message);
+}
+
 function validateIndex(value: unknown): PublishedReleaseIndex {
   const index = value as Partial<PublishedReleaseIndex>;
   if (!releaseIdPattern.test(index.releaseId ?? "") || index.status !== "published" || index.publicationEnabled !== true) reject("invalid published pointer");
