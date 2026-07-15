@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 
 import { AppShell, HeroSection } from "@/components/ledger";
-import { CandidateNotice, DataNavigation, DownloadLink } from "@/components/data-release";
+import { CandidateNotice, DataNavigation, DownloadLink, ReleaseUnavailablePanel } from "@/components/data-release";
+import { isProductionReleaseUnavailable } from "@/src/server/data-releases/production-transport";
 import { currentReleaseId, getReleaseManifest, getReleaseRecords, listReleases } from "@/src/server/data-releases/runtime";
 import { findPublicRoute } from "@/src/ui/site-map";
 import { routeMetadata } from "@/src/ui/metadata";
@@ -12,13 +13,23 @@ export const metadata: Metadata = routeMetadata(route.title, route.description, 
 export const dynamic = "force-dynamic";
 
 export default async function DataPage() {
-  const releaseId = await currentReleaseId();
-  const [manifest, latestResult, verifiedResult, releases] = await Promise.all([
-    getReleaseManifest(releaseId),
-    getReleaseRecords(releaseId, "latest_source_attributed"),
-    getReleaseRecords(releaseId, "verified"),
-    listReleases(),
-  ]);
+  let releaseId;
+  let manifest;
+  let latestResult;
+  let verifiedResult;
+  let releases;
+  try {
+    releaseId = await currentReleaseId();
+    [manifest, latestResult, verifiedResult, releases] = await Promise.all([
+      getReleaseManifest(releaseId),
+      getReleaseRecords(releaseId, "latest_source_attributed"),
+      getReleaseRecords(releaseId, "verified"),
+      listReleases(),
+    ]);
+  } catch (error) {
+    if (!isProductionReleaseUnavailable(error)) throw error;
+    return <AppShell><HeroSection route={route} /><DataNavigation /><ReleaseUnavailablePanel surface="downloads" /></AppShell>;
+  }
   const latest = latestResult.records;
   const verified = verifiedResult.records;
   const published = releases.find((release) => release.releaseId === releaseId)?.status === "published";

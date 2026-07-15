@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { readFileSync, readdirSync } from "node:fs";
+import { readFileSync, readdirSync, statSync } from "node:fs";
 import test from "node:test";
 
 const transport = readFileSync("src/server/data-releases/production-transport.ts", "utf8");
@@ -43,6 +43,7 @@ test("quality and analytics are bound to the same release trust roots", () => {
 
 test("public repository does not duplicate private persistence", () => {
   const migrations = readdirSync("supabase/migrations")
+    .filter((name) => statSync(`supabase/migrations/${name}`).isFile())
     .map((name) => readFileSync(`supabase/migrations/${name}`, "utf8"))
     .join("\n");
   for (const privateTable of [
@@ -55,5 +56,31 @@ test("public repository does not duplicate private persistence", () => {
     "visibility_policy_history",
   ]) {
     assert.doesNotMatch(migrations, new RegExp(`CREATE TABLE[^;]+${privateTable}`, "i"));
+  }
+});
+
+test("pre-publication pages render an intentional unavailable state", () => {
+  const panel = readFileSync("components/data-release.tsx", "utf8");
+  assert.match(panel, /Production \{surface\} is not published yet/);
+  assert.match(panel, /No embedded fixture, candidate-only, or partial private data has been substituted/);
+  assert.match(transport, /isProductionReleaseUnavailable/);
+
+  for (const file of [
+    "app/data/page.tsx",
+    "app/data/releases/page.tsx",
+    "app/data/releases/[releaseId]/page.tsx",
+    "app/data/coverage/page.tsx",
+    "app/data/sources/page.tsx",
+    "app/data/revisions/page.tsx",
+    "app/data/corrections/page.tsx",
+    "app/market/page.tsx",
+    "app/events/page.tsx",
+    "app/companies/page.tsx",
+    "app/relationships/page.tsx",
+    "components/quality-observability.tsx",
+  ]) {
+    const source = readFileSync(file, "utf8");
+    assert.match(source, /isProductionReleaseUnavailable/);
+    assert.match(source, /ReleaseUnavailablePanel/);
   }
 });

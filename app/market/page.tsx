@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 
+import { ReleaseUnavailablePanel } from "@/components/data-release";
 import { AppShell, HeroSection } from "@/components/ledger";
 import { AnalyticsNav, AnalyticsNotice, AvailabilityGrid, ScopeMetric } from "@/components/market-intelligence";
+import { isProductionReleaseUnavailable } from "@/src/server/data-releases/production-transport";
 import { getAnalyticsManifest, getCoverageHeatmap, getTrustSplit, getViewCatalog } from "@/src/server/market-intelligence/runtime";
 import { listReleases } from "@/src/server/data-releases/runtime";
 import { routeMetadata } from "@/src/ui/metadata";
@@ -13,7 +15,17 @@ export const metadata: Metadata = routeMetadata(route.title, route.description, 
 export const dynamic = "force-dynamic";
 
 export default async function MarketPage() {
-  const [manifest, catalog, coverage, trust, releases] = await Promise.all([getAnalyticsManifest(), getViewCatalog(), getCoverageHeatmap(), getTrustSplit(), listReleases()]);
+  let manifest;
+  let catalog;
+  let coverage;
+  let trust;
+  let releases;
+  try {
+    [manifest, catalog, coverage, trust, releases] = await Promise.all([getAnalyticsManifest(), getViewCatalog(), getCoverageHeatmap(), getTrustSplit(), listReleases()]);
+  } catch (error) {
+    if (!isProductionReleaseUnavailable(error)) throw error;
+    return <AppShell><HeroSection route={route} /><AnalyticsNav /><ReleaseUnavailablePanel surface="market intelligence" /></AppShell>;
+  }
   const limited = catalog.views.filter((view) => view.availabilityState === "available_with_limitations").length;
   const records = trust.groups.reduce((count, group) => count + group.recordCount, 0);
   const published = releases.some((release) => release.releaseId === manifest.releaseId && release.status === "published");
