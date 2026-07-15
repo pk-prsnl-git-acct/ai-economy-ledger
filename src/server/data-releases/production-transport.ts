@@ -110,7 +110,7 @@ export function createProductionReleaseTransport(binding: FetchBinding, token: s
       const quality = JSON.parse(bytes.toString("utf8")) as Record<string, unknown>;
       const reportHash = quality.reportHash;
       delete quality.reportHash;
-      if (reportHash !== current.qualityReportHash || sha256(canonical(quality)) !== reportHash) reject("quality trust-root mismatch");
+      if (reportHash !== current.qualityReportHash || sha256(`${canonical(quality)}\n`) !== reportHash) reject("quality trust-root mismatch");
     }
     if (name === "analytics/analytics-manifest.json" && hash !== current.analyticsManifestHash) reject("analytics trust-root mismatch");
     return { name, bytes, hash, mediaType: response.headers.get("content-type") ?? "application/octet-stream", releaseId: current.releaseId };
