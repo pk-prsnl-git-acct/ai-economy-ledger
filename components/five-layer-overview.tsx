@@ -33,7 +33,8 @@ export function FiveLayerStack({ records }: { records: PublicRecord[] }) {
       {summarizeAiStack(records).map((layer) => <article className={`stack-card stack-${layer.status.replaceAll(" ", "-")}`} key={layer.key}>
         <div className="stack-card-heading"><span>{layer.status}</span><b>{String(aiStackLayersIndex(layer.key)).padStart(2, "0")}</b></div>
         <h3>{layer.name}</h3><p>{layer.description}</p>
-        <dl><div><dt>Tracked companies</dt><dd>{layer.companies.length ? layer.companies.join(", ") : "No production observations in the current release."}</dd></div><div><dt>Primary-layer observations</dt><dd>{layer.primaryObservationCount}</dd></div></dl>
+        <dl><div><dt>Tracked companies</dt><dd>{layer.companies.length ? layer.companies.join(", ") : "No production observations in the current release."}</dd></div><div><dt>Primary-layer observations</dt><dd>{layer.primaryObservationCount}</dd></div><div><dt>Metric families</dt><dd>{layer.metricFamilies.length ? layer.metricFamilies.join(" · ") : "Not yet represented"}</dd></div><div><dt>Official sources</dt><dd>{layer.sourceCount || "Not yet represented"}</dd></div></dl>
+        <p className="stack-limitation">{layer.limitation}</p><p className="stack-expansion">Next: {layer.expansionState}</p>
         <Link href={(layer.companies.length ? "/companies" : "/ai-stack") as Route}>View coverage <span aria-hidden="true">→</span></Link>
       </article>)}
     </div>

@@ -22,7 +22,7 @@ test("CI builds and smoke-tests the Workers artifact", () => {
 
   assert.match(workflow, /pnpm build:cloudflare/);
   assert.match(workflow, /pnpm test:cloudflare-preview/);
-  for (const route of ["/ai-stack", "/companies", "/methodology", "/admin/review-queue"]) {
+  for (const route of ["/ai-stack", "/companies", "/companies/entity%3Acompany%3Aalphabet", "/methodology", "/admin/review-queue"]) {
     assert.match(smoke, new RegExp(route.replaceAll("/", "\\/")));
   }
   assert.match(smoke, /Five layers, with the gaps still visible/);

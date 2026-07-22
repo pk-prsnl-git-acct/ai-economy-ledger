@@ -41,6 +41,10 @@ export function stackLayerName(layerKey: LayerKey) {
 export type LayerSummary = StackLayer & {
   companies: string[];
   primaryObservationCount: number;
+  metricFamilies: string[];
+  sourceCount: number;
+  limitation: string;
+  expansionState: string;
   status: "covered" | "partially covered" | "not yet covered";
 };
 
@@ -54,11 +58,20 @@ export function summarizeAiStack(records: readonly PublicRecord[]): LayerSummary
       return role?.primary === layer.key || role?.secondary.includes(layer.key) === true;
     });
     const primaryObservationCount = records.filter((record) => stackRoleFor(record.entity.entityKey)?.primary === layer.key).length;
+    const primaryRecords = records.filter((record) => stackRoleFor(record.entity.entityKey)?.primary === layer.key);
+    const metricFamilies = [...new Set(primaryRecords.map((record) => record.metric.metricFamily.replaceAll("_", " ")))].sort();
+    const sourceCount = new Set(primaryRecords.flatMap((record) => record.sources.map((source) => source.sourceKey))).size;
     const status = primaryObservationCount > 0
       ? "covered"
       : companyKeys.length > 0
         ? "partially covered"
         : "not yet covered";
-    return { ...layer, companies: companyKeys.map((key) => companiesByKey.get(key)!).sort(), primaryObservationCount, status };
+    const limitation = status === "covered"
+      ? "Company-wide values remain unallocated across AI-stack layers."
+      : status === "partially covered"
+        ? "Companies have a taxonomy role, but this release has no primary-layer financial observation."
+        : "No production observations are available for this layer in the current release.";
+    const expansionState = status === "covered" ? "Expand company and metric coverage" : "Await official-source coverage";
+    return { ...layer, companies: companyKeys.map((key) => companiesByKey.get(key)!).sort(), primaryObservationCount, metricFamilies, sourceCount, limitation, expansionState, status };
   });
 }
