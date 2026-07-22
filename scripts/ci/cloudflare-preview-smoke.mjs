@@ -59,12 +59,13 @@ try {
   if (!response?.ok) throw new Error(`Cloudflare preview did not become healthy.\n${output}`);
 
   const routeChecks = [
-    ["/", ["AI Economy Ledger", "fictional placeholders", "excluded from verified totals"]],
+    ["/", ["AI Economy Ledger", "Companies tracked", "Five layers, with the gaps still visible.", "An initial SEC-backed baseline, not a complete AI economy model."]],
+    ["/ai-stack", ["Coverage starts with a clear map of the AI stack", "Foundation Models", "partially covered"]],
     ["/market", ["Useful analysis begins with what the data cannot say", "Limited views", "Missing values are unavailable"]],
     ["/events", ["Source-attributed metric observations", "Mixed metrics are not aggregated"]],
     ["/companies", ["Five companies, with the limits attached", "Not a complete financial statement"]],
     ["/relationships", ["No edge without evidence", "does not draw a speculative network"]],
-    ["/methodology", ["Trust comes from showing the math", "Core equation"]],
+    ["/methodology", ["Trust comes from showing the method", "Core equation"]],
     ["/admin/review-queue", ["Protected admin access", "Supabase session required"]],
     ["/data", ["Latest source-attributed", "Candidate only", "missing values are never converted to zero"]],
     ["/data/releases", ["dataset-release:1:5424bda5073c2a1a09cb", "30b8a9ccb5687695"]],

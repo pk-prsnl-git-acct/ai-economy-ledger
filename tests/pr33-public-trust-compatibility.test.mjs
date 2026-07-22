@@ -7,6 +7,7 @@ const adapter = readFileSync("src/server/admin/public-trust/contract.ts", "utf8"
 const ledger = readFileSync("components/ledger.tsx", "utf8");
 const admin = readFileSync("components/admin.tsx", "utf8");
 const page = readFileSync("app/page.tsx", "utf8");
+const overview = readFileSync("components/five-layer-overview.tsx", "utf8");
 
 test("public app copies the stable PR33 progressive-trust contract exactly", () => {
   assert.equal(contract.contractVersion, "public-trust-admin-review@33.0.0");
@@ -45,7 +46,11 @@ test("verified and headline selectors consume explicit private-engine decisions"
   assert.match(adapter, /if \(!item\.publicVisibilityEligible\) return false/);
   assert.doesNotMatch(adapter, /view === "verified"\) return item\.trustState ===/);
   assert.doesNotMatch(ledger, /records\.filter\(\(record\) => record\.trustState === "human_verified"\)/);
-  assert.match(page, /listPublicTrustRecords\(\{ view: "verified" \}\)/);
+  assert.match(page, /getReleaseRecords\(releaseId, "latest_source_attributed"\)/);
+  assert.match(overview, /record\.trustState === "human_verified"/);
+  assert.match(overview, /record\.trustState === "system_validated"/);
+  assert.match(overview, /record\.disclosure\.label/);
+  assert.doesNotMatch(page, /src\/server\/admin\/public-trust/);
 });
 
 test("system validation and human verification stay visually and semantically distinct", () => {

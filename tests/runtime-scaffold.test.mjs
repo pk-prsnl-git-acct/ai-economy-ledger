@@ -22,10 +22,10 @@ test("CI builds and smoke-tests the Workers artifact", () => {
 
   assert.match(workflow, /pnpm build:cloudflare/);
   assert.match(workflow, /pnpm test:cloudflare-preview/);
-  for (const route of ["/companies", "/methodology", "/admin/review-queue"]) {
+  for (const route of ["/ai-stack", "/companies", "/methodology", "/admin/review-queue"]) {
     assert.match(smoke, new RegExp(route.replaceAll("/", "\\/")));
   }
-  assert.match(smoke, /fictional placeholders/);
+  assert.match(smoke, /Five layers, with the gaps still visible/);
   assert.match(smoke, /Protected admin access/);
   for (const dependency of ["esbuild", "rclone.js", "sharp", "unrs-resolver", "workerd"]) {
     assert.match(workspace, new RegExp(`${dependency.replace(".", "\\.")}: true`));
@@ -53,15 +53,18 @@ test("OpenNext is configured for Node runtime without remote cache bindings", ()
   assert.doesNotMatch(appSources, /runtime\s*=\s*["']edge["']/);
 });
 
-test("static dashboard publishes no numeric financial claims", () => {
+test("production overview uses release-bound observations rather than sample claims", () => {
   const page = readFileSync("app/page.tsx", "utf8");
-  const components = readFileSync("components/ledger.tsx", "utf8");
+  const overview = readFileSync("components/five-layer-overview.tsx", "utf8");
+  const runtime = readFileSync("src/server/data-releases/runtime.ts", "utf8");
 
-  assert.match(page, /SampleDataWarning/);
-  assert.match(components, /fictional placeholders/);
-  assert.match(components, /excluded from verified totals/);
-  assert.doesNotMatch(page, /\$\d/);
-  assert.doesNotMatch(components, /\$\d/);
+  assert.match(page, /currentReleaseId/);
+  assert.match(page, /getReleaseManifest/);
+  assert.match(page, /getReleaseRecords/);
+  assert.doesNotMatch(page, /SampleDataWarning|FinancialChartCard|DataTable|\$— sample/);
+  assert.match(overview, /formatFinancialValue\(record\.value\)/);
+  assert.match(overview, /formatExactFinancialValue\(record\.value\)/);
+  assert.match(runtime, /record\.sampleData \|\| !record\.visibilityEligible/);
 });
 
 test("local development variables stay ignored", () => {
