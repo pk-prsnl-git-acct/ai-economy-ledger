@@ -29,6 +29,16 @@ function parse<T>(bytes: Buffer, name: string): T {
   catch { throw new Error(`Production release transport rejected malformed ${name}`); }
 }
 
+// Cloudflare may preserve an encoded dynamic path segment. Normalize once at the
+// public runtime boundary so every release-scoped surface compares the same ID.
+export function normalizeReleaseId(releaseId: string) {
+  try {
+    return decodeURIComponent(releaseId);
+  } catch {
+    throw new Error("Unknown production release");
+  }
+}
+
 export async function listReleases() {
   const transport = await getProductionReleaseTransport();
   if (!transport) return listEmbeddedReleases();
@@ -49,45 +59,50 @@ export async function currentReleaseId() {
 }
 
 export async function getReleaseManifest(releaseId: string): Promise<ReleaseManifest> {
+  const normalizedReleaseId = normalizeReleaseId(releaseId);
   const transport = await getProductionReleaseTransport();
-  if (!transport) return getEmbeddedManifest(releaseId);
+  if (!transport) return getEmbeddedManifest(normalizedReleaseId);
   const result = await transport.manifest();
-  if (result.index.releaseId !== releaseId) throw new Error("Unknown production release");
+  if (result.index.releaseId !== normalizedReleaseId) throw new Error("Unknown production release");
   return result.manifest;
 }
 
 export async function getReleaseRecords(releaseId: string, lane: "latest_source_attributed" | "verified") {
+  const normalizedReleaseId = normalizeReleaseId(releaseId);
   const transport = await getProductionReleaseTransport();
-  if (!transport) return getEmbeddedRecords(releaseId, lane);
-  if ((await transport.index()).releaseId !== releaseId) throw new Error("Unknown production release");
+  if (!transport) return getEmbeddedRecords(normalizedReleaseId, lane);
+  if ((await transport.index()).releaseId !== normalizedReleaseId) throw new Error("Unknown production release");
   const name = lane === "verified" ? "records-verified.json" : "records-latest-source-attributed.json";
   const artifact = await transport.verifiedArtifact(name);
   const result = parse<{ schemaVersion: string; releaseId: string; records: PublicRecord[] }>(artifact.bytes, name);
-  if (result.releaseId !== releaseId || result.records.some((record) => record.sampleData || !record.visibilityEligible || (lane === "verified" && !record.verifiedLaneEligible))) throw new Error("Unsafe production release membership");
+  if (result.releaseId !== normalizedReleaseId || result.records.some((record) => record.sampleData || !record.visibilityEligible || (lane === "verified" && !record.verifiedLaneEligible))) throw new Error("Unsafe production release membership");
   return result;
 }
 
 export async function getCoverage(releaseId?: string): Promise<CoverageReport> {
+  const normalizedReleaseId = releaseId ? normalizeReleaseId(releaseId) : undefined;
   const transport = await getProductionReleaseTransport();
-  if (!transport) return getEmbeddedCoverage(releaseId);
+  if (!transport) return getEmbeddedCoverage(normalizedReleaseId);
   const current = await transport.index();
-  if (releaseId && current.releaseId !== releaseId) throw new Error("Unknown production release");
+  if (normalizedReleaseId && current.releaseId !== normalizedReleaseId) throw new Error("Unknown production release");
   return parse((await transport.verifiedArtifact("coverage.json")).bytes, "coverage.json");
 }
 
 export async function getSources(releaseId?: string) {
+  const normalizedReleaseId = releaseId ? normalizeReleaseId(releaseId) : undefined;
   const transport = await getProductionReleaseTransport();
-  if (!transport) return getEmbeddedSources(releaseId);
+  if (!transport) return getEmbeddedSources(normalizedReleaseId);
   const current = await transport.index();
-  if (releaseId && current.releaseId !== releaseId) throw new Error("Unknown production release");
+  if (normalizedReleaseId && current.releaseId !== normalizedReleaseId) throw new Error("Unknown production release");
   return parse<{ schemaVersion: string; releaseId: string; sources: SourceManifestEntry[] }>((await transport.verifiedArtifact("sources.json")).bytes, "sources.json");
 }
 
 export async function getRevisions(releaseId?: string) {
+  const normalizedReleaseId = releaseId ? normalizeReleaseId(releaseId) : undefined;
   const transport = await getProductionReleaseTransport();
-  if (!transport) return getEmbeddedRevisions(releaseId);
+  if (!transport) return getEmbeddedRevisions(normalizedReleaseId);
   const current = await transport.index();
-  if (releaseId && current.releaseId !== releaseId) throw new Error("Unknown production release");
+  if (normalizedReleaseId && current.releaseId !== normalizedReleaseId) throw new Error("Unknown production release");
   return parse<{ releaseId: string; revisions: Array<Record<string, unknown>> }>((await transport.verifiedArtifact("revisions.json")).bytes, "revisions.json");
 }
 
@@ -103,9 +118,10 @@ export async function getCorrections({ after, limit = 100 }: { after?: string | 
 }
 
 export async function getArtifact(releaseId: string, name: string) {
+  const normalizedReleaseId = normalizeReleaseId(releaseId);
   const transport = await getProductionReleaseTransport();
-  if (!transport) return getEmbeddedArtifact(releaseId, name);
-  if ((await transport.index()).releaseId !== releaseId) throw new Error("Unknown production release");
+  if (!transport) return getEmbeddedArtifact(normalizedReleaseId, name);
+  if ((await transport.index()).releaseId !== normalizedReleaseId) throw new Error("Unknown production release");
   return transport.verifiedArtifact(name);
 }
 
