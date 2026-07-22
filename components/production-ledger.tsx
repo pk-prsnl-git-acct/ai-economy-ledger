@@ -7,9 +7,10 @@ import { useState } from "react";
 import type { PublicRecord } from "@/src/server/data-releases/runtime";
 import { formatExactFinancialValue, formatFinancialValue } from "@/src/ui/format-financial-value";
 import { aiStackLayers, stackLayerName, stackRoleFor } from "@/src/ui/ai-stack";
+import { formatFiscalPeriod } from "@/src/ui/public-presentation";
 
 function periodLabel(record: PublicRecord) {
-  return record.period.replace("period:", "").toUpperCase();
+  return formatFiscalPeriod(record.period);
 }
 
 function reviewState(record: PublicRecord) {
@@ -32,7 +33,7 @@ export function CompanyDirectory({ records }: { records: PublicRecord[] }) {
       return <article className="company-card" key={company.entityKey}>
         <div className="company-card-heading"><span className="company-mark" aria-hidden="true">{company.displayName.slice(0, 1)}</span><div><h2>{company.displayName}</h2><p>{role ? stackLayerName(role.primary) : "Not classified"}</p></div></div>
         {role?.secondary.length ? <p className="secondary-roles">Also active in: {role.secondary.map(stackLayerName).join(" · ")}</p> : <p className="secondary-roles">No secondary role in this release taxonomy.</p>}
-        <dl><div><dt>Observations</dt><dd>{companyRecords.length}</dd></div><div><dt>Revenue</dt><dd>{revenue ? <span aria-label={formatExactFinancialValue(revenue.value)}>{formatFinancialValue(revenue.value)}</span> : "Unavailable"}</dd></div><div><dt>Capital expenditure</dt><dd>{capex ? <span aria-label={formatExactFinancialValue(capex.value)}>{formatFinancialValue(capex.value)}</span> : "Unavailable"}</dd></div><div><dt>Current period</dt><dd>{companyRecords.length ? periodLabel(companyRecords[0]) : "Unavailable"}</dd></div></dl>
+        <dl><div><dt>Observations</dt><dd>{companyRecords.length}</dd></div><div><dt>Revenue</dt><dd>{revenue ? <><span aria-label={formatExactFinancialValue(revenue.value)}>{formatFinancialValue(revenue.value)}</span><small>{periodLabel(revenue)}</small></> : "Unavailable"}</dd></div><div><dt>Capital expenditure</dt><dd>{capex ? <><span aria-label={formatExactFinancialValue(capex.value)}>{formatFinancialValue(capex.value)}</span><small>{periodLabel(capex)}</small></> : "Unavailable"}</dd></div></dl>
         <p className="company-review">{[...new Set(companyRecords.map(reviewState))].join(" · ")}</p>
         <Link className="source-link" href={`/companies/${encodeURIComponent(company.entityKey)}` as Route}>Company details <span aria-hidden="true">→</span></Link>
       </article>;
@@ -50,8 +51,8 @@ export function CompanyDetail({ entityKey, records, releaseId }: { entityKey: st
     <section className="company-limitation"><h2>Coverage limitation</h2><p>The company can appear in more than one product layer, but its company-wide revenue or capital expenditure is not assigned to a specific layer without released evidence supporting that allocation.</p></section></>;
 }
 
-function RecordList({ records }: { records: PublicRecord[] }) {
-  return <><div className="table-scroll"><table><thead><tr><th>Observation</th><th>Value</th><th>Period</th><th>Official source</th><th>Review state</th></tr></thead><tbody>{records.map((record) => <tr key={record.stableRecordId}><td>{record.metric.displayLabel}</td><td><strong aria-label={formatExactFinancialValue(record.value)}>{formatFinancialValue(record.value)}</strong><br /><small>{record.unit}</small></td><td>{periodLabel(record)}</td><td><a className="source-link" href={record.sources[0]?.url} rel="noreferrer">{record.sources[0]?.sourceName ?? "Official source"}</a></td><td>{reviewState(record)}<br /><small>{record.disclosure.label}</small></td></tr>)}</tbody></table></div><div className="observation-card-list">{records.map((record) => <article className="observation-card" key={record.stableRecordId}><div><strong>{record.metric.displayLabel}</strong><span>{periodLabel(record)}</span></div><dl><div><dt>Value</dt><dd aria-label={formatExactFinancialValue(record.value)}>{formatFinancialValue(record.value)} <small>{record.unit}</small></dd></div><div><dt>Review state</dt><dd>{reviewState(record)}</dd></div></dl><a className="source-link" href={record.sources[0]?.url} rel="noreferrer">{record.sources[0]?.sourceName ?? "Official source"}</a></article>)}</div></>;
+function RecordList({ records, includeCompany = false }: { records: PublicRecord[]; includeCompany?: boolean }) {
+  return <><div className="table-scroll"><table><thead><tr>{includeCompany && <th>Company</th>}<th>Observation</th><th>Value</th><th>Fiscal period</th><th>Official source</th><th>Review state</th></tr></thead><tbody>{records.map((record) => <tr key={record.stableRecordId}>{includeCompany && <td>{record.entity.displayName}</td>}<td>{record.metric.displayLabel}</td><td><strong aria-label={formatExactFinancialValue(record.value)}>{formatFinancialValue(record.value)}</strong><br /><small>{record.unit}</small></td><td>{periodLabel(record)}</td><td><a className="source-link" href={record.sources[0]?.url} rel="noreferrer">{record.sources[0]?.sourceName ?? "Official source"}</a></td><td>{reviewState(record)}<br /><small>{record.disclosure.label}</small></td></tr>)}</tbody></table></div><div className="observation-card-list">{records.map((record) => <article className="observation-card" key={record.stableRecordId}><div><strong>{includeCompany ? record.entity.displayName : record.metric.displayLabel}</strong><span>{includeCompany ? `${record.metric.displayLabel} · ${periodLabel(record)}` : periodLabel(record)}</span></div><dl><div><dt>Value</dt><dd aria-label={formatExactFinancialValue(record.value)}>{formatFinancialValue(record.value)} <small>{record.unit}</small></dd></div><div><dt>Review state</dt><dd>{reviewState(record)}</dd></div></dl><a className="source-link" href={record.sources[0]?.url} rel="noreferrer">{record.sources[0]?.sourceName ?? "Official source"}</a></article>)}</div></>;
 }
 
 export function ObservationLedger({ records, releaseId }: { records: PublicRecord[]; releaseId: string }) {
@@ -77,7 +78,7 @@ export function ObservationLedger({ records, releaseId }: { records: PublicRecor
   const trusts = [...new Set(records.map(reviewState))];
   return <section className="panel observation-ledger" aria-labelledby="observation-ledger-heading"><div className="panel-heading"><div><p className="panel-label">Observation ledger</p><h2 id="observation-ledger-heading">Current release observations</h2></div><span className="availability-state state-limited">{visible.length} shown</span></div><p className="analytics-explainer">Search and filter the published release. Values are not aggregated across companies or layers, and technical lineage stays in the data release.</p>
     <form className="observation-filters" onSubmit={(event) => event.preventDefault()}><label>Search<input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Company or metric" /></label><Filter label="Company" value={company} onChange={setCompany} options={companies.map(([value, label]) => [value, label])} /><Filter label="Primary layer" value={layer} onChange={setLayer} options={layers.map((value) => [value, stackLayerName(value as Parameters<typeof stackLayerName>[0])])} /><Filter label="Metric" value={metric} onChange={setMetric} options={metrics.map((value) => [value, value.replaceAll("_", " ")])} /><Filter label="Fiscal period" value={period} onChange={setPeriod} options={periods.map((value) => [value, value])} /><Filter label="Review state" value={trust} onChange={setTrust} options={trusts.map((value) => [value, value])} /></form>
-    {visible.length ? <RecordList records={visible} /> : <p className="empty-observation-state">No published observations match these filters. Missing coverage is not represented as zero.</p>}
+    {visible.length ? <RecordList records={visible} includeCompany /> : <p className="empty-observation-state">No published observations match these filters. Missing coverage is not represented as zero.</p>}
     <p className="observation-release-note">Published release: {releaseId}</p>
   </section>;
 }
