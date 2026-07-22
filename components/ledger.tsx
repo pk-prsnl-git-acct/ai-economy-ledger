@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { Route } from "next";
 import type { ReactNode } from "react";
 
-import { adminRoutes, publicRoutes, type RouteDefinition } from "@/src/ui/site-map";
+import { adminRoutes, plannedCoverageRoutes, publicRoutes, type RouteDefinition } from "@/src/ui/site-map";
 import type { PublicTrustRecord } from "@/src/server/admin/public-trust/contract";
 
 export function AppShell({ children, admin = false }: { children: ReactNode; admin?: boolean }) {
@@ -243,6 +243,10 @@ export function PlaceholderPage({ route }: { route: RouteDefinition }) {
   );
 }
 
+export function UnavailableCoveragePage({ route, blocker, coverage }: { route: RouteDefinition; blocker: string; coverage: string }) {
+  return <AppShell><HeroSection route={route} /><section className="panel unavailable-coverage" aria-labelledby="unavailable-coverage-heading"><p className="panel-label">Not yet supported by this release</p><h2 id="unavailable-coverage-heading">{route.label} remains unavailable.</h2><p>This release contains source-attributed company observations, but not the evidence required to support this section without inventing values, relationships, or totals.</p><dl className="detail-list"><div><dt>Current blocker</dt><dd>{blocker}</dd></div><div><dt>Relevant coverage</dt><dd>{coverage}</dd></div><div><dt>Current release</dt><dd>Release 1 · source-attributed only</dd></div></dl><div className="unavailable-actions"><Link className="source-link" href="/events">View available observations →</Link><Link className="source-link" href="/sources">Inspect sources →</Link><Link className="source-link" href="/methodology">Read methodology →</Link></div></section><RouteDirectory routes={publicRoutes} /></AppShell>;
+}
+
 export function AdminPlaceholderPage({ route, reviewQueue = false }: { route: RouteDefinition; reviewQueue?: boolean }) {
   return (
     <AppShell admin>
@@ -260,5 +264,7 @@ export function ReviewQueuePreview() {
 }
 
 export function RouteDirectory({ routes, admin = false }: { routes: readonly RouteDefinition[]; admin?: boolean }) {
-  return <section className="route-directory" aria-label={admin ? "All admin routes" : "All public routes"}><p className="panel-label">{admin ? "Admin route map" : "Explore the ledger"}</p><div>{routes.map((route) => <Link href={route.href as Route} key={route.href}>{route.label}<span aria-hidden="true">→</span></Link>)}</div></section>;
+  const liveRoutes = admin ? routes : routes.filter((route) => !plannedCoverageRoutes.includes(route.href as typeof plannedCoverageRoutes[number]));
+  const plannedRoutes = admin ? [] : routes.filter((route) => plannedCoverageRoutes.includes(route.href as typeof plannedCoverageRoutes[number]));
+  return <section className="route-directory" aria-label={admin ? "All admin routes" : "Public route directory"}><p className="panel-label">{admin ? "Admin route map" : "Explore available coverage"}</p><div>{liveRoutes.map((route) => <Link href={route.href as Route} key={route.href}>{route.label}<span aria-hidden="true">→</span></Link>)}</div>{plannedRoutes.length > 0 && <><p className="panel-label planned-route-heading">Planned coverage</p><div>{plannedRoutes.map((route) => <Link href={route.href as Route} key={route.href}>{route.label}<span aria-hidden="true">→</span></Link>)}</div></>}</section>;
 }

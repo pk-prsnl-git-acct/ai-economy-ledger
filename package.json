@@ -36,6 +36,7 @@
     "admin:bootstrap": "node scripts/admin/bootstrap-admin.mjs",
     "admin:rls-smoke": "node scripts/admin/rls-smoke.mjs",
     "test:cloudflare-preview": "node scripts/ci/cloudflare-preview-smoke.mjs",
+    "test:public-crawl": "node scripts/ci/public-site-crawl.mjs",
     "verify": "node scripts/ci/run-verify.mjs"
   },
   "dependencies": {
