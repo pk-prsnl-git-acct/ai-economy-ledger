@@ -30,3 +30,23 @@ test("five-layer public surfaces use released records and keep allocation bounda
   assert.match(events, /getReleaseRecords\(releaseId, "latest_source_attributed"\)/);
   assert.doesNotMatch(`${companies}\n${events}`, /manifest|truth class|component record reference/i);
 });
+
+test("market, source, methodology, and release-detail surfaces remain release-bound and public-safe", () => {
+  const releaseIndex = readFileSync("app/data/releases/page.tsx", "utf8");
+  const releaseDetail = readFileSync("app/data/releases/[releaseId]/page.tsx", "utf8");
+  const market = readFileSync("app/market/page.tsx", "utf8");
+  const sources = readFileSync("app/sources/page.tsx", "utf8");
+  const methodology = readFileSync("app/methodology/page.tsx", "utf8");
+  const presentation = readFileSync("components/release-trust.tsx", "utf8");
+
+  assert.match(releaseIndex, /encodeURIComponent\(release\.releaseId\)/);
+  assert.match(releaseDetail, /getReleaseManifest\(releaseId\)/);
+  assert.match(releaseDetail, /getSources\(releaseId\)/);
+  assert.match(market, /getReleaseRecords\(releaseId, "latest_source_attributed"\)/);
+  assert.match(sources, /getSources\(releaseId\)/);
+  assert.match(methodology, /getReleaseManifest\(await currentReleaseId\(\)\)/);
+  assert.match(presentation, /Not yet supported by this release/);
+  assert.match(presentation, /Company-wide revenue and capital expenditure are not allocated/);
+  assert.match(presentation, /encodeURIComponent\(manifest\.releaseId\)/);
+  assert.doesNotMatch(`${market}\n${sources}\n${methodology}\n${presentation}`, /SampleDataWarning|Registry preview|Core equation · preview/);
+});
