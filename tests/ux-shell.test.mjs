@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { existsSync, readFileSync } from "node:fs";
 import test from "node:test";
 
-const publicRoutes = ["/", "/companies", "/funding", "/revenue-debt", "/compute-infra", "/circularity", "/methodology", "/sources", "/downloads"];
+const publicRoutes = ["/", "/ai-stack", "/companies", "/funding", "/revenue-debt", "/compute-infra", "/circularity", "/methodology", "/sources", "/downloads"];
 const adminRoutes = ["/admin", "/admin/review", "/admin/settings/data-trust", "/admin/review-queue", "/admin/sources", "/admin/companies", "/admin/import", "/admin/claims", "/admin/metric-revisions", "/admin/health", "/admin/update-log"];
 
 function pagePath(route) {
@@ -27,11 +27,11 @@ test("route map is complete and navigation uses it", () => {
   assert.match(components, /RouteDirectory/);
 });
 
-test("static UX exposes trust and access warnings without backend code", () => {
+test("public UX keeps static admin previews separate from release-bound surfaces", () => {
   const components = readFileSync("components/ledger.tsx", "utf8");
   const appSources = [...publicRoutes, ...adminRoutes].map((route) => readFileSync(pagePath(route), "utf8")).join("\n");
 
-  for (const component of ["AppShell", "TopNav", "HeroSection", "KpiCard", "ConfidenceBadge", "FreshnessBadge", "SourceLink", "DataQualityPanel", "FinancialChartCard", "DataTable", "SampleDataWarning"]) {
+  for (const component of ["AppShell", "TopNav", "HeroSection", "ConfidenceBadge", "SourceLink"]) {
     assert.match(components, new RegExp(`function ${component}\\b`));
   }
   assert.match(components, /Static admin preview/);
@@ -39,20 +39,28 @@ test("static UX exposes trust and access warnings without backend code", () => {
   assert.doesNotMatch(`${components}\n${appSources}`, /src\/server\/db|SUPABASE_SERVICE_ROLE|SUPABASE_SECRET/);
 });
 
-test("public dashboard renders progressive trust states with visible disclosure", () => {
+test("production overview binds directly to the current public release", () => {
   const home = readFileSync("app/page.tsx", "utf8");
   const components = readFileSync("components/ledger.tsx", "utf8");
+  const overview = readFileSync("components/five-layer-overview.tsx", "utf8");
+  const taxonomy = readFileSync("src/ui/ai-stack.ts", "utf8");
+  const formatter = readFileSync("src/ui/format-financial-value.ts", "utf8");
 
-  assert.match(home, /PublicTrustLedger/);
-  assert.match(home, /listPublicTrustRecords/);
-  assert.match(home, /getHeadlineRecords/);
-  assert.match(components, /Source-attributed — not yet human verified/);
-  assert.match(components, /Human verified/);
-  assert.match(components, /System validated/);
-  assert.match(components, /Conflict detected/);
-  assert.match(components, /verified lane follows explicit private-engine decisions/);
-  assert.match(components, /TrustDecisionSummary/);
-  assert.match(components, /disclosure\.label/);
+  assert.match(home, /currentReleaseId/);
+  assert.match(home, /getReleaseRecords/);
+  assert.match(home, /FiveLayerStack/);
+  assert.match(components, /\["\/", "\/ai-stack", "\/companies", "\/events", "\/market", "\/data", "\/sources", "\/methodology"\]/);
+  assert.doesNotMatch(home, /SampleDataWarning|FinancialChartCard|DataTable|\$— sample/);
+  assert.match(overview, /Financial observations remain company-wide unless released evidence supports a narrower allocation/);
+  assert.match(overview, /record\.disclosure\.label/);
+  assert.match(overview, /observation-card-list/);
+  assert.match(taxonomy, /Semiconductors & Hardware/);
+  assert.match(taxonomy, /Cloud, Compute & Physical Infrastructure/);
+  assert.match(taxonomy, /Foundation Models/);
+  assert.match(taxonomy, /AI Platforms, Data & Developer Tools/);
+  assert.match(taxonomy, /Applications & Distribution/);
+  assert.match(taxonomy, /primaryObservationCount/);
+  assert.match(formatter, /notation: compact \? "compact" : "standard"/);
 });
 
 test("every route declares canonical metadata", () => {
