@@ -48,5 +48,16 @@ test("market, source, methodology, and release-detail surfaces remain release-bo
   assert.match(presentation, /Not yet supported by this release/);
   assert.match(presentation, /Company-wide revenue and capital expenditure are not allocated/);
   assert.match(presentation, /encodeURIComponent\(manifest\.releaseId\)/);
+  assert.match(presentation, /artifact\.mediaType\.startsWith\("application\/json"\)/);
   assert.doesNotMatch(`${market}\n${sources}\n${methodology}\n${presentation}`, /SampleDataWarning|Registry preview|Core equation · preview/);
+});
+
+test("planned coverage routes do not retain sample or prototype presentation", () => {
+  const ledger = readFileSync("components/ledger.tsx", "utf8");
+  const routes = ["app/funding/page.tsx", "app/revenue-debt/page.tsx", "app/compute-infra/page.tsx", "app/circularity/page.tsx"].map((file) => readFileSync(file, "utf8")).join("\n");
+  assert.match(ledger, /UnavailableCoveragePage/);
+  assert.match(ledger, /Not yet supported by this release/);
+  assert.match(ledger, /Planned coverage/);
+  assert.doesNotMatch(routes, /PlaceholderPage|SampleDataWarning|Prototype/);
+  assert.match(routes, /UnavailableCoveragePage/g);
 });

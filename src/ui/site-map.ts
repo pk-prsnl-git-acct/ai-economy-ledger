@@ -29,6 +29,8 @@ export const publicRoutes = [
   { href: "/data/corrections", label: "Corrections", eyebrow: "Append-only correction feed", title: "Public corrections keep their lineage.", description: "Cursor-ordered corrections and withdrawals that preserve every affected historical release." }
 ] as const satisfies readonly RouteDefinition[];
 
+export const plannedCoverageRoutes = ["/funding", "/revenue-debt", "/compute-infra", "/circularity"] as const;
+
 export const adminRoutes = [
   { href: "/admin", label: "Overview", eyebrow: "Admin workspace", title: "Operate the review pipeline.", description: "A static preview of the future protected operations workspace." },
   { href: "/admin/review", label: "Trust review", eyebrow: "Progressive trust", title: "Review source-attributed public records.", description: "Protected queue for trust-state upgrades, stale-safe decisions, and safe evidence review." },
