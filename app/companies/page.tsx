@@ -21,5 +21,5 @@ export default async function CompaniesPage() {
     if (!isProductionReleaseUnavailable(error)) throw error;
     return <AppShell><HeroSection route={route} /><ReleaseUnavailablePanel surface="company profiles" /></AppShell>;
   }
-  return <AppShell><HeroSection route={route} /><section className="company-intro"><p>Each company is counted once by a primary AI-stack role. Secondary roles provide context only; financial values stay company-wide unless released evidence supports an allocation.</p><small>Published release: {releaseId}</small></section><CompanyDirectory records={records.records} /></AppShell>;
+  return <AppShell><HeroSection route={route} /><section className="company-intro"><p>Each company is counted once by a primary AI-stack role. Secondary roles provide context only; financial values stay company-wide unless released evidence supports an allocation.</p><small>Published release data</small></section><CompanyDirectory records={records.records} /></AppShell>;
 }

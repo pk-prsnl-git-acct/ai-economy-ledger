@@ -20,5 +20,5 @@ export default async function SourcesPage() {
     if (!isProductionReleaseUnavailable(error)) throw error;
     return <AppShell><HeroSection route={route} /><ReleaseUnavailablePanel surface="source manifest" /></AppShell>;
   }
-  return <AppShell><HeroSection route={route} /><section className="source-page-intro"><p>Official-source metadata and released observation links for the current release. Raw filings, PDFs, and other source payloads are not republished.</p><small>Published release: {releaseId}</small></section><SourceManifest releaseId={releaseId} records={records} sources={sources} /></AppShell>;
+  return <AppShell><HeroSection route={route} /><section className="source-page-intro"><p>Official-source metadata and released observation links for the current release. Raw filings, PDFs, and other source payloads are not republished.</p><small>Published release data</small></section><SourceManifest records={records} sources={sources} /></AppShell>;
 }

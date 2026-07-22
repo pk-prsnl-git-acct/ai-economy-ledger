@@ -73,7 +73,7 @@ try {
     ["/methodology", ["Trust comes from showing the method", "Implemented methodology", "Unsupported aggregation"]],
     ["/admin/review-queue", ["Protected admin access", "Supabase session required"]],
     ["/data", ["Latest source-attributed", "Candidate only", "missing values are never converted to zero"]],
-    ["/data/releases", ["dataset-release:1:5424bda5073c2a1a09cb", "30b8a9ccb5687695"]],
+    ["/data/releases", ["Release 1", "Candidate", "Manifest hash available in technical release details"]],
     ["/data/releases/dataset-release%3A1%3A5424bda5073c2a1a09cb", ["Release detail", "Artifact downloads", "Human verified"]],
     ["/data/coverage", ["Expected cells", "6.67%", "Denominator limits"]],
     ["/data/sources", ["source-manifest@34.0.0", "Official source"]],
