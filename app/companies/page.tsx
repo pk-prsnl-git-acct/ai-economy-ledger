@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 
 import { ReleaseUnavailablePanel } from "@/components/data-release";
 import { AppShell, HeroSection } from "@/components/ledger";
-import { AnalyticsNav, AnalyticsNotice } from "@/components/market-intelligence";
+import { CompanyDirectory } from "@/components/production-ledger";
 import { isProductionReleaseUnavailable } from "@/src/server/data-releases/production-transport";
-import { getAnalyticsManifest, getEntityProfiles } from "@/src/server/market-intelligence/runtime";
+import { currentReleaseId, getReleaseRecords } from "@/src/server/data-releases/runtime";
 import { routeMetadata } from "@/src/ui/metadata";
 import { findPublicRoute } from "@/src/ui/site-map";
 
@@ -12,20 +12,14 @@ const route = findPublicRoute("/companies");
 export const metadata: Metadata = routeMetadata(route.title, route.description, route.href);
 export const dynamic = "force-dynamic";
 export default async function CompaniesPage() {
-  let manifest;
-  let profiles;
+  let releaseId;
+  let records;
   try {
-    [manifest, profiles] = await Promise.all([getAnalyticsManifest(), getEntityProfiles()]);
+    releaseId = await currentReleaseId();
+    records = await getReleaseRecords(releaseId, "latest_source_attributed");
   } catch (error) {
     if (!isProductionReleaseUnavailable(error)) throw error;
-    return <AppShell><HeroSection route={route} /><AnalyticsNav /><ReleaseUnavailablePanel surface="company profiles" /></AppShell>;
+    return <AppShell><HeroSection route={route} /><ReleaseUnavailablePanel surface="company profiles" /></AppShell>;
   }
-  return <AppShell><HeroSection route={route} /><AnalyticsNav /><AnalyticsNotice releaseId={manifest.releaseId} />
-    <section className="entity-profile-grid" aria-label="Limited company profiles">{profiles.entities.map((profile, index) => <article className="panel entity-profile" key={profile.entity.entityKey}>
-      <span className="availability-index">{String(index + 1).padStart(2, "0")}</span><h2>{profile.entity.displayName}</h2><code>{profile.entity.entityKey}</code>
-      <div className="entity-count">{profile.recordCount}<small>release records</small></div>
-      <div className="truth-counts">{Object.entries(profile.truthClassCounts).map(([truth, count]) => <span key={truth}>{truth.replaceAll("_", " ")} <strong>{count}</strong></span>)}</div>
-      <p>{profile.limitation}</p>
-    </article>)}</section>
-  </AppShell>;
+  return <AppShell><HeroSection route={route} /><section className="company-intro"><p>Each company is counted once by a primary AI-stack role. Secondary roles provide context only; financial values stay company-wide unless released evidence supports an allocation.</p><small>Published release: {releaseId}</small></section><CompanyDirectory records={records.records} /></AppShell>;
 }

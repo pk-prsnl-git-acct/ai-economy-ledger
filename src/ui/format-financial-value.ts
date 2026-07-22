@@ -13,7 +13,8 @@ function parseNumeric(value: string | number | null | undefined) {
 export function formatFinancialValue(value: string | number | null | undefined, options: FinancialValueFormatOptions = {}) {
   const numeric = parseNumeric(value);
   if (numeric === null) return "Unavailable";
-  const { currency = "USD", maximumFractionDigits = 1, compact = true } = options;
+  const { currency = "USD", compact = true } = options;
+  const maximumFractionDigits = options.maximumFractionDigits ?? (compact && Math.abs(numeric) >= 1_000_000_000_000 ? 2 : 1);
   const formatter = new Intl.NumberFormat("en-US", {
     style: currency ? "currency" : "decimal",
     currency: currency ?? undefined,
