@@ -31,6 +31,13 @@ test("published artifacts remain exact-release and hash bound", () => {
   assert.match(runtime, /lane === "verified" && !record\.verifiedLaneEligible/);
 });
 
+test("encoded release path IDs normalize once and malformed encodings fail closed", () => {
+  assert.match(runtime, /export function normalizeReleaseId/);
+  assert.match(runtime, /decodeURIComponent\(releaseId\)/);
+  assert.match(runtime, /const normalizedReleaseId = normalizeReleaseId\(releaseId\)/);
+  assert.match(runtime, /throw new Error\("Unknown production release"\)/);
+});
+
 test("quality and analytics are bound to the same release trust roots", () => {
   assert.match(quality, /report\.releaseManifestHash !== index\.manifestHash/);
   assert.match(quality, /report\.criticalBreachCount !== 0/);
