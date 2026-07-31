@@ -22,7 +22,7 @@ const encodeArtifacts = (directory, names) =>
   Object.fromEntries([...names].sort().map((name) => [name, readFileSync(join(directory, name)).toString("base64")]));
 
 const releaseArtifacts = encodeArtifacts(releaseDirectory, releaseManifest.artifacts.map((artifact) => artifact.name).concat("candidate-manifest.json"));
-const analyticsArtifacts = encodeArtifacts(analyticsDirectory, analyticsManifest.descriptors.map((artifact) => artifact.name));
+const analyticsArtifacts = encodeArtifacts(analyticsDirectory, analyticsManifest.descriptors.map((artifact) => artifact.name).concat("analytics-manifest.json"));
 
 mkdirSync(dirname(releaseOutputPath), { recursive: true });
 writeFileSync(releaseOutputPath, `${JSON.stringify(releaseArtifacts)}\n`, "utf8");

@@ -1,0 +1,63 @@
+{
+  "reportVersion": "tranche-4-public-preview-report@1.0.0",
+  "publicCompatibilityPr": 45,
+  "candidateId": "set1-candidate:3:ac31b765c2c7ae242f11",
+  "candidateManifestHash": "c2450a0e5948114d8247ee7ebec2f729c3e1ea9efee265e05b597c9c67b694d9",
+  "previewMethod": "local-only Next.js preview with TRANCHE4_CANDIDATE_PREVIEW_ENABLED=true",
+  "productionDeploymentChanged": false,
+  "releasePointerChanged": false,
+  "publicationEnabled": false,
+  "normalProductionRoutesExposeCandidate": false,
+  "screenshots": [
+    {
+      "viewport": "desktop",
+      "path": "output/playwright/tranche4/candidate-preview-desktop.png",
+      "sha256": "b73df183cb3d2fbdc468cee8b498e8393350b85b8474415bb82fe978247fd05e"
+    },
+    {
+      "viewport": "tablet",
+      "path": "output/playwright/tranche4/candidate-preview-tablet.png",
+      "sha256": "54db6a33dd170e078b8f3330f3d817fdf884d14600d4f08d20f5e646dd28c410"
+    },
+    {
+      "viewport": "mobile",
+      "path": "output/playwright/tranche4/candidate-preview-mobile.png",
+      "sha256": "3b57d23a09a70e591777ceac03fb67496c49ebea498e7be66c2644e3a18a75e3"
+    },
+    {
+      "viewport": "desktop",
+      "path": "output/playwright/tranche4/company-adobe-desktop.png",
+      "sha256": "a1a7888125ddd02d90fc7e5f3b3375fe2397b72fd1fa36c81829d4dea0b2f8aa"
+    },
+    {
+      "viewport": "desktop",
+      "path": "output/playwright/tranche4/company-nvidia-desktop.png",
+      "sha256": "094d7223bdbb2982e99d59dac5a668be3f7f1f0da228033e2079c3fb39e4c2d7"
+    },
+    {
+      "viewport": "desktop",
+      "path": "output/playwright/tranche4/company-digital-realty-desktop.png",
+      "sha256": "3af2448cf4a140e41e1b267cc6398ee7e950271931732cb3cc06476f8b673b09"
+    }
+  ],
+  "localPreviewChecks": {
+    "previewRouteStatus": 200,
+    "jsonDownloadStatus": 200,
+    "jsonDownloadContentType": "application/json; charset=utf-8",
+    "jsonDownloadHashHeader": "bce40185fb0888933e828f54ee09af23b01971e9b49dd4eeb0ef59bc9b13bd84",
+    "csvDownloadStatus": 200,
+    "csvDownloadContentType": "text/csv; charset=utf-8",
+    "csvDownloadHashHeader": "a656763c995f67538238ad265eb2f9daadf8be41339740dbbf2253474687b68a",
+    "consoleErrors": 0,
+    "consoleWarnings": 0,
+    "keyboardFocusReachedAnchor": true,
+    "accessibleTableCount": 4,
+    "downloadLinkCount": 12,
+    "companyPreviewLinkCount": 16
+  },
+  "notes": [
+    "The candidate manifest records 17 Set 1 companies; the preview directory renders 16 companies with included observation rows.",
+    "Candidate artifact routes are gated by TRANCHE4_CANDIDATE_PREVIEW_ENABLED and send no-store responses.",
+    "Public PRs remain unmerged pending owner approval."
+  ]
+}
