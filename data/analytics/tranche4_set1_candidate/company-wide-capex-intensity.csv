@@ -1,0 +1,36 @@
+entityKey,displayName,metricKey,value,unit,currency,periodClass,fiscalYear,fiscalPeriod,periodEnd,trustState,comparability,observationId
+entity:company:adobe,ADOBE INC.,company_wide_capex_intensity,0.018548,ratio,,annual,2023,FY,2023-12-01,system_validated,directly_comparable,tranche4-observation:68428bb27bdce30cdcf24863edefe145
+entity:company:adobe,ADOBE INC.,company_wide_capex_intensity,0.008510,ratio,,annual,2024,FY,2024-11-29,system_validated,directly_comparable,tranche4-observation:9f2527341847c4d7a3531ac2fe244bec
+entity:company:adobe,ADOBE INC.,company_wide_capex_intensity,0.007531,ratio,,annual,2025,FY,2025-11-28,system_validated,directly_comparable,tranche4-observation:f92b810b3e0ef519c37c57e14b114c0c
+entity:company:amazon,AMAZON COM INC,company_wide_capex_intensity,0.091737,ratio,,annual,2023,FY,2023-12-31,system_validated,directly_comparable,tranche4-observation:78e1b54f2c7d2fb5df6a4c42aa802327
+entity:company:amazon,AMAZON COM INC,company_wide_capex_intensity,0.130101,ratio,,annual,2024,FY,2024-12-31,system_validated,directly_comparable,tranche4-observation:57640d00a9e47494d8cf26c7e6ae031d
+entity:company:amazon,AMAZON COM INC,company_wide_capex_intensity,0.183867,ratio,,annual,2025,FY,2025-12-31,system_validated,directly_comparable,tranche4-observation:13cfe0927704767ec73a2b9d448e5879
+entity:company:amd,ADVANCED MICRO DEVICES INC,company_wide_capex_intensity,0.024074,ratio,,annual,2023,FY,2023-12-30,system_validated,directly_comparable,tranche4-observation:c5e2763528d1a3caa8bfc11ca1287962
+entity:company:amd,ADVANCED MICRO DEVICES INC,company_wide_capex_intensity,0.024666,ratio,,annual,2024,FY,2024-12-28,system_validated,directly_comparable,tranche4-observation:2c880d13a84166ac5caadde778da11e1
+entity:company:amd,ADVANCED MICRO DEVICES INC,company_wide_capex_intensity,0.028119,ratio,,annual,2025,FY,2025-12-27,system_validated,directly_comparable,tranche4-observation:25e715209b3b7707bb5dc41e07f2cf32
+entity:company:broadcom,Broadcom Inc.,company_wide_capex_intensity,0.012619,ratio,,annual,2023,FY,2023-10-29,system_validated,directly_comparable,tranche4-observation:8306d375384f5e8638d70864dfd746a8
+entity:company:broadcom,Broadcom Inc.,company_wide_capex_intensity,0.010626,ratio,,annual,2024,FY,2024-11-03,system_validated,directly_comparable,tranche4-observation:9659eeea240d8cddd1ad730886be7c2d
+entity:company:broadcom,Broadcom Inc.,company_wide_capex_intensity,0.009752,ratio,,annual,2025,FY,2025-11-02,system_validated,directly_comparable,tranche4-observation:65a014669f189b7dd2353e2989d5d682
+entity:company:datadog,"Datadog, Inc.",company_wide_capex_intensity,0.012961,ratio,,annual,2023,FY,2023-12-31,system_validated,directly_comparable,tranche4-observation:c2cbf81bc57421bb7a6fb7ea8bb78e3a
+entity:company:datadog,"Datadog, Inc.",company_wide_capex_intensity,0.012934,ratio,,annual,2024,FY,2024-12-31,system_validated,directly_comparable,tranche4-observation:01c878025e22cccc80ac3640ba8a158f
+entity:company:datadog,"Datadog, Inc.",company_wide_capex_intensity,0.014466,ratio,,annual,2025,FY,2025-12-31,system_validated,directly_comparable,tranche4-observation:8ca95749bcff8384b8a27836e69aaca0
+entity:company:google,Alphabet Inc.,company_wide_capex_intensity,0.104917,ratio,,annual,2023,FY,2023-12-31,system_validated,directly_comparable,tranche4-observation:17d987009b25ce679e8da2d5f10a721b
+entity:company:google,Alphabet Inc.,company_wide_capex_intensity,0.150092,ratio,,annual,2024,FY,2024-12-31,system_validated,directly_comparable,tranche4-observation:bf096ebc6af7805937a515a8c3916e8e
+entity:company:meta,"Meta Platforms, Inc.",company_wide_capex_intensity,0.202117,ratio,,annual,2023,FY,2023-12-31,system_validated,directly_comparable,tranche4-observation:57ad386f64f24d7a3de8e51d35e24f0a
+entity:company:meta,"Meta Platforms, Inc.",company_wide_capex_intensity,0.226479,ratio,,annual,2024,FY,2024-12-31,system_validated,directly_comparable,tranche4-observation:876acb09b9021f1b35a6a666ff2cda4b
+entity:company:meta,"Meta Platforms, Inc.",company_wide_capex_intensity,0.346780,ratio,,annual,2025,FY,2025-12-31,system_validated,directly_comparable,tranche4-observation:e8290ecfa33cbe77d08c356585c19cdc
+entity:company:mongodb,"MongoDB, Inc.",company_wide_capex_intensity,0.003609,ratio,,annual,2024,FY,2024-01-31,system_validated,directly_comparable,tranche4-observation:ef89bad1ca31390d79dc8b331a5fefdd
+entity:company:mongodb,"MongoDB, Inc.",company_wide_capex_intensity,0.014728,ratio,,annual,2025,FY,2025-01-31,system_validated,directly_comparable,tranche4-observation:34c4dae31fb8e04d5cabbd7a474eaab0
+entity:company:mongodb,"MongoDB, Inc.",company_wide_capex_intensity,0.002013,ratio,,annual,2026,FY,2026-01-31,system_validated,directly_comparable,tranche4-observation:e69b22a72da920de2b446ccd63d190a1
+entity:company:oracle,ORACLE CORP,company_wide_capex_intensity,0.129643,ratio,,annual,2024,FY,2024-05-31,system_validated,directly_comparable,tranche4-observation:11f693b15ef68a2c89da0160cc14804e
+entity:company:oracle,ORACLE CORP,company_wide_capex_intensity,0.369606,ratio,,annual,2025,FY,2025-05-31,system_validated,directly_comparable,tranche4-observation:08c7f2a5d4053f041e50c76fa14b1268
+entity:company:oracle,ORACLE CORP,company_wide_capex_intensity,0.826388,ratio,,annual,2026,FY,2026-05-31,system_validated,directly_comparable,tranche4-observation:30b9983338b484ee8e653e758f5886af
+entity:company:palantir,Palantir Technologies Inc.,company_wide_capex_intensity,0.006793,ratio,,annual,2023,FY,2023-12-31,system_validated,directly_comparable,tranche4-observation:0954220b818a73a1d78da359b4e7c6a5
+entity:company:palantir,Palantir Technologies Inc.,company_wide_capex_intensity,0.004409,ratio,,annual,2024,FY,2024-12-31,system_validated,directly_comparable,tranche4-observation:aee9a0b277b515f9870353c69b3976de
+entity:company:palantir,Palantir Technologies Inc.,company_wide_capex_intensity,0.007571,ratio,,annual,2025,FY,2025-12-31,system_validated,directly_comparable,tranche4-observation:2e31fd9bb9b9a312c8ec1d8b4437faf5
+entity:company:servicenow,"ServiceNow, Inc.",company_wide_capex_intensity,0.077360,ratio,,annual,2023,FY,2023-12-31,system_validated,directly_comparable,tranche4-observation:12e39346b3609eab5b4d7931cd7bb963
+entity:company:servicenow,"ServiceNow, Inc.",company_wide_capex_intensity,0.077567,ratio,,annual,2024,FY,2024-12-31,system_validated,directly_comparable,tranche4-observation:9d8c2c754481f00de0f1da6722cb6b37
+entity:company:servicenow,"ServiceNow, Inc.",company_wide_capex_intensity,0.065371,ratio,,annual,2025,FY,2025-12-31,system_validated,directly_comparable,tranche4-observation:5310c702af9fe57a0ec8608486f44b1e
+entity:company:snowflake,Snowflake Inc.,company_wide_capex_intensity,0.012502,ratio,,annual,2024,FY,2024-01-31,system_validated,directly_comparable,tranche4-observation:01f645717e2436f20ff12419f54d2964
+entity:company:snowflake,Snowflake Inc.,company_wide_capex_intensity,0.012762,ratio,,annual,2025,FY,2025-01-31,system_validated,directly_comparable,tranche4-observation:00482e1dc78bcf6de0e8939c80e4db27
+entity:company:snowflake,Snowflake Inc.,company_wide_capex_intensity,0.021697,ratio,,annual,2026,FY,2026-01-31,system_validated,directly_comparable,tranche4-observation:515abce2f0e1a72dde3f77d9eaf16f8d

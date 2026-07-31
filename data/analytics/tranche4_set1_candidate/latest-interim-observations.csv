@@ -1,0 +1,37 @@
+entityKey,displayName,metricKey,value,unit,currency,periodClass,fiscalYear,fiscalPeriod,periodEnd,trustState,comparability,observationId
+entity:company:adobe,ADOBE INC.,capital_expenditure,95000000,USD,USD,ytd_interim,2026,Q2,2026-05-29,system_validated,directly_comparable,tranche4-observation:b07a866a50068ff305bf81b04cfe3f2c
+entity:company:adobe,ADOBE INC.,research_and_development,1198000000,USD,USD,quarter,2026,Q2,2026-05-29,system_validated,directly_comparable,tranche4-observation:2c50342f711c6ab564708e0419c572d3
+entity:company:adobe,ADOBE INC.,revenue,6618000000,USD,USD,quarter,2026,Q2,2026-05-29,system_validated,directly_comparable,tranche4-observation:031984aea3b7e381f50980ef7a8d543c
+entity:company:amazon,AMAZON COM INC,capital_expenditure,44203000000,USD,USD,quarter,2026,Q1,2026-03-31,system_validated,directly_comparable,tranche4-observation:fc7c6f8fd805ec565059b369adec6e37
+entity:company:amazon,AMAZON COM INC,revenue,181519000000,USD,USD,quarter,2026,Q1,2026-03-31,system_validated,directly_comparable,tranche4-observation:2f11be4b7082fb9dd9da35a263621c53
+entity:company:amd,ADVANCED MICRO DEVICES INC,capital_expenditure,389000000,USD,USD,quarter,2026,Q1,2026-03-28,system_validated,directly_comparable,tranche4-observation:34357abde9457938c3c6ec4e7ab74fbc
+entity:company:amd,ADVANCED MICRO DEVICES INC,research_and_development,2397000000,USD,USD,quarter,2026,Q1,2026-03-28,system_validated,directly_comparable,tranche4-observation:d927f047f633f336cec6941a542a36ba
+entity:company:amd,ADVANCED MICRO DEVICES INC,revenue,10253000000,USD,USD,quarter,2026,Q1,2026-03-28,system_validated,directly_comparable,tranche4-observation:ce37115f4e67abcf5afef5dd8e5cadc5
+entity:company:broadcom,Broadcom Inc.,capital_expenditure,481000000,USD,USD,ytd_interim,2026,Q2,2026-05-03,system_validated,directly_comparable,tranche4-observation:6a46fd856b83335a8a20f04e4c6401fc
+entity:company:broadcom,Broadcom Inc.,research_and_development,2995000000,USD,USD,quarter,2026,Q2,2026-05-03,system_validated,directly_comparable,tranche4-observation:6fb1618a6b237f56d418438b57dd095c
+entity:company:broadcom,Broadcom Inc.,revenue,22187000000,USD,USD,quarter,2026,Q2,2026-05-03,system_validated,directly_comparable,tranche4-observation:83cd6cc70a3e141a02b024e46d9a20e9
+entity:company:datadog,"Datadog, Inc.",capital_expenditure,11358000,USD,USD,quarter,2026,Q1,2026-03-31,system_validated,directly_comparable,tranche4-observation:a8104fe7078713807ac4a7c44594940a
+entity:company:datadog,"Datadog, Inc.",research_and_development,435298000,USD,USD,quarter,2026,Q1,2026-03-31,system_validated,directly_comparable,tranche4-observation:cfee99a4317dbff29fea5d80cac4a72d
+entity:company:datadog,"Datadog, Inc.",revenue,1006426000,USD,USD,quarter,2026,Q1,2026-03-31,system_validated,directly_comparable,tranche4-observation:27a04036f5e185d40dea665008e4db0a
+entity:company:digital-realty,"DIGITAL REALTY TRUST, INC.",revenue,1635173000,USD,USD,quarter,2026,Q1,2026-03-31,system_validated,directly_comparable,tranche4-observation:4f3fa27bdf270e8f83f75c7063a3022d
+entity:company:google,Alphabet Inc.,capital_expenditure,80598000000,USD,USD,ytd_interim,2026,Q2,2026-06-30,system_validated,directly_comparable,tranche4-observation:9c9913bc8cee368bc64d94c41a351bc8
+entity:company:google,Alphabet Inc.,research_and_development,18219000000,USD,USD,quarter,2026,Q2,2026-06-30,system_validated,directly_comparable,tranche4-observation:6e8bd29c2e649004fd0ee5b2fce0acb8
+entity:company:google,Alphabet Inc.,revenue,90234000000,USD,USD,quarter,2025,Q1,2025-03-31,system_validated,directly_comparable,tranche4-observation:e0a3c1e176fa923d65f99abb5267ba40
+entity:company:meta,"Meta Platforms, Inc.",capital_expenditure,18997000000,USD,USD,quarter,2026,Q1,2026-03-31,system_validated,directly_comparable,tranche4-observation:9494044c62471c07d55a1e3e910ac58c
+entity:company:meta,"Meta Platforms, Inc.",research_and_development,17699000000,USD,USD,quarter,2026,Q1,2026-03-31,system_validated,directly_comparable,tranche4-observation:6cbad4422ef98efaa6be3694877d0ea7
+entity:company:meta,"Meta Platforms, Inc.",revenue,56311000000,USD,USD,quarter,2026,Q1,2026-03-31,system_validated,directly_comparable,tranche4-observation:ad13180da5fc9c99d9c28641bf2cfac9
+entity:company:mongodb,"MongoDB, Inc.",capital_expenditure,2319000,USD,USD,quarter,2027,Q1,2026-04-30,system_validated,directly_comparable,tranche4-observation:41dcbd033b3ee6eb5b3c0c70a7e64e85
+entity:company:mongodb,"MongoDB, Inc.",research_and_development,200409000,USD,USD,quarter,2027,Q1,2026-04-30,system_validated,directly_comparable,tranche4-observation:94486a05b6af7638681602faf08bea43
+entity:company:mongodb,"MongoDB, Inc.",revenue,687616000,USD,USD,quarter,2027,Q1,2026-04-30,system_validated,directly_comparable,tranche4-observation:626a1fe139695e4d1ce08ddb835daf48
+entity:company:oracle,ORACLE CORP,capital_expenditure,39170000000,USD,USD,ytd_interim,2026,Q3,2026-02-28,system_validated,directly_comparable,tranche4-observation:c012cbd134d2bfcabc2b7adcb3807ff0
+entity:company:oracle,ORACLE CORP,research_and_development,2607000000,USD,USD,quarter,2026,Q3,2026-02-28,system_validated,directly_comparable,tranche4-observation:bef74ccf219cfdf8a8df9c8a553198fc
+entity:company:oracle,ORACLE CORP,revenue,17190000000,USD,USD,quarter,2026,Q3,2026-02-28,system_validated,directly_comparable,tranche4-observation:6ee1fc7295ad6354477cb492474053a5
+entity:company:palantir,Palantir Technologies Inc.,capital_expenditure,7401000,USD,USD,quarter,2026,Q1,2026-03-31,system_validated,directly_comparable,tranche4-observation:5b1fac046b4dc40c0cdf8c8412cc9705
+entity:company:palantir,Palantir Technologies Inc.,research_and_development,160981000,USD,USD,quarter,2026,Q1,2026-03-31,system_validated,directly_comparable,tranche4-observation:a5ec19c7c193722078a778722192a351
+entity:company:palantir,Palantir Technologies Inc.,revenue,1632583000,USD,USD,quarter,2026,Q1,2026-03-31,system_validated,directly_comparable,tranche4-observation:2cde7250808c28b698ef654a5b4176dc
+entity:company:servicenow,"ServiceNow, Inc.",capital_expenditure,255000000,USD,USD,ytd_interim,2026,Q2,2026-06-30,system_validated,directly_comparable,tranche4-observation:e98062da5f7911266e463effae20e056
+entity:company:servicenow,"ServiceNow, Inc.",research_and_development,915000000,USD,USD,quarter,2026,Q2,2026-06-30,system_validated,directly_comparable,tranche4-observation:234f2137bb5145952cba8d04a5791141
+entity:company:servicenow,"ServiceNow, Inc.",revenue,3987000000,USD,USD,quarter,2026,Q2,2026-06-30,system_validated,directly_comparable,tranche4-observation:d5f33845c3b799b7b7c149aa6355cb21
+entity:company:snowflake,Snowflake Inc.,capital_expenditure,10451000,USD,USD,quarter,2027,Q1,2026-04-30,system_validated,directly_comparable,tranche4-observation:d590cf847fc545db1c5f215ac603bb1d
+entity:company:snowflake,Snowflake Inc.,research_and_development,534937000,USD,USD,quarter,2027,Q1,2026-04-30,system_validated,directly_comparable,tranche4-observation:f3d263c90752fad69f6a9faa289a16ea
+entity:company:snowflake,Snowflake Inc.,revenue,1390951000,USD,USD,quarter,2027,Q1,2026-04-30,system_validated,directly_comparable,tranche4-observation:2533c8936c7985fe6f4d422029d2d8ca

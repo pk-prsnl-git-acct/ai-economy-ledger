@@ -1,0 +1,6 @@
+entityKey,displayName,metricKey,value,unit,currency,periodClass,fiscalYear,fiscalPeriod,periodEnd,trustState,comparability,observationId
+resources_silicon_physical_assets,resources silicon physical assets,company_count,2,companies,,not_applicable,,,,not_applicable,taxonomy_metadata_only,taxonomy-layer:resources_silicon_physical_assets
+ai_infrastructure,ai infrastructure,company_count,5,companies,,not_applicable,,,,not_applicable,taxonomy_metadata_only,taxonomy-layer:ai_infrastructure
+ai_platforms,ai platforms,company_count,7,companies,,not_applicable,,,,not_applicable,taxonomy_metadata_only,taxonomy-layer:ai_platforms
+ai_applications,ai applications,company_count,3,companies,,not_applicable,,,,not_applicable,taxonomy_metadata_only,taxonomy-layer:ai_applications
+users_economic_outcomes,users economic outcomes,company_count,0,companies,,not_applicable,,,,not_applicable,taxonomy_metadata_only,taxonomy-layer:users_economic_outcomes
