@@ -3,6 +3,8 @@
   "privateReviewResolutionMergeCommit": "1969d53aee51d6e65fa40b2061ead2ce77bca293",
   "privateCandidatePackageMergeCommit": "e0c6dba9f5009b7999331bc0cf26f8730eb64b53",
   "privateAnalyticsMergeCommit": "fbc4461a9906e163be3c2b505d80f117a18827b5",
+  "publicGitHubPr": 45,
+  "publicGitHubPrUrl": "https://github.com/pk-prsnl-git-acct/ai-economy-ledger/pull/45",
   "candidateId": "set1-candidate:3:ac31b765c2c7ae242f11",
   "candidateContractVersion": "tranche-4-candidate-contract@1.0.0",
   "candidateBuildVersion": "tranche-4-set1-candidate-composition@1.0.0",
