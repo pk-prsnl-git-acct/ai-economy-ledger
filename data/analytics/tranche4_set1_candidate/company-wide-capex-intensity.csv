@@ -16,18 +16,30 @@ entity:company:datadog,"Datadog, Inc.",company_wide_capex_intensity,0.012934,rat
 entity:company:datadog,"Datadog, Inc.",company_wide_capex_intensity,0.014466,ratio,,annual,2025,FY,2025-12-31,system_validated,directly_comparable,tranche4-observation:8ca95749bcff8384b8a27836e69aaca0
 entity:company:google,Alphabet Inc.,company_wide_capex_intensity,0.104917,ratio,,annual,2023,FY,2023-12-31,system_validated,directly_comparable,tranche4-observation:17d987009b25ce679e8da2d5f10a721b
 entity:company:google,Alphabet Inc.,company_wide_capex_intensity,0.150092,ratio,,annual,2024,FY,2024-12-31,system_validated,directly_comparable,tranche4-observation:bf096ebc6af7805937a515a8c3916e8e
+entity:company:intel,INTEL CORP,company_wide_capex_intensity,0.474847,ratio,,annual,2023,FY,2023-12-30,system_validated,directly_comparable,tranche4-observation:1552917d02a0c4c7225f8b5ce7dd1b43
+entity:company:intel,INTEL CORP,company_wide_capex_intensity,0.450914,ratio,,annual,2024,FY,2024-12-28,system_validated,directly_comparable,tranche4-observation:192feb3dad850188449947c283fdc6df
+entity:company:intel,INTEL CORP,company_wide_capex_intensity,0.277108,ratio,,annual,2025,FY,2025-12-27,system_validated,directly_comparable,tranche4-observation:0b0249bfc0cd5fbf64168d2c515bf044
 entity:company:meta,"Meta Platforms, Inc.",company_wide_capex_intensity,0.202117,ratio,,annual,2023,FY,2023-12-31,system_validated,directly_comparable,tranche4-observation:57ad386f64f24d7a3de8e51d35e24f0a
 entity:company:meta,"Meta Platforms, Inc.",company_wide_capex_intensity,0.226479,ratio,,annual,2024,FY,2024-12-31,system_validated,directly_comparable,tranche4-observation:876acb09b9021f1b35a6a666ff2cda4b
 entity:company:meta,"Meta Platforms, Inc.",company_wide_capex_intensity,0.346780,ratio,,annual,2025,FY,2025-12-31,system_validated,directly_comparable,tranche4-observation:e8290ecfa33cbe77d08c356585c19cdc
+entity:company:microsoft,MICROSOFT CORP,company_wide_capex_intensity,0.132633,ratio,,annual,2023,FY,2023-06-30,system_validated,directly_comparable,tranche4-observation:099131516f8531017b2290e481a7cdce
+entity:company:microsoft,MICROSOFT CORP,company_wide_capex_intensity,0.181448,ratio,,annual,2024,FY,2024-06-30,system_validated,directly_comparable,tranche4-observation:5b14090c9382e0009881fd46129edf24
+entity:company:microsoft,MICROSOFT CORP,company_wide_capex_intensity,0.229129,ratio,,annual,2025,FY,2025-06-30,system_validated,directly_comparable,tranche4-observation:27f1694958857a84bd40ed82336cd56b
 entity:company:mongodb,"MongoDB, Inc.",company_wide_capex_intensity,0.003609,ratio,,annual,2024,FY,2024-01-31,system_validated,directly_comparable,tranche4-observation:ef89bad1ca31390d79dc8b331a5fefdd
 entity:company:mongodb,"MongoDB, Inc.",company_wide_capex_intensity,0.014728,ratio,,annual,2025,FY,2025-01-31,system_validated,directly_comparable,tranche4-observation:34c4dae31fb8e04d5cabbd7a474eaab0
 entity:company:mongodb,"MongoDB, Inc.",company_wide_capex_intensity,0.002013,ratio,,annual,2026,FY,2026-01-31,system_validated,directly_comparable,tranche4-observation:e69b22a72da920de2b446ccd63d190a1
+entity:company:nvidia,NVIDIA CORP,company_wide_capex_intensity,0.017547,ratio,,annual,2024,FY,2024-01-28,system_validated,directly_comparable,tranche4-observation:0525b1882a35bec76226a39b6cfb5fdf
+entity:company:nvidia,NVIDIA CORP,company_wide_capex_intensity,0.024798,ratio,,annual,2025,FY,2025-01-26,system_validated,directly_comparable,tranche4-observation:637f3399a501c30a52c84f10998e5ace
+entity:company:nvidia,NVIDIA CORP,company_wide_capex_intensity,0.027980,ratio,,annual,2026,FY,2026-01-25,system_validated,directly_comparable,tranche4-observation:9f6af3f410a3a7adf6d11add69c9929b
 entity:company:oracle,ORACLE CORP,company_wide_capex_intensity,0.129643,ratio,,annual,2024,FY,2024-05-31,system_validated,directly_comparable,tranche4-observation:11f693b15ef68a2c89da0160cc14804e
 entity:company:oracle,ORACLE CORP,company_wide_capex_intensity,0.369606,ratio,,annual,2025,FY,2025-05-31,system_validated,directly_comparable,tranche4-observation:08c7f2a5d4053f041e50c76fa14b1268
 entity:company:oracle,ORACLE CORP,company_wide_capex_intensity,0.826388,ratio,,annual,2026,FY,2026-05-31,system_validated,directly_comparable,tranche4-observation:30b9983338b484ee8e653e758f5886af
 entity:company:palantir,Palantir Technologies Inc.,company_wide_capex_intensity,0.006793,ratio,,annual,2023,FY,2023-12-31,system_validated,directly_comparable,tranche4-observation:0954220b818a73a1d78da359b4e7c6a5
 entity:company:palantir,Palantir Technologies Inc.,company_wide_capex_intensity,0.004409,ratio,,annual,2024,FY,2024-12-31,system_validated,directly_comparable,tranche4-observation:aee9a0b277b515f9870353c69b3976de
 entity:company:palantir,Palantir Technologies Inc.,company_wide_capex_intensity,0.007571,ratio,,annual,2025,FY,2025-12-31,system_validated,directly_comparable,tranche4-observation:2e31fd9bb9b9a312c8ec1d8b4437faf5
+entity:company:salesforce,"Salesforce, Inc.",company_wide_capex_intensity,0.021115,ratio,,annual,2024,FY,2024-01-31,system_validated,directly_comparable,tranche4-observation:32d786ca72e8108980f576033b781505
+entity:company:salesforce,"Salesforce, Inc.",company_wide_capex_intensity,0.017364,ratio,,annual,2025,FY,2025-01-31,system_validated,directly_comparable,tranche4-observation:0f3ec70de4535641d130ac31ff68ba0a
+entity:company:salesforce,"Salesforce, Inc.",company_wide_capex_intensity,0.014305,ratio,,annual,2025,FY,2026-01-31,system_validated,directly_comparable,tranche4-observation:de8ee5216cdf85164502b9ec6afc96de
 entity:company:servicenow,"ServiceNow, Inc.",company_wide_capex_intensity,0.077360,ratio,,annual,2023,FY,2023-12-31,system_validated,directly_comparable,tranche4-observation:12e39346b3609eab5b4d7931cd7bb963
 entity:company:servicenow,"ServiceNow, Inc.",company_wide_capex_intensity,0.077567,ratio,,annual,2024,FY,2024-12-31,system_validated,directly_comparable,tranche4-observation:9d8c2c754481f00de0f1da6722cb6b37
 entity:company:servicenow,"ServiceNow, Inc.",company_wide_capex_intensity,0.065371,ratio,,annual,2025,FY,2025-12-31,system_validated,directly_comparable,tranche4-observation:5310c702af9fe57a0ec8608486f44b1e

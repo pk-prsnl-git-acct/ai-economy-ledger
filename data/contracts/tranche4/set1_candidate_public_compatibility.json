@@ -1,29 +1,126 @@
 {
-  "contractVersion": "public-tranche-4-set1-compatibility@1.0.0",
-  "privateReviewResolutionMergeCommit": "1969d53aee51d6e65fa40b2061ead2ce77bca293",
-  "privateCandidatePackageMergeCommit": "e0c6dba9f5009b7999331bc0cf26f8730eb64b53",
-  "privateAnalyticsMergeCommit": "fbc4461a9906e163be3c2b505d80f117a18827b5",
+  "contractVersion": "public-tranche-4-set1-compatibility@1.1.0",
+  "privateCandidateRemediationPullRequest": 91,
+  "privateCandidateRemediationMergeCommit": "aa55aa9ed5a2d44486e0b38c6a1dc5af7b954d14",
   "publicGitHubPr": 45,
   "publicGitHubPrUrl": "https://github.com/pk-prsnl-git-acct/ai-economy-ledger/pull/45",
-  "candidateId": "set1-candidate:3:ac31b765c2c7ae242f11",
+  "candidateId": "set1-candidate:4:98e01aa3e082045d3fa6",
   "candidateContractVersion": "tranche-4-candidate-contract@1.0.0",
-  "candidateBuildVersion": "tranche-4-set1-candidate-composition@1.0.0",
-  "candidateManifestHash": "c2450a0e5948114d8247ee7ebec2f729c3e1ea9efee265e05b597c9c67b694d9",
-  "candidateManifestSourceByteHash": "5f00c1f7d7dd4dc7e6df3f920a2df301d5ea2d9f66e6098abd6319457e0aaade",
-  "candidateCompositionReportByteHash": "c036cdf6a3b58efbd7819fe31086df154cb26c775fdb700c899366703a17cfc4",
+  "candidateBuildVersion": "tranche-4-set1-candidate-composition@1.1.0",
+  "candidateManifestHash": "d5cc03bef9dd6b2a045d6352a8ff54af36ffa8cc40f12a495437d2028b73a177",
+  "candidateManifestSourceByteHash": "0854b16b0a7c7353674d6a34322fd0298d7630b507b3a99f8b740a0a68b5ca03",
+  "candidateCompositionReportByteHash": "48658bb7472414919206b9334da739617f3976aada3e1bd2f74ffeb1b6a50c3e",
   "analyticsContractVersion": "tranche-4-release-bound-analytics@1.0.0",
   "analyticsBuildVersion": "tranche-4-analytical-build@1.0.0",
-  "analyticsManifestHash": "f25b8305b2d51f80a9eacb57bd33030e10d3e9b348f5bd1b8f3d8fcfa7e55f33",
-  "analyticsManifestSourceByteHash": "08a4749c2438be45e4b8b0651429e69f1cb8214cbbce24ef6ab2c032d88d0aed",
-  "analyticsReportByteHash": "13d2b98a49b6f3f8f94891c715332abab6bb26c313d8d3b5574df9eff7e4dde2",
-  "release1Reference": {
+  "analyticsManifestHash": "75a37c6faca89bcc34760cb704cd92d90633e616db221784784d597c2c9a74fe",
+  "analyticsManifestSourceByteHash": "24dbf3c7628d7d6d183c6e1573867954ff80f6a33bef2ead01d5988406db903a",
+  "analyticsReportByteHash": "dafee7e141d7e26d57e575fa26bcbfaacb6933e6604af3a57455be45804cec54",
+  "candidateStatusReportByteHash": "44228d14282113840bf11278468a8c8d1fea7f75617fd8b72692f34dde3cd51a",
+  "rollbackTarget": {
+    "releaseId": "dataset-release:1:5afe53aac50ebf946fe2",
+    "manifestHash": "a170e575f9b9fae09d40b3182d84381f03e1de010474cffb068ab57b156ae6b7",
+    "rollbackPointerState": "restore_previous_published_release_pointer"
+  },
+  "publicRelease1CompatibilityReference": {
     "releaseId": "dataset-release:1:5424bda5073c2a1a09cb",
-    "manifestHash": "067dd0c7fb42c5975fc92f03921b244980676a939eec18d15157b9c37841d9a3",
+    "manifestHash": "30b8a9ccb5687695ef4603b57e57879c3e8718f17b5f5b2cc51d397a59e0c7f3",
     "taxonomyVersion": "taxonomy-v1@pr34",
     "compatibilityPreserved": true
   },
   "candidateTaxonomyVersion": "taxonomy-v2@tranche-4",
   "candidateMethodologyVersion": "methodology@tranche-4",
+  "canonicalRoster": [
+    "entity:company:adobe",
+    "entity:company:amazon",
+    "entity:company:amd",
+    "entity:company:broadcom",
+    "entity:company:datadog",
+    "entity:company:digital-realty",
+    "entity:company:google",
+    "entity:company:intel",
+    "entity:company:meta",
+    "entity:company:microsoft",
+    "entity:company:mongodb",
+    "entity:company:nvidia",
+    "entity:company:oracle",
+    "entity:company:palantir",
+    "entity:company:salesforce",
+    "entity:company:servicenow",
+    "entity:company:snowflake"
+  ],
+  "canonicalAliases": [
+    {
+      "canonicalEntityKey": "entity:company:google",
+      "canonicalDisplayName": "Google",
+      "aliases": ["Alphabet"]
+    }
+  ],
+  "canonicalDisplayNames": {
+    "entity:company:adobe": "Adobe",
+    "entity:company:amazon": "Amazon",
+    "entity:company:amd": "AMD",
+    "entity:company:broadcom": "Broadcom",
+    "entity:company:datadog": "Datadog",
+    "entity:company:digital-realty": "Digital Realty",
+    "entity:company:google": "Google",
+    "entity:company:intel": "Intel",
+    "entity:company:meta": "Meta",
+    "entity:company:microsoft": "Microsoft",
+    "entity:company:mongodb": "MongoDB",
+    "entity:company:nvidia": "Nvidia",
+    "entity:company:oracle": "Oracle",
+    "entity:company:palantir": "Palantir",
+    "entity:company:salesforce": "Salesforce",
+    "entity:company:servicenow": "ServiceNow",
+    "entity:company:snowflake": "Snowflake"
+  },
+  "expectedCounts": {
+    "entityCount": 17,
+    "observationCount": 239,
+    "annualObservationCount": 143,
+    "interimObservationCount": 96,
+    "latestAnnualIncludedCount": 48,
+    "metricSlotCount": 51,
+    "includedMetricCount": 48,
+    "withheldMetricCount": 3,
+    "unavailableMetricCount": 0,
+    "limitedMetricCount": 0,
+    "notApplicableMetricCount": 0
+  },
+  "expectedTrustStateCounts": {
+    "system_validated": 239,
+    "human_verified": 0,
+    "source_attributed_unverified": 0
+  },
+  "withheldMetrics": [
+    {
+      "entityKey": "entity:company:amazon",
+      "metricKey": "research_and_development",
+      "reason": "withheld_incompatible_definition"
+    },
+    {
+      "entityKey": "entity:company:digital-realty",
+      "metricKey": "capital_expenditure",
+      "reason": "withheld_ambiguous_mapping"
+    },
+    {
+      "entityKey": "entity:company:digital-realty",
+      "metricKey": "research_and_development",
+      "reason": "unavailable"
+    }
+  ],
+  "historicalCandidates": {
+    "candidate3": {
+      "candidateId": "set1-candidate:3:ac31b765c2c7ae242f11",
+      "manifestHash": "c2450a0e5948114d8247ee7ebec2f729c3e1ea9efee265e05b597c9c67b694d9",
+      "status": "rejected_not_promotion_safe",
+      "reasons": [
+        "canonical_roster_mismatch",
+        "unsupported_human_verified_provenance",
+        "stale_rollback_pointer"
+      ]
+    }
+  },
   "taxonomyV1RequiredForRelease1": true,
   "taxonomyV2RequiredForCandidate": true,
   "normalProductionRoutesExposeCandidate": false,
