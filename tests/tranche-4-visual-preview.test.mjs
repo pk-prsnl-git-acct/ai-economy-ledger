@@ -39,6 +39,8 @@ test("Tranche 4 visual product renders from candidate-bound Contract D artifacts
   assert.match(component, /CandidateDataCenter/);
   assert.match(component, /CandidateMethodology/);
   assert.doesNotMatch(component, /const companies = \[/);
+  assert.match(model, /getTranche4CanonicalDisplayName/);
+  assert.match(model, /trustCounts/);
 });
 
 test("Tranche 4 visual product preserves evidence-gated unavailable states and forbidden claims", () => {
@@ -47,6 +49,7 @@ test("Tranche 4 visual product preserves evidence-gated unavailable states and f
   assert.match(component, /Unsupported views are explicit unavailable contracts/);
   assert.match(component, /not AI-specific allocations/);
   assert.match(component, /Missing remains unavailable, never zero/);
+  assert.match(component, /canonical previews/);
   assert.doesNotMatch(component.toLowerCase(), /market-wide ai spending/);
   assert.doesNotMatch(component.toLowerCase(), /total ecosystem revenue/);
   assert.doesNotMatch(component.toLowerCase(), /estimated ai allocation/);

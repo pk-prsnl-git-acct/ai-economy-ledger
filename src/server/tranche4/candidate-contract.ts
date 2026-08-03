@@ -13,7 +13,7 @@ import releaseArtifacts from "./generated/set1-candidate-release-artifacts.json"
 export const TRANCHE4_CANDIDATE_CACHE_CONTROL = "public, max-age=31536000, immutable";
 export const TRANCHE4_CANDIDATE_INDEX_CACHE_CONTROL = "public, max-age=60, must-revalidate";
 
-const privateMaterial = /(?:authorization|cookie|service_role|signed_url|storage_key|revieweremail|private note|file:\/\/|\/users\/|\/private\/|raw filing payload)/i;
+const privateMaterial = /(?:bearer\s+[A-Za-z0-9._-]+|authorization\s*:|authorization header|cookie\s*:|service_role|signed_url|storage_key|revieweremail|private note|file:\/\/|\/users\/|\/private\/|raw filing payload)/i;
 const artifactNamePattern = /^[A-Za-z0-9._-]+\.(?:json|csv|md)$/;
 const releaseArtifactMap: Record<string, string> = releaseArtifacts;
 const analyticsArtifactMap: Record<string, string> = analyticsArtifacts;
