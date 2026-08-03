@@ -79,7 +79,7 @@ export function CandidatePreviewHome({ model }: { model: Tranche4PreviewModel })
 
       <section className="candidate-grid" aria-label="Candidate state">
         <PreviewStat label="Candidate" value={model.manifest.candidateId} detail={model.manifest.taxonomyVersion} />
-        <PreviewStat label="Trust mix" value={`${model.manifest.trustStateCounts.system_validated} system validated`} detail={`${model.manifest.trustStateCounts.human_verified} human verified, ${model.manifest.trustStateCounts.source_attributed_unverified} source-attributed`} />
+        <PreviewStat label="Trust mix" value={`${model.trustCounts.systemValidated} system validated`} detail={`${model.trustCounts.humanVerified} human verified, ${model.trustCounts.sourceAttributed} source-attributed`} />
         <PreviewStat label="Supported views" value={`${model.catalog.views.filter((view) => view.eligibilityState === "available_with_limitations").length} limited`} detail={`${model.unavailable.length} withheld views remain explicit`} />
         <PreviewStat label="Manifest hash" value={model.manifest.manifestHash.slice(0, 16)} detail={model.indexHash.slice(0, 24)} />
       </section>
@@ -158,7 +158,7 @@ function BarList({ values, valueLabel }: { values: ChartValue[]; valueLabel: str
 export function CandidateDirectory({ model }: { model: Tranche4PreviewModel }) {
   return (
     <section className="panel candidate-section" id="companies">
-      <div className="panel-heading"><div><p className="panel-label">Company pages</p><h2>Canonical Set 1 company directory</h2></div><span className="availability-state state-limited">{model.entities.length} with observations</span></div>
+      <div className="panel-heading"><div><p className="panel-label">Company pages</p><h2>Canonical Set 1 company directory</h2></div><span className="availability-state state-limited">{model.entities.length} canonical previews</span></div>
       <div className="candidate-company-grid">
         {model.entities.map((entity) => {
           const latest = model.annual.chartReadyValues.filter((value) => value.entityKey === entity.entityKey);
