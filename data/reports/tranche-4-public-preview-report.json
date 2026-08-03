@@ -1,6 +1,8 @@
 {
   "reportVersion": "tranche-4-public-preview-report@1.0.0",
   "publicCompatibilityPr": 45,
+  "publicVisualPreviewPr": 48,
+  "publicVisualPreviewBase": "tranche4/public-taxonomy-v2-compatibility",
   "candidateId": "set1-candidate:3:ac31b765c2c7ae242f11",
   "candidateManifestHash": "c2450a0e5948114d8247ee7ebec2f729c3e1ea9efee265e05b597c9c67b694d9",
   "previewMethod": "local-only Next.js preview with TRANCHE4_CANDIDATE_PREVIEW_ENABLED=true",
