@@ -19,6 +19,11 @@ function money(value: string | null | undefined, unit: string | null | undefined
   return unit === "ratio" ? `${(parsed * 100).toFixed(1)}%` : formatter.format(parsed);
 }
 
+function humanMetricLabel(metricKey: string | null | undefined) {
+  const value = label(metricKey ?? "metric");
+  return value.charAt(0).toUpperCase() + value.slice(1);
+}
+
 function downloadLinks(view: Tranche4PreviewModel["catalog"]["views"][number]) {
   const jsonHref = `/tranche-4-candidate-preview/artifacts/${encodeURIComponent(view.downloads.json)}` as Route;
   const csvHref = `/tranche-4-candidate-preview/artifacts/${encodeURIComponent(view.downloads.csv)}` as Route;
@@ -238,6 +243,10 @@ export function CandidateCompanyPage({ model, entityKey }: { model: Tranche4Prev
   const entity = model.entities.find((candidate) => candidate.entityKey === entityKey);
   if (!entity) return null;
   const annual = model.annual.chartReadyValues.filter((value) => value.entityKey === entityKey);
+  const annualCards = annual.map((value) => ({
+    ...value,
+    displayName: humanMetricLabel(value.metricKey)
+  }));
   const interim = model.interim.chartReadyValues.filter((value) => value.entityKey === entityKey);
   const histories = model.histories.chartReadyValues.filter((value) => value.entityKey === entityKey);
   const observations = model.observations.filter((value) => value.entityKey === entityKey);
@@ -249,7 +258,7 @@ export function CandidateCompanyPage({ model, entityKey }: { model: Tranche4Prev
         <p className="lede">Canonical company page for the unpublished Set 1 candidate. Latest annual values, interim observations, histories, evidence links, trust states, and limitations are shown separately.</p>
       </section>
       <PreviewSection title="Latest annual metrics" question="Each metric carries its own fiscal year and period end.">
-        <BarList values={annual} valueLabel={`${entity.displayName} annual metrics`} />
+        <BarList values={annualCards} valueLabel={`${entity.displayName} annual metrics`} />
         <Table values={annual} columns={["metricKey", "value", "unit", "fiscalYear", "periodEnd", "trustState", "comparability"]} />
       </PreviewSection>
       <PreviewSection title="Latest interim metrics" question="Standalone quarter and YTD observations are not compared as equivalent.">
@@ -259,8 +268,20 @@ export function CandidateCompanyPage({ model, entityKey }: { model: Tranche4Prev
         <Table values={histories.slice(0, 24)} columns={["metricKey", "value", "unit", "fiscalYear", "periodEnd", "comparability"]} />
       </PreviewSection>
       <section className="panel candidate-section">
-        <div className="panel-heading"><div><p className="panel-label">Evidence and source links</p><h2>{observations.length} candidate observations</h2></div><Link className="download-action" href={"/tranche-4-candidate-preview#observations" as Route}>Back to ledger</Link></div>
-        <Table values={observations.slice(0, 30)} columns={["metricKey", "value", "periodClass", "fiscalPeriod", "periodEnd", "trustState", "comparability"]} />
+        <div className="panel-heading"><div><p className="panel-label">Evidence references and source links</p><h2>{observations.length} candidate observations</h2></div><Link className="download-action" href={"/tranche-4-candidate-preview#observations" as Route}>Back to ledger</Link></div>
+        <div className="table-scroll">
+          <table className="candidate-table candidate-wide-table">
+            <thead><tr><th>Metric</th><th>Value</th><th>Period</th><th>Official source</th><th>Evidence reference</th><th>Trust</th></tr></thead>
+            <tbody>{observations.slice(0, 30).map((row) => <tr key={row.observationId}>
+              <td>{humanMetricLabel(row.metricKey)}</td>
+              <td><strong>{money(row.value, row.unit)}</strong><small>{row.unit}</small></td>
+              <td>{label(row.periodClass)}<small>{row.fiscalPeriod} · {row.periodEnd}</small></td>
+              <td><a className="source-link" href={row.source.lawfulSourceUrl} rel="noreferrer">{row.source.sourceName}</a><small>{row.source.form} · {row.source.accession}</small></td>
+              <td><code>{row.evidence.evidenceSetKey}</code></td>
+              <td>{label(row.trustState)}<small>{label(row.comparability)}</small></td>
+            </tr>)}</tbody>
+          </table>
+        </div>
       </section>
     </>
   );
