@@ -12,7 +12,7 @@ export function AppShell({ children, admin = false }: { children: ReactNode; adm
       <main id="main-content">{children}</main>
       <footer className="site-footer">
         <span>AI Economy Ledger · Source-linked AI economy intelligence</span>
-        <span>Release-bound public data · No investment advice</span>
+        <span><Link href={"/sources" as Route}>Sources</Link> · <Link href={"/methodology" as Route}>Methodology</Link> · Release-bound public data · No investment advice</span>
       </footer>
     </div>
   );
@@ -22,7 +22,7 @@ export function TopNav({ admin = false }: { admin?: boolean }) {
   const routes = admin ? adminRoutes : publicRoutes;
   const primaryRoutes = admin
     ? routes.slice(0, 4)
-    : ["/", "/ai-stack", "/companies", "/events", "/market", "/data", "/sources", "/methodology"].map((href) => routes.find((route) => route.href === href)!);
+    : ["/", "/ai-stack", "/market", "/companies", "/data"].map((href) => routes.find((route) => route.href === href)!);
 
   return (
     <header className="top-nav">
@@ -34,7 +34,7 @@ export function TopNav({ admin = false }: { admin?: boolean }) {
         {primaryRoutes.map((route) => <Link href={route.href as Route} key={route.href}>{route.label}</Link>)}
       </nav>
       {!admin && <details className="mobile-nav"><summary aria-label="Open navigation">Menu</summary><nav aria-label="Mobile primary navigation">{primaryRoutes.map((route) => <Link href={route.href as Route} key={route.href}>{route.label}</Link>)}</nav></details>}
-      <Link className="nav-action" href={(admin ? "/" : "/methodology") as Route}>{admin ? "Public ledger" : "View methodology"}</Link>
+      <Link className="nav-action" href={(admin ? "/" : "/observations") as Route}>{admin ? "Public ledger" : "Data Explorer"}</Link>
     </header>
   );
 }
