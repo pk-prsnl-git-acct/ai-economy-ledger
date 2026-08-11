@@ -1,1 +1,32 @@
-{"candidate3":{"candidateId":"set1-candidate:3:ac31b765c2c7ae242f11","immutableArtifactsModified":false,"reasons":["canonical_roster_mismatch","unsupported_human_verified_provenance","stale_rollback_pointer"],"status":"rejected_not_promotion_safe"},"productionStateChanged":false,"publicationEnabled":false,"replacementCandidate":{"candidateId":"set1-candidate:4:98e01aa3e082045d3fa6","manifestHash":"d5cc03bef9dd6b2a045d6352a8ff54af36ffa8cc40f12a495437d2028b73a177","status":"unpublished_candidate"},"reportVersion":"tranche-4-candidate-status@1.0.0"}
+{
+  "candidate3": {
+    "candidateId": "set1-candidate:3:ac31b765c2c7ae242f11",
+    "immutableArtifactsModified": false,
+    "reasons": [
+      "canonical_roster_mismatch",
+      "unsupported_human_verified_provenance",
+      "stale_rollback_pointer"
+    ],
+    "status": "rejected_not_promotion_safe"
+  },
+  "candidate4": {
+    "candidateId": "set1-candidate:4:98e01aa3e082045d3fa6",
+    "immutableArtifactsModified": false,
+    "manifestHash": "d5cc03bef9dd6b2a045d6352a8ff54af36ffa8cc40f12a495437d2028b73a177",
+    "status": "superseded_by_candidate_5",
+    "reasons": [
+      "current_sec_refresh_completed",
+      "five_year_history_policy_applied"
+    ]
+  },
+  "productionStateChanged": false,
+  "publicationEnabled": false,
+  "replacementCandidate": {
+    "candidateId": "set1-candidate:5:22c376de052a7c06938f",
+    "manifestHash": "69400dbb8629ac0d86e71e71f6fd5221d11a9c087bbde93d8d1ef2ddc09984ff",
+    "releaseCandidateId": "dataset-release:6:5a94eea842374f922212",
+    "releaseManifestHash": "e09ff5bee463c3cfdf6959f672d3569772f0f91051af5451766c9aac459cf019",
+    "status": "unpublished_candidate"
+  },
+  "reportVersion": "tranche-4-candidate-status@2.0.0"
+}

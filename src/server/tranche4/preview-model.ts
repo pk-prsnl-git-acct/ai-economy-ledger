@@ -77,7 +77,7 @@ function parseNumber(value: string | null | undefined) {
 
 function eligibleAnnualValue(value: ChartValue) {
   return value.periodClass === "annual" &&
-    value.comparability === "directly_comparable" &&
+    (value.comparability === "directly_comparable" || value.comparability === "company_wide_structured_sec_fact") &&
     value.financialScope === "company_wide_consolidated" &&
     parseNumber(value.value) !== null;
 }

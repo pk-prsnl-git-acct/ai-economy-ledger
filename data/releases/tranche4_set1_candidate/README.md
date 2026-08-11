@@ -1,5 +1,5 @@
-# Tranche 4 Set 1 candidate
+# Tranche 4 Set 1 refreshed candidate
 
-Candidate: set1-candidate:4:98e01aa3e082045d3fa6
+Candidate: set1-candidate:5:22c376de052a7c06938f
 
-This is an immutable unpublished candidate package. It does not publish data, deploy public code, change Release 1, change Candidate 2, or assign human verification.
+This immutable unpublished candidate refreshes Set 1 from official SEC structured data, keeps five eligible completed annual years where available, preserves latest interim observations separately, and does not assign human verification or enable publication.

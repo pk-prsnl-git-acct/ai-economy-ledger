@@ -122,8 +122,9 @@ test("Tranche 4 production wiring is active-release gated and does not depend on
     assert.doesNotMatch(source, /TRANCHE4_CANDIDATE_PREVIEW_ENABLED|tranche4PreviewEnabled/, file);
   }
   assert.match(productionModel, /TRANCHE4_CANDIDATE_MANIFEST_HASH/);
+  assert.match(productionModel, /TRANCHE4_RELEASE_MANIFEST_HASH/);
   assert.match(productionModel, /getProductionReleaseTransport/);
-  assert.match(productionModel, /active\.manifestHash !== TRANCHE4_CANDIDATE_MANIFEST_HASH/);
+  assert.match(productionModel, /active\.manifestHash !== TRANCHE4_RELEASE_MANIFEST_HASH/);
   assert.match(productionModel, /candidate trust root mismatch/);
   for (const file of ["wrangler.toml", "open-next.config.ts", "package.json"]) {
     assert.doesNotMatch(readFileSync(file, "utf8"), /TRANCHE4_CANDIDATE_PREVIEW_ENABLED=true/, file);
