@@ -42,6 +42,8 @@ test("Tranche 4 visual product renders from candidate-bound Contract D artifacts
   assert.match(model, /getTranche4CanonicalDisplayName/);
   assert.match(model, /trustCounts/);
   assert.match(component, /humanMetricLabel/);
+  assert.match(component, /formatFinancialValue/);
+  assert.match(component, /formatExactFinancialValue/);
 });
 
 test("Tranche 4 visual product preserves evidence-gated unavailable states and forbidden claims", () => {
@@ -61,6 +63,7 @@ test("Tranche 4 visual product preserves evidence-gated unavailable states and f
 
 test("Tranche 4 visual product provides accessible tables and responsive layout hooks", () => {
   assert.match(component, /aria-label/);
+  assert.match(component, /title=\{exactMoney/);
   assert.match(component, /className="table-scroll"/);
   assert.match(component, /<table className="candidate-table"/);
   assert.match(component, /view\.downloads\.json/);

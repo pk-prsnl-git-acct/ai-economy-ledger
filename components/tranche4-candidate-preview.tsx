@@ -3,20 +3,35 @@ import type { Route } from "next";
 import type { ReactNode } from "react";
 
 import { label, type Tranche4PreviewModel } from "@/src/server/tranche4/preview-model";
+import { formatExactFinancialValue, formatFinancialValue } from "@/src/ui/format-financial-value";
 
 type ChartValue = Tranche4PreviewModel["annual"]["chartReadyValues"][number];
-
-const formatter = new Intl.NumberFormat("en-US", { notation: "compact", maximumFractionDigits: 1 });
 
 function numeric(value: string | null | undefined) {
   const parsed = Number(value);
   return Number.isFinite(parsed) ? parsed : null;
 }
 
-function money(value: string | null | undefined, unit: string | null | undefined) {
+function currencyCode(unit: string | null | undefined, currency: string | null | undefined) {
+  if (currency) return currency;
+  return unit === "USD" ? "USD" : null;
+}
+
+function money(value: string | null | undefined, unit: string | null | undefined, currency?: string | null) {
   const parsed = numeric(value);
   if (parsed === null) return value ?? "Unavailable";
-  return unit === "ratio" ? `${(parsed * 100).toFixed(1)}%` : formatter.format(parsed);
+  if (unit === "ratio") return `${(parsed * 100).toFixed(1)}%`;
+  return formatFinancialValue(parsed, {
+    currency: currencyCode(unit, currency),
+    maximumFractionDigits: Math.abs(parsed) >= 1_000_000_000 ? 2 : 1
+  });
+}
+
+function exactMoney(value: string | null | undefined, unit: string | null | undefined, currency?: string | null) {
+  const parsed = numeric(value);
+  if (parsed === null) return "Unavailable";
+  if (unit === "ratio") return `${(parsed * 100).toFixed(4)}%`;
+  return formatExactFinancialValue(parsed, currencyCode(unit, currency) ?? "USD");
 }
 
 function humanMetricLabel(metricKey: string | null | undefined) {
@@ -46,7 +61,14 @@ function Table({ values, columns }: { values: ChartValue[]; columns: Array<keyof
         <tbody>
           {values.map((value, index) => (
             <tr key={`${value.observationId ?? value.entityKey ?? "row"}-${index}`}>
-              {columns.map((column) => <td key={String(column)}>{Array.isArray(value[column]) ? (value[column] as string[]).map(label).join(", ") : label(String(value[column] ?? "Unavailable"))}</td>)}
+              {columns.map((column) => {
+                const cell = value[column];
+                if (column === "value") {
+                  const formatted = money(value.value, value.unit, value.currency);
+                  return <td key={String(column)}><strong aria-label={exactMoney(value.value, value.unit, value.currency)} title={exactMoney(value.value, value.unit, value.currency)}>{formatted}</strong></td>;
+                }
+                return <td key={String(column)}>{Array.isArray(cell) ? (cell as string[]).map(label).join(", ") : label(String(cell ?? "Unavailable"))}</td>;
+              })}
             </tr>
           ))}
         </tbody>
@@ -150,7 +172,7 @@ function BarList({ values, valueLabel }: { values: ChartValue[]; valueLabel: str
         const width = `${Math.max(((numeric(value.value) ?? 0) / max) * 100, 2)}%`;
         return (
           <article role="listitem" key={value.observationId ?? `${value.entityKey}-${value.metricKey}`}>
-            <div><strong>{value.displayName}</strong><span>{money(value.value, value.unit)} {value.currency ?? value.unit ?? ""}</span></div>
+            <div><strong>{value.displayName}</strong><span aria-label={exactMoney(value.value, value.unit, value.currency)} title={exactMoney(value.value, value.unit, value.currency)}>{money(value.value, value.unit, value.currency)}</span></div>
             <i style={{ width }} aria-hidden="true" />
             <small>{label(value.periodClass ?? "period")} · {value.fiscalPeriod} · period end {value.periodEnd ?? "n/a"} · {label(value.trustState ?? "unknown trust")}</small>
           </article>
@@ -196,7 +218,7 @@ export function CandidateObservations({ model }: { model: Tranche4PreviewModel }
           <tbody>{rows.map((row) => <tr key={row.observationId}>
             <td>{row.displayName}</td>
             <td>{label(row.metricKey)}</td>
-            <td><strong>{money(row.value, row.unit)}</strong><small>{row.unit}</small></td>
+            <td><strong aria-label={exactMoney(row.value, row.unit)} title={exactMoney(row.value, row.unit)}>{money(row.value, row.unit)}</strong><small>{row.unit}</small></td>
             <td>{label(row.periodClass)}<small>{row.fiscalPeriod} · {row.periodEnd}</small></td>
             <td>{row.source.sourceName}<small>{row.source.form} · {row.source.accession}</small></td>
             <td>{label(row.trustState)}<small>{label(row.comparability)}</small></td>
@@ -274,7 +296,7 @@ export function CandidateCompanyPage({ model, entityKey }: { model: Tranche4Prev
             <thead><tr><th>Metric</th><th>Value</th><th>Period</th><th>Official source</th><th>Evidence reference</th><th>Trust</th></tr></thead>
             <tbody>{observations.slice(0, 30).map((row) => <tr key={row.observationId}>
               <td>{humanMetricLabel(row.metricKey)}</td>
-              <td><strong>{money(row.value, row.unit)}</strong><small>{row.unit}</small></td>
+              <td><strong aria-label={exactMoney(row.value, row.unit)} title={exactMoney(row.value, row.unit)}>{money(row.value, row.unit)}</strong><small>{row.unit}</small></td>
               <td>{label(row.periodClass)}<small>{row.fiscalPeriod} · {row.periodEnd}</small></td>
               <td><a className="source-link" href={row.source.lawfulSourceUrl} rel="noreferrer">{row.source.sourceName}</a><small>{row.source.form} · {row.source.accession}</small></td>
               <td><code>{row.evidence.evidenceSetKey}</code></td>
