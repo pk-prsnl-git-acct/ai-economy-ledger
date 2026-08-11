@@ -1,0 +1,67 @@
+{
+  "reportVersion": "tranche-4-public-preview-report@1.1.0",
+  "publicCompatibilityPr": 45,
+  "publicVisualPreviewPr": 48,
+  "publicVisualPreviewBase": "tranche4/public-taxonomy-v2-compatibility",
+  "candidateId": "set1-candidate:4:98e01aa3e082045d3fa6",
+  "candidateManifestHash": "d5cc03bef9dd6b2a045d6352a8ff54af36ffa8cc40f12a495437d2028b73a177",
+  "previewMethod": "local-only Next.js preview with TRANCHE4_CANDIDATE_PREVIEW_ENABLED=true",
+  "productionDeploymentChanged": false,
+  "releasePointerChanged": false,
+  "publicationEnabled": false,
+  "normalProductionRoutesExposeCandidate": false,
+  "screenshots": [
+    {
+      "viewport": "desktop",
+      "path": "output/playwright/tranche4/candidate-preview-desktop.png",
+      "sha256": "73c7ed43c7995361ba3d3188e9e8655b3b7c0471434ebf468a9a13e3249bbdbc"
+    },
+    {
+      "viewport": "tablet",
+      "path": "output/playwright/tranche4/candidate-preview-tablet.png",
+      "sha256": "854239b41097f823c5ea2439e811f59f07cd1424827a1beadc30fb3be7693a00"
+    },
+    {
+      "viewport": "mobile",
+      "path": "output/playwright/tranche4/candidate-preview-mobile.png",
+      "sha256": "fe459b9959a635e4bfd243b115214a27c80aa508e606580dda474c488f7b360b"
+    },
+    {
+      "viewport": "desktop",
+      "path": "output/playwright/tranche4/company-adobe-desktop.png",
+      "sha256": "a1a7888125ddd02d90fc7e5f3b3375fe2397b72fd1fa36c81829d4dea0b2f8aa"
+    },
+    {
+      "viewport": "desktop",
+      "path": "output/playwright/tranche4/company-nvidia-desktop.png",
+      "sha256": "bc84d16906addfe75497f2838391bf59ce8efdb10becef1c1887357714668343"
+    },
+    {
+      "viewport": "desktop",
+      "path": "output/playwright/tranche4/company-digital-realty-desktop.png",
+      "sha256": "3af2448cf4a140e41e1b267cc6398ee7e950271931732cb3cc06476f8b673b09"
+    }
+  ],
+  "localPreviewChecks": {
+    "previewRouteStatus": 200,
+    "companyPreviewRouteStatus": 200,
+    "jsonDownloadStatus": 200,
+    "jsonDownloadContentType": "application/json; charset=utf-8",
+    "jsonDownloadHashHeader": "dc40b069751865b6e5ff2f2962808733be325460894a70f684a7bcddb08111e5",
+    "csvDownloadStatus": 200,
+    "csvDownloadContentType": "text/csv; charset=utf-8",
+    "csvDownloadHashHeader": "ddb3d56e363750a1c153b44c2593b74587e5636f71c78079011901550218fd7f",
+    "consoleErrors": 0,
+    "consoleWarnings": 0,
+    "keyboardFocusReachedAnchor": true,
+    "accessibleTableCount": 4,
+    "downloadLinkCount": 12,
+    "companyPreviewLinkCount": 17
+  },
+  "notes": [
+    "The Candidate 4 preview binds the corrected 17-entity canonical roster, with Google canonicalized and Alphabet retained only as a documented alias.",
+    "Intel and Salesforce are present in the active preview contract, while Candidate 3 remains a historical rejected_not_promotion_safe reference only.",
+    "The three withheld metrics remain explicit unavailable states and are never zero-filled: Amazon R&D, Digital Realty capex, and Digital Realty R&D.",
+    "Candidate artifact routes remain gated by TRANCHE4_CANDIDATE_PREVIEW_ENABLED and production remains unchanged while public PRs stay unmerged pending owner approval."
+  ]
+}

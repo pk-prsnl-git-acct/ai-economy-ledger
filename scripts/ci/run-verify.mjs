@@ -21,6 +21,7 @@ const checks = [
       "tests/pr36-quality-observability-compatibility.test.mjs",
       "tests/pr37-market-intelligence-compatibility.test.mjs",
       "tests/tranche-4-public-compatibility.test.mjs",
+      "tests/tranche-4-visual-preview.test.mjs",
       "tests/circularity-scenarios.test.mjs",
       "tests/health-readiness.test.mjs",
     ]

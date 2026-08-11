@@ -209,6 +209,13 @@ test("Tranche 4 public bundle does not expose private material or live-publicati
   assert.equal(bytes.includes('"publicationenabled":true'), false);
 });
 
+test("Tranche 4 safe trust provenance audit remains preview-safe", () => {
+  const trustAudit = readFileSync(`${releaseDirectory}/trust-provenance-correction-audit.json`, "utf8");
+  const privateMaterial = /(?:bearer\s+[A-Za-z0-9._-]+|authorization\s*:|authorization header|cookie\s*:|service_role|signed_url|storage_key|revieweremail|private note|file:\/\/|\/users\/|\/private\/|raw filing payload)/i;
+  assert.match(trustAudit, /explicitHumanAuthorizationPresent/);
+  assert.equal(privateMaterial.test(trustAudit), false);
+});
+
 test("Tranche 4 candidate is server-only and not wired into current production data routes", () => {
   const adapter = readFileSync("src/server/tranche4/candidate-contract.ts", "utf8");
   assert.match(adapter, /import "server-only"/);
