@@ -7,6 +7,7 @@ import { formatExactFinancialValue, formatFinancialValue } from "@/src/ui/format
 import { publicMetricLabel } from "@/src/ui/public-labels";
 
 type ChartValue = Tranche4PreviewModel["annual"]["chartReadyValues"][number];
+type CandidateSurfaceMode = "preview" | "production";
 
 function numeric(value: string | null | undefined) {
   const parsed = Number(value);
@@ -39,14 +40,15 @@ function humanMetricLabel(metricKey: string | null | undefined) {
   return publicMetricLabel(metricKey);
 }
 
-function downloadLinks(view: Tranche4PreviewModel["catalog"]["views"][number]) {
+function downloadLinks(view: Tranche4PreviewModel["catalog"]["views"][number], mode: CandidateSurfaceMode = "preview") {
   const jsonHref = `/tranche-4-candidate-preview/artifacts/${encodeURIComponent(view.downloads.json)}` as Route;
   const csvHref = `/tranche-4-candidate-preview/artifacts/${encodeURIComponent(view.downloads.csv)}` as Route;
   return (
     <div className="candidate-downloads" aria-label={`${label(view.viewId)} downloads`}>
       <span>{view.eligibilityState === "unavailable" ? "Unavailable contract" : "Downloadable contract"}</span>
-      <Link href={jsonHref}>{view.downloads.json}</Link>
-      <Link href={csvHref}>{view.downloads.csv}</Link>
+      {mode === "production"
+        ? <Link href={"/data" as Route}>Open Data</Link>
+        : <><Link href={jsonHref}>{view.downloads.json}</Link><Link href={csvHref}>{view.downloads.csv}</Link></>}
     </div>
   );
 }
@@ -77,7 +79,7 @@ function Table({ values, columns }: { values: ChartValue[]; columns: Array<keyof
   );
 }
 
-export function CandidatePreviewHome({ model }: { model: Tranche4PreviewModel }) {
+export function CandidatePreviewHome({ model, mode = "preview" }: { model: Tranche4PreviewModel; mode?: CandidateSurfaceMode }) {
   const annualRevenue = sortValues(model.annual.chartReadyValues.filter((value) => value.metricKey === "revenue")).slice(0, 8);
   const capex = sortValues(model.annual.chartReadyValues.filter((value) => value.metricKey === "capital_expenditure")).slice(0, 8);
   const rd = sortValues(model.annual.chartReadyValues.filter((value) => value.metricKey === "research_and_development")).slice(0, 8);
@@ -93,9 +95,9 @@ export function CandidatePreviewHome({ model }: { model: Tranche4PreviewModel })
   return (
     <>
       <section className="candidate-hero" aria-labelledby="candidate-title">
-        <p className="eyebrow">AI economy intelligence preview</p>
+        <p className="eyebrow">{mode === "production" ? "AI economy intelligence" : "AI economy intelligence preview"}</p>
         <h1 id="candidate-title">Track the public-company money flows behind the AI stack.</h1>
-        <p className="lede">Candidate 4 follows 17 public companies across revenue, company-wide capex, and R&D. The view is evidence-gated, annual and interim periods stay separate, and unavailable metrics stay visible.</p>
+        <p className="lede">This release follows 17 public companies across revenue, company-wide capex, and R&D. The view is evidence-gated, annual and interim periods stay separate, and unavailable metrics stay visible.</p>
         <div className="candidate-facts" aria-label="Candidate summary">
           <span><strong>{model.manifest.counts.entityCount}</strong> companies</span>
           <span><strong>{model.manifest.counts.latestAnnualIncludedCount}</strong> current annual slots</span>
@@ -104,10 +106,10 @@ export function CandidatePreviewHome({ model }: { model: Tranche4PreviewModel })
         </div>
       </section>
 
-      <section className="candidate-warning panel">
+      {mode === "preview" ? <section className="candidate-warning panel">
         <strong>Preview only.</strong>
         <span>These pages use the approved Candidate 4 artifact bytes, but they do not publish, promote, or reinterpret the current Release 1 data.</span>
-      </section>
+      </section> : null}
 
       <section className="candidate-grid" aria-label="Coverage summary">
         <PreviewStat label="Coverage" value="17 companies" detail="Set 1 spans the approved Taxonomy v2 public-company cohort." />
@@ -116,19 +118,19 @@ export function CandidatePreviewHome({ model }: { model: Tranche4PreviewModel })
         <PreviewStat label="Downloads" value="Exact values retained" detail="JSON and CSV remain available in Data Explorer and Release details." />
       </section>
 
-      <PreviewSection title="AI Capex Race" question="Company-wide capex trends across comparable public companies; not AI-specific capex." view={historyView}>
+      <PreviewSection title="AI Capex Race" question="Company-wide capex trends across comparable public companies; not AI-specific capex." view={historyView} mode={mode}>
         <BarList values={capex} valueLabel="Latest annual company-wide capex" />
       </PreviewSection>
 
-      <PreviewSection title="R&D Intensity" question="Company-wide R&D divided by company-wide revenue for the same annual fiscal year." view={annualView}>
+      <PreviewSection title="R&D Intensity" question="Company-wide R&D divided by company-wide revenue for the same annual fiscal year." view={annualView} mode={mode}>
         <BarList values={rdIntensity} valueLabel="R&D intensity" />
       </PreviewSection>
 
-      <PreviewSection title="Scale vs Investment" question="Compatible annual revenue compared with same-year company-wide capex plus R&D." view={annualView}>
+      <PreviewSection title="Scale vs Investment" question="Compatible annual revenue compared with same-year company-wide capex plus R&D." view={annualView} mode={mode}>
         <InvestmentScatter values={scaleVsInvestment} annualValues={model.annual.chartReadyValues} />
       </PreviewSection>
 
-      <PreviewSection title="AI Stack Map" question={model.coverage.analyticalQuestion} view={coverageView}>
+      <PreviewSection title="AI Stack Map" question={model.coverage.analyticalQuestion} view={coverageView} mode={mode}>
         <div className="taxonomy-preview-grid">
           {model.coverage.chartReadyValues.map((layer, index) => (
             <article className="taxonomy-preview-card" key={layer.entityKey}>
@@ -141,19 +143,19 @@ export function CandidatePreviewHome({ model }: { model: Tranche4PreviewModel })
         </div>
       </PreviewSection>
 
-      <PreviewSection title="Company Scale" question={model.annual.analyticalQuestion} view={annualView}>
+      <PreviewSection title="Company Scale" question={model.annual.analyticalQuestion} view={annualView} mode={mode}>
         <BarList values={annualRevenue} valueLabel="Revenue" />
       </PreviewSection>
 
-      <PreviewSection title="Capex Intensity" question={model.capexIntensity.analyticalQuestion} view={intensityView}>
+      <PreviewSection title="Capex Intensity" question={model.capexIntensity.analyticalQuestion} view={intensityView} mode={mode}>
         <BarList values={intensity} valueLabel="Company-wide capex intensity" />
       </PreviewSection>
 
-      <PreviewSection title="R&D Spend" question="Latest annual company-wide R&D observations from approved Candidate 4 data." view={annualView}>
+      <PreviewSection title="R&D Spend" question="Latest annual company-wide R&D observations from the active release." view={annualView} mode={mode}>
         <BarList values={rd} valueLabel="Latest annual company-wide R&D" />
       </PreviewSection>
 
-      <PreviewSection title="What Changed This Release" question="Deterministic release delta against the live rollback target." view={changeView}>
+      <PreviewSection title="What Changed This Release" question="Deterministic release delta against the live rollback target." view={changeView} mode={mode}>
         <div className="candidate-spotlight-grid">
           <article>
             <span>Newly added companies</span>
@@ -178,7 +180,7 @@ export function CandidatePreviewHome({ model }: { model: Tranche4PreviewModel })
         </div>
       </PreviewSection>
 
-      <CandidateDataPathways model={model} />
+      <CandidateDataPathways model={model} mode={mode} />
     </>
   );
 }
@@ -187,14 +189,14 @@ function PreviewStat({ label: title, value, detail }: { label: string; value: st
   return <article className="panel candidate-stat"><span>{title}</span><strong>{value}</strong><small>{detail}</small></article>;
 }
 
-function PreviewSection({ title, question, view, children }: { title: string; question: string; view?: Tranche4PreviewModel["catalog"]["views"][number]; children: ReactNode }) {
+function PreviewSection({ title, question, view, children, mode = "preview" }: { title: string; question: string; view?: Tranche4PreviewModel["catalog"]["views"][number]; children: ReactNode; mode?: CandidateSurfaceMode }) {
   return (
     <section className="panel candidate-section">
       <div className="panel-heading">
         <div><p className="panel-label">{question}</p><h2>{title}</h2></div>
         {view ? <span className="availability-state state-limited">{label(view.eligibilityState)}</span> : null}
       </div>
-      {view ? downloadLinks(view) : null}
+      {view ? downloadLinks(view, mode) : null}
       {children}
     </section>
   );
@@ -281,10 +283,10 @@ function InvestmentScatter({ values, annualValues }: { values: ChartValue[]; ann
   );
 }
 
-export function CandidateDirectory({ model }: { model: Tranche4PreviewModel }) {
+export function CandidateDirectory({ model, mode = "preview" }: { model: Tranche4PreviewModel; mode?: CandidateSurfaceMode }) {
   return (
     <section className="panel candidate-section" id="companies">
-      <div className="panel-heading"><div><p className="panel-label">Company pages</p><h2>Canonical Set 1 company directory</h2></div><span className="availability-state state-limited">{model.entities.length} canonical previews</span></div>
+      <div className="panel-heading"><div><p className="panel-label">Company pages</p><h2>Canonical Set 1 company directory</h2></div><span className="availability-state state-limited">{model.entities.length} canonical companies</span></div>
       <div className="candidate-company-grid">
         {model.entities.map((entity) => {
           const latest = model.annual.chartReadyValues.filter((value) => value.entityKey === entity.entityKey);
@@ -296,12 +298,59 @@ export function CandidateDirectory({ model }: { model: Tranche4PreviewModel }) {
                 <div><dt>Latest annual metrics</dt><dd>{latest.length}</dd></div>
                 <div><dt>Interim observations</dt><dd>{model.interim.chartReadyValues.filter((value) => value.entityKey === entity.entityKey).length}</dd></div>
               </dl>
-              <Link className="download-action" href={`/tranche-4-candidate-preview/companies/${encodeURIComponent(entity.entityKey)}` as Route}>Open company preview</Link>
+              <Link className="download-action" href={`/${mode === "production" ? "companies" : "tranche-4-candidate-preview/companies"}/${encodeURIComponent(entity.entityKey)}` as Route}>Open company details</Link>
             </article>
           );
         })}
       </div>
     </section>
+  );
+}
+
+export function CandidateAiStack({ model, mode = "preview" }: { model: Tranche4PreviewModel; mode?: CandidateSurfaceMode }) {
+  const coverageView = model.catalog.views.find((view) => view.viewId === "ecosystem-coverage-map");
+  return (
+    <>
+      <PreviewSection title="AI Stack Map" question={model.coverage.analyticalQuestion} view={coverageView} mode={mode}>
+        <div className="taxonomy-preview-grid">
+          {model.coverage.chartReadyValues.map((layer, index) => (
+            <article className="taxonomy-preview-card" key={layer.entityKey}>
+              <span>Layer {index + 1} · {layer.value} tracked</span>
+              <h2>{index === 4 ? "Users and outcomes" : label(layer.displayName ?? layer.entityKey ?? "Layer")}</h2>
+              <p>{(layer.coveredSubLayers ?? []).map(label).join(", ") || "Coverage gap remains explicit."}</p>
+              <small>{index === 4 ? "Layer 5 is not a company-financial total." : "No layer financial totals are calculated."}</small>
+            </article>
+          ))}
+        </div>
+      </PreviewSection>
+      <CandidateDirectory model={model} mode={mode} />
+    </>
+  );
+}
+
+export function CandidateTrends({ model, mode = "preview" }: { model: Tranche4PreviewModel; mode?: CandidateSurfaceMode }) {
+  const annualView = model.catalog.views.find((view) => view.viewId === "latest-annual-company-comparison");
+  const intensityView = model.catalog.views.find((view) => view.viewId === "company-wide-capex-intensity");
+  const historyView = model.catalog.views.find((view) => view.viewId === "recent-annual-company-histories");
+  const capex = sortValues(model.annual.chartReadyValues.filter((value) => value.metricKey === "capital_expenditure")).slice(0, 12);
+  const rdIntensity = sortValues(model.rdIntensity.chartReadyValues).slice(0, 12);
+  const intensity = sortValues(model.capexIntensity.chartReadyValues).slice(0, 12);
+  const scaleVsInvestment = model.scaleVsInvestment.chartReadyValues.slice(0, 12);
+  return (
+    <>
+      <PreviewSection title="AI Capex Race" question="Company-wide capex trends across comparable public companies; not AI-specific capex." view={historyView} mode={mode}>
+        <BarList values={capex} valueLabel="Latest annual company-wide capex" />
+      </PreviewSection>
+      <PreviewSection title="R&D Intensity" question="Company-wide R&D divided by company-wide revenue for the same annual fiscal year." view={annualView} mode={mode}>
+        <BarList values={rdIntensity} valueLabel="R&D intensity" />
+      </PreviewSection>
+      <PreviewSection title="Scale vs Investment" question="Compatible annual revenue compared with same-year company-wide capex plus R&D." view={annualView} mode={mode}>
+        <InvestmentScatter values={scaleVsInvestment} annualValues={model.annual.chartReadyValues} />
+      </PreviewSection>
+      <PreviewSection title="Capex Intensity" question={model.capexIntensity.analyticalQuestion} view={intensityView} mode={mode}>
+        <BarList values={intensity} valueLabel="Company-wide capex intensity" />
+      </PreviewSection>
+    </>
   );
 }
 
@@ -332,7 +381,7 @@ export function CandidateObservations({ model }: { model: Tranche4PreviewModel }
 export function CandidateDataCenter({ model }: { model: Tranche4PreviewModel }) {
   return (
     <section className="panel candidate-section" id="data">
-      <div className="panel-heading"><div><p className="panel-label">Data and Release Details</p><h2>Downloads, hashes, identifiers and unavailable views</h2></div><span className="availability-state state-empty">not published</span></div>
+      <div className="panel-heading"><div><p className="panel-label">Data and Release Details</p><h2>Downloads, hashes, identifiers and unavailable views</h2></div><span className="availability-state state-limited">release-bound</span></div>
       <div className="candidate-data-grid">
         <PreviewStat label="Candidate" value={model.manifest.candidateId} detail={label(model.manifest.taxonomyVersion)} />
         <PreviewStat label="Candidate manifest" value={model.manifest.manifestHash.slice(0, 20)} detail={model.manifest.contractVersion} />
@@ -340,13 +389,13 @@ export function CandidateDataCenter({ model }: { model: Tranche4PreviewModel }) 
         <PreviewStat label="Withheld metrics" value={`${model.manifest.counts.withheldMetricCount}`} detail="Missing remains unavailable, never zero" />
       </div>
       <div className="candidate-unavailable-grid">
-        {model.unavailable.map((view) => <article key={view.viewId}><h3>{label(view.viewId)}</h3><p>{view.withholdingReason}</p>{downloadLinks(view)}</article>)}
+        {model.unavailable.map((view) => <article key={view.viewId}><h3>{label(view.viewId)}</h3><p>{view.withholdingReason}</p>{downloadLinks(view, "production")}</article>)}
       </div>
     </section>
   );
 }
 
-function CandidateDataPathways({ model }: { model: Tranche4PreviewModel }) {
+function CandidateDataPathways({ model, mode = "preview" }: { model: Tranche4PreviewModel; mode?: CandidateSurfaceMode }) {
   const annualView = model.catalog.views.find((view) => view.viewId === "latest-annual-company-comparison");
   return (
     <section className="panel candidate-section" id="data">
@@ -359,7 +408,7 @@ function CandidateDataPathways({ model }: { model: Tranche4PreviewModel }) {
         <Link href={"/observations" as Route}>Data Explorer</Link>
         <Link href={"/data/releases" as Route}>Release details</Link>
         <Link href={"/sources" as Route}>Sources</Link>
-        {annualView ? <Link href={`/tranche-4-candidate-preview/artifacts/${encodeURIComponent(annualView.downloads.csv)}` as Route}>Candidate CSV</Link> : null}
+        {annualView && mode === "preview" ? <Link href={`/tranche-4-candidate-preview/artifacts/${encodeURIComponent(annualView.downloads.csv)}` as Route}>Candidate CSV</Link> : null}
       </div>
     </section>
   );
@@ -395,7 +444,7 @@ export function CandidateCompanyPage({ model, entityKey }: { model: Tranche4Prev
   return (
     <>
       <section className="candidate-hero">
-        <p className="eyebrow">Company intelligence preview</p>
+        <p className="eyebrow">Company intelligence</p>
         <h1>{entity.displayName}</h1>
         <p className="lede">Latest annual scale, investment, and research metrics come first. Exact observations, source links, trust states, and evidence references stay below for auditability.</p>
       </section>

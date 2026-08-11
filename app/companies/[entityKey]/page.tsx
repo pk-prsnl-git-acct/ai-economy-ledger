@@ -3,14 +3,20 @@ import type { Metadata } from "next";
 import { ReleaseUnavailablePanel } from "@/components/data-release";
 import { CompanyDetail } from "@/components/production-ledger";
 import { AppShell } from "@/components/ledger";
+import { CandidateCompanyPage } from "@/components/tranche4-candidate-preview";
 import { isProductionReleaseUnavailable } from "@/src/server/data-releases/production-transport";
 import { currentReleaseId, getReleaseRecords } from "@/src/server/data-releases/runtime";
+import { getTranche4ProductionModelIfActive } from "@/src/server/tranche4/production-model";
 
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = { title: "Company details | AI Economy Ledger" };
 
 export default async function CompanyDetailPage({ params }: { params: Promise<{ entityKey: string }> }) {
   const { entityKey } = await params;
+  const decodedEntityKey = decodeURIComponent(entityKey);
+  const tranche4 = await getTranche4ProductionModelIfActive();
+  if (tranche4) return <AppShell><CandidateCompanyPage model={tranche4.model} entityKey={decodedEntityKey} /></AppShell>;
+
   let releaseId;
   let records;
   try {
@@ -20,5 +26,5 @@ export default async function CompanyDetailPage({ params }: { params: Promise<{ 
     if (!isProductionReleaseUnavailable(error)) throw error;
     return <AppShell><ReleaseUnavailablePanel surface="company details" /></AppShell>;
   }
-  return <AppShell><CompanyDetail entityKey={decodeURIComponent(entityKey)} records={records.records} releaseId={releaseId} /></AppShell>;
+  return <AppShell><CompanyDetail entityKey={decodedEntityKey} records={records.records} releaseId={releaseId} /></AppShell>;
 }
