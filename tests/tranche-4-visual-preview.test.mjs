@@ -106,6 +106,8 @@ test("Tranche 4 UX uses centralized public labels and preserves compatibility ro
 
   assert.match(labels, /system_validated/);
   assert.match(labels, /System validated/);
+  assert.match(labels, /company_wide_structured_sec_fact: "Company-wide SEC fact"/);
+  assert.match(labels, /directly_comparable: "Comparable annual data"/);
   assert.match(labels, /taxonomy-v2@tranche-4/);
   assert.match(siteMap, /label: "Trends"/);
   assert.match(siteMap, /href: "\/observations"/);
