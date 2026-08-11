@@ -1,7 +1,7 @@
 {
   "reportVersion": "tranche-4-public-preview-report@2.0.0",
-  "publicCompatibilityPr": 0,
-  "publicVisualPreviewPr": 0,
+  "publicCompatibilityPr": 54,
+  "publicVisualPreviewPr": 54,
   "publicVisualPreviewBase": "main",
   "candidateId": "set1-candidate:5:22c376de052a7c06938f",
   "candidateManifestHash": "69400dbb8629ac0d86e71e71f6fd5221d11a9c087bbde93d8d1ef2ddc09984ff",
