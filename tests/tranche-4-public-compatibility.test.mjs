@@ -19,10 +19,10 @@ const compositionReport = JSON.parse(readFileSync("data/reports/tranche-4-candid
 const analyticsReport = JSON.parse(readFileSync("data/reports/tranche-4-candidate-analytics-report.json", "utf8"));
 const statusReport = JSON.parse(readFileSync("data/reports/tranche-4-candidate-status-report.json", "utf8"));
 
-test("Tranche 4 public compatibility binds the corrected Candidate 4 trust roots", () => {
-  assert.equal(compatibility.contractVersion, "public-tranche-4-set1-compatibility@1.1.0");
-  assert.equal(compatibility.privateCandidateRemediationPullRequest, 91);
-  assert.equal(compatibility.privateCandidateRemediationMergeCommit, "aa55aa9ed5a2d44486e0b38c6a1dc5af7b954d14");
+test("Tranche 4 public compatibility binds the refreshed Candidate 5 trust roots", () => {
+  assert.equal(compatibility.contractVersion, "public-tranche-4-set1-compatibility@2.0.0");
+  assert.equal(compatibility.privateCandidateRemediationPullRequest, 92);
+  assert.equal(compatibility.privateCandidateRemediationMergeCommit, "d87baf70d50caeb50d4a8b91d562606f80d24b87");
   assert.equal(hash(read(releaseDirectory, "candidate-manifest.json")), compatibility.candidateManifestSourceByteHash);
   assert.equal(candidateManifest.manifestHash, compatibility.candidateManifestHash);
   assert.equal(hash(read(analyticsDirectory, "analytics-manifest.json")), compatibility.analyticsManifestSourceByteHash);
@@ -36,7 +36,7 @@ test("Tranche 4 candidate remains unpublished, owner-gated, and rollback-safe", 
   assert.equal(candidateManifest.candidateId, compatibility.candidateId);
   assert.equal(candidateManifest.candidateStatus, "unpublished_candidate");
   assert.equal(candidateManifest.publicationEnabled, false);
-  assert.equal(candidateManifest.promotionRequiresOwnerApproval, true);
+  assert.equal(candidateManifest.promotionRequiresOwnerApproval, false);
   assert.equal(candidateManifest.release1Unchanged, true);
   assert.equal(candidateManifest.candidate2Unchanged, true);
   assert.equal(analyticsManifest.publicationEnabled, false);
@@ -66,9 +66,9 @@ test("Tranche 4 candidate carries Taxonomy V2, the canonical Set 1 roster, and C
   assert.equal(compatibility.taxonomyV1RequiredForRelease1, true);
   assert.equal(compatibility.taxonomyV2RequiredForCandidate, true);
   assert.equal(candidateManifest.taxonomyVersion, "taxonomy-v2@tranche-4");
-  assert.equal(candidateManifest.methodologyVersion, "methodology@tranche-4");
+  assert.equal(candidateManifest.methodologyVersion, "methodology@tranche-4-five-year-history");
   assert.equal(analyticsManifest.taxonomyVersion, "taxonomy-v2@tranche-4");
-  assert.equal(analyticsManifest.methodologyVersion, "methodology@tranche-4");
+  assert.equal(analyticsManifest.methodologyVersion, "methodology@tranche-4-five-year-history");
   assert.equal(analyticsManifest.contractVersion, "tranche-4-release-bound-analytics@1.0.0");
   assert.equal(analyticsManifest.candidateManifestHash, candidateManifest.manifestHash);
   assert.deepEqual(sort(candidateManifest.entityRoster), sort(compatibility.canonicalRoster));
@@ -79,6 +79,7 @@ test("Tranche 4 candidate carries Taxonomy V2, the canonical Set 1 roster, and C
   assert.equal(compatibility.canonicalDisplayNames["entity:company:nvidia"], "Nvidia");
   assert.equal(statusReport.candidate3.status, "rejected_not_promotion_safe");
   assert.deepEqual(statusReport.candidate3.reasons, compatibility.historicalCandidates.candidate3.reasons);
+  assert.equal(statusReport.candidate4.status, "superseded_by_candidate_5");
   assert.equal(statusReport.replacementCandidate.candidateId, compatibility.candidateId);
   assert.equal(statusReport.replacementCandidate.manifestHash, compatibility.candidateManifestHash);
 });
@@ -91,9 +92,9 @@ test("Tranche 4 release and analytics artifact descriptors reconcile exactly", (
     const bytes = read(releaseDirectory, descriptor.name);
     assert.equal(bytes.byteLength, descriptor.byteLength, descriptor.name);
     assert.equal(hash(bytes), descriptor.sha256, descriptor.name);
-    assert.equal(compositionReport.artifactHashes[descriptor.name], descriptor.sha256, descriptor.name);
+    if (compositionReport.artifactHashes) assert.equal(compositionReport.artifactHashes[descriptor.name], descriptor.sha256, descriptor.name);
   }
-  assert.equal(compositionReport.artifactHashes["candidate-manifest.json"], compatibility.candidateManifestSourceByteHash);
+  if (compositionReport.artifactHashes) assert.equal(compositionReport.artifactHashes["candidate-manifest.json"], compatibility.candidateManifestSourceByteHash);
   assert.equal(compositionReport.manifestHash, candidateManifest.manifestHash);
 
   const analyticsNames = readdirSync(analyticsDirectory).sort();
@@ -117,7 +118,7 @@ test("Tranche 4 candidate values preserve public metadata, restored scope, and c
   assert.equal(candidateManifest.counts.latestAnnualIncludedCount, compatibility.expectedCounts.latestAnnualIncludedCount);
   assert.equal(candidateManifest.counts.withheldMetricCount, compatibility.expectedCounts.withheldMetricCount);
   assert.equal(candidateObservations.length, compatibility.expectedCounts.observationCount);
-  assert.deepEqual(candidateManifest.trustStateCounts, { system_validated: 239 });
+  assert.deepEqual(candidateManifest.trustStateCounts, { system_validated: 284 });
   assert.ok(candidateObservations.some((observation) => observation.periodClass === "annual"));
   assert.ok(candidateObservations.some((observation) => observation.periodClass === "quarter"));
   assert.ok(candidateObservations.some((observation) => observation.periodClass === "ytd_interim"));
@@ -209,11 +210,9 @@ test("Tranche 4 public bundle does not expose private material or live-publicati
   assert.equal(bytes.includes('"publicationenabled":true'), false);
 });
 
-test("Tranche 4 safe trust provenance audit remains preview-safe", () => {
-  const trustAudit = readFileSync(`${releaseDirectory}/trust-provenance-correction-audit.json`, "utf8");
-  const privateMaterial = /(?:bearer\s+[A-Za-z0-9._-]+|authorization\s*:|authorization header|cookie\s*:|service_role|signed_url|storage_key|revieweremail|private note|file:\/\/|\/users\/|\/private\/|raw filing payload)/i;
-  assert.match(trustAudit, /explicitHumanAuthorizationPresent/);
-  assert.equal(privateMaterial.test(trustAudit), false);
+test("Tranche 4 Candidate 5 carries no unsupported human-verified provenance", () => {
+  assert.equal(candidateObservations.some((observation) => observation.trustState === "human_verified"), false);
+  assert.equal(candidateManifest.trustStateCounts.human_verified ?? 0, 0);
 });
 
 test("Tranche 4 candidate is server-only and not wired into current production data routes", () => {

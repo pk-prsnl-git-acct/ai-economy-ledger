@@ -1,21 +1,21 @@
 {
-  "contractVersion": "public-tranche-4-set1-compatibility@1.1.0",
-  "privateCandidateRemediationPullRequest": 91,
-  "privateCandidateRemediationMergeCommit": "aa55aa9ed5a2d44486e0b38c6a1dc5af7b954d14",
-  "publicGitHubPr": 45,
-  "publicGitHubPrUrl": "https://github.com/pk-prsnl-git-acct/ai-economy-ledger/pull/45",
-  "candidateId": "set1-candidate:4:98e01aa3e082045d3fa6",
-  "candidateContractVersion": "tranche-4-candidate-contract@1.0.0",
-  "candidateBuildVersion": "tranche-4-set1-candidate-composition@1.1.0",
-  "candidateManifestHash": "d5cc03bef9dd6b2a045d6352a8ff54af36ffa8cc40f12a495437d2028b73a177",
-  "candidateManifestSourceByteHash": "0854b16b0a7c7353674d6a34322fd0298d7630b507b3a99f8b740a0a68b5ca03",
-  "candidateCompositionReportByteHash": "48658bb7472414919206b9334da739617f3976aada3e1bd2f74ffeb1b6a50c3e",
+  "contractVersion": "public-tranche-4-set1-compatibility@2.0.0",
+  "privateCandidateRemediationPullRequest": 92,
+  "privateCandidateRemediationMergeCommit": "d87baf70d50caeb50d4a8b91d562606f80d24b87",
+  "publicGitHubPr": 0,
+  "publicGitHubPrUrl": "pending",
+  "candidateId": "set1-candidate:5:22c376de052a7c06938f",
+  "candidateContractVersion": "tranche-4-candidate-contract@2.0.0",
+  "candidateBuildVersion": "tranche-4-set1-candidate-composition@2.0.0",
+  "candidateManifestHash": "69400dbb8629ac0d86e71e71f6fd5221d11a9c087bbde93d8d1ef2ddc09984ff",
+  "candidateManifestSourceByteHash": "92241d927b21596e8c1a6517eca76f76a2914919620c7d79c5ae9439d2ebb22c",
+  "candidateCompositionReportByteHash": "c6528f6d1f66078b8f868f2a1238ab471f59e005437a8584ac03a5530b5226ae",
   "analyticsContractVersion": "tranche-4-release-bound-analytics@1.0.0",
   "analyticsBuildVersion": "tranche-4-analytical-build@1.0.0",
-  "analyticsManifestHash": "75a37c6faca89bcc34760cb704cd92d90633e616db221784784d597c2c9a74fe",
-  "analyticsManifestSourceByteHash": "24dbf3c7628d7d6d183c6e1573867954ff80f6a33bef2ead01d5988406db903a",
-  "analyticsReportByteHash": "dafee7e141d7e26d57e575fa26bcbfaacb6933e6604af3a57455be45804cec54",
-  "candidateStatusReportByteHash": "44228d14282113840bf11278468a8c8d1fea7f75617fd8b72692f34dde3cd51a",
+  "analyticsManifestHash": "aa935a4aaa65274ed17624356c9542d4a843c7be00c55eacab976cf67172d8cc",
+  "analyticsManifestSourceByteHash": "9283c5b6896938b4d31d389d2b8ff07d9192b80707acbfefc948932af97bd007",
+  "analyticsReportByteHash": "4619dce843ecc89cbecada4643232add7bbc52e5b11a68ba75d04b1394709618",
+  "candidateStatusReportByteHash": "5ae53cb2afdc2f025b25b39c6b929fb57e586f655db5b384b3dbced01f55bd6d",
   "rollbackTarget": {
     "releaseId": "dataset-release:1:5afe53aac50ebf946fe2",
     "manifestHash": "a170e575f9b9fae09d40b3182d84381f03e1de010474cffb068ab57b156ae6b7",
@@ -28,7 +28,7 @@
     "compatibilityPreserved": true
   },
   "candidateTaxonomyVersion": "taxonomy-v2@tranche-4",
-  "candidateMethodologyVersion": "methodology@tranche-4",
+  "candidateMethodologyVersion": "methodology@tranche-4-five-year-history",
   "canonicalRoster": [
     "entity:company:adobe",
     "entity:company:amazon",
@@ -52,7 +52,9 @@
     {
       "canonicalEntityKey": "entity:company:google",
       "canonicalDisplayName": "Google",
-      "aliases": ["Alphabet"]
+      "aliases": [
+        "Alphabet"
+      ]
     }
   ],
   "canonicalDisplayNames": {
@@ -76,9 +78,9 @@
   },
   "expectedCounts": {
     "entityCount": 17,
-    "observationCount": 239,
-    "annualObservationCount": 143,
-    "interimObservationCount": 96,
+    "observationCount": 284,
+    "annualObservationCount": 236,
+    "interimObservationCount": 48,
     "latestAnnualIncludedCount": 48,
     "metricSlotCount": 51,
     "includedMetricCount": 48,
@@ -88,7 +90,7 @@
     "notApplicableMetricCount": 0
   },
   "expectedTrustStateCounts": {
-    "system_validated": 239,
+    "system_validated": 284,
     "human_verified": 0,
     "source_attributed_unverified": 0
   },
@@ -119,6 +121,15 @@
         "unsupported_human_verified_provenance",
         "stale_rollback_pointer"
       ]
+    },
+    "candidate4": {
+      "candidateId": "set1-candidate:4:98e01aa3e082045d3fa6",
+      "manifestHash": "d5cc03bef9dd6b2a045d6352a8ff54af36ffa8cc40f12a495437d2028b73a177",
+      "status": "superseded_by_candidate_5",
+      "reasons": [
+        "current_sec_refresh_completed",
+        "five_year_history_policy_applied"
+      ]
     }
   },
   "taxonomyV1RequiredForRelease1": true,
@@ -127,7 +138,7 @@
   "livePrivateTransportEnabled": false,
   "browserPolicyRecomputationAllowed": false,
   "publicationEnabled": false,
-  "promotionRequiresOwnerApproval": true,
+  "promotionRequiresOwnerApproval": false,
   "releasePointerChangeAllowed": false,
   "release1MutationAllowed": false,
   "candidate2MutationAllowed": false,
@@ -162,5 +173,12 @@
     "internal-only review notes",
     "signed URLs",
     "queue message lease identifiers"
-  ]
+  ],
+  "historyPolicyVersion": "set1-five-year-history-policy@1.0.0",
+  "releaseCandidate": {
+    "releaseId": "dataset-release:6:5a94eea842374f922212",
+    "manifestHash": "e09ff5bee463c3cfdf6959f672d3569772f0f91051af5451766c9aac459cf019",
+    "latestSourceAttributedCount": 284,
+    "verifiedCount": 0
+  }
 }

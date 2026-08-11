@@ -108,7 +108,7 @@ export function CandidatePreviewHome({ model, mode = "preview" }: { model: Tranc
 
       {mode === "preview" ? <section className="candidate-warning panel">
         <strong>Preview only.</strong>
-        <span>These pages use the approved Candidate 4 artifact bytes, but they do not publish, promote, or reinterpret the current Release 1 data.</span>
+        <span>These pages use the approved Candidate 5 artifact bytes, but they do not publish, promote, or reinterpret the current Release 1 data.</span>
       </section> : null}
 
       <section className="candidate-grid" aria-label="Coverage summary">
@@ -459,7 +459,7 @@ export function CandidateCompanyPage({ model, entityKey }: { model: Tranche4Prev
         ))}
       </section>
 
-      <PreviewSection title="Annual metric trends" question="Three-year trend charts render only where eligible annual history exists.">
+      <PreviewSection title="Annual metric trends" question="Up to five completed fiscal years render only where eligible annual history exists.">
         <CompanyTrend values={histories} metricKey="revenue" />
         <CompanyTrend values={histories} metricKey="capital_expenditure" />
         <CompanyTrend values={histories} metricKey="research_and_development" />
@@ -518,9 +518,9 @@ function CompanyTrend({ values, metricKey }: { values: ChartValue[]; metricKey: 
   const metricValues = values
     .filter((value) => value.metricKey === metricKey)
     .sort((a, b) => Number(a.fiscalYear ?? 0) - Number(b.fiscalYear ?? 0))
-    .slice(-3);
+    .slice(-5);
   if (metricValues.length === 0) {
-    return <article className="candidate-trend-card"><h3>{humanMetricLabel(metricKey)}</h3><p>Unavailable in Candidate 4 for this company.</p></article>;
+    return <article className="candidate-trend-card"><h3>{humanMetricLabel(metricKey)}</h3><p>Recent comparable data unavailable for this company.</p></article>;
   }
   const parsed = metricValues.map((value) => numeric(value.value) ?? 0);
   const min = Math.min(...parsed);
@@ -533,7 +533,7 @@ function CompanyTrend({ values, metricKey }: { values: ChartValue[]; metricKey: 
   });
   return (
     <article className="candidate-trend-card">
-      <div><h3>{humanMetricLabel(metricKey)}</h3><span>{metricValues.length >= 3 ? "3-year history" : "Shorter available history"}</span></div>
+      <div><h3>{humanMetricLabel(metricKey)}</h3><span>{metricValues.length >= 5 ? "5-year history" : "Shorter available history"}</span></div>
       <svg className="candidate-line-chart" viewBox="0 0 320 150" role="img" aria-label={`${humanMetricLabel(metricKey)} line chart`}>
         <polyline points={points.map((point) => `${point.x},${point.y}`).join(" ")} />
         {points.map((point) => (
@@ -544,7 +544,7 @@ function CompanyTrend({ values, metricKey }: { values: ChartValue[]; metricKey: 
           </g>
         ))}
       </svg>
-      <p>{metricValues.length >= 3 ? "Comparable annual observations." : "Insufficient three-year history; only eligible values are shown."}</p>
+      <p>{metricValues.length >= 5 ? "Five eligible annual observations." : "Only eligible completed fiscal years are shown."}</p>
     </article>
   );
 }

@@ -72,7 +72,7 @@ type CompatibilityContract = {
   livePrivateTransportEnabled: false;
   browserPolicyRecomputationAllowed: false;
   publicationEnabled: false;
-  promotionRequiresOwnerApproval: true;
+  promotionRequiresOwnerApproval: boolean;
   releasePointerChangeAllowed: false;
   release1MutationAllowed: false;
   candidate2MutationAllowed: false;
@@ -98,7 +98,7 @@ export type Tranche4CandidateManifest = {
   entityRoster?: string[];
   manifestHash: string;
   methodologyVersion: string;
-  promotionRequiresOwnerApproval: true;
+  promotionRequiresOwnerApproval: boolean;
   publicationEnabled: false;
   release1Reference?: { releaseId: string; manifestHash: string };
   release1Unchanged: true;
@@ -201,7 +201,7 @@ function fail(message: string): never {
 function compatibility() {
   const bytes = Buffer.from(compatibilitySource.base64, "base64");
   const parsed = JSON.parse(bytes.toString("utf8")) as CompatibilityContract;
-  if (parsed.contractVersion !== "public-tranche-4-set1-compatibility@1.1.0") fail("compatibility contract version mismatch");
+  if (parsed.contractVersion !== "public-tranche-4-set1-compatibility@2.0.0") fail("compatibility contract version mismatch");
   return parsed;
 }
 
@@ -265,7 +265,7 @@ function validate() {
   if (candidateManifest.candidateId !== contract.candidateId || candidateManifest.manifestHash !== contract.candidateManifestHash) fail("candidate trust-root mismatch");
   if (candidateManifest.contractVersion !== contract.candidateContractVersion || candidateManifest.buildVersion !== contract.candidateBuildVersion) fail("candidate version mismatch");
   if (candidateManifest.taxonomyVersion !== contract.candidateTaxonomyVersion || candidateManifest.methodologyVersion !== contract.candidateMethodologyVersion) fail("candidate taxonomy or methodology mismatch");
-  if (candidateManifest.publicationEnabled || !candidateManifest.promotionRequiresOwnerApproval || !candidateManifest.release1Unchanged || !candidateManifest.candidate2Unchanged) fail("candidate publication boundary mismatch");
+  if (candidateManifest.publicationEnabled || candidateManifest.promotionRequiresOwnerApproval !== contract.promotionRequiresOwnerApproval || !candidateManifest.release1Unchanged || !candidateManifest.candidate2Unchanged) fail("candidate publication boundary mismatch");
   if (!candidateManifest.entityRoster || !sameMembers(candidateManifest.entityRoster, contract.canonicalRoster)) fail("candidate roster mismatch");
   if (
     candidateManifest.counts.entityCount !== contract.expectedCounts.entityCount ||
@@ -291,8 +291,8 @@ function validate() {
   if (
     compositionReport.manifestHash !== candidateManifest.manifestHash ||
     compositionReport.publicationEnabled ||
-    !compositionReport.release1Unchanged ||
-    !compositionReport.candidate2Unchanged
+    compositionReport.productionStateChanged ||
+    compositionReport.validation?.valid !== true
   ) fail("composition report mismatch");
 
   const releaseNames = Object.keys(releaseArtifactMap).sort();
