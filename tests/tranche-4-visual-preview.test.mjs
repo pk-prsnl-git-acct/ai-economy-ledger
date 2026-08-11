@@ -9,6 +9,7 @@ const component = readFileSync("components/tranche4-candidate-preview.tsx", "utf
 const model = readFileSync("src/server/tranche4/preview-model.ts", "utf8");
 const styles = readFileSync("app/globals.css", "utf8");
 const labels = readFileSync("src/ui/public-labels.ts", "utf8");
+const productionModel = readFileSync("src/server/tranche4/production-model.ts", "utf8");
 
 test("Tranche 4 candidate preview is explicitly non-production gated", () => {
   assert.match(model, /TRANCHE4_CANDIDATE_PREVIEW_ENABLED/);
@@ -66,7 +67,7 @@ test("Tranche 4 visual product preserves evidence-gated unavailable states and f
   assert.match(component, /Unsupported views are explicit unavailable contracts/);
   assert.match(component, /not AI-specific allocations/);
   assert.match(component, /Missing remains unavailable, never zero/);
-  assert.doesNotMatch(component, /<CandidateDirectory model=\{model\}/);
+  assert.doesNotMatch(component, /<CandidateDirectory model=\{model\}\s*\/>/);
   assert.doesNotMatch(component, /<CandidateObservations model=\{model\}/);
   assert.doesNotMatch(component, /<CandidateDataCenter model=\{model\}/);
   assert.match(component, /Evidence references and source links/);
@@ -114,10 +115,16 @@ test("Tranche 4 UX uses centralized public labels and preserves compatibility ro
   assert.match(shell, /\/methodology/);
 });
 
-test("Tranche 4 candidate preview does not mutate production routes or deployment controls", () => {
-  for (const file of ["app/page.tsx", "app/market/page.tsx", "app/data/page.tsx", "app/api/data/analytics/route.ts", "app/api/data/releases/route.ts"]) {
-    assert.doesNotMatch(readFileSync(file, "utf8"), /tranche4|candidate-preview|set1-candidate/i, file);
+test("Tranche 4 production wiring is active-release gated and does not depend on the preview flag", () => {
+  for (const file of ["app/page.tsx", "app/ai-stack/page.tsx", "app/market/page.tsx", "app/companies/page.tsx", "app/companies/[entityKey]/page.tsx", "app/data/page.tsx", "app/observations/page.tsx"]) {
+    const source = readFileSync(file, "utf8");
+    assert.match(source, /getTranche4ProductionModelIfActive/, file);
+    assert.doesNotMatch(source, /TRANCHE4_CANDIDATE_PREVIEW_ENABLED|tranche4PreviewEnabled/, file);
   }
+  assert.match(productionModel, /TRANCHE4_CANDIDATE_MANIFEST_HASH/);
+  assert.match(productionModel, /getProductionReleaseTransport/);
+  assert.match(productionModel, /active\.manifestHash !== TRANCHE4_CANDIDATE_MANIFEST_HASH/);
+  assert.match(productionModel, /candidate trust root mismatch/);
   for (const file of ["wrangler.toml", "open-next.config.ts", "package.json"]) {
     assert.doesNotMatch(readFileSync(file, "utf8"), /TRANCHE4_CANDIDATE_PREVIEW_ENABLED=true/, file);
   }

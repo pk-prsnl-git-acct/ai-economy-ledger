@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 
 import { AppShell, HeroSection } from "@/components/ledger";
 import { CandidateNotice, DataNavigation, DownloadLink, ReleaseUnavailablePanel } from "@/components/data-release";
+import { CandidateDataCenter } from "@/components/tranche4-candidate-preview";
 import { isProductionReleaseUnavailable } from "@/src/server/data-releases/production-transport";
 import { currentReleaseId, getReleaseManifest, getReleaseRecords, listReleases } from "@/src/server/data-releases/runtime";
+import { getTranche4ProductionModelIfActive } from "@/src/server/tranche4/production-model";
 import { findPublicRoute } from "@/src/ui/site-map";
 import { routeMetadata } from "@/src/ui/metadata";
 
@@ -13,6 +15,9 @@ export const metadata: Metadata = routeMetadata(route.title, route.description, 
 export const dynamic = "force-dynamic";
 
 export default async function DataPage() {
+  const tranche4 = await getTranche4ProductionModelIfActive();
+  if (tranche4) return <AppShell><HeroSection route={route} /><DataNavigation /><CandidateDataCenter model={tranche4.model} /></AppShell>;
+
   let releaseId;
   let manifest;
   let latestResult;
