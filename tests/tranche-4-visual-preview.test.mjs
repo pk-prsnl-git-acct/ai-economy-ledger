@@ -111,6 +111,8 @@ test("Tranche 4 UX uses centralized public labels and preserves compatibility ro
   assert.match(labels, /taxonomy-v2@tranche-4/);
   assert.match(siteMap, /label: "Trends"/);
   assert.match(siteMap, /href: "\/observations"/);
+  assert.match(siteMap, /title: "Company profiles, with the limits attached\."/);
+  assert.doesNotMatch(siteMap, /Five companies, with the limits attached/);
   assert.match(observationsPage, /ObservationLedger/);
   assert.match(shell, /\["\/", "\/ai-stack", "\/market", "\/companies", "\/data"\]/);
   assert.match(shell, /\/sources/);
