@@ -1,0 +1,17 @@
+entityKey,displayName,metricKey,value,unit,currency,periodClass,fiscalYear,fiscalPeriod,periodEnd,trustState,comparability,observationId
+entity:company:adobe,adobe,new_entity,1,entity,,release_delta,,,,not_applicable,release_delta,release-delta:entity:company:adobe
+entity:company:amd,amd,new_entity,1,entity,,release_delta,,,,not_applicable,release_delta,release-delta:entity:company:amd
+entity:company:broadcom,broadcom,new_entity,1,entity,,release_delta,,,,not_applicable,release_delta,release-delta:entity:company:broadcom
+entity:company:datadog,datadog,new_entity,1,entity,,release_delta,,,,not_applicable,release_delta,release-delta:entity:company:datadog
+entity:company:digital-realty,digital-realty,new_entity,1,entity,,release_delta,,,,not_applicable,release_delta,release-delta:entity:company:digital-realty
+entity:company:google,google,new_entity,1,entity,,release_delta,,,,not_applicable,release_delta,release-delta:entity:company:google
+entity:company:intel,intel,new_entity,1,entity,,release_delta,,,,not_applicable,release_delta,release-delta:entity:company:intel
+entity:company:mongodb,mongodb,new_entity,1,entity,,release_delta,,,,not_applicable,release_delta,release-delta:entity:company:mongodb
+entity:company:oracle,oracle,new_entity,1,entity,,release_delta,,,,not_applicable,release_delta,release-delta:entity:company:oracle
+entity:company:palantir,palantir,new_entity,1,entity,,release_delta,,,,not_applicable,release_delta,release-delta:entity:company:palantir
+entity:company:salesforce,salesforce,new_entity,1,entity,,release_delta,,,,not_applicable,release_delta,release-delta:entity:company:salesforce
+entity:company:servicenow,servicenow,new_entity,1,entity,,release_delta,,,,not_applicable,release_delta,release-delta:entity:company:servicenow
+entity:company:snowflake,snowflake,new_entity,1,entity,,release_delta,,,,not_applicable,release_delta,release-delta:entity:company:snowflake
+entity:company:amazon,amazon,research_and_development,withheld,state,,release_delta,,,,not_applicable,withheld_incompatible_definition,c704e7eb60e99cbf4d99586c602ef59335d69c25c7af3fb1d801e277238c1f70
+entity:company:digital-realty,digital-realty,capital_expenditure,withheld,state,,release_delta,,,,not_applicable,withheld_ambiguous_mapping,971c6482e0764c3e290b4b0a8febbd9874e7facb8e3b86391f423e34a26f1c86
+entity:company:digital-realty,digital-realty,research_and_development,withheld,state,,release_delta,,,,not_applicable,unavailable,6ac03e2f316b2ee4016088c0d1d9dc26de2a10ed00b5f510d5d1309590a25105

@@ -20,6 +20,7 @@ const checks = [
       "tests/pr34-public-data-distribution.test.mjs",
       "tests/pr36-quality-observability-compatibility.test.mjs",
       "tests/pr37-market-intelligence-compatibility.test.mjs",
+      "tests/tranche-4-public-compatibility.test.mjs",
       "tests/circularity-scenarios.test.mjs",
       "tests/health-readiness.test.mjs",
     ]

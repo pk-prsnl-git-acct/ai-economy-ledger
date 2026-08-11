@@ -1,0 +1,142 @@
+entityKey,displayName,metricKey,value,unit,currency,periodClass,fiscalYear,fiscalPeriod,periodEnd,trustState,comparability,observationId
+entity:company:adobe,ADOBE INC.,capital_expenditure,360000000,USD,USD,annual,2023,FY,2023-12-01,system_validated,directly_comparable,tranche4-observation:68428bb27bdce30cdcf24863edefe145
+entity:company:adobe,ADOBE INC.,capital_expenditure,183000000,USD,USD,annual,2024,FY,2024-11-29,system_validated,directly_comparable,tranche4-observation:9f2527341847c4d7a3531ac2fe244bec
+entity:company:adobe,ADOBE INC.,capital_expenditure,179000000,USD,USD,annual,2025,FY,2025-11-28,system_validated,directly_comparable,tranche4-observation:f92b810b3e0ef519c37c57e14b114c0c
+entity:company:adobe,ADOBE INC.,research_and_development,3473000000,USD,USD,annual,2023,FY,2023-12-01,system_validated,directly_comparable,tranche4-observation:40bbf02d91f6fb059501cc6ecc5ff73d
+entity:company:adobe,ADOBE INC.,research_and_development,3944000000,USD,USD,annual,2024,FY,2024-11-29,system_validated,directly_comparable,tranche4-observation:33a4dcdf0704dd4595c1ec6b3ba3ad9f
+entity:company:adobe,ADOBE INC.,research_and_development,4294000000,USD,USD,annual,2025,FY,2025-11-28,system_validated,directly_comparable,tranche4-observation:0933ce749175613783c5a3d03007582c
+entity:company:adobe,ADOBE INC.,revenue,19409000000,USD,USD,annual,2023,FY,2023-12-01,system_validated,directly_comparable,tranche4-observation:6a2b498bef1a47d6d28cf0bc39d11389
+entity:company:adobe,ADOBE INC.,revenue,21505000000,USD,USD,annual,2024,FY,2024-11-29,system_validated,directly_comparable,tranche4-observation:71884e2d019f87bfbd97c9a31acd5eb0
+entity:company:adobe,ADOBE INC.,revenue,23769000000,USD,USD,annual,2025,FY,2025-11-28,system_validated,directly_comparable,tranche4-observation:f30a88eeda215001dd0222e3391aa1ac
+entity:company:amazon,AMAZON COM INC,capital_expenditure,52729000000,USD,USD,annual,2023,FY,2023-12-31,system_validated,directly_comparable,tranche4-observation:78e1b54f2c7d2fb5df6a4c42aa802327
+entity:company:amazon,AMAZON COM INC,capital_expenditure,82999000000,USD,USD,annual,2024,FY,2024-12-31,system_validated,directly_comparable,tranche4-observation:57640d00a9e47494d8cf26c7e6ae031d
+entity:company:amazon,AMAZON COM INC,capital_expenditure,131819000000,USD,USD,annual,2025,FY,2025-12-31,system_validated,directly_comparable,tranche4-observation:13cfe0927704767ec73a2b9d448e5879
+entity:company:amazon,AMAZON COM INC,revenue,574785000000,USD,USD,annual,2023,FY,2023-12-31,system_validated,directly_comparable,tranche4-observation:8314d235b6d49182962b9aacf47ad116
+entity:company:amazon,AMAZON COM INC,revenue,637959000000,USD,USD,annual,2024,FY,2024-12-31,system_validated,directly_comparable,tranche4-observation:a4ec2456bbb4e3dde82df853d42d6838
+entity:company:amazon,AMAZON COM INC,revenue,716924000000,USD,USD,annual,2025,FY,2025-12-31,system_validated,directly_comparable,tranche4-observation:b7e5fc48366616b80f84d2c92bfafdaf
+entity:company:amd,ADVANCED MICRO DEVICES INC,capital_expenditure,546000000,USD,USD,annual,2023,FY,2023-12-30,system_validated,directly_comparable,tranche4-observation:c5e2763528d1a3caa8bfc11ca1287962
+entity:company:amd,ADVANCED MICRO DEVICES INC,capital_expenditure,636000000,USD,USD,annual,2024,FY,2024-12-28,system_validated,directly_comparable,tranche4-observation:2c880d13a84166ac5caadde778da11e1
+entity:company:amd,ADVANCED MICRO DEVICES INC,capital_expenditure,974000000,USD,USD,annual,2025,FY,2025-12-27,system_validated,directly_comparable,tranche4-observation:25e715209b3b7707bb5dc41e07f2cf32
+entity:company:amd,ADVANCED MICRO DEVICES INC,research_and_development,5872000000,USD,USD,annual,2023,FY,2023-12-30,system_validated,directly_comparable,tranche4-observation:8e835d7af9ec2cca3a131bdaac3e7c03
+entity:company:amd,ADVANCED MICRO DEVICES INC,research_and_development,6456000000,USD,USD,annual,2024,FY,2024-12-28,system_validated,directly_comparable,tranche4-observation:8b9354b269244a2424ed9060e7aafad4
+entity:company:amd,ADVANCED MICRO DEVICES INC,research_and_development,8091000000,USD,USD,annual,2025,FY,2025-12-27,system_validated,directly_comparable,tranche4-observation:0155c3a80187561106c44f24d6d02eff
+entity:company:amd,ADVANCED MICRO DEVICES INC,revenue,22680000000,USD,USD,annual,2023,FY,2023-12-30,system_validated,directly_comparable,tranche4-observation:26802449663435068a2014ce0c0761a7
+entity:company:amd,ADVANCED MICRO DEVICES INC,revenue,25785000000,USD,USD,annual,2024,FY,2024-12-28,system_validated,directly_comparable,tranche4-observation:bc0ee62b407fbcecf05c02214627d820
+entity:company:amd,ADVANCED MICRO DEVICES INC,revenue,34639000000,USD,USD,annual,2025,FY,2025-12-27,system_validated,directly_comparable,tranche4-observation:5ee7117728a698b682a1f8b955d7770c
+entity:company:broadcom,Broadcom Inc.,capital_expenditure,452000000,USD,USD,annual,2023,FY,2023-10-29,system_validated,directly_comparable,tranche4-observation:8306d375384f5e8638d70864dfd746a8
+entity:company:broadcom,Broadcom Inc.,capital_expenditure,548000000,USD,USD,annual,2024,FY,2024-11-03,system_validated,directly_comparable,tranche4-observation:9659eeea240d8cddd1ad730886be7c2d
+entity:company:broadcom,Broadcom Inc.,capital_expenditure,623000000,USD,USD,annual,2025,FY,2025-11-02,system_validated,directly_comparable,tranche4-observation:65a014669f189b7dd2353e2989d5d682
+entity:company:broadcom,Broadcom Inc.,research_and_development,5253000000,USD,USD,annual,2023,FY,2023-10-29,system_validated,directly_comparable,tranche4-observation:0062d89131d383d5d095efbc2b2a8652
+entity:company:broadcom,Broadcom Inc.,research_and_development,9310000000,USD,USD,annual,2024,FY,2024-11-03,system_validated,directly_comparable,tranche4-observation:062b0d23e6b4f253a97712c5602c8bc2
+entity:company:broadcom,Broadcom Inc.,research_and_development,10977000000,USD,USD,annual,2025,FY,2025-11-02,system_validated,directly_comparable,tranche4-observation:41c5f5b2e74bcbfe484ddf104393d901
+entity:company:broadcom,Broadcom Inc.,revenue,35819000000,USD,USD,annual,2023,FY,2023-10-29,system_validated,directly_comparable,tranche4-observation:9852a5f97ef785a3403939c3a2af0a9c
+entity:company:broadcom,Broadcom Inc.,revenue,51574000000,USD,USD,annual,2024,FY,2024-11-03,system_validated,directly_comparable,tranche4-observation:a30f150aea0344617d303e584ccbea4e
+entity:company:broadcom,Broadcom Inc.,revenue,63887000000,USD,USD,annual,2025,FY,2025-11-02,system_validated,directly_comparable,tranche4-observation:9d751d68d17be82aa491ba8c163a699d
+entity:company:datadog,"Datadog, Inc.",capital_expenditure,27586000,USD,USD,annual,2023,FY,2023-12-31,system_validated,directly_comparable,tranche4-observation:c2cbf81bc57421bb7a6fb7ea8bb78e3a
+entity:company:datadog,"Datadog, Inc.",capital_expenditure,34719000,USD,USD,annual,2024,FY,2024-12-31,system_validated,directly_comparable,tranche4-observation:01c878025e22cccc80ac3640ba8a158f
+entity:company:datadog,"Datadog, Inc.",capital_expenditure,49578000,USD,USD,annual,2025,FY,2025-12-31,system_validated,directly_comparable,tranche4-observation:8ca95749bcff8384b8a27836e69aaca0
+entity:company:datadog,"Datadog, Inc.",research_and_development,962447000,USD,USD,annual,2023,FY,2023-12-31,system_validated,directly_comparable,tranche4-observation:bb8362614842112207bcd064a0457702
+entity:company:datadog,"Datadog, Inc.",research_and_development,1152703000,USD,USD,annual,2024,FY,2024-12-31,system_validated,directly_comparable,tranche4-observation:e6fb4b0be4d3278eb23f7caec93f8901
+entity:company:datadog,"Datadog, Inc.",research_and_development,1548451000,USD,USD,annual,2025,FY,2025-12-31,system_validated,directly_comparable,tranche4-observation:b281ba322bca8d57acf2cef6b3ecf7b8
+entity:company:datadog,"Datadog, Inc.",revenue,2128359000,USD,USD,annual,2023,FY,2023-12-31,system_validated,directly_comparable,tranche4-observation:504406f8aba708b8dfcb6ec3d96d99a0
+entity:company:datadog,"Datadog, Inc.",revenue,2684275000,USD,USD,annual,2024,FY,2024-12-31,system_validated,directly_comparable,tranche4-observation:fa0fd2c18a407cdfc4e94469096f5c27
+entity:company:datadog,"Datadog, Inc.",revenue,3427158000,USD,USD,annual,2025,FY,2025-12-31,system_validated,directly_comparable,tranche4-observation:f4b3583b4495f85bcc13c8ad4bede40a
+entity:company:digital-realty,"DIGITAL REALTY TRUST, INC.",revenue,5477061000,USD,USD,annual,2023,FY,2023-12-31,system_validated,directly_comparable,tranche4-observation:1fa07cd71c01aaf0003013e14fe3247a
+entity:company:digital-realty,"DIGITAL REALTY TRUST, INC.",revenue,5554968000,USD,USD,annual,2024,FY,2024-12-31,system_validated,directly_comparable,tranche4-observation:57572174c9fb0ae37c6a12446a83ce10
+entity:company:digital-realty,"DIGITAL REALTY TRUST, INC.",revenue,6112692000,USD,USD,annual,2025,FY,2025-12-31,system_validated,directly_comparable,tranche4-observation:20d22cf738515ebe2af0b86c22f85e83
+entity:company:google,Alphabet Inc.,capital_expenditure,32251000000,USD,USD,annual,2023,FY,2023-12-31,system_validated,directly_comparable,tranche4-observation:17d987009b25ce679e8da2d5f10a721b
+entity:company:google,Alphabet Inc.,capital_expenditure,52535000000,USD,USD,annual,2024,FY,2024-12-31,system_validated,directly_comparable,tranche4-observation:bf096ebc6af7805937a515a8c3916e8e
+entity:company:google,Alphabet Inc.,capital_expenditure,91447000000,USD,USD,annual,2025,FY,2025-12-31,system_validated,directly_comparable,tranche4-observation:f3db1003d48dcf1606d1d4ce90265195
+entity:company:google,Alphabet Inc.,research_and_development,45427000000,USD,USD,annual,2023,FY,2023-12-31,system_validated,directly_comparable,tranche4-observation:3df761f0f0ede4048ff94bffa9f6a11e
+entity:company:google,Alphabet Inc.,research_and_development,49326000000,USD,USD,annual,2024,FY,2024-12-31,system_validated,directly_comparable,tranche4-observation:81a50cd2b784dcd4db7bdf62b82e400d
+entity:company:google,Alphabet Inc.,research_and_development,61087000000,USD,USD,annual,2025,FY,2025-12-31,system_validated,directly_comparable,tranche4-observation:798054ac21254639e062b344d4c2792b
+entity:company:intel,INTEL CORP,capital_expenditure,25750000000,USD,USD,annual,2023,FY,2023-12-30,system_validated,directly_comparable,tranche4-observation:1552917d02a0c4c7225f8b5ce7dd1b43
+entity:company:intel,INTEL CORP,capital_expenditure,23944000000,USD,USD,annual,2024,FY,2024-12-28,system_validated,directly_comparable,tranche4-observation:192feb3dad850188449947c283fdc6df
+entity:company:intel,INTEL CORP,capital_expenditure,14646000000,USD,USD,annual,2025,FY,2025-12-27,system_validated,directly_comparable,tranche4-observation:0b0249bfc0cd5fbf64168d2c515bf044
+entity:company:intel,INTEL CORP,research_and_development,16046000000,USD,USD,annual,2023,FY,2023-12-30,system_validated,directly_comparable,tranche4-observation:7984af9a6f260e78b85ed2a94ed30746
+entity:company:intel,INTEL CORP,research_and_development,16546000000,USD,USD,annual,2024,FY,2024-12-28,system_validated,directly_comparable,tranche4-observation:b49abe408c7958494807078a91a028d9
+entity:company:intel,INTEL CORP,research_and_development,13774000000,USD,USD,annual,2025,FY,2025-12-27,system_validated,directly_comparable,tranche4-observation:57c398526c2c878cd02c2cc1ed835b8f
+entity:company:intel,INTEL CORP,revenue,54228000000,USD,USD,annual,2023,FY,2023-12-30,system_validated,directly_comparable,tranche4-observation:6ef63b4c211e59e65a73b3eae09ccbe4
+entity:company:intel,INTEL CORP,revenue,53101000000,USD,USD,annual,2024,FY,2024-12-28,system_validated,directly_comparable,tranche4-observation:ade562caa4d730f8c855082a6b080abe
+entity:company:intel,INTEL CORP,revenue,52853000000,USD,USD,annual,2025,FY,2025-12-27,system_validated,directly_comparable,tranche4-observation:15a5d2f469a43017ed2b1b27156865e2
+entity:company:meta,"Meta Platforms, Inc.",capital_expenditure,27266000000,USD,USD,annual,2023,FY,2023-12-31,system_validated,directly_comparable,tranche4-observation:57ad386f64f24d7a3de8e51d35e24f0a
+entity:company:meta,"Meta Platforms, Inc.",capital_expenditure,37256000000,USD,USD,annual,2024,FY,2024-12-31,system_validated,directly_comparable,tranche4-observation:876acb09b9021f1b35a6a666ff2cda4b
+entity:company:meta,"Meta Platforms, Inc.",capital_expenditure,69691000000,USD,USD,annual,2025,FY,2025-12-31,system_validated,directly_comparable,tranche4-observation:e8290ecfa33cbe77d08c356585c19cdc
+entity:company:meta,"Meta Platforms, Inc.",research_and_development,38483000000,USD,USD,annual,2023,FY,2023-12-31,system_validated,directly_comparable,tranche4-observation:bdd71f6c73795a7c5531766a5e24792a
+entity:company:meta,"Meta Platforms, Inc.",research_and_development,43873000000,USD,USD,annual,2024,FY,2024-12-31,system_validated,directly_comparable,tranche4-observation:dbb3abd412a47fee6c9540c52e3b27ac
+entity:company:meta,"Meta Platforms, Inc.",research_and_development,57372000000,USD,USD,annual,2025,FY,2025-12-31,system_validated,directly_comparable,tranche4-observation:00e6d7d736e4b3e8074e88af001f15cf
+entity:company:meta,"Meta Platforms, Inc.",revenue,134902000000,USD,USD,annual,2023,FY,2023-12-31,system_validated,directly_comparable,tranche4-observation:151b75337fe7c8a0e2f6574a2c1721c0
+entity:company:meta,"Meta Platforms, Inc.",revenue,164501000000,USD,USD,annual,2024,FY,2024-12-31,system_validated,directly_comparable,tranche4-observation:3499b505bdcbc12c9688e689917e3241
+entity:company:meta,"Meta Platforms, Inc.",revenue,200966000000,USD,USD,annual,2025,FY,2025-12-31,system_validated,directly_comparable,tranche4-observation:264fbb62c16c638f33e4eb870a0b4ade
+entity:company:microsoft,MICROSOFT CORP,capital_expenditure,28107000000,USD,USD,annual,2023,FY,2023-06-30,system_validated,directly_comparable,tranche4-observation:099131516f8531017b2290e481a7cdce
+entity:company:microsoft,MICROSOFT CORP,capital_expenditure,44477000000,USD,USD,annual,2024,FY,2024-06-30,system_validated,directly_comparable,tranche4-observation:5b14090c9382e0009881fd46129edf24
+entity:company:microsoft,MICROSOFT CORP,capital_expenditure,64551000000,USD,USD,annual,2025,FY,2025-06-30,system_validated,directly_comparable,tranche4-observation:27f1694958857a84bd40ed82336cd56b
+entity:company:microsoft,MICROSOFT CORP,research_and_development,27195000000,USD,USD,annual,2023,FY,2023-06-30,system_validated,directly_comparable,tranche4-observation:58ec07dc59cd75f2649797481ba6a5c8
+entity:company:microsoft,MICROSOFT CORP,research_and_development,29510000000,USD,USD,annual,2024,FY,2024-06-30,system_validated,directly_comparable,tranche4-observation:f8eaab34ef5ed5fc31dc6aee0bf076dc
+entity:company:microsoft,MICROSOFT CORP,research_and_development,32488000000,USD,USD,annual,2025,FY,2025-06-30,system_validated,directly_comparable,tranche4-observation:ec67cdb8c4874b8143e70867f933dc65
+entity:company:microsoft,MICROSOFT CORP,revenue,211915000000,USD,USD,annual,2023,FY,2023-06-30,system_validated,directly_comparable,tranche4-observation:d89c4a760aabf1218e37c037d0389406
+entity:company:microsoft,MICROSOFT CORP,revenue,245122000000,USD,USD,annual,2024,FY,2024-06-30,system_validated,directly_comparable,tranche4-observation:5955e34fe4b2060305c79acd01825457
+entity:company:microsoft,MICROSOFT CORP,revenue,281724000000,USD,USD,annual,2025,FY,2025-06-30,system_validated,directly_comparable,tranche4-observation:053c0dce313167dfc80832de178c6156
+entity:company:mongodb,"MongoDB, Inc.",capital_expenditure,6074000,USD,USD,annual,2024,FY,2024-01-31,system_validated,directly_comparable,tranche4-observation:ef89bad1ca31390d79dc8b331a5fefdd
+entity:company:mongodb,"MongoDB, Inc.",capital_expenditure,29550000,USD,USD,annual,2025,FY,2025-01-31,system_validated,directly_comparable,tranche4-observation:34c4dae31fb8e04d5cabbd7a474eaab0
+entity:company:mongodb,"MongoDB, Inc.",capital_expenditure,4960000,USD,USD,annual,2026,FY,2026-01-31,system_validated,directly_comparable,tranche4-observation:e69b22a72da920de2b446ccd63d190a1
+entity:company:mongodb,"MongoDB, Inc.",research_and_development,515940000,USD,USD,annual,2024,FY,2024-01-31,system_validated,directly_comparable,tranche4-observation:c905025bb4cd627efe0e2f040abb429b
+entity:company:mongodb,"MongoDB, Inc.",research_and_development,596837000,USD,USD,annual,2025,FY,2025-01-31,system_validated,directly_comparable,tranche4-observation:a84e58ea77642fedaba710bd22ac3e02
+entity:company:mongodb,"MongoDB, Inc.",research_and_development,716303000,USD,USD,annual,2026,FY,2026-01-31,system_validated,directly_comparable,tranche4-observation:77ad614b571e4275377138f0cdae23aa
+entity:company:mongodb,"MongoDB, Inc.",revenue,1683011000,USD,USD,annual,2024,FY,2024-01-31,system_validated,directly_comparable,tranche4-observation:7241cb6cff845d77237b41c1d9bf662a
+entity:company:mongodb,"MongoDB, Inc.",revenue,2006443000,USD,USD,annual,2025,FY,2025-01-31,system_validated,directly_comparable,tranche4-observation:7711d2a007b2f3d91a30dcd0d92ed799
+entity:company:mongodb,"MongoDB, Inc.",revenue,2463797000,USD,USD,annual,2026,FY,2026-01-31,system_validated,directly_comparable,tranche4-observation:8f68ebd9c66f238a9d3578e82b6020f8
+entity:company:nvidia,NVIDIA CORP,capital_expenditure,1069000000,USD,USD,annual,2024,FY,2024-01-28,system_validated,directly_comparable,tranche4-observation:0525b1882a35bec76226a39b6cfb5fdf
+entity:company:nvidia,NVIDIA CORP,capital_expenditure,3236000000,USD,USD,annual,2025,FY,2025-01-26,system_validated,directly_comparable,tranche4-observation:637f3399a501c30a52c84f10998e5ace
+entity:company:nvidia,NVIDIA CORP,capital_expenditure,6042000000,USD,USD,annual,2026,FY,2026-01-25,system_validated,directly_comparable,tranche4-observation:9f6af3f410a3a7adf6d11add69c9929b
+entity:company:nvidia,NVIDIA CORP,research_and_development,8675000000,USD,USD,annual,2024,FY,2024-01-28,system_validated,directly_comparable,tranche4-observation:c1f2005a97dff94d4a10b82884fcdf7a
+entity:company:nvidia,NVIDIA CORP,research_and_development,12914000000,USD,USD,annual,2025,FY,2025-01-26,system_validated,directly_comparable,tranche4-observation:4d4e70d7f63ce0793d2ec0a7f8be855a
+entity:company:nvidia,NVIDIA CORP,research_and_development,18497000000,USD,USD,annual,2026,FY,2026-01-25,system_validated,directly_comparable,tranche4-observation:e08692272c15070195662f3685b821d0
+entity:company:nvidia,NVIDIA CORP,revenue,60922000000,USD,USD,annual,2024,FY,2024-01-28,system_validated,directly_comparable,tranche4-observation:114f60f96389c8ad8981b4c2443b4915
+entity:company:nvidia,NVIDIA CORP,revenue,130497000000,USD,USD,annual,2025,FY,2025-01-26,system_validated,directly_comparable,tranche4-observation:d335638b99db61cc737296aabb836b86
+entity:company:nvidia,NVIDIA CORP,revenue,215938000000,USD,USD,annual,2026,FY,2026-01-25,system_validated,directly_comparable,tranche4-observation:23afc08069a4b846bc15baa835463c46
+entity:company:oracle,ORACLE CORP,capital_expenditure,6866000000,USD,USD,annual,2024,FY,2024-05-31,system_validated,directly_comparable,tranche4-observation:11f693b15ef68a2c89da0160cc14804e
+entity:company:oracle,ORACLE CORP,capital_expenditure,21215000000,USD,USD,annual,2025,FY,2025-05-31,system_validated,directly_comparable,tranche4-observation:08c7f2a5d4053f041e50c76fa14b1268
+entity:company:oracle,ORACLE CORP,capital_expenditure,55663000000,USD,USD,annual,2026,FY,2026-05-31,system_validated,directly_comparable,tranche4-observation:30b9983338b484ee8e653e758f5886af
+entity:company:oracle,ORACLE CORP,research_and_development,8915000000,USD,USD,annual,2024,FY,2024-05-31,system_validated,directly_comparable,tranche4-observation:830a98db04e472f8fda902651f7fd501
+entity:company:oracle,ORACLE CORP,research_and_development,9860000000,USD,USD,annual,2025,FY,2025-05-31,system_validated,directly_comparable,tranche4-observation:e90c40f1811065563dc73d44cb3106bf
+entity:company:oracle,ORACLE CORP,research_and_development,10272000000,USD,USD,annual,2026,FY,2026-05-31,system_validated,directly_comparable,tranche4-observation:7d886e9e901b0275ddb7e47dece57270
+entity:company:oracle,ORACLE CORP,revenue,52961000000,USD,USD,annual,2024,FY,2024-05-31,system_validated,directly_comparable,tranche4-observation:180cdf164ab7d46eecdf18e1ae6af680
+entity:company:oracle,ORACLE CORP,revenue,57399000000,USD,USD,annual,2025,FY,2025-05-31,system_validated,directly_comparable,tranche4-observation:89cc8f8f27eccd0209d6faf9d611580c
+entity:company:oracle,ORACLE CORP,revenue,67357000000,USD,USD,annual,2026,FY,2026-05-31,system_validated,directly_comparable,tranche4-observation:a0b05598bee13e7372d415c9884d20f3
+entity:company:palantir,Palantir Technologies Inc.,capital_expenditure,15114000,USD,USD,annual,2023,FY,2023-12-31,system_validated,directly_comparable,tranche4-observation:0954220b818a73a1d78da359b4e7c6a5
+entity:company:palantir,Palantir Technologies Inc.,capital_expenditure,12634000,USD,USD,annual,2024,FY,2024-12-31,system_validated,directly_comparable,tranche4-observation:aee9a0b277b515f9870353c69b3976de
+entity:company:palantir,Palantir Technologies Inc.,capital_expenditure,33882000,USD,USD,annual,2025,FY,2025-12-31,system_validated,directly_comparable,tranche4-observation:2e31fd9bb9b9a312c8ec1d8b4437faf5
+entity:company:palantir,Palantir Technologies Inc.,research_and_development,404624000,USD,USD,annual,2023,FY,2023-12-31,system_validated,directly_comparable,tranche4-observation:441f35665d02f3e68034efe6a5eeafe7
+entity:company:palantir,Palantir Technologies Inc.,research_and_development,507878000,USD,USD,annual,2024,FY,2024-12-31,system_validated,directly_comparable,tranche4-observation:70336d92e939688d3075abd0a5a27ab8
+entity:company:palantir,Palantir Technologies Inc.,research_and_development,557677000,USD,USD,annual,2025,FY,2025-12-31,system_validated,directly_comparable,tranche4-observation:fb56ab676193fa75526458cbf8cfca74
+entity:company:palantir,Palantir Technologies Inc.,revenue,2225012000,USD,USD,annual,2023,FY,2023-12-31,system_validated,directly_comparable,tranche4-observation:1befef351a246ba72260b57bad7e205b
+entity:company:palantir,Palantir Technologies Inc.,revenue,2865507000,USD,USD,annual,2024,FY,2024-12-31,system_validated,directly_comparable,tranche4-observation:94d4e50663bca551cc8e1a1f8d527e79
+entity:company:palantir,Palantir Technologies Inc.,revenue,4475446000,USD,USD,annual,2025,FY,2025-12-31,system_validated,directly_comparable,tranche4-observation:ce72aa5213be54fa16ab52c7557a8375
+entity:company:salesforce,"Salesforce, Inc.",capital_expenditure,736000000,USD,USD,annual,2024,FY,2024-01-31,system_validated,directly_comparable,tranche4-observation:32d786ca72e8108980f576033b781505
+entity:company:salesforce,"Salesforce, Inc.",capital_expenditure,658000000,USD,USD,annual,2025,FY,2025-01-31,system_validated,directly_comparable,tranche4-observation:0f3ec70de4535641d130ac31ff68ba0a
+entity:company:salesforce,"Salesforce, Inc.",capital_expenditure,594000000,USD,USD,annual,2025,FY,2026-01-31,system_validated,directly_comparable,tranche4-observation:de8ee5216cdf85164502b9ec6afc96de
+entity:company:salesforce,"Salesforce, Inc.",research_and_development,4906000000,USD,USD,annual,2024,FY,2024-01-31,system_validated,directly_comparable,tranche4-observation:e829f6b436eb9ce23533f3af9ab3d76c
+entity:company:salesforce,"Salesforce, Inc.",research_and_development,5493000000,USD,USD,annual,2025,FY,2025-01-31,system_validated,directly_comparable,tranche4-observation:755d5e6b2998d0c665b037beea907424
+entity:company:salesforce,"Salesforce, Inc.",research_and_development,5993000000,USD,USD,annual,2025,FY,2026-01-31,system_validated,directly_comparable,tranche4-observation:c5b031ce963f32f71ea3404dd0e38260
+entity:company:salesforce,"Salesforce, Inc.",revenue,34857000000,USD,USD,annual,2024,FY,2024-01-31,system_validated,directly_comparable,tranche4-observation:863d178072c744403bcf4f40dd8392ba
+entity:company:salesforce,"Salesforce, Inc.",revenue,37895000000,USD,USD,annual,2025,FY,2025-01-31,system_validated,directly_comparable,tranche4-observation:68f97ab7ba84673fbe87c9c601cea912
+entity:company:salesforce,"Salesforce, Inc.",revenue,41525000000,USD,USD,annual,2025,FY,2026-01-31,system_validated,directly_comparable,tranche4-observation:520a6c4fa953df814856445885e214b1
+entity:company:servicenow,"ServiceNow, Inc.",capital_expenditure,694000000,USD,USD,annual,2023,FY,2023-12-31,system_validated,directly_comparable,tranche4-observation:12e39346b3609eab5b4d7931cd7bb963
+entity:company:servicenow,"ServiceNow, Inc.",capital_expenditure,852000000,USD,USD,annual,2024,FY,2024-12-31,system_validated,directly_comparable,tranche4-observation:9d8c2c754481f00de0f1da6722cb6b37
+entity:company:servicenow,"ServiceNow, Inc.",capital_expenditure,868000000,USD,USD,annual,2025,FY,2025-12-31,system_validated,directly_comparable,tranche4-observation:5310c702af9fe57a0ec8608486f44b1e
+entity:company:servicenow,"ServiceNow, Inc.",research_and_development,2124000000,USD,USD,annual,2023,FY,2023-12-31,system_validated,directly_comparable,tranche4-observation:c6699ad1eaee87bfd0a4221e2a9d7658
+entity:company:servicenow,"ServiceNow, Inc.",research_and_development,2543000000,USD,USD,annual,2024,FY,2024-12-31,system_validated,directly_comparable,tranche4-observation:a085328b73dace5c28dac7a8bd4eeacb
+entity:company:servicenow,"ServiceNow, Inc.",research_and_development,2960000000,USD,USD,annual,2025,FY,2025-12-31,system_validated,directly_comparable,tranche4-observation:19564d35a5fba89c3e2f719b87f1fb0f
+entity:company:servicenow,"ServiceNow, Inc.",revenue,8971000000,USD,USD,annual,2023,FY,2023-12-31,system_validated,directly_comparable,tranche4-observation:8734aaa59be9187cb89b79a8c9002f92
+entity:company:servicenow,"ServiceNow, Inc.",revenue,10984000000,USD,USD,annual,2024,FY,2024-12-31,system_validated,directly_comparable,tranche4-observation:31665d6f48c56e28e405888825edd795
+entity:company:servicenow,"ServiceNow, Inc.",revenue,13278000000,USD,USD,annual,2025,FY,2025-12-31,system_validated,directly_comparable,tranche4-observation:e98f9dbad4541d16f48f9096e56a1706
+entity:company:snowflake,Snowflake Inc.,capital_expenditure,35086000,USD,USD,annual,2024,FY,2024-01-31,system_validated,directly_comparable,tranche4-observation:01f645717e2436f20ff12419f54d2964
+entity:company:snowflake,Snowflake Inc.,capital_expenditure,46279000,USD,USD,annual,2025,FY,2025-01-31,system_validated,directly_comparable,tranche4-observation:00482e1dc78bcf6de0e8939c80e4db27
+entity:company:snowflake,Snowflake Inc.,capital_expenditure,101628000,USD,USD,annual,2026,FY,2026-01-31,system_validated,directly_comparable,tranche4-observation:515abce2f0e1a72dde3f77d9eaf16f8d
+entity:company:snowflake,Snowflake Inc.,research_and_development,1287949000,USD,USD,annual,2024,FY,2024-01-31,system_validated,directly_comparable,tranche4-observation:cd21a17a34eb6a96431437e82c6d9751
+entity:company:snowflake,Snowflake Inc.,research_and_development,1783379000,USD,USD,annual,2025,FY,2025-01-31,system_validated,directly_comparable,tranche4-observation:6923345970984ed64ccb4d698cf3ad64
+entity:company:snowflake,Snowflake Inc.,research_and_development,1969472000,USD,USD,annual,2026,FY,2026-01-31,system_validated,directly_comparable,tranche4-observation:2b9edb35ae19d4b1dea7d06c903348f2
+entity:company:snowflake,Snowflake Inc.,revenue,2806489000,USD,USD,annual,2024,FY,2024-01-31,system_validated,directly_comparable,tranche4-observation:2a0b7a4d817c4c832585006e26fae9a2
+entity:company:snowflake,Snowflake Inc.,revenue,3626396000,USD,USD,annual,2025,FY,2025-01-31,system_validated,directly_comparable,tranche4-observation:09497b4261b1c0db6d4e7d56e3353897
+entity:company:snowflake,Snowflake Inc.,revenue,4683946000,USD,USD,annual,2026,FY,2026-01-31,system_validated,directly_comparable,tranche4-observation:ea2369f18963f35335817c6ba13796ec
