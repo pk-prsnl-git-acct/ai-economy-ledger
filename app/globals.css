@@ -281,7 +281,7 @@ td .coverage-state + small { display: block; max-width: 280px; margin-top: 7px; 
 .candidate-table td strong, .candidate-table td small { display: block; }
 .candidate-table td small { margin-top: 4px; color: #708196; }
 .candidate-table code { color: #8fa1b6; font-size: 9px; overflow-wrap: anywhere; }
-.candidate-spotlight-grid, .investment-comparison, .candidate-metric-strip { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 11px; }
+.candidate-spotlight-grid, .investment-comparison, .candidate-metric-strip, .candidate-data-actions { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 11px; }
 .candidate-spotlight-grid article, .investment-comparison article, .candidate-metric-card, .candidate-trend-card { padding: 18px; border: 1px solid var(--border); border-radius: 14px; background: rgb(8 13 18 / 34%); }
 .candidate-spotlight-grid span, .candidate-metric-card span { color: #7f90a4; font-size: 10px; text-transform: uppercase; letter-spacing: .08em; }
 .candidate-spotlight-grid strong, .candidate-metric-card strong { display: block; margin-top: 12px; color: #edf6ff; font-size: clamp(1.15rem, 2vw, 1.55rem); letter-spacing: -.04em; overflow-wrap: anywhere; }
@@ -292,15 +292,27 @@ td .coverage-state + small { display: block; max-width: 280px; margin-top: 7px; 
 .investment-comparison dl { display: grid; gap: 7px; margin: 0; }
 .investment-comparison dl div { display: flex; justify-content: space-between; gap: 12px; padding-top: 7px; border-top: 1px solid var(--border); }
 .investment-comparison dd { margin: 0; color: #d9e4ef; text-align: right; }
+.candidate-scatter { display: grid; gap: 12px; }
+.candidate-scatter svg { width: 100%; min-height: 260px; border: 1px solid var(--border); border-radius: 14px; background: radial-gradient(circle at 70% 20%, rgb(60 197 243 / 8%), transparent 18rem), rgb(8 13 18 / 34%); }
+.candidate-scatter line { stroke: rgb(127 144 164 / 45%); stroke-width: 1; }
+.candidate-scatter circle { fill: var(--cyan); stroke: #d4f6ff; stroke-width: 1.5; }
+.candidate-scatter text { fill: #bcd4e2; font-size: 10px; }
+.candidate-scatter-legend { display: flex; flex-wrap: wrap; gap: 8px; color: #8395aa; font-size: 10px; }
+.candidate-data-actions a { display: flex; align-items: center; justify-content: space-between; min-height: 54px; padding: 12px 14px; border: 1px solid var(--border); border-radius: 12px; color: #a6e8ff; background: rgb(8 13 18 / 34%); font-size: 11px; }
 .candidate-metric-strip { margin-bottom: 14px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .candidate-trend-card { margin-top: 10px; }
 .candidate-trend-card > div:first-child { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
 .candidate-trend-card h3 { margin: 0; }
 .candidate-trend-card > div:first-child span { color: #91a4b9; font-size: 10px; }
-.candidate-trend-bars { display: flex; align-items: end; gap: 10px; height: 170px; margin: 18px 0 12px; padding-top: 14px; border-bottom: 1px solid var(--border); }
-.candidate-trend-bars span { position: relative; display: grid; align-items: end; justify-items: center; flex: 1; min-height: 8px; border-radius: 8px 8px 0 0; background: linear-gradient(180deg, var(--cyan), rgb(62 209 160 / 55%)); }
-.candidate-trend-bars i { position: absolute; bottom: calc(100% + 6px); color: #cde8f4; font-size: 10px; font-style: normal; white-space: nowrap; }
-.candidate-trend-bars b { transform: translateY(20px); color: #7e90a5; font-size: 10px; }
+.candidate-line-chart { width: 100%; min-height: 180px; margin: 14px 0 8px; overflow: visible; }
+.candidate-line-chart polyline { fill: none; stroke: var(--cyan); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.candidate-line-chart circle { fill: var(--green); stroke: #d9fff3; stroke-width: 1.5; }
+.candidate-line-chart text { fill: #bcd4e2; font-size: 10px; text-anchor: middle; }
+.candidate-disclosure summary { display: flex; align-items: center; justify-content: space-between; gap: 18px; cursor: pointer; color: #e7f4fb; }
+.candidate-disclosure summary span { font-size: 1.15rem; font-weight: 760; }
+.candidate-disclosure summary small { color: #8799ae; text-align: right; }
+.candidate-disclosure-body { display: grid; gap: 12px; margin-top: 18px; }
+.candidate-disclosure-body h3 { margin: 12px 0 0; color: #d9e7f1; font-size: 13px; }
 .candidate-company-card { display: grid; align-content: space-between; }
 .candidate-company-card h3 { margin: 0; font-size: 1.25rem; }
 .candidate-company-card dl { display: grid; gap: 8px; margin: 18px 0; }
@@ -308,5 +320,5 @@ td .coverage-state + small { display: block; max-width: 280px; margin-top: 7px; 
 .candidate-company-card dd { margin: 0; color: #d9e4ef; }
 .candidate-method-list { margin: 18px 0 0; padding-left: 20px; color: #acb9c8; line-height: 1.75; }
 .candidate-method-list li { margin: 8px 0; }
-@media (max-width: 960px) { .candidate-grid, .candidate-data-grid, .taxonomy-preview-grid, .candidate-company-grid, .candidate-unavailable-grid, .candidate-spotlight-grid, .investment-comparison, .candidate-metric-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 720px) { .candidate-hero { padding: 50px 3px 24px; }.candidate-grid, .candidate-data-grid, .taxonomy-preview-grid, .candidate-company-grid, .candidate-unavailable-grid, .candidate-spotlight-grid, .investment-comparison, .candidate-metric-strip { grid-template-columns: 1fr; }.candidate-warning { align-items: flex-start; flex-direction: column; }.candidate-section { padding: 16px; }.candidate-bars article > div, .investment-comparison article > div { flex-direction: column; gap: 4px; }.investment-comparison article > div span, .investment-comparison dd { text-align: left; }.candidate-trend-bars i { font-size: 9px; } }
+@media (max-width: 960px) { .candidate-grid, .candidate-data-grid, .taxonomy-preview-grid, .candidate-company-grid, .candidate-unavailable-grid, .candidate-spotlight-grid, .investment-comparison, .candidate-metric-strip, .candidate-data-actions { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 720px) { .candidate-hero { padding: 50px 3px 24px; }.candidate-grid, .candidate-data-grid, .taxonomy-preview-grid, .candidate-company-grid, .candidate-unavailable-grid, .candidate-spotlight-grid, .investment-comparison, .candidate-metric-strip, .candidate-data-actions { grid-template-columns: 1fr; }.candidate-warning { align-items: flex-start; flex-direction: column; }.candidate-section { padding: 16px; }.candidate-bars article > div, .investment-comparison article > div, .candidate-disclosure summary { flex-direction: column; align-items: flex-start; gap: 4px; }.investment-comparison article > div span, .investment-comparison dd, .candidate-disclosure summary small { text-align: left; }.candidate-scatter svg { min-height: 220px; }.candidate-scatter text { font-size: 8px; }.candidate-line-chart text { font-size: 9px; } }

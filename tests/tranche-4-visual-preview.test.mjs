@@ -49,6 +49,9 @@ test("Tranche 4 visual product renders from candidate-bound Contract D artifacts
   assert.match(component, /Scale vs Investment/);
   assert.match(component, /R&D Intensity/);
   assert.match(component, /What Changed This Release/);
+  assert.match(component, /InvestmentScatter/);
+  assert.match(component, /CompanyDataEvidence/);
+  assert.match(component, /CandidateDataPathways/);
   assert.match(model, /buildRdIntensity/);
   assert.match(model, /buildScaleVsInvestment/);
   assert.match(model, /same annual fiscal year/);
@@ -59,10 +62,13 @@ test("Tranche 4 visual product preserves evidence-gated unavailable states and f
   assert.match(component, /No layer financial totals are calculated/);
   assert.match(component, /Company-wide capex intensity/);
   assert.match(component, /not AI-specific capex/);
+  assert.match(component, /This is not AI-specific spending/);
   assert.match(component, /Unsupported views are explicit unavailable contracts/);
   assert.match(component, /not AI-specific allocations/);
   assert.match(component, /Missing remains unavailable, never zero/);
-  assert.match(component, /canonical previews/);
+  assert.doesNotMatch(component, /<CandidateDirectory model=\{model\}/);
+  assert.doesNotMatch(component, /<CandidateObservations model=\{model\}/);
+  assert.doesNotMatch(component, /<CandidateDataCenter model=\{model\}/);
   assert.match(component, /Evidence references and source links/);
   assert.match(component, /row\.source\.lawfulSourceUrl/);
   assert.match(component, /row\.evidence\.evidenceSetKey/);
@@ -82,8 +88,11 @@ test("Tranche 4 visual product provides accessible tables and responsive layout 
   assert.match(artifactRoute, /Content-Disposition/);
   assert.match(artifactRoute, /X-Tranche-4-Artifact-Hash/);
   assert.match(styles, /\.candidate-bars/);
-  assert.match(styles, /\.candidate-trend-bars/);
+  assert.match(styles, /\.candidate-line-chart/);
+  assert.match(styles, /\.candidate-scatter/);
   assert.match(styles, /\.investment-comparison/);
+  assert.match(styles, /\.candidate-disclosure/);
+  assert.match(styles, /\.candidate-data-actions/);
   assert.match(styles, /\.table-scroll/);
   assert.match(styles, /\.candidate-table/);
   assert.match(styles, /@media \(max-width: 720px\)[\s\S]*candidate-grid/);

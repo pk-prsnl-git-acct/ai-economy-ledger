@@ -118,16 +118,14 @@ export function CandidatePreviewHome({ model }: { model: Tranche4PreviewModel })
 
       <PreviewSection title="AI Capex Race" question="Company-wide capex trends across comparable public companies; not AI-specific capex." view={historyView}>
         <BarList values={capex} valueLabel="Latest annual company-wide capex" />
-        <Table values={capex} columns={["displayName", "metricKey", "value", "fiscalYear", "periodEnd", "trustState", "comparability"]} />
       </PreviewSection>
 
       <PreviewSection title="R&D Intensity" question="Company-wide R&D divided by company-wide revenue for the same annual fiscal year." view={annualView}>
         <BarList values={rdIntensity} valueLabel="R&D intensity" />
-        <Table values={rdIntensity} columns={["displayName", "value", "unit", "fiscalYear", "periodEnd", "financialScope", "comparability"]} />
       </PreviewSection>
 
       <PreviewSection title="Scale vs Investment" question="Compatible annual revenue compared with same-year company-wide capex plus R&D." view={annualView}>
-        <InvestmentComparison values={scaleVsInvestment} annualValues={model.annual.chartReadyValues} />
+        <InvestmentScatter values={scaleVsInvestment} annualValues={model.annual.chartReadyValues} />
       </PreviewSection>
 
       <PreviewSection title="AI Stack Map" question={model.coverage.analyticalQuestion} view={coverageView}>
@@ -145,17 +143,14 @@ export function CandidatePreviewHome({ model }: { model: Tranche4PreviewModel })
 
       <PreviewSection title="Company Scale" question={model.annual.analyticalQuestion} view={annualView}>
         <BarList values={annualRevenue} valueLabel="Revenue" />
-        <Table values={annualRevenue} columns={["displayName", "metricKey", "value", "fiscalPeriod", "periodEnd", "trustState", "comparability"]} />
       </PreviewSection>
 
       <PreviewSection title="Capex Intensity" question={model.capexIntensity.analyticalQuestion} view={intensityView}>
         <BarList values={intensity} valueLabel="Company-wide capex intensity" />
-        <Table values={intensity} columns={["displayName", "value", "unit", "fiscalYear", "financialScope", "trustState", "comparability"]} />
       </PreviewSection>
 
       <PreviewSection title="R&D Spend" question="Latest annual company-wide R&D observations from approved Candidate 4 data." view={annualView}>
         <BarList values={rd} valueLabel="Latest annual company-wide R&D" />
-        <Table values={rd} columns={["displayName", "metricKey", "value", "fiscalYear", "periodEnd", "trustState", "comparability"]} />
       </PreviewSection>
 
       <PreviewSection title="What Changed This Release" question="Deterministic release delta against the live rollback target." view={changeView}>
@@ -183,10 +178,7 @@ export function CandidatePreviewHome({ model }: { model: Tranche4PreviewModel })
         </div>
       </PreviewSection>
 
-      <CandidateDirectory model={model} />
-      <CandidateObservations model={model} />
-      <CandidateDataCenter model={model} />
-      <CandidateMethodology model={model} />
+      <CandidateDataPathways model={model} />
     </>
   );
 }
@@ -257,6 +249,38 @@ function InvestmentComparison({ values, annualValues }: { values: ChartValue[]; 
   );
 }
 
+function InvestmentScatter({ values, annualValues }: { values: ChartValue[]; annualValues: ChartValue[] }) {
+  const points = values.map((value) => {
+    const revenue = metricByEntityYear(annualValues, value.entityKey, "revenue", value.fiscalYear);
+    return { value, revenue, x: numeric(revenue?.value) ?? 0, y: numeric(value.value) ?? 0 };
+  }).filter((point) => point.x > 0 && point.y > 0);
+  const maxX = Math.max(...points.map((point) => point.x), 1);
+  const maxY = Math.max(...points.map((point) => point.y), 1);
+  return (
+    <div className="candidate-scatter" role="img" aria-label="Scale versus company-wide capex plus R&D scatter plot">
+      <svg viewBox="0 0 760 360" aria-hidden="true">
+        <line x1="70" y1="306" x2="718" y2="306" />
+        <line x1="70" y1="34" x2="70" y2="306" />
+        {points.map((point) => {
+          const x = 70 + (point.x / maxX) * 620;
+          const y = 306 - (point.y / maxY) * 250;
+          return (
+            <g key={`${point.value.entityKey}-${point.value.fiscalYear}`}>
+              <circle cx={x} cy={y} r="5" />
+              <text x={Math.min(x + 9, 690)} y={Math.max(y - 8, 22)}>{point.value.displayName}</text>
+            </g>
+          );
+        })}
+      </svg>
+      <div className="candidate-scatter-legend">
+        <span>Horizontal: annual revenue scale</span>
+        <span>Vertical: same-year company-wide capex + R&D</span>
+      </div>
+      <InvestmentComparison values={values.slice(0, 5)} annualValues={annualValues} />
+    </div>
+  );
+}
+
 export function CandidateDirectory({ model }: { model: Tranche4PreviewModel }) {
   return (
     <section className="panel candidate-section" id="companies">
@@ -322,6 +346,25 @@ export function CandidateDataCenter({ model }: { model: Tranche4PreviewModel }) 
   );
 }
 
+function CandidateDataPathways({ model }: { model: Tranche4PreviewModel }) {
+  const annualView = model.catalog.views.find((view) => view.viewId === "latest-annual-company-comparison");
+  return (
+    <section className="panel candidate-section" id="data">
+      <div className="panel-heading">
+        <div><p className="panel-label">Data</p><h2>Underlying records and release details stay available.</h2></div>
+        <Link className="download-action" href={"/data" as Route}>Open Data</Link>
+      </div>
+      <p className="candidate-note">The homepage keeps the analytical story up front. Exact observations, downloads, source links, release details, unavailable views, and advanced identifiers remain in Data and company-level evidence sections.</p>
+      <div className="candidate-data-actions">
+        <Link href={"/observations" as Route}>Data Explorer</Link>
+        <Link href={"/data/releases" as Route}>Release details</Link>
+        <Link href={"/sources" as Route}>Sources</Link>
+        {annualView ? <Link href={`/tranche-4-candidate-preview/artifacts/${encodeURIComponent(annualView.downloads.csv)}` as Route}>Candidate CSV</Link> : null}
+      </div>
+    </section>
+  );
+}
+
 export function CandidateMethodology({ model }: { model: Tranche4PreviewModel }) {
   return (
     <section className="panel candidate-section" id="methodology">
@@ -341,16 +384,14 @@ export function CandidateCompanyPage({ model, entityKey }: { model: Tranche4Prev
   const entity = model.entities.find((candidate) => candidate.entityKey === entityKey);
   if (!entity) return null;
   const annual = model.annual.chartReadyValues.filter((value) => value.entityKey === entityKey);
-  const annualCards = annual.map((value) => ({
-    ...value,
-    displayName: humanMetricLabel(value.metricKey)
-  }));
   const interim = model.interim.chartReadyValues.filter((value) => value.entityKey === entityKey);
   const histories = model.histories.chartReadyValues.filter((value) => value.entityKey === entityKey);
   const observations = model.observations.filter((value) => value.entityKey === entityKey);
   const capexIntensity = latestFiscalYearValue(model.capexIntensity.chartReadyValues.filter((value) => value.entityKey === entityKey));
   const rdIntensity = latestFiscalYearValue(model.rdIntensity.chartReadyValues.filter((value) => value.entityKey === entityKey));
   const annualMetricCards = ["revenue", "capital_expenditure", "research_and_development"].map((metricKey) => annual.find((value) => value.metricKey === metricKey));
+  const peerInvestment = model.scaleVsInvestment.chartReadyValues.find((value) => value.entityKey === entityKey);
+  const investmentRank = model.scaleVsInvestment.chartReadyValues.findIndex((value) => value.entityKey === entityKey) + 1;
   return (
     <>
       <section className="candidate-hero">
@@ -379,36 +420,48 @@ export function CandidateCompanyPage({ model, entityKey }: { model: Tranche4Prev
         <div className="candidate-grid candidate-two">
           <PreviewStat label="Capex intensity" value={money(capexIntensity?.value, "ratio")} detail={capexIntensity ? `FY${capexIntensity.fiscalYear} · ${label(capexIntensity.comparability ?? "Unavailable")}` : "Insufficient compatible annual data"} />
           <PreviewStat label="R&D intensity" value={money(rdIntensity?.value, "ratio")} detail={rdIntensity ? `FY${rdIntensity.fiscalYear} · ${label(rdIntensity.comparability ?? "Unavailable")}` : "Insufficient compatible annual data"} />
+          <PreviewStat label="Comparison context" value={investmentRank > 0 ? `#${investmentRank}` : "Unavailable"} detail={peerInvestment ? `${money(peerInvestment.value, peerInvestment.unit, peerInvestment.currency)} same-year capex + R&D` : "Insufficient compatible annual data"} />
+          <PreviewStat label="Capex definition" value="Company-wide" detail="This is not AI-specific spending." />
         </div>
       </PreviewSection>
 
-      <PreviewSection title="Latest annual detail" question="Each metric carries its own fiscal year and period end.">
-        <BarList values={annualCards} valueLabel={`${entity.displayName} annual metrics`} />
-        <Table values={annual} columns={["metricKey", "value", "unit", "fiscalYear", "periodEnd", "trustState", "comparability"]} />
-      </PreviewSection>
-      <PreviewSection title="Latest interim metrics" question="Standalone quarter and YTD observations are not compared as equivalent.">
-        <Table values={interim} columns={["metricKey", "value", "unit", "fiscalPeriod", "periodClass", "periodEnd", "trustState"]} />
-      </PreviewSection>
-      <PreviewSection title="Recent annual histories" question="Histories render only from eligible Contract D values.">
-        <Table values={histories.slice(0, 24)} columns={["metricKey", "value", "unit", "fiscalYear", "periodEnd", "comparability"]} />
-      </PreviewSection>
-      <section className="panel candidate-section">
-        <div className="panel-heading"><div><p className="panel-label">Evidence references and source links</p><h2>{observations.length} candidate observations</h2></div><Link className="download-action" href={"/tranche-4-candidate-preview#observations" as Route}>Back to ledger</Link></div>
-        <div className="table-scroll">
-          <table className="candidate-table candidate-wide-table">
-            <thead><tr><th>Metric</th><th>Value</th><th>Period</th><th>Official source</th><th>Evidence reference</th><th>Trust</th></tr></thead>
-            <tbody>{observations.slice(0, 30).map((row) => <tr key={row.observationId}>
-              <td>{humanMetricLabel(row.metricKey)}</td>
-              <td><strong aria-label={exactMoney(row.value, row.unit)} title={exactMoney(row.value, row.unit)}>{money(row.value, row.unit)}</strong><small>{row.unit}</small></td>
-              <td>{label(row.periodClass)}<small>{row.fiscalPeriod} · {row.periodEnd}</small></td>
-              <td><a className="source-link" href={row.source.lawfulSourceUrl} rel="noreferrer">{row.source.sourceName}</a><small>{row.source.form} · {row.source.accession}</small></td>
-              <td><code>{row.evidence.evidenceSetKey}</code></td>
-              <td>{label(row.trustState)}<small>{label(row.comparability)}</small></td>
-            </tr>)}</tbody>
-          </table>
-        </div>
-      </section>
+      <CompanyDataEvidence annual={annual} interim={interim} histories={histories} observations={observations} />
     </>
+  );
+}
+
+function CompanyDataEvidence({ annual, interim, histories, observations }: { annual: ChartValue[]; interim: ChartValue[]; histories: ChartValue[]; observations: Tranche4PreviewModel["observations"] }) {
+  return (
+    <section className="panel candidate-section">
+      <details className="candidate-disclosure">
+        <summary>
+          <span>Data & evidence</span>
+          <small>Exact annual, interim, history, source and evidence records</small>
+        </summary>
+        <div className="candidate-disclosure-body">
+          <h3>Latest annual values</h3>
+          <Table values={annual} columns={["metricKey", "value", "unit", "fiscalYear", "periodEnd", "trustState", "comparability"]} />
+          <h3>Latest interim values</h3>
+          <Table values={interim} columns={["metricKey", "value", "unit", "fiscalPeriod", "periodClass", "periodEnd", "trustState"]} />
+          <h3>Recent annual histories</h3>
+          <Table values={histories.slice(0, 24)} columns={["metricKey", "value", "unit", "fiscalYear", "periodEnd", "comparability"]} />
+          <h3>Evidence references and source links</h3>
+          <div className="table-scroll">
+            <table className="candidate-table candidate-wide-table">
+              <thead><tr><th>Metric</th><th>Value</th><th>Period</th><th>Official source</th><th>Evidence reference</th><th>Trust</th></tr></thead>
+              <tbody>{observations.slice(0, 30).map((row) => <tr key={row.observationId}>
+                <td>{humanMetricLabel(row.metricKey)}</td>
+                <td><strong aria-label={exactMoney(row.value, row.unit)} title={exactMoney(row.value, row.unit)}>{money(row.value, row.unit)}</strong><small>{row.unit}</small></td>
+                <td>{label(row.periodClass)}<small>{row.fiscalPeriod} · {row.periodEnd}</small></td>
+                <td><a className="source-link" href={row.source.lawfulSourceUrl} rel="noreferrer">{row.source.sourceName}</a><small>{row.source.form} · {row.source.accession}</small></td>
+                <td><code>{row.evidence.evidenceSetKey}</code></td>
+                <td>{label(row.trustState)}<small>{label(row.comparability)}</small></td>
+              </tr>)}</tbody>
+            </table>
+          </div>
+        </div>
+      </details>
+    </section>
   );
 }
 
@@ -420,18 +473,28 @@ function CompanyTrend({ values, metricKey }: { values: ChartValue[]; metricKey: 
   if (metricValues.length === 0) {
     return <article className="candidate-trend-card"><h3>{humanMetricLabel(metricKey)}</h3><p>Unavailable in Candidate 4 for this company.</p></article>;
   }
-  const max = Math.max(...metricValues.map((value) => numeric(value.value) ?? 0), 1);
+  const parsed = metricValues.map((value) => numeric(value.value) ?? 0);
+  const min = Math.min(...parsed);
+  const max = Math.max(...parsed, 1);
+  const range = Math.max(max - min, 1);
+  const points = metricValues.map((value, index) => {
+    const x = 34 + index * (252 / Math.max(metricValues.length - 1, 1));
+    const y = 126 - (((numeric(value.value) ?? 0) - min) / range) * 84;
+    return { value, x, y };
+  });
   return (
     <article className="candidate-trend-card">
       <div><h3>{humanMetricLabel(metricKey)}</h3><span>{metricValues.length >= 3 ? "3-year history" : "Shorter available history"}</span></div>
-      <div className="candidate-trend-bars" role="img" aria-label={`${humanMetricLabel(metricKey)} history`}>
-        {metricValues.map((value) => (
-          <span key={value.observationId} style={{ height: `${Math.max(((numeric(value.value) ?? 0) / max) * 100, 4)}%` }}>
-            <i title={exactMoney(value.value, value.unit, value.currency)}>{money(value.value, value.unit, value.currency)}</i>
-            <b>FY{value.fiscalYear}</b>
-          </span>
+      <svg className="candidate-line-chart" viewBox="0 0 320 150" role="img" aria-label={`${humanMetricLabel(metricKey)} line chart`}>
+        <polyline points={points.map((point) => `${point.x},${point.y}`).join(" ")} />
+        {points.map((point) => (
+          <g key={point.value.observationId}>
+            <circle cx={point.x} cy={point.y} r="4" />
+            <text x={point.x} y={point.y - 10}>{money(point.value.value, point.value.unit, point.value.currency)}</text>
+            <text x={point.x} y="143">FY{point.value.fiscalYear}</text>
+          </g>
         ))}
-      </div>
+      </svg>
       <p>{metricValues.length >= 3 ? "Comparable annual observations." : "Insufficient three-year history; only eligible values are shown."}</p>
     </article>
   );
