@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { existsSync, readFileSync } from "node:fs";
 import test from "node:test";
 
-const publicRoutes = ["/", "/ai-stack", "/companies", "/funding", "/revenue-debt", "/compute-infra", "/circularity", "/methodology", "/sources", "/downloads"];
+const publicRoutes = ["/", "/ai-stack", "/market", "/companies", "/events", "/observations", "/data", "/funding", "/revenue-debt", "/compute-infra", "/circularity", "/methodology", "/sources", "/downloads"];
 const adminRoutes = ["/admin", "/admin/review", "/admin/settings/data-trust", "/admin/review-queue", "/admin/sources", "/admin/companies", "/admin/import", "/admin/claims", "/admin/metric-revisions", "/admin/health", "/admin/update-log"];
 
 function pagePath(route) {
@@ -49,7 +49,8 @@ test("production overview binds directly to the current public release", () => {
   assert.match(home, /currentReleaseId/);
   assert.match(home, /getReleaseRecords/);
   assert.match(home, /FiveLayerStack/);
-  assert.match(components, /\["\/", "\/ai-stack", "\/companies", "\/events", "\/market", "\/data", "\/sources", "\/methodology"\]/);
+  assert.match(components, /\["\/", "\/ai-stack", "\/market", "\/companies", "\/data"\]/);
+  assert.match(components, /Data Explorer/);
   assert.doesNotMatch(home, /SampleDataWarning|FinancialChartCard|DataTable|\$— sample/);
   assert.match(overview, /Financial observations remain company-wide unless released evidence supports a narrower allocation/);
   assert.match(overview, /record\.disclosure\.label/);

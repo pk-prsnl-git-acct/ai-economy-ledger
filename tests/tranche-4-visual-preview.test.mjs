@@ -8,6 +8,7 @@ const artifactRoute = readFileSync("app/tranche-4-candidate-preview/artifacts/[a
 const component = readFileSync("components/tranche4-candidate-preview.tsx", "utf8");
 const model = readFileSync("src/server/tranche4/preview-model.ts", "utf8");
 const styles = readFileSync("app/globals.css", "utf8");
+const labels = readFileSync("src/ui/public-labels.ts", "utf8");
 
 test("Tranche 4 candidate preview is explicitly non-production gated", () => {
   assert.match(model, /TRANCHE4_CANDIDATE_PREVIEW_ENABLED/);
@@ -44,11 +45,20 @@ test("Tranche 4 visual product renders from candidate-bound Contract D artifacts
   assert.match(component, /humanMetricLabel/);
   assert.match(component, /formatFinancialValue/);
   assert.match(component, /formatExactFinancialValue/);
+  assert.match(component, /AI Capex Race/);
+  assert.match(component, /Scale vs Investment/);
+  assert.match(component, /R&D Intensity/);
+  assert.match(component, /What Changed This Release/);
+  assert.match(model, /buildRdIntensity/);
+  assert.match(model, /buildScaleVsInvestment/);
+  assert.match(model, /same annual fiscal year/);
+  assert.doesNotMatch(component, /company_wide_capex_intensity/);
 });
 
 test("Tranche 4 visual product preserves evidence-gated unavailable states and forbidden claims", () => {
-  assert.match(component, /Layer financial totals are intentionally absent/);
+  assert.match(component, /No layer financial totals are calculated/);
   assert.match(component, /Company-wide capex intensity/);
+  assert.match(component, /not AI-specific capex/);
   assert.match(component, /Unsupported views are explicit unavailable contracts/);
   assert.match(component, /not AI-specific allocations/);
   assert.match(component, /Missing remains unavailable, never zero/);
@@ -72,9 +82,27 @@ test("Tranche 4 visual product provides accessible tables and responsive layout 
   assert.match(artifactRoute, /Content-Disposition/);
   assert.match(artifactRoute, /X-Tranche-4-Artifact-Hash/);
   assert.match(styles, /\.candidate-bars/);
+  assert.match(styles, /\.candidate-trend-bars/);
+  assert.match(styles, /\.investment-comparison/);
   assert.match(styles, /\.table-scroll/);
   assert.match(styles, /\.candidate-table/);
   assert.match(styles, /@media \(max-width: 720px\)[\s\S]*candidate-grid/);
+});
+
+test("Tranche 4 UX uses centralized public labels and preserves compatibility routes", () => {
+  const siteMap = readFileSync("src/ui/site-map.ts", "utf8");
+  const observationsPage = readFileSync("app/observations/page.tsx", "utf8");
+  const shell = readFileSync("components/ledger.tsx", "utf8");
+
+  assert.match(labels, /system_validated/);
+  assert.match(labels, /System validated/);
+  assert.match(labels, /taxonomy-v2@tranche-4/);
+  assert.match(siteMap, /label: "Trends"/);
+  assert.match(siteMap, /href: "\/observations"/);
+  assert.match(observationsPage, /ObservationLedger/);
+  assert.match(shell, /\["\/", "\/ai-stack", "\/market", "\/companies", "\/data"\]/);
+  assert.match(shell, /\/sources/);
+  assert.match(shell, /\/methodology/);
 });
 
 test("Tranche 4 candidate preview does not mutate production routes or deployment controls", () => {
