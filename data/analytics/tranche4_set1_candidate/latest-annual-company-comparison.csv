@@ -16,7 +16,7 @@ entity:company:datadog,Datadog,revenue,3427158000,USD,USD,annual,2025,FY,2025-12
 entity:company:digital-realty,Digital Realty,revenue,6112692000,USD,USD,annual,2025,FY,2025-12-31,system_validated,company_wide_structured_sec_fact,tranche4-refresh-observation:bd23fb6ae6f937528d147037cd02a7b9
 entity:company:google,Google,capital_expenditure,91447000000,USD,USD,annual,2025,FY,2025-12-31,system_validated,company_wide_structured_sec_fact,tranche4-refresh-observation:0789128edc6fb1ae3d1cc8ffad44c7d4
 entity:company:google,Google,research_and_development,61087000000,USD,USD,annual,2025,FY,2025-12-31,system_validated,company_wide_structured_sec_fact,tranche4-refresh-observation:97a613b48222c23b581bc40dd224485a
-entity:company:google,Google,revenue,350018000000,USD,USD,annual,2024,FY,2024-12-31,system_validated,company_wide_structured_sec_fact,tranche4-refresh-observation:6c549bf76b8f90871cdf297479bd9e53
+entity:company:google,Google,revenue,402836000000,USD,USD,annual,2025,FY,2025-12-31,system_validated,company_wide_structured_sec_fact,tranche4-refresh-observation:6749712b9ca2b04e40fcc55b0514f5f1
 entity:company:intel,Intel,capital_expenditure,14646000000,USD,USD,annual,2025,FY,2025-12-27,system_validated,company_wide_structured_sec_fact,tranche4-refresh-observation:50cae5a0ee394b1dfb0d3b94ebc4a806
 entity:company:intel,Intel,research_and_development,13774000000,USD,USD,annual,2025,FY,2025-12-27,system_validated,company_wide_structured_sec_fact,tranche4-refresh-observation:c53d47daaa5dd36cb0e2db403c5b62de
 entity:company:intel,Intel,revenue,52853000000,USD,USD,annual,2025,FY,2025-12-27,system_validated,company_wide_structured_sec_fact,tranche4-refresh-observation:719ecc807e5de6922a622489f138083a

@@ -208,6 +208,9 @@ export function getTranche4PreviewModel() {
     ...observation,
     displayName: canonicalDisplayName(observation.entityKey, observation.displayName)
   }));
+  // Full interim history is rendered separately from the latest pulse and
+  // annual rankings. This prevents YTD facts from becoming implied quarters.
+  const interimHistory = observations.filter((observation) => observation.periodClass !== "annual");
   const annual = normalizeChartArtifact(artifactJson<ChartArtifact>("latest-annual-company-comparison.json"));
   const interim = normalizeChartArtifact(artifactJson<ChartArtifact>("latest-interim-observations.json"));
   const histories = normalizeChartArtifact(artifactJson<ChartArtifact>("recent-annual-company-histories.json"));
@@ -240,6 +243,7 @@ export function getTranche4PreviewModel() {
     annual,
     currentAnnual: Object.fromEntries(["revenue", "capital_expenditure", "research_and_development"].map((metricKey) => [metricKey, latestAnnualByEntity(annual.chartReadyValues.filter((value) => value.metricKey === metricKey))])),
     interim,
+    interimHistory,
     histories,
     capexIntensity,
     rdIntensity,

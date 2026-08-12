@@ -103,7 +103,7 @@ export function CandidatePreviewHome({ model, mode = "preview" }: { model: Tranc
 
       {mode === "preview" ? <section className="candidate-warning panel">
         <strong>Preview only.</strong>
-        <span>These pages use the approved Candidate 5 artifact bytes, but they do not publish, promote, or reinterpret the current Release 1 data.</span>
+        <span>These pages use the approved Candidate 7 artifact bytes, but they do not publish, promote, or reinterpret the current live release.</span>
       </section> : null}
 
       <section className="candidate-grid" aria-label="Coverage summary">
@@ -327,6 +327,21 @@ export function CandidateTrends({ model, mode = "preview" }: { model: Tranche4Pr
           })}
         </div>
       </PreviewSection>
+      <PreviewSection title="Quarterly revenue and R&D history" question="Standalone quarterly Revenue and R&D facts remain separate from YTD interim facts. Capex is not derived from cumulative cash-flow values.">
+        <div className="candidate-trend-workspace">
+          {model.entities.map((entity) => {
+            const values = model.interimHistory.filter((value) => value.entityKey === entity.entityKey && value.periodClass === "quarter");
+            return <details className="candidate-disclosure" key={entity.entityKey}>
+              <summary><span>{entity.displayName}</span><small>{values.length} reported standalone-quarter observations</small></summary>
+              <div className="candidate-disclosure-body">
+                <CompanyInterimTrend values={values} metricKey="revenue" />
+                <CompanyInterimTrend values={values} metricKey="research_and_development" />
+                <p className="candidate-note">YTD interim facts, including most capex facts, are preserved in Data & evidence and are not ranked or treated as discrete quarters.</p>
+              </div>
+            </details>;
+          })}
+        </div>
+      </PreviewSection>
       <PreviewSection title="Company-wide Capex Leaders" question="Latest eligible annual company-wide capex; not AI-specific capex." view={historyView} mode={mode}>
         <BarList values={capex} valueLabel="Latest annual company-wide capex" />
       </PreviewSection>
@@ -425,6 +440,7 @@ export function CandidateCompanyPage({ model, entityKey }: { model: Tranche4Prev
   const interim = model.interim.chartReadyValues.filter((value) => value.entityKey === entityKey);
   const histories = model.histories.chartReadyValues.filter((value) => value.entityKey === entityKey);
   const observations = model.observations.filter((value) => value.entityKey === entityKey);
+  const interimHistory = model.interimHistory.filter((value) => value.entityKey === entityKey);
   const capexIntensity = latestFiscalYearValue(model.capexIntensity.chartReadyValues.filter((value) => value.entityKey === entityKey));
   const rdIntensity = latestFiscalYearValue(model.rdIntensity.chartReadyValues.filter((value) => value.entityKey === entityKey));
   const annualMetricCards = ["revenue", "capital_expenditure", "research_and_development"].map((metricKey) => annual.find((value) => value.metricKey === metricKey));
@@ -467,12 +483,12 @@ export function CandidateCompanyPage({ model, entityKey }: { model: Tranche4Prev
         </div>
       </PreviewSection>
 
-      <CompanyDataEvidence annual={annual} interim={interim} histories={histories} observations={observations} />
+      <CompanyDataEvidence annual={annual} interim={interim} interimHistory={interimHistory} histories={histories} observations={observations} />
     </>
   );
 }
 
-function CompanyDataEvidence({ annual, interim, histories, observations }: { annual: ChartValue[]; interim: ChartValue[]; histories: ChartValue[]; observations: Tranche4PreviewModel["observations"] }) {
+function CompanyDataEvidence({ annual, interim, interimHistory, histories, observations }: { annual: ChartValue[]; interim: ChartValue[]; interimHistory: Tranche4PreviewModel["interimHistory"]; histories: ChartValue[]; observations: Tranche4PreviewModel["observations"] }) {
   return (
     <section className="panel candidate-section">
       <details className="candidate-disclosure">
@@ -486,12 +502,15 @@ function CompanyDataEvidence({ annual, interim, histories, observations }: { ann
           <h3>Latest interim values</h3>
           <Table values={interim} columns={["metricKey", "value", "unit", "fiscalPeriod", "periodClass", "periodEnd", "trustState"]} />
           <h3>Recent annual histories</h3>
-          <Table values={histories.slice(0, 24)} columns={["metricKey", "value", "unit", "fiscalYear", "periodEnd", "comparability"]} />
+          <Table values={histories} columns={["metricKey", "value", "unit", "fiscalYear", "periodEnd", "comparability"]} />
+          <h3>Interim history</h3>
+          <p className="candidate-note">Standalone quarters and YTD facts are reported in distinct rows. No quarterly capex is derived from YTD values.</p>
+          <Table values={interimHistory} columns={["metricKey", "value", "unit", "fiscalPeriod", "periodClass", "periodEnd", "comparability"]} />
           <h3>Evidence references and source links</h3>
           <div className="table-scroll">
             <table className="candidate-table candidate-wide-table">
               <thead><tr><th>Metric</th><th>Value</th><th>Period</th><th>Official source</th><th>Evidence reference</th><th>Trust</th></tr></thead>
-              <tbody>{observations.slice(0, 30).map((row) => <tr key={row.observationId}>
+              <tbody>{observations.map((row) => <tr key={row.observationId}>
                 <td>{humanMetricLabel(row.metricKey)}</td>
                 <td><strong aria-label={exactMoney(row.value, row.unit)} title={exactMoney(row.value, row.unit)}>{money(row.value, row.unit)}</strong><small>{row.unit}</small></td>
                 <td>{label(row.periodClass)}<small>{row.fiscalPeriod} · {row.periodEnd}</small></td>
@@ -538,6 +557,35 @@ function CompanyTrend({ values, metricKey }: { values: ChartValue[]; metricKey: 
         ))}
       </svg>
       <p>{metricValues.length >= 5 ? "Five eligible annual observations." : "Only eligible completed fiscal years are shown."}</p>
+    </article>
+  );
+}
+
+function CompanyInterimTrend({ values, metricKey }: { values: Tranche4PreviewModel["interimHistory"]; metricKey: string }) {
+  const metricValues = values
+    .filter((value) => value.metricKey === metricKey)
+    .sort((a, b) => a.periodEnd.localeCompare(b.periodEnd));
+  if (metricValues.length === 0) {
+    return <article className="candidate-trend-card"><h3>{humanMetricLabel(metricKey)}</h3><p>No comparable standalone-quarter facts are available.</p></article>;
+  }
+  const displayed = metricValues.slice(-12);
+  const parsed = displayed.map((value) => numeric(value.value) ?? 0);
+  const min = Math.min(...parsed);
+  const max = Math.max(...parsed, 1);
+  const range = Math.max(max - min, 1);
+  const points = displayed.map((value, index) => ({
+    value,
+    x: 34 + index * (252 / Math.max(displayed.length - 1, 1)),
+    y: 126 - (((numeric(value.value) ?? 0) - min) / range) * 84
+  }));
+  return (
+    <article className="candidate-trend-card">
+      <div><h3>{humanMetricLabel(metricKey)}</h3><span>Standalone quarterly history</span></div>
+      <svg className="candidate-line-chart" viewBox="0 0 320 150" role="img" aria-label={`${humanMetricLabel(metricKey)} quarterly line chart`}>
+        <polyline points={points.map((point) => `${point.x},${point.y}`).join(" ")} />
+        {points.map((point) => <g key={point.value.observationId}><circle cx={point.x} cy={point.y} r="4" /><text x={point.x} y={point.y - 10}>{money(point.value.value, point.value.unit)}</text><text x={point.x} y="143">{point.value.fiscalPeriod}</text></g>)}
+      </svg>
+      <p>Only reported standalone-quarter facts are charted; YTD facts remain separate.</p>
     </article>
   );
 }
