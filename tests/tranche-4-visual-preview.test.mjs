@@ -46,15 +46,18 @@ test("Tranche 4 visual product renders from candidate-bound Contract D artifacts
   assert.match(component, /humanMetricLabel/);
   assert.match(component, /formatFinancialValue/);
   assert.match(component, /formatExactFinancialValue/);
-  assert.match(component, /AI Capex Race/);
-  assert.match(component, /Scale vs Investment/);
+  assert.match(component, /Latest Filing Pulse/);
+  assert.match(component, /Company-wide Capex Leaders/);
+  assert.match(component, /Scale vs Capex \+ R&D/);
   assert.match(component, /R&D Intensity/);
-  assert.match(component, /What Changed This Release/);
+  assert.match(component, /AI Stack and release changes/);
   assert.match(component, /InvestmentScatter/);
   assert.match(component, /CompanyDataEvidence/);
   assert.match(component, /CandidateDataPathways/);
   assert.match(model, /buildRdIntensity/);
   assert.match(model, /buildScaleVsInvestment/);
+  assert.match(model, /latestAnnualByEntity/);
+  assert.match(component, /currentAnnual\.capital_expenditure/);
   assert.match(model, /same annual fiscal year/);
   assert.doesNotMatch(component, /company_wide_capex_intensity/);
 });
@@ -71,6 +74,9 @@ test("Tranche 4 visual product preserves evidence-gated unavailable states and f
   assert.doesNotMatch(component, /<CandidateObservations model=\{model\}/);
   assert.doesNotMatch(component, /<CandidateDataCenter model=\{model\}/);
   assert.match(component, /Evidence references and source links/);
+  assert.match(component, /Latest reported interim/);
+  assert.match(component, /Five-year company trends/);
+  assert.doesNotMatch(component, /first 40 shown/);
   assert.match(component, /row\.source\.lawfulSourceUrl/);
   assert.match(component, /row\.evidence\.evidenceSetKey/);
   assert.doesNotMatch(component.toLowerCase(), /market-wide ai spending/);
@@ -120,17 +126,17 @@ test("Tranche 4 UX uses centralized public labels and preserves compatibility ro
 });
 
 test("Tranche 4 production wiring is active-release gated and does not depend on the preview flag", () => {
-  for (const file of ["app/page.tsx", "app/ai-stack/page.tsx", "app/market/page.tsx", "app/companies/page.tsx", "app/companies/[entityKey]/page.tsx", "app/data/page.tsx", "app/observations/page.tsx"]) {
+  for (const file of ["app/page.tsx", "app/ai-stack/page.tsx", "app/market/page.tsx", "app/companies/page.tsx", "app/companies/[entityKey]/page.tsx", "app/data/page.tsx"]) {
     const source = readFileSync(file, "utf8");
     assert.match(source, /getTranche4ProductionModelIfActive/, file);
     assert.doesNotMatch(source, /TRANCHE4_CANDIDATE_PREVIEW_ENABLED|tranche4PreviewEnabled/, file);
   }
+  assert.match(readFileSync("app/observations/page.tsx", "utf8"), /ObservationLedger/);
   assert.match(productionModel, /TRANCHE4_CANDIDATE_MANIFEST_HASH/);
-  assert.match(productionModel, /TRANCHE4_RELEASE_ID/);
-  assert.match(productionModel, /TRANCHE4_RELEASE_MANIFEST_HASH/);
+  assert.match(productionModel, /TRANCHE4_INPUT_SET_HASH/);
   assert.match(productionModel, /getProductionReleaseTransport/);
-  assert.match(productionModel, /active\.releaseId !== TRANCHE4_RELEASE_ID/);
-  assert.match(productionModel, /active\.manifestHash !== TRANCHE4_RELEASE_MANIFEST_HASH/);
+  assert.match(productionModel, /active\.manifest\.inputSetHash/);
+  assert.doesNotMatch(productionModel, /TRANCHE4_RELEASE_ID|TRANCHE4_RELEASE_MANIFEST_HASH/);
   assert.match(productionModel, /candidate trust root mismatch/);
   for (const file of ["wrangler.toml", "open-next.config.ts", "package.json"]) {
     assert.doesNotMatch(readFileSync(file, "utf8"), /TRANCHE4_CANDIDATE_PREVIEW_ENABLED=true/, file);

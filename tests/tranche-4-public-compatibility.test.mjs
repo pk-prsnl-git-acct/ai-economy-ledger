@@ -19,10 +19,10 @@ const compositionReport = JSON.parse(readFileSync("data/reports/tranche-4-candid
 const analyticsReport = JSON.parse(readFileSync("data/reports/tranche-4-candidate-analytics-report.json", "utf8"));
 const statusReport = JSON.parse(readFileSync("data/reports/tranche-4-candidate-status-report.json", "utf8"));
 
-test("Tranche 4 public compatibility binds the refreshed Candidate 5 trust roots", () => {
+test("Tranche 4 public compatibility binds the complete-history Candidate 7 trust roots", () => {
   assert.equal(compatibility.contractVersion, "public-tranche-4-set1-compatibility@2.0.0");
-  assert.equal(compatibility.privateCandidateRemediationPullRequest, 92);
-  assert.equal(compatibility.privateCandidateRemediationMergeCommit, "d87baf70d50caeb50d4a8b91d562606f80d24b87");
+  assert.equal(compatibility.privateCandidateRemediationPullRequest, 97);
+  assert.equal(compatibility.privateCandidateRemediationMergeCommit, "a7017e3eb77ff1ad2557e82c63c611ce32e380be");
   assert.equal(hash(read(releaseDirectory, "candidate-manifest.json")), compatibility.candidateManifestSourceByteHash);
   assert.equal(candidateManifest.manifestHash, compatibility.candidateManifestHash);
   assert.equal(hash(read(analyticsDirectory, "analytics-manifest.json")), compatibility.analyticsManifestSourceByteHash);
@@ -80,6 +80,7 @@ test("Tranche 4 candidate carries Taxonomy V2, the canonical Set 1 roster, and C
   assert.equal(statusReport.candidate3.status, "rejected_not_promotion_safe");
   assert.deepEqual(statusReport.candidate3.reasons, compatibility.historicalCandidates.candidate3.reasons);
   assert.equal(statusReport.candidate4.status, "superseded_by_candidate_5");
+  assert.equal(statusReport.candidate5.status, "superseded_by_candidate_7");
   assert.equal(statusReport.replacementCandidate.candidateId, compatibility.candidateId);
   assert.equal(statusReport.replacementCandidate.manifestHash, compatibility.candidateManifestHash);
 });
@@ -118,7 +119,7 @@ test("Tranche 4 candidate values preserve public metadata, restored scope, and c
   assert.equal(candidateManifest.counts.latestAnnualIncludedCount, compatibility.expectedCounts.latestAnnualIncludedCount);
   assert.equal(candidateManifest.counts.withheldMetricCount, compatibility.expectedCounts.withheldMetricCount);
   assert.equal(candidateObservations.length, compatibility.expectedCounts.observationCount);
-  assert.deepEqual(candidateManifest.trustStateCounts, { system_validated: 284 });
+  assert.deepEqual(candidateManifest.trustStateCounts, { system_validated: 1397 });
   assert.ok(candidateObservations.some((observation) => observation.periodClass === "annual"));
   assert.ok(candidateObservations.some((observation) => observation.periodClass === "quarter"));
   assert.ok(candidateObservations.some((observation) => observation.periodClass === "ytd_interim"));
@@ -198,6 +199,20 @@ test("Tranche 4 analytics preserve the corrected roster and availability contrac
   assert.ok(annual.chartReadyValues.every((value) => value.entityKey !== "entity:company:alphabet"));
 });
 
+test("Tranche 4 preserves the reconciled five-year annual and full interim history", () => {
+  const annualHistory = json(analyticsDirectory, "recent-annual-company-histories.json");
+  assert.equal(annualHistory.chartReadyValues.length, 238);
+  assert.ok(annualHistory.chartReadyValues.every((value) => value.periodClass === "annual"));
+  assert.ok(annualHistory.chartReadyValues.every((value) => Number(value.fiscalYear) >= 2021));
+
+  const interim = candidateObservations.filter((observation) => observation.periodClass !== "annual");
+  assert.equal(interim.length, 1159);
+  assert.ok(interim.some((observation) => observation.periodClass === "quarter"));
+  assert.ok(interim.some((observation) => observation.periodClass === "ytd_interim"));
+  assert.ok(interim.every((observation) => Number(observation.fiscalYear) >= 2021));
+  assert.equal(candidateObservations.filter((observation) => observation.periodClass === "annual").length, 238);
+});
+
 test("Tranche 4 public bundle does not expose private material or live-publication state", () => {
   const bytes = Buffer.concat([
     ...readdirSync(releaseDirectory).map((name) => read(releaseDirectory, name)),
@@ -210,7 +225,7 @@ test("Tranche 4 public bundle does not expose private material or live-publicati
   assert.equal(bytes.includes('"publicationenabled":true'), false);
 });
 
-test("Tranche 4 Candidate 5 carries no unsupported human-verified provenance", () => {
+test("Tranche 4 Candidate 7 carries no unsupported human-verified provenance", () => {
   assert.equal(candidateObservations.some((observation) => observation.trustState === "human_verified"), false);
   assert.equal(candidateManifest.trustStateCounts.human_verified ?? 0, 0);
 });

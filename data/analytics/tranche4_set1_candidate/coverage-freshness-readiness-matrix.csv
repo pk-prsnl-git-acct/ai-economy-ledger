@@ -17,7 +17,7 @@ entity:company:datadog,datadog,research_and_development,included,state,,annual_s
 entity:company:digital-realty,digital-realty,revenue,included,state,,annual_slot,,,,not_applicable,included,tranche4-refresh-observation:bd23fb6ae6f937528d147037cd02a7b9
 entity:company:digital-realty,digital-realty,capital_expenditure,withheld,state,,annual_slot,,,,not_applicable,withheld,
 entity:company:digital-realty,digital-realty,research_and_development,withheld,state,,annual_slot,,,,not_applicable,withheld,
-entity:company:google,google,revenue,included,state,,annual_slot,,,,not_applicable,included,tranche4-refresh-observation:6c549bf76b8f90871cdf297479bd9e53
+entity:company:google,google,revenue,included,state,,annual_slot,,,,not_applicable,included,tranche4-refresh-observation:6749712b9ca2b04e40fcc55b0514f5f1
 entity:company:google,google,capital_expenditure,included,state,,annual_slot,,,,not_applicable,included,tranche4-refresh-observation:0789128edc6fb1ae3d1cc8ffad44c7d4
 entity:company:google,google,research_and_development,included,state,,annual_slot,,,,not_applicable,included,tranche4-refresh-observation:97a613b48222c23b581bc40dd224485a
 entity:company:intel,intel,revenue,included,state,,annual_slot,,,,not_applicable,included,tranche4-refresh-observation:719ecc807e5de6922a622489f138083a

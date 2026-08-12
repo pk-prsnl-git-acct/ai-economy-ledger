@@ -84,9 +84,11 @@ entity:company:google,Google,research_and_development,39500000000,USD,USD,annual
 entity:company:google,Google,research_and_development,45427000000,USD,USD,annual,2023,FY,2023-12-31,system_validated,company_wide_structured_sec_fact,tranche4-refresh-observation:2a8ac088ddfd244fe9f887c10533d04f
 entity:company:google,Google,research_and_development,49326000000,USD,USD,annual,2024,FY,2024-12-31,system_validated,company_wide_structured_sec_fact,tranche4-refresh-observation:fd2b438f9761cec7f075bbdf6e2e8328
 entity:company:google,Google,research_and_development,61087000000,USD,USD,annual,2025,FY,2025-12-31,system_validated,company_wide_structured_sec_fact,tranche4-refresh-observation:97a613b48222c23b581bc40dd224485a
+entity:company:google,Google,revenue,257637000000,USD,USD,annual,2021,FY,2021-12-31,system_validated,company_wide_structured_sec_fact,tranche4-refresh-observation:d5aec8e9e45a8f8277261b149ce9b9e3
 entity:company:google,Google,revenue,282836000000,USD,USD,annual,2022,FY,2022-12-31,system_validated,company_wide_structured_sec_fact,tranche4-refresh-observation:627fb14b88df0de1d17cd4ed22af583c
 entity:company:google,Google,revenue,307394000000,USD,USD,annual,2023,FY,2023-12-31,system_validated,company_wide_structured_sec_fact,tranche4-refresh-observation:ca1d7ee25e0d87d36b0a3226619009ec
 entity:company:google,Google,revenue,350018000000,USD,USD,annual,2024,FY,2024-12-31,system_validated,company_wide_structured_sec_fact,tranche4-refresh-observation:6c549bf76b8f90871cdf297479bd9e53
+entity:company:google,Google,revenue,402836000000,USD,USD,annual,2025,FY,2025-12-31,system_validated,company_wide_structured_sec_fact,tranche4-refresh-observation:6749712b9ca2b04e40fcc55b0514f5f1
 entity:company:intel,Intel,capital_expenditure,18733000000,USD,USD,annual,2021,FY,2021-12-25,system_validated,company_wide_structured_sec_fact,tranche4-refresh-observation:5c5714754d91f8d08876a0eab2a7d5fc
 entity:company:intel,Intel,capital_expenditure,24844000000,USD,USD,annual,2022,FY,2022-12-31,system_validated,company_wide_structured_sec_fact,tranche4-refresh-observation:ca9a98f1b3d7511d6a1ca6eb8ed9fd13
 entity:company:intel,Intel,capital_expenditure,25750000000,USD,USD,annual,2023,FY,2023-12-30,system_validated,company_wide_structured_sec_fact,tranche4-refresh-observation:ce2422a5a9bd029adfe9c5bf3a2a68f3
