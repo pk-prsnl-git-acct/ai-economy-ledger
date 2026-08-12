@@ -83,7 +83,6 @@ export function CandidatePreviewHome({ model, mode = "preview" }: { model: Tranc
   const capex = model.currentAnnual.capital_expenditure.slice(0, 8);
   const rdIntensity = sortValues(model.rdIntensity.chartReadyValues).slice(0, 8);
   const scaleVsInvestment = model.scaleVsInvestment.chartReadyValues.slice(0, 8);
-  const coverageView = model.catalog.views.find((view) => view.viewId === "ecosystem-coverage-map");
   const annualView = model.catalog.views.find((view) => view.viewId === "latest-annual-company-comparison");
   const historyView = model.catalog.views.find((view) => view.viewId === "recent-annual-company-histories");
   const changeView = model.catalog.views.find((view) => view.viewId === "release-change-view");
