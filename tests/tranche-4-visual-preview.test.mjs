@@ -133,6 +133,7 @@ test("Tranche 4 production wiring is active-release gated and does not depend on
   }
   assert.match(readFileSync("app/observations/page.tsx", "utf8"), /ObservationLedger/);
   assert.match(productionModel, /TRANCHE4_CANDIDATE_MANIFEST_HASH/);
+  assert.match(productionModel, /TRANCHE4_INPUT_SET_HASH/);
   assert.match(productionModel, /getProductionReleaseTransport/);
   assert.match(productionModel, /active\.manifest\.inputSetHash/);
   assert.doesNotMatch(productionModel, /TRANCHE4_RELEASE_ID|TRANCHE4_RELEASE_MANIFEST_HASH/);
