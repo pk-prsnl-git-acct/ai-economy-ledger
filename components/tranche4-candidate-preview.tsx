@@ -80,15 +80,11 @@ function Table({ values, columns }: { values: ChartValue[]; columns: Array<keyof
 }
 
 export function CandidatePreviewHome({ model, mode = "preview" }: { model: Tranche4PreviewModel; mode?: CandidateSurfaceMode }) {
-  const annualRevenue = sortValues(model.annual.chartReadyValues.filter((value) => value.metricKey === "revenue")).slice(0, 8);
-  const capex = sortValues(model.annual.chartReadyValues.filter((value) => value.metricKey === "capital_expenditure")).slice(0, 8);
-  const rd = sortValues(model.annual.chartReadyValues.filter((value) => value.metricKey === "research_and_development")).slice(0, 8);
-  const intensity = sortValues(model.capexIntensity.chartReadyValues).slice(0, 8);
+  const capex = model.currentAnnual.capital_expenditure.slice(0, 8);
   const rdIntensity = sortValues(model.rdIntensity.chartReadyValues).slice(0, 8);
   const scaleVsInvestment = model.scaleVsInvestment.chartReadyValues.slice(0, 8);
   const coverageView = model.catalog.views.find((view) => view.viewId === "ecosystem-coverage-map");
   const annualView = model.catalog.views.find((view) => view.viewId === "latest-annual-company-comparison");
-  const intensityView = model.catalog.views.find((view) => view.viewId === "company-wide-capex-intensity");
   const historyView = model.catalog.views.find((view) => view.viewId === "recent-annual-company-histories");
   const changeView = model.catalog.views.find((view) => view.viewId === "release-change-view");
 
@@ -118,7 +114,11 @@ export function CandidatePreviewHome({ model, mode = "preview" }: { model: Tranc
         <PreviewStat label="Downloads" value="Exact values retained" detail="JSON and CSV remain available in Data Explorer and Release details." />
       </section>
 
-      <PreviewSection title="AI Capex Race" question="Company-wide capex trends across comparable public companies; not AI-specific capex." view={historyView} mode={mode}>
+      <PreviewSection title="Latest Filing Pulse" question="Newest reported interim periods remain separate from annual comparisons." view={annualView} mode={mode}>
+        <BarList values={model.interim.chartReadyValues.slice(0, 8)} valueLabel="Latest reported interim observations" />
+      </PreviewSection>
+
+      <PreviewSection title="Company-wide Capex Leaders" question="Latest eligible annual company-wide capex; not AI-specific capex." view={historyView} mode={mode}>
         <BarList values={capex} valueLabel="Latest annual company-wide capex" />
       </PreviewSection>
 
@@ -126,36 +126,11 @@ export function CandidatePreviewHome({ model, mode = "preview" }: { model: Tranc
         <BarList values={rdIntensity} valueLabel="R&D intensity" />
       </PreviewSection>
 
-      <PreviewSection title="Scale vs Investment" question="Compatible annual revenue compared with same-year company-wide capex plus R&D." view={annualView} mode={mode}>
+      <PreviewSection title="Scale vs Capex + R&D" question="Latest eligible annual revenue compared with same-year company-wide capex plus R&D." view={annualView} mode={mode}>
         <InvestmentScatter values={scaleVsInvestment} annualValues={model.annual.chartReadyValues} />
       </PreviewSection>
 
-      <PreviewSection title="AI Stack Map" question={model.coverage.analyticalQuestion} view={coverageView} mode={mode}>
-        <div className="taxonomy-preview-grid">
-          {model.coverage.chartReadyValues.map((layer, index) => (
-            <article className="taxonomy-preview-card" key={layer.entityKey}>
-              <span>Layer {index + 1} · {layer.value} tracked</span>
-              <h2>{index === 4 ? "Users and outcomes" : label(layer.displayName ?? layer.entityKey ?? "Layer")}</h2>
-              <p>{(layer.coveredSubLayers ?? []).map(label).join(", ") || "Coverage gap remains explicit."}</p>
-              <small>{index === 4 ? "Layer 5 is not a company-financial total." : "No layer financial totals are calculated."}</small>
-            </article>
-          ))}
-        </div>
-      </PreviewSection>
-
-      <PreviewSection title="Company Scale" question={model.annual.analyticalQuestion} view={annualView} mode={mode}>
-        <BarList values={annualRevenue} valueLabel="Revenue" />
-      </PreviewSection>
-
-      <PreviewSection title="Capex Intensity" question={model.capexIntensity.analyticalQuestion} view={intensityView} mode={mode}>
-        <BarList values={intensity} valueLabel="Company-wide capex intensity" />
-      </PreviewSection>
-
-      <PreviewSection title="R&D Spend" question="Latest annual company-wide R&D observations from the active release." view={annualView} mode={mode}>
-        <BarList values={rd} valueLabel="Latest annual company-wide R&D" />
-      </PreviewSection>
-
-      <PreviewSection title="What Changed This Release" question="Deterministic release delta against the live rollback target." view={changeView} mode={mode}>
+      <PreviewSection title="AI Stack and release changes" question="Layer coverage is contextual only; no layer-wide financial totals are calculated." view={changeView} mode={mode}>
         <div className="candidate-spotlight-grid">
           <article>
             <span>Newly added companies</span>
@@ -332,19 +307,34 @@ export function CandidateTrends({ model, mode = "preview" }: { model: Tranche4Pr
   const annualView = model.catalog.views.find((view) => view.viewId === "latest-annual-company-comparison");
   const intensityView = model.catalog.views.find((view) => view.viewId === "company-wide-capex-intensity");
   const historyView = model.catalog.views.find((view) => view.viewId === "recent-annual-company-histories");
-  const capex = sortValues(model.annual.chartReadyValues.filter((value) => value.metricKey === "capital_expenditure")).slice(0, 12);
+  const capex = model.currentAnnual.capital_expenditure.slice(0, 12);
   const rdIntensity = sortValues(model.rdIntensity.chartReadyValues).slice(0, 12);
   const intensity = sortValues(model.capexIntensity.chartReadyValues).slice(0, 12);
   const scaleVsInvestment = model.scaleVsInvestment.chartReadyValues.slice(0, 12);
   return (
     <>
-      <PreviewSection title="AI Capex Race" question="Company-wide capex trends across comparable public companies; not AI-specific capex." view={historyView} mode={mode}>
+      <PreviewSection title="Five-year company trends" question="Revenue, company-wide capex, and R&D stay separate by company and fiscal year; no unsupported cross-company totals are created." view={historyView} mode={mode}>
+        <div className="candidate-trend-workspace">
+          {model.entities.map((entity) => {
+            const values = model.histories.chartReadyValues.filter((value) => value.entityKey === entity.entityKey);
+            return <details className="candidate-disclosure" key={entity.entityKey}>
+              <summary><span>{entity.displayName}</span><small>Revenue, capex, and R&D histories</small></summary>
+              <div className="candidate-disclosure-body">
+                <CompanyTrend values={values} metricKey="revenue" />
+                <CompanyTrend values={values} metricKey="capital_expenditure" />
+                <CompanyTrend values={values} metricKey="research_and_development" />
+              </div>
+            </details>;
+          })}
+        </div>
+      </PreviewSection>
+      <PreviewSection title="Company-wide Capex Leaders" question="Latest eligible annual company-wide capex; not AI-specific capex." view={historyView} mode={mode}>
         <BarList values={capex} valueLabel="Latest annual company-wide capex" />
       </PreviewSection>
       <PreviewSection title="R&D Intensity" question="Company-wide R&D divided by company-wide revenue for the same annual fiscal year." view={annualView} mode={mode}>
         <BarList values={rdIntensity} valueLabel="R&D intensity" />
       </PreviewSection>
-      <PreviewSection title="Scale vs Investment" question="Compatible annual revenue compared with same-year company-wide capex plus R&D." view={annualView} mode={mode}>
+      <PreviewSection title="Scale vs Capex + R&D" question="Latest eligible annual revenue compared with same-year company-wide capex plus R&D." view={annualView} mode={mode}>
         <InvestmentScatter values={scaleVsInvestment} annualValues={model.annual.chartReadyValues} />
       </PreviewSection>
       <PreviewSection title="Capex Intensity" question={model.capexIntensity.analyticalQuestion} view={intensityView} mode={mode}>
@@ -355,10 +345,10 @@ export function CandidateTrends({ model, mode = "preview" }: { model: Tranche4Pr
 }
 
 export function CandidateObservations({ model }: { model: Tranche4PreviewModel }) {
-  const rows = model.observations.slice(0, 40);
+  const rows = model.observations;
   return (
     <section className="panel candidate-section" id="observations">
-      <div className="panel-heading"><div><p className="panel-label">Data Explorer</p><h2>Observations with exact periods and sources</h2></div><span className="availability-state state-limited">first 40 shown</span></div>
+      <div className="panel-heading"><div><p className="panel-label">Data Explorer</p><h2>Observations with exact periods and sources</h2></div><span className="availability-state state-limited">{rows.length} current release records</span></div>
       <p className="candidate-note">Every metric keeps its own period class, fiscal period, period end, source accession, trust state, comparability state, and safe evidence reference.</p>
       <div className="table-scroll">
         <table className="candidate-table candidate-wide-table">
@@ -383,8 +373,8 @@ export function CandidateDataCenter({ model }: { model: Tranche4PreviewModel }) 
     <section className="panel candidate-section" id="data">
       <div className="panel-heading"><div><p className="panel-label">Data and Release Details</p><h2>Downloads, hashes, identifiers and unavailable views</h2></div><span className="availability-state state-limited">release-bound</span></div>
       <div className="candidate-data-grid">
-        <PreviewStat label="Candidate" value={model.manifest.candidateId} detail={label(model.manifest.taxonomyVersion)} />
-        <PreviewStat label="Candidate manifest" value={model.manifest.manifestHash.slice(0, 20)} detail={model.manifest.contractVersion} />
+        <PreviewStat label="Published release" value="Release-bound data" detail={label(model.manifest.taxonomyVersion)} />
+        <PreviewStat label="Release manifest" value={model.manifest.manifestHash.slice(0, 20)} detail={model.manifest.contractVersion} />
         <PreviewStat label="Analytics manifest" value={model.catalog.candidateManifestHash.slice(0, 20)} detail={model.catalog.contractVersion} />
         <PreviewStat label="Withheld metrics" value={`${model.manifest.counts.withheldMetricCount}`} detail="Missing remains unavailable, never zero" />
       </div>
@@ -419,7 +409,7 @@ export function CandidateMethodology({ model }: { model: Tranche4PreviewModel })
     <section className="panel candidate-section" id="methodology">
       <div className="panel-heading"><div><p className="panel-label">Methodology and sources</p><h2>Structured-source-first, recent-first, evidence-gated</h2></div><span className="availability-state state-limited">{model.manifest.methodologyVersion}</span></div>
       <ul className="candidate-method-list">
-        <li>FY2023+ recent-first policy; annual, quarter, and YTD interim observations remain separate.</li>
+        <li>Up to five eligible completed annual fiscal years are shown from a 2021 floor; annual, quarter, and YTD interim observations remain separate.</li>
         <li>Company-wide financial facts are not AI-specific allocations and are never summed into market-wide AI totals.</li>
         <li>Layer 5 is an actor/outcome layer; ordinary company financial observations stay in Layers 1-4 taxonomy metadata.</li>
         <li>Unsupported views are explicit unavailable contracts, not empty charts or zero values.</li>
@@ -458,6 +448,10 @@ export function CandidateCompanyPage({ model, entityKey }: { model: Tranche4Prev
           </article>
         ))}
       </section>
+
+      <PreviewSection title="Latest reported interim" question="Newest valid reported interim values are shown separately and never ranked with annual values.">
+        <Table values={interim} columns={["metricKey", "value", "unit", "fiscalPeriod", "periodClass", "periodEnd", "trustState"]} />
+      </PreviewSection>
 
       <PreviewSection title="Annual metric trends" question="Up to five completed fiscal years render only where eligible annual history exists.">
         <CompanyTrend values={histories} metricKey="revenue" />

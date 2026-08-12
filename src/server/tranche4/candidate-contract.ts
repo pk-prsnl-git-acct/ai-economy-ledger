@@ -96,6 +96,7 @@ export type Tranche4CandidateManifest = {
     withheldMetricCount: number;
   };
   entityRoster?: string[];
+  inputHash: string;
   manifestHash: string;
   methodologyVersion: string;
   promotionRequiresOwnerApproval: boolean;

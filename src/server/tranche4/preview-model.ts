@@ -86,6 +86,21 @@ function annualKey(value: ChartValue) {
   return `${value.entityKey ?? "entity"}:${value.fiscalYear ?? "year"}`;
 }
 
+// Historical annual points are retained for trends. Rankings select the newest
+// eligible annual observation for each company before comparing companies.
+export function latestAnnualByEntity(values: ChartValue[]) {
+  const latest = new Map<string, ChartValue>();
+  for (const value of values.filter(eligibleAnnualValue)) {
+    const key = value.entityKey ?? "entity";
+    const current = latest.get(key);
+    if (!current || Number(value.fiscalYear ?? 0) > Number(current.fiscalYear ?? 0) ||
+      (value.fiscalYear === current.fiscalYear && `${value.periodEnd ?? ""}` > `${current.periodEnd ?? ""}`)) {
+      latest.set(key, value);
+    }
+  }
+  return [...latest.values()].sort((left, right) => (parseNumber(right.value) ?? 0) - (parseNumber(left.value) ?? 0));
+}
+
 function byEntityYearMetric(values: ChartValue[]) {
   const grouped = new Map<string, Record<string, ChartValue>>();
   for (const value of values.filter(eligibleAnnualValue)) {
@@ -123,10 +138,9 @@ function buildRdIntensity(values: ChartValue[]): ChartArtifact {
       sourceCount: Math.max(revenue.sourceCount ?? 0, rd.sourceCount ?? 0)
     });
   }
-  chartReadyValues.sort((a, b) => (parseNumber(b.value) ?? 0) - (parseNumber(a.value) ?? 0));
   return {
     analyticalQuestion: "How much company-wide R&D is reported relative to company-wide revenue for the same annual fiscal year?",
-    chartReadyValues,
+    chartReadyValues: latestAnnualByEntity(chartReadyValues),
     candidateId: getTranche4CandidateManifest().candidateId,
     taxonomyVersion: getTranche4CandidateManifest().taxonomyVersion
   };
@@ -161,10 +175,9 @@ function buildScaleVsInvestment(values: ChartValue[]): ChartArtifact {
       sourceCount: Math.max(revenue.sourceCount ?? 0, capex.sourceCount ?? 0, rd.sourceCount ?? 0)
     });
   }
-  chartReadyValues.sort((a, b) => (parseNumber(b.value) ?? 0) - (parseNumber(a.value) ?? 0));
   return {
     analyticalQuestion: "Which companies show the largest company-wide Capex plus R&D investment against annual scale?",
-    chartReadyValues,
+    chartReadyValues: latestAnnualByEntity(chartReadyValues),
     candidateId: getTranche4CandidateManifest().candidateId,
     taxonomyVersion: getTranche4CandidateManifest().taxonomyVersion
   };
@@ -198,7 +211,8 @@ export function getTranche4PreviewModel() {
   const annual = normalizeChartArtifact(artifactJson<ChartArtifact>("latest-annual-company-comparison.json"));
   const interim = normalizeChartArtifact(artifactJson<ChartArtifact>("latest-interim-observations.json"));
   const histories = normalizeChartArtifact(artifactJson<ChartArtifact>("recent-annual-company-histories.json"));
-  const capexIntensity = normalizeChartArtifact(artifactJson<ChartArtifact>("company-wide-capex-intensity.json"));
+  const capexIntensityHistory = normalizeChartArtifact(artifactJson<ChartArtifact>("company-wide-capex-intensity.json"));
+  const capexIntensity = { ...capexIntensityHistory, chartReadyValues: latestAnnualByEntity(capexIntensityHistory.chartReadyValues) };
   const coverage = normalizeChartArtifact(artifactJson<ChartArtifact>("ecosystem-coverage-map.json"));
   const readiness = normalizeChartArtifact(artifactJson<ChartArtifact>("coverage-freshness-readiness-matrix.json"));
   const trustEvidence = normalizeChartArtifact(artifactJson<ChartArtifact>("trust-evidence-matrix.json"));
@@ -224,6 +238,7 @@ export function getTranche4PreviewModel() {
     observations,
     entities,
     annual,
+    currentAnnual: Object.fromEntries(["revenue", "capital_expenditure", "research_and_development"].map((metricKey) => [metricKey, latestAnnualByEntity(annual.chartReadyValues.filter((value) => value.metricKey === metricKey))])),
     interim,
     histories,
     capexIntensity,
