@@ -20,6 +20,7 @@
     "generate:data-release": "node scripts/data/generate-pr34-release-module.mjs",
     "generate:analytics": "node scripts/data/generate-pr37-analytics-module.mjs",
     "generate:tranche4-candidate": "node scripts/data/generate-tranche4-candidate-module.mjs",
+    "generate:release11-presentation": "node scripts/data/generate-release11-presentation.mjs",
     "bind:tranche4-candidate8": "node scripts/data/bind-tranche4-candidate8.mjs && node scripts/data/generate-tranche4-candidate-module.mjs",
     "validate:data": "node scripts/ci/validate-data.mjs",
     "build": "next build",

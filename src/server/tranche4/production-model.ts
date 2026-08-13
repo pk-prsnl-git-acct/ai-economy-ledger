@@ -2,7 +2,12 @@ import "server-only";
 
 import { currentReleaseId, getReleaseManifest } from "@/src/server/data-releases/runtime";
 import { getProductionReleaseTransport } from "@/src/server/data-releases/production-transport";
-import { getTranche4PreviewModel } from "./preview-model";
+import {
+  getRelease11CompanyModel,
+  getRelease11ObservationPage,
+  getRelease11SummaryModel,
+  getRelease11TrendsModel
+} from "./production-presentation";
 
 export const TRANCHE4_CANDIDATE_ID = "set1-candidate:8:4a293cead8f3d491c723";
 export const TRANCHE4_CANDIDATE_MANIFEST_HASH = "3afdae1fcd8dc76d0e54d75e256979ac8cf55e37eab414351786bb08abc0ecaf";
@@ -23,16 +28,33 @@ async function activeReleaseState() {
   return { releaseId, manifest };
 }
 
-export async function getTranche4ProductionModelIfActive() {
+async function activeReleaseMatchesCandidate8() {
   const active = await activeReleaseState();
   // The richer Set 1 surfaces may only use these embedded immutable bytes when
   // the live, validated release explicitly declares the same input trust root.
   // A successor release therefore falls back to the release-artifact surfaces
   // rather than displaying stale Candidate 8 observations.
   if (active.manifest.inputSetHash !== TRANCHE4_INPUT_SET_HASH) return null;
-  const model = getTranche4PreviewModel();
+  return active;
+}
+
+export async function getTranche4ProductionModelIfActive(scope: "summary" | "trends" | { company: string } = "summary") {
+  const active = await activeReleaseMatchesCandidate8();
+  if (!active) return null;
+  const model = scope === "trends"
+    ? await getRelease11TrendsModel()
+    : typeof scope === "object"
+      ? await getRelease11CompanyModel(scope.company)
+      : await getRelease11SummaryModel();
+  if (!model) return null;
   if (model.manifest.candidateId !== TRANCHE4_CANDIDATE_ID || model.manifest.manifestHash !== TRANCHE4_CANDIDATE_MANIFEST_HASH) {
     throw new Error("Tranche 4 production model rejected: candidate trust root mismatch");
   }
   return { releaseId: active.releaseId, model };
+}
+
+export async function getTranche4ProductionObservationPageIfActive(page: number, query: string) {
+  const active = await activeReleaseMatchesCandidate8();
+  if (!active) return null;
+  return { releaseId: active.releaseId, result: await getRelease11ObservationPage(page, query) };
 }

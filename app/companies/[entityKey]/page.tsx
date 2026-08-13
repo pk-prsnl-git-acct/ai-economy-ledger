@@ -14,7 +14,7 @@ export const metadata: Metadata = { title: "Company details | AI Economy Ledger"
 export default async function CompanyDetailPage({ params }: { params: Promise<{ entityKey: string }> }) {
   const { entityKey } = await params;
   const decodedEntityKey = decodeURIComponent(entityKey);
-  const tranche4 = await getTranche4ProductionModelIfActive();
+  const tranche4 = await getTranche4ProductionModelIfActive({ company: decodedEntityKey });
   if (tranche4) return <AppShell><CandidateCompanyPage model={tranche4.model} entityKey={decodedEntityKey} /></AppShell>;
 
   let releaseId;

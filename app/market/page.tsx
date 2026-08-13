@@ -16,7 +16,7 @@ export const metadata: Metadata = routeMetadata(route.title, route.description, 
 export const dynamic = "force-dynamic";
 
 export default async function MarketPage() {
-  const tranche4 = await getTranche4ProductionModelIfActive();
+  const tranche4 = await getTranche4ProductionModelIfActive("trends");
   if (tranche4) return <AppShell><HeroSection route={route} /><CandidateTrends model={tranche4.model} mode="production" /></AppShell>;
 
   let manifest;

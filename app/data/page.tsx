@@ -16,7 +16,7 @@ export const dynamic = "force-dynamic";
 
 export default async function DataPage() {
   const tranche4 = await getTranche4ProductionModelIfActive();
-  if (tranche4) return <AppShell><HeroSection route={route} /><DataNavigation /><CandidateDataCenter model={tranche4.model} /></AppShell>;
+  if (tranche4) return <AppShell><HeroSection route={route} /><DataNavigation /><CandidateDataCenter model={tranche4.model} releaseId={tranche4.releaseId} /></AppShell>;
 
   let releaseId;
   let manifest;
