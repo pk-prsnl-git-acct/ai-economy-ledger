@@ -4,23 +4,31 @@ import type { Route } from "next";
 import type { PublicRecord, ReleaseManifest, SourceManifestEntry } from "@/src/server/data-releases/runtime";
 import { formatExactFinancialValue, formatFinancialValue } from "@/src/ui/format-financial-value";
 import { stackLayerName, stackRoleFor, summarizeAiStack } from "@/src/ui/ai-stack";
+import { formatFiscalPeriod } from "@/src/ui/public-presentation";
 
 function fiscalLabel(record: PublicRecord) {
-  return record.period.replace("period:", "").toUpperCase();
+  return formatFiscalPeriod(record.period);
+}
+
+function periodCoverage(records: PublicRecord[]) {
+  const years = records.map((record) => Number.parseInt(fiscalLabel(record).match(/\b(20\d{2})\b/)?.[1] ?? "", 10)).filter(Number.isFinite);
+  if (!years.length) return "Unavailable";
+  const classes = new Set(records.map((record) => record.period.includes(":YTD_INTERIM:") ? "YTD interim" : record.period.includes(":QUARTER:") ? "Quarterly" : "Annual"));
+  return `${Math.min(...years)}–${Math.max(...years)} · ${[...classes].sort().join(", ")}`;
 }
 
 export function ReleaseSummary({ manifest, records, sources }: { manifest: ReleaseManifest; records: PublicRecord[]; sources: SourceManifestEntry[] }) {
   const companies = new Set(records.map((record) => record.entity.entityKey)).size;
   const metrics = new Set(records.map((record) => record.metric.metricFamily)).size;
-  const periods = [...new Set(records.map(fiscalLabel))].join(", ");
-  const verifiedCount = records.filter((record) => record.trustState === "human_verified" || record.trustState === "system_validated").length;
+  const periods = periodCoverage(records);
+  const humanVerifiedCount = records.filter((record) => record.trustState === "human_verified").length;
   return <section className="release-summary-grid" aria-label="Current release summary">
     <article className="release-summary-card"><span>Companies tracked</span><strong>{companies}</strong><small>Counted once by company, not by layer.</small></article>
     <article className="release-summary-card"><span>Published observations</span><strong>{records.length}</strong><small>Latest source-attributed release records.</small></article>
-    <article className="release-summary-card"><span>Metric families</span><strong>{metrics}</strong><small>Revenue and capital expenditure.</small></article>
+    <article className="release-summary-card"><span>Metric families</span><strong>{metrics}</strong><small>Revenue, company-wide capex, and R&amp;D.</small></article>
     <article className="release-summary-card"><span>Official sources</span><strong>{sources.length}</strong><small>Public-safe source manifest entries.</small></article>
     <article className="release-summary-card"><span>Fiscal periods</span><strong>{periods || "Unavailable"}</strong><small>Periods remain attached to each observation.</small></article>
-    <article className="release-summary-card"><span>Verified records</span><strong>{verifiedCount}</strong><small>Human or certified-system verification only.</small></article>
+    <article className="release-summary-card"><span>Human-verified records</span><strong>{humanVerifiedCount}</strong><small>System validation remains distinct from human verification.</small></article>
     <article className="release-summary-card"><span>Quality state</span><strong>Release-bound</strong><small>Hash-verified public release contract.</small></article>
     <article className="release-summary-card"><span>Current release date</span><strong>{manifest.effectiveAt.slice(0, 10)}</strong><small>Release {manifest.releaseSequence}.</small></article>
   </section>;
