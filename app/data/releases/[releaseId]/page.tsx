@@ -14,13 +14,13 @@ export default async function ReleaseDetailPage({ params }: { params: Promise<{ 
   let revisions;
   let corrections;
   try {
-    [manifest, records, sources, revisions, corrections] = await Promise.all([
-      getReleaseManifest(releaseId),
-      getReleaseRecords(releaseId, "latest_source_attributed").then((result) => result.records),
-      getSources(releaseId).then((result) => result.sources),
-      getRevisions(releaseId).then((result) => result.revisions),
-      getCorrections(),
-    ]);
+    // Large production releases must not parse several R2 artifacts at once in
+    // one Worker invocation; that can exceed the edge CPU budget.
+    manifest = await getReleaseManifest(releaseId);
+    records = (await getReleaseRecords(releaseId, "latest_source_attributed")).records;
+    sources = (await getSources(releaseId)).sources;
+    revisions = (await getRevisions(releaseId)).revisions;
+    corrections = await getCorrections();
   } catch (error) {
     if (isProductionReleaseUnavailable(error)) return <AppShell><DataNavigation /><ReleaseUnavailablePanel surface="release detail" /></AppShell>;
     notFound();
