@@ -47,6 +47,7 @@ test("Tranche 4 visual product renders from candidate-bound Contract D artifacts
   assert.match(component, /formatFinancialValue/);
   assert.match(component, /formatExactFinancialValue/);
   assert.match(component, /Latest Filing Pulse/);
+  assert.match(component, /System validated/);
   assert.match(component, /Company-wide Capex Leaders/);
   assert.match(component, /Scale vs Capex \+ R&D/);
   assert.match(component, /R&D Intensity/);
@@ -100,6 +101,8 @@ test("Tranche 4 visual product provides accessible tables and responsive layout 
   assert.match(styles, /\.investment-comparison/);
   assert.match(styles, /\.candidate-disclosure/);
   assert.match(styles, /\.candidate-data-actions/);
+  assert.match(styles, /\.candidate-filing-pulse/);
+  assert.match(styles, /candidate-scatter-chart-scroll/);
   assert.match(styles, /\.table-scroll/);
   assert.match(styles, /\.candidate-table/);
   assert.match(styles, /@media \(max-width: 720px\)[\s\S]*candidate-grid/);
@@ -121,8 +124,19 @@ test("Tranche 4 UX uses centralized public labels and preserves compatibility ro
   assert.doesNotMatch(siteMap, /Five companies, with the limits attached/);
   assert.match(observationsPage, /ObservationLedger/);
   assert.match(shell, /\["\/", "\/ai-stack", "\/market", "\/companies", "\/data"\]/);
+  assert.match(shell, /href=\{\"\/observations\" as Route\}>Data Explorer/);
   assert.match(shell, /\/sources/);
   assert.match(shell, /\/methodology/);
+});
+
+test("Data Explorer renders bounded pages instead of duplicate full mobile and desktop trees", () => {
+  const ledger = readFileSync("components/production-ledger.tsx", "utf8");
+  assert.match(ledger, /const pageSize = 50/);
+  assert.match(ledger, /const pageRecords = visible\.slice/);
+  assert.match(ledger, /useDeferredValue/);
+  assert.match(ledger, /observation-pagination/);
+  assert.doesNotMatch(ledger, /observation-card-list/);
+  assert.match(styles, /\.observation-ledger \.table-scroll \{ display: block; overflow-x: auto; \}/);
 });
 
 test("Tranche 4 production wiring is active-release gated and does not depend on the preview flag", () => {

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import type { Route } from "next";
-import { useState } from "react";
+import { useDeferredValue, useState } from "react";
 
 import type { PublicRecord } from "@/src/server/data-releases/runtime";
 import { formatExactFinancialValue, formatFinancialValue } from "@/src/ui/format-financial-value";
@@ -52,16 +52,18 @@ export function CompanyDetail({ entityKey, records, releaseId }: { entityKey: st
 }
 
 function RecordList({ records, includeCompany = false }: { records: PublicRecord[]; includeCompany?: boolean }) {
-  return <><div className="table-scroll"><table><thead><tr>{includeCompany && <th>Company</th>}<th>Observation</th><th>Value</th><th>Fiscal period</th><th>Official source</th><th>Review state</th></tr></thead><tbody>{records.map((record) => <tr key={record.stableRecordId}>{includeCompany && <td>{record.entity.displayName}</td>}<td>{record.metric.displayLabel}</td><td><strong aria-label={formatExactFinancialValue(record.value)}>{formatFinancialValue(record.value)}</strong><br /><small>{record.unit}</small></td><td>{periodLabel(record)}</td><td><a className="source-link" href={record.sources[0]?.url} rel="noreferrer">{record.sources[0]?.sourceName ?? "Official source"}</a></td><td>{reviewState(record)}<br /><small>{record.disclosure.label}</small></td></tr>)}</tbody></table></div><div className="observation-card-list">{records.map((record) => <article className="observation-card" key={record.stableRecordId}><div><strong>{includeCompany ? record.entity.displayName : record.metric.displayLabel}</strong><span>{includeCompany ? `${record.metric.displayLabel} · ${periodLabel(record)}` : periodLabel(record)}</span></div><dl><div><dt>Value</dt><dd aria-label={formatExactFinancialValue(record.value)}>{formatFinancialValue(record.value)} <small>{record.unit}</small></dd></div><div><dt>Review state</dt><dd>{reviewState(record)}</dd></div></dl><a className="source-link" href={record.sources[0]?.url} rel="noreferrer">{record.sources[0]?.sourceName ?? "Official source"}</a></article>)}</div></>;
+  return <div className="table-scroll"><table><thead><tr>{includeCompany && <th>Company</th>}<th>Observation</th><th>Value</th><th>Fiscal period</th><th>Official source</th><th>Review state</th></tr></thead><tbody>{records.map((record) => <tr key={record.stableRecordId}>{includeCompany && <td>{record.entity.displayName}</td>}<td>{record.metric.displayLabel}</td><td><strong aria-label={formatExactFinancialValue(record.value)}>{formatFinancialValue(record.value)}</strong><br /><small>{record.unit}</small></td><td>{periodLabel(record)}</td><td><a className="source-link" href={record.sources[0]?.url} rel="noreferrer">{record.sources[0]?.sourceName ?? "Official source"}</a></td><td>{reviewState(record)}<br /><small>{record.disclosure.label}</small></td></tr>)}</tbody></table></div>;
 }
 
 export function ObservationLedger({ records, releaseId }: { records: PublicRecord[]; releaseId: string }) {
   const [query, setQuery] = useState("");
+  const deferredQuery = useDeferredValue(query);
   const [company, setCompany] = useState("all");
   const [layer, setLayer] = useState("all");
   const [metric, setMetric] = useState("all");
   const [period, setPeriod] = useState("all");
   const [trust, setTrust] = useState("all");
+  const [page, setPage] = useState(1);
   const visible = records.filter((record) => {
     const primaryLayer = stackRoleFor(record.entity.entityKey)?.primary ?? "unclassified";
     return (company === "all" || record.entity.entityKey === company)
@@ -69,16 +71,21 @@ export function ObservationLedger({ records, releaseId }: { records: PublicRecor
       && (metric === "all" || record.metric.metricFamily === metric)
       && (period === "all" || periodLabel(record) === period)
       && (trust === "all" || reviewState(record) === trust)
-      && `${record.entity.displayName} ${record.metric.displayLabel}`.toLowerCase().includes(query.trim().toLowerCase());
+      && `${record.entity.displayName} ${record.metric.displayLabel}`.toLowerCase().includes(deferredQuery.trim().toLowerCase());
   });
   const companies = [...new Map(records.map((record) => [record.entity.entityKey, record.entity.displayName])).entries()];
   const layers = [...new Set(records.map((record) => stackRoleFor(record.entity.entityKey)?.primary).filter(Boolean))] as string[];
   const metrics = [...new Set(records.map((record) => record.metric.metricFamily))];
   const periods = [...new Set(records.map(periodLabel))];
   const trusts = [...new Set(records.map(reviewState))];
-  return <section className="panel observation-ledger" aria-labelledby="observation-ledger-heading"><div className="panel-heading"><div><p className="panel-label">Observation ledger</p><h2 id="observation-ledger-heading">Current release observations</h2></div><span className="availability-state state-limited">{visible.length} shown</span></div><p className="analytics-explainer">Search and filter the published release. Values are not aggregated across companies or layers, and technical lineage stays in the data release.</p>
-    <form className="observation-filters" onSubmit={(event) => event.preventDefault()}><label>Search<input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Company or metric" /></label><Filter label="Company" value={company} onChange={setCompany} options={companies.map(([value, label]) => [value, label])} /><Filter label="Primary layer" value={layer} onChange={setLayer} options={layers.map((value) => [value, stackLayerName(value as Parameters<typeof stackLayerName>[0])])} /><Filter label="Metric" value={metric} onChange={setMetric} options={metrics.map((value) => [value, value.replaceAll("_", " ")])} /><Filter label="Fiscal period" value={period} onChange={setPeriod} options={periods.map((value) => [value, value])} /><Filter label="Review state" value={trust} onChange={setTrust} options={trusts.map((value) => [value, value])} /></form>
-    {visible.length ? <RecordList records={visible} includeCompany /> : <p className="empty-observation-state">No published observations match these filters. Missing coverage is not represented as zero.</p>}
+  const pageSize = 50;
+  const pageCount = Math.max(1, Math.ceil(visible.length / pageSize));
+  const activePage = Math.min(page, pageCount);
+  const pageRecords = visible.slice((activePage - 1) * pageSize, activePage * pageSize);
+  const resetPage = <T,>(setValue: (value: T) => void) => (value: T) => { setValue(value); setPage(1); };
+  return <section className="panel observation-ledger" aria-labelledby="observation-ledger-heading"><div className="panel-heading"><div><p className="panel-label">Observation ledger</p><h2 id="observation-ledger-heading">Current release observations</h2></div><span className="availability-state state-limited">{visible.length} matched</span></div><p className="analytics-explainer">Search and filter the published release. Results render in pages of {pageSize}, with one responsive table rather than duplicate desktop and mobile record trees. Values are not aggregated across companies or layers, and technical lineage stays in the data release.</p>
+    <form className="observation-filters" onSubmit={(event) => event.preventDefault()}><label>Search<input value={query} onChange={(event) => { setQuery(event.target.value); setPage(1); }} placeholder="Company or metric" /></label><Filter label="Company" value={company} onChange={resetPage(setCompany)} options={companies.map(([value, label]) => [value, label])} /><Filter label="Primary layer" value={layer} onChange={resetPage(setLayer)} options={layers.map((value) => [value, stackLayerName(value as Parameters<typeof stackLayerName>[0])])} /><Filter label="Metric" value={metric} onChange={resetPage(setMetric)} options={metrics.map((value) => [value, value.replaceAll("_", " ")])} /><Filter label="Fiscal period" value={period} onChange={resetPage(setPeriod)} options={periods.map((value) => [value, value])} /><Filter label="Review state" value={trust} onChange={resetPage(setTrust)} options={trusts.map((value) => [value, value])} /></form>
+    {visible.length ? <><RecordList records={pageRecords} includeCompany /><nav className="observation-pagination" aria-label="Observation results pages"><span>Showing {(activePage - 1) * pageSize + 1}-{Math.min(activePage * pageSize, visible.length)} of {visible.length}</span><button type="button" onClick={() => setPage(activePage - 1)} disabled={activePage === 1}>Previous</button><button type="button" onClick={() => setPage(activePage + 1)} disabled={activePage === pageCount}>Next</button></nav></> : <p className="empty-observation-state">No published observations match these filters. Missing coverage is not represented as zero.</p>}
     <p className="observation-release-note">Published release: {releaseId}</p>
   </section>;
 }
