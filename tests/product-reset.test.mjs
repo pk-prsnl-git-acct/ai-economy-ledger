@@ -46,6 +46,7 @@ test("primary routes use the product artifact and preserve Release 11 fallbacks"
   assert.match(pages, /getTranche4ProductionModelIfActive/);
   assert.match(pages, /variant="product"/);
   assert.doesNotMatch(component, /Operating Income|Net Income|Operating Cash Flow|Total Debt|debt issued|borrowing capacity/i);
+  assert.doesNotMatch(component, /tranche4-candidate-preview/);
 });
 
 test("V3 product surfaces expose comparison, trend, data, and accessibility contracts", () => {
