@@ -21,6 +21,7 @@ test("public presentation helpers humanize fiscal, release, methodology, source,
 test("primary public renderers do not expose raw entity-period keys or raw release status", () => {
   const ledger = readFileSync("components/production-ledger.tsx", "utf8");
   const release = readFileSync("components/release-trust.tsx", "utf8");
+  const overview = readFileSync("components/five-layer-overview.tsx", "utf8");
   const index = readFileSync("app/data/releases/page.tsx", "utf8");
   const css = readFileSync("app/globals.css", "utf8");
 
@@ -30,6 +31,9 @@ test("primary public renderers do not expose raw entity-period keys or raw relea
   assert.doesNotMatch(ledger, /Current period/);
   assert.match(release, /formatReleaseLabel/);
   assert.match(release, /Technical release details/);
+  assert.match(overview, /formatFiscalPeriod/);
+  assert.match(overview, /periodCoverage/);
+  assert.doesNotMatch(overview, /record\.period\.replace\("period:"/);
   assert.match(index, /formatReleaseStatus/);
   assert.match(css, /font-size: clamp\(2\.9rem, 5\.5vw, 4\.35rem\)/);
   assert.match(css, /font-size: clamp\(2\.25rem, 10vw, 2\.6rem\)/);
