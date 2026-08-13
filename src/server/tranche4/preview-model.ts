@@ -201,7 +201,16 @@ function buildSpotlights(annual: ChartArtifact, capexIntensity: ChartArtifact, r
   };
 }
 
+let cachedPreviewModel: ReturnType<typeof buildTranche4PreviewModel> | undefined;
+
+// Candidate artifacts are immutable. Reusing the parsed model avoids rebuilding
+// the same 1,400+ observation view for every request within a Worker isolate.
 export function getTranche4PreviewModel() {
+  cachedPreviewModel ??= buildTranche4PreviewModel();
+  return cachedPreviewModel;
+}
+
+function buildTranche4PreviewModel() {
   const manifest = getTranche4CandidateManifest();
   const catalog = getTranche4CandidateViewCatalog();
   const observations = getTranche4CandidateObservations().map((observation) => ({

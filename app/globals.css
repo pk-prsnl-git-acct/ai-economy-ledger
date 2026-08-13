@@ -284,6 +284,10 @@ td .coverage-state + small { display: block; max-width: 280px; margin-top: 7px; 
 .candidate-table td strong, .candidate-table td small { display: block; }
 .candidate-table td small { margin-top: 4px; color: #708196; }
 .candidate-table code { color: #8fa1b6; font-size: 9px; overflow-wrap: anywhere; }
+.observation-pagination { display: flex; align-items: center; justify-content: flex-end; flex-wrap: wrap; gap: 8px; margin-top: 14px; color: var(--text-muted); font-size: 11px; }
+.observation-pagination span { margin-right: auto; }
+.observation-pagination button { padding: 7px 10px; border: 1px solid var(--border); border-radius: 8px; color: #cdeaf5; background: rgb(8 13 18 / 48%); cursor: pointer; }
+.observation-pagination button:disabled { cursor: not-allowed; opacity: .45; }
 .candidate-spotlight-grid, .investment-comparison, .candidate-metric-strip, .candidate-data-actions { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 11px; }
 .candidate-spotlight-grid article, .investment-comparison article, .candidate-metric-card, .candidate-trend-card { padding: 18px; border: 1px solid var(--border); border-radius: 14px; background: rgb(8 13 18 / 34%); }
 .candidate-spotlight-grid span, .candidate-metric-card span { color: #7f90a4; font-size: 10px; text-transform: uppercase; letter-spacing: .08em; }
@@ -297,6 +301,7 @@ td .coverage-state + small { display: block; max-width: 280px; margin-top: 7px; 
 .investment-comparison dd { margin: 0; color: #d9e4ef; text-align: right; }
 .candidate-scatter { display: grid; gap: 12px; }
 .candidate-scatter svg { width: 100%; min-height: 260px; border: 1px solid var(--border); border-radius: 14px; background: radial-gradient(circle at 70% 20%, rgb(60 197 243 / 8%), transparent 18rem), rgb(8 13 18 / 34%); }
+.candidate-scatter-chart-scroll { overflow-x: auto; padding-bottom: 4px; }
 .candidate-scatter line { stroke: rgb(127 144 164 / 45%); stroke-width: 1; }
 .candidate-scatter circle { fill: var(--cyan); stroke: #d4f6ff; stroke-width: 1.5; }
 .candidate-scatter text { fill: #bcd4e2; font-size: 10px; }
@@ -324,4 +329,4 @@ td .coverage-state + small { display: block; max-width: 280px; margin-top: 7px; 
 .candidate-method-list { margin: 18px 0 0; padding-left: 20px; color: #acb9c8; line-height: 1.75; }
 .candidate-method-list li { margin: 8px 0; }
 @media (max-width: 960px) { .candidate-grid, .candidate-data-grid, .taxonomy-preview-grid, .candidate-company-grid, .candidate-unavailable-grid, .candidate-spotlight-grid, .investment-comparison, .candidate-metric-strip, .candidate-data-actions { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 720px) { .candidate-hero { padding: 50px 3px 24px; }.candidate-grid, .candidate-data-grid, .taxonomy-preview-grid, .candidate-company-grid, .candidate-unavailable-grid, .candidate-spotlight-grid, .investment-comparison, .candidate-metric-strip, .candidate-data-actions { grid-template-columns: 1fr; }.candidate-warning { align-items: flex-start; flex-direction: column; }.candidate-section { padding: 16px; }.candidate-bars article > div, .investment-comparison article > div, .candidate-disclosure summary { flex-direction: column; align-items: flex-start; gap: 4px; }.investment-comparison article > div span, .investment-comparison dd, .candidate-disclosure summary small { text-align: left; }.candidate-scatter svg { min-height: 220px; }.candidate-scatter text { font-size: 8px; }.candidate-line-chart text { font-size: 9px; } }
+@media (max-width: 720px) { .candidate-hero { padding: 50px 3px 24px; }.candidate-grid, .candidate-data-grid, .taxonomy-preview-grid, .candidate-company-grid, .candidate-unavailable-grid, .candidate-spotlight-grid, .investment-comparison, .candidate-metric-strip, .candidate-data-actions, .candidate-filing-pulse { grid-template-columns: 1fr; }.candidate-warning { align-items: flex-start; flex-direction: column; }.candidate-section { padding: 16px; }.candidate-bars article > div, .investment-comparison article > div, .candidate-disclosure summary { flex-direction: column; align-items: flex-start; gap: 4px; }.investment-comparison article > div span, .investment-comparison dd, .candidate-disclosure summary small { text-align: left; }.candidate-scatter svg { min-width: 640px; min-height: 220px; }.candidate-scatter text { font-size: 10px; }.candidate-line-chart text { font-size: 9px; }.observation-ledger .table-scroll { display: block; overflow-x: auto; }.observation-pagination { justify-content: flex-start; }.observation-pagination span { width: 100%; } }

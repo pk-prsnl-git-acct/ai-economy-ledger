@@ -41,14 +41,14 @@ function humanMetricLabel(metricKey: string | null | undefined) {
   return publicMetricLabel(metricKey);
 }
 
-function downloadLinks(view: Tranche4PreviewModel["catalog"]["views"][number], mode: CandidateSurfaceMode = "preview") {
+function downloadLinks(view: Tranche4PreviewModel["catalog"]["views"][number], mode: CandidateSurfaceMode = "preview", includeProductionLink = true) {
   const jsonHref = `/tranche-4-candidate-preview/artifacts/${encodeURIComponent(view.downloads.json)}` as Route;
   const csvHref = `/tranche-4-candidate-preview/artifacts/${encodeURIComponent(view.downloads.csv)}` as Route;
   return (
     <div className="candidate-downloads" aria-label={`${label(view.viewId)} downloads`}>
       <span>{view.eligibilityState === "unavailable" ? "Unavailable contract" : "Downloadable contract"}</span>
       {mode === "production"
-        ? <Link href={"/data" as Route}>Open Data</Link>
+        ? includeProductionLink ? <Link href={"/observations" as Route}>Open Data Explorer</Link> : <span>Availability recorded above</span>
         : <><Link href={jsonHref}>{view.downloads.json}</Link><Link href={csvHref}>{view.downloads.csv}</Link></>}
     </div>
   );
@@ -110,7 +110,7 @@ export function CandidatePreviewHome({ model, mode = "preview" }: { model: Tranc
       <section className="candidate-grid" aria-label="Coverage summary">
         <PreviewStat label="Coverage" value="17 companies" detail="Set 1 spans the approved Taxonomy v2 public-company cohort." />
         <PreviewStat label="Current data" value="48 included" detail="Revenue, capex, and R&D current annual slots; three remain withheld." />
-        <PreviewStat label="Trust state" value="System validated" detail={`${model.trustCounts.humanVerified} human verified values; no unsupported promotions.`} />
+        <PreviewStat label="Trust state" value="System validated" detail={`${model.trustCounts.systemValidated} values passed system validation. Human verification is a separate, optional review state.`} />
         <PreviewStat label="Downloads" value="Exact values retained" detail="JSON and CSV remain available in Data Explorer and Release details." />
       </section>
 
@@ -243,7 +243,8 @@ function InvestmentScatter({ values, annualValues }: { values: ChartValue[]; ann
   const maxX = Math.max(...points.map((point) => point.x), 1);
   const maxY = Math.max(...points.map((point) => point.y), 1);
   return (
-    <div className="candidate-scatter" role="img" aria-label="Scale versus company-wide capex plus R&D scatter plot">
+    <div className="candidate-scatter" role="img" aria-label="Scale versus company-wide capex plus R&D scatter plot. Chart labels remain horizontally scrollable on narrow screens.">
+      <div className="candidate-scatter-chart-scroll">
       <svg viewBox="0 0 760 360" aria-hidden="true">
         <line x1="70" y1="306" x2="718" y2="306" />
         <line x1="70" y1="34" x2="70" y2="306" />
@@ -258,6 +259,7 @@ function InvestmentScatter({ values, annualValues }: { values: ChartValue[]; ann
           );
         })}
       </svg>
+      </div>
       <div className="candidate-scatter-legend">
         <span>Horizontal: annual revenue scale</span>
         <span>Vertical: same-year company-wide capex + R&D</span>
@@ -401,13 +403,13 @@ export function CandidateDataCenter({ model }: { model: Tranche4PreviewModel }) 
     <section className="panel candidate-section" id="data">
       <div className="panel-heading"><div><p className="panel-label">Data and Release Details</p><h2>Downloads, hashes, identifiers and unavailable views</h2></div><span className="availability-state state-limited">release-bound</span></div>
       <div className="candidate-data-grid">
-        <PreviewStat label="Published release" value="Release-bound data" detail={label(model.manifest.taxonomyVersion)} />
-        <PreviewStat label="Release manifest" value={model.manifest.manifestHash.slice(0, 20)} detail={model.manifest.contractVersion} />
-        <PreviewStat label="Analytics manifest" value={model.catalog.candidateManifestHash.slice(0, 20)} detail={model.catalog.contractVersion} />
+        <PreviewStat label="Published dataset" value="Release-bound data" detail={label(model.manifest.taxonomyVersion)} />
+        <PreviewStat label="Compatibility manifest" value={model.manifest.manifestHash.slice(0, 20)} detail="Immutable dataset compatibility contract" />
+        <PreviewStat label="Analytics catalog" value={model.catalog.contractVersion} detail="Release-bound analytics view contract" />
         <PreviewStat label="Withheld metrics" value={`${model.manifest.counts.withheldMetricCount}`} detail="Missing remains unavailable, never zero" />
       </div>
       <div className="candidate-unavailable-grid">
-        {model.unavailable.map((view) => <article key={view.viewId}><h3>{label(view.viewId)}</h3><p>{view.withholdingReason}</p>{downloadLinks(view, "production")}</article>)}
+        {model.unavailable.map((view) => <article key={view.viewId}><h3>{label(view.viewId)}</h3><p>{view.withholdingReason}</p>{downloadLinks(view, "production", false)}</article>)}
       </div>
     </section>
   );

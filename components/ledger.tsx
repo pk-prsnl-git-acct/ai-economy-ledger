@@ -33,7 +33,7 @@ export function TopNav({ admin = false }: { admin?: boolean }) {
       <nav className="nav-links" aria-label={admin ? "Admin navigation" : "Primary navigation"}>
         {primaryRoutes.map((route) => <Link href={route.href as Route} key={route.href}>{route.label}</Link>)}
       </nav>
-      {!admin && <details className="mobile-nav"><summary aria-label="Open navigation">Menu</summary><nav aria-label="Mobile primary navigation">{primaryRoutes.map((route) => <Link href={route.href as Route} key={route.href}>{route.label}</Link>)}</nav></details>}
+      {!admin && <details className="mobile-nav"><summary aria-label="Open navigation">Menu</summary><nav aria-label="Mobile primary navigation">{primaryRoutes.map((route) => <Link href={route.href as Route} key={route.href}>{route.label}</Link>)}<Link href={"/observations" as Route}>Data Explorer</Link></nav></details>}
       <Link className="nav-action" href={(admin ? "/" : "/observations") as Route}>{admin ? "Public ledger" : "Data Explorer"}</Link>
     </header>
   );
