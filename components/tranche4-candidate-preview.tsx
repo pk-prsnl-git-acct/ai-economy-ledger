@@ -398,6 +398,28 @@ export function CandidateObservations({ model }: { model: Tranche4PreviewModel }
   );
 }
 
+// The published Set 1 explorer uses the immutable, cached release model. Only
+// the selected server-rendered page crosses the Worker/browser boundary.
+export function CandidateObservationExplorer({ model, page = 1, query = "" }: { model: Tranche4PreviewModel; page?: number; query?: string }) {
+  const pageSize = 50;
+  const normalizedQuery = query.trim().toLowerCase();
+  const matched = normalizedQuery
+    ? model.observations.filter((row) => `${row.displayName} ${humanMetricLabel(row.metricKey)} ${row.fiscalPeriod} ${row.periodClass}`.toLowerCase().includes(normalizedQuery))
+    : model.observations;
+  const pageCount = Math.max(1, Math.ceil(matched.length / pageSize));
+  const activePage = Math.min(Math.max(page, 1), pageCount);
+  const rows = matched.slice((activePage - 1) * pageSize, activePage * pageSize);
+  const pageHref = (targetPage: number) => `/observations?page=${targetPage}${query ? `&q=${encodeURIComponent(query)}` : ""}` as Route;
+  return (
+    <section className="panel observation-ledger" aria-labelledby="observation-ledger-heading">
+      <div className="panel-heading"><div><p className="panel-label">Data Explorer</p><h2 id="observation-ledger-heading">Current release observations</h2></div><span className="availability-state state-limited">{matched.length} matched</span></div>
+      <p className="analytics-explainer">Search the current release without loading all {model.observations.length} observations into the browser. Values remain exact, source-linked, and separate by reported period class.</p>
+      <form className="observation-filters" action="/observations"><label>Search<input name="q" defaultValue={query} placeholder="Company, metric, or fiscal period" /></label><button type="submit">Search</button></form>
+      {rows.length ? <><div className="table-scroll"><table><thead><tr><th>Company</th><th>Observation</th><th>Value</th><th>Fiscal period</th><th>Official source</th><th>Trust</th></tr></thead><tbody>{rows.map((row) => <tr key={row.observationId}><td>{row.displayName}</td><td>{humanMetricLabel(row.metricKey)}</td><td><strong aria-label={exactMoney(row.value, row.unit)} title={exactMoney(row.value, row.unit)}>{money(row.value, row.unit)}</strong><br /><small>{row.unit}</small></td><td>{label(row.periodClass)}<br /><small>{row.fiscalPeriod} · {row.periodEnd}</small></td><td><a className="source-link" href={row.source.lawfulSourceUrl} rel="noreferrer">{row.source.sourceName}</a><br /><small>{row.source.form} · {row.source.accession}</small></td><td>{label(row.trustState)}<br /><small>{label(row.comparability)}</small></td></tr>)}</tbody></table></div><nav className="observation-pagination" aria-label="Observation results pages"><span>Showing {(activePage - 1) * pageSize + 1}-{Math.min(activePage * pageSize, matched.length)} of {matched.length}</span>{activePage > 1 ? <Link href={pageHref(activePage - 1)}>Previous</Link> : <span aria-hidden="true" />}{activePage < pageCount ? <Link href={pageHref(activePage + 1)}>Next</Link> : <span aria-hidden="true" />}</nav></> : <p className="empty-observation-state">No published observations match this search. Missing coverage is not represented as zero.</p>}
+    </section>
+  );
+}
+
 export function CandidateDataCenter({ model }: { model: Tranche4PreviewModel }) {
   return (
     <section className="panel candidate-section" id="data">

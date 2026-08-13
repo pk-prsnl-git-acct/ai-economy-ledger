@@ -38,6 +38,7 @@ test("Tranche 4 visual product renders from candidate-bound Contract D artifacts
   assert.match(component, /CandidatePreviewHome/);
   assert.match(component, /CandidateCompanyPage/);
   assert.match(component, /CandidateObservations/);
+  assert.match(component, /CandidateObservationExplorer/);
   assert.match(component, /CandidateDataCenter/);
   assert.match(component, /CandidateMethodology/);
   assert.doesNotMatch(component, /const companies = \[/);
@@ -123,6 +124,8 @@ test("Tranche 4 UX uses centralized public labels and preserves compatibility ro
   assert.match(siteMap, /title: "Company profiles, with the limits attached\."/);
   assert.doesNotMatch(siteMap, /Five companies, with the limits attached/);
   assert.match(observationsPage, /ObservationLedger/);
+  assert.match(observationsPage, /getTranche4ProductionModelIfActive/);
+  assert.match(observationsPage, /CandidateObservationExplorer/);
   assert.match(shell, /\["\/", "\/ai-stack", "\/market", "\/companies", "\/data"\]/);
   assert.match(shell, /href=\{\"\/observations\" as Route\}>Data Explorer/);
   assert.match(shell, /\/sources/);
@@ -137,6 +140,8 @@ test("Data Explorer renders bounded pages instead of duplicate full mobile and d
   assert.match(ledger, /observation-pagination/);
   assert.doesNotMatch(ledger, /observation-card-list/);
   assert.match(styles, /\.observation-ledger \.table-scroll \{ display: block; overflow-x: auto; \}/);
+  assert.match(component, /const pageSize = 50/);
+  assert.match(component, /const rows = matched\.slice/);
 });
 
 test("Tranche 4 production wiring is active-release gated and does not depend on the preview flag", () => {
