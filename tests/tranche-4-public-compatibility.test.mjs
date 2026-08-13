@@ -18,9 +18,12 @@ const viewCatalog = json(analyticsDirectory, "view-catalog.json");
 const compositionReport = JSON.parse(readFileSync("data/reports/tranche-4-candidate-composition-report.json", "utf8"));
 const analyticsReport = JSON.parse(readFileSync("data/reports/tranche-4-candidate-analytics-report.json", "utf8"));
 const statusReport = JSON.parse(readFileSync("data/reports/tranche-4-candidate-status-report.json", "utf8"));
+const candidateContract = readFileSync("src/server/tranche4/candidate-contract.ts", "utf8");
+const releaseDelta = json(releaseDirectory, "release-delta-vs-release1.json");
 
 test("Tranche 4 public compatibility binds the forward-fixed Candidate 8 trust roots", () => {
   assert.equal(compatibility.contractVersion, "public-tranche-4-set1-compatibility@3.0.0");
+  assert.match(candidateContract, /public-tranche-4-set1-compatibility@3\.0\.0/);
   assert.equal(compatibility.privateCandidateRemediationPullRequest, 98);
   assert.equal(compatibility.privateCandidateRemediationMergeCommit, "2c19137d25b539f2457401e66c615b1273c71326");
   assert.equal(hash(read(releaseDirectory, "candidate-manifest.json")), compatibility.candidateManifestSourceByteHash);
@@ -82,6 +85,8 @@ test("Tranche 4 candidate carries Taxonomy V2, the canonical Set 1 roster, and C
   assert.equal(statusReport.candidate7.status, "superseded_by_candidate_8");
   assert.equal(statusReport.replacementCandidate.candidateId, compatibility.candidateId);
   assert.equal(statusReport.replacementCandidate.manifestHash, compatibility.candidateManifestHash);
+  assert.ok(releaseDelta.entityRoster.includes("entity:company:intel"));
+  assert.ok(releaseDelta.entityRoster.includes("entity:company:salesforce"));
 });
 
 test("Tranche 4 release and analytics artifact descriptors reconcile exactly", () => {

@@ -17,6 +17,12 @@ This document contains durable implementation context for future coding sessions
 - Keep private component environment files and `.env.local` out of Git.
 - Use only the repository-specific GitHub identity and PAT account.
 
+## Cloudflare authentication
+
+- This workspace uses the dedicated Wrangler profile `ai-economy-ledger`, bound to `/Users/pkv/Documents/GitHub/AI_ECONOMY_LEDGER_WORKSPACE`; both the public and private repositories inherit it.
+- All project Wrangler/Cloudflare commands must use this profile. Do not use, log out of, replace, or overwrite the shared/default Wrangler OAuth session; other projects use their own profiles.
+- Never commit OAuth credentials or tokens. If Cloudflare auth fails, first verify the named profile and perform a disposable `operations/auth-probe-*` R2 write/read/delete probe before changing credentials.
+
 ## PR33 public compatibility bridge
 
 - Private Logical PR33 merged as data-engine PR `#48` at
