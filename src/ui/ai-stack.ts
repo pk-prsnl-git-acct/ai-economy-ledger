@@ -23,11 +23,7 @@ export type CompanyStackRole = {
 
 // Product taxonomy only. It never allocates company-wide revenue or capex to a layer.
 export const companyStackRoles: Readonly<Record<string, CompanyStackRole>> = {
-  "entity:company:alphabet": { primary: "applications", secondary: ["models"] },
-  "entity:company:amazon": { primary: "infrastructure", secondary: ["applications"] },
-  "entity:company:meta": { primary: "applications", secondary: ["models"] },
-  "entity:company:microsoft": { primary: "infrastructure", secondary: ["platforms"] },
-  "entity:company:nvidia": { primary: "hardware", secondary: [] },
+  "entity:company:adobe": { primary: "applications", secondary: [] }, "entity:company:amazon": { primary: "infrastructure", secondary: ["applications"] }, "entity:company:amd": { primary: "infrastructure", secondary: [] }, "entity:company:broadcom": { primary: "infrastructure", secondary: [] }, "entity:company:datadog": { primary: "platforms", secondary: [] }, "entity:company:digital-realty": { primary: "hardware", secondary: [] }, "entity:company:google": { primary: "platforms", secondary: ["infrastructure", "applications"] }, "entity:company:intel": { primary: "hardware", secondary: [] }, "entity:company:meta": { primary: "platforms", secondary: ["applications"] }, "entity:company:microsoft": { primary: "platforms", secondary: ["infrastructure", "applications"] }, "entity:company:mongodb": { primary: "platforms", secondary: [] }, "entity:company:nvidia": { primary: "infrastructure", secondary: [] }, "entity:company:oracle": { primary: "infrastructure", secondary: [] }, "entity:company:palantir": { primary: "platforms", secondary: [] }, "entity:company:salesforce": { primary: "applications", secondary: ["platforms"] }, "entity:company:servicenow": { primary: "applications", secondary: ["platforms"] }, "entity:company:snowflake": { primary: "platforms", secondary: [] }
 };
 
 export function stackRoleFor(entityKey: string): CompanyStackRole | null {

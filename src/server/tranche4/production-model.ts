@@ -4,11 +4,11 @@ import { currentReleaseId, getReleaseManifest } from "@/src/server/data-releases
 import { getProductionReleaseTransport } from "@/src/server/data-releases/production-transport";
 import { getTranche4PreviewModel } from "./preview-model";
 
-export const TRANCHE4_CANDIDATE_ID = "set1-candidate:7:f092cabc7ccc56ceb407";
-export const TRANCHE4_CANDIDATE_MANIFEST_HASH = "b9a1c10ed0290d148962c9cfd11613424f6296c057d2065f63c459f924dd6d96";
-// The published release is derived from the immutable Candidate 7 release
+export const TRANCHE4_CANDIDATE_ID = "set1-candidate:8:4a293cead8f3d491c723";
+export const TRANCHE4_CANDIDATE_MANIFEST_HASH = "3afdae1fcd8dc76d0e54d75e256979ac8cf55e37eab414351786bb08abc0ecaf";
+// The published release is derived from the immutable Candidate 8 release
 // bundle. This is a data trust root, not a release sequence or pointer hash.
-export const TRANCHE4_INPUT_SET_HASH = "7701633b75816731d1d1470c2c0b6c2550456fa2bf2ed2a7d4abdf09fc0eb12f";
+export const TRANCHE4_INPUT_SET_HASH = "82a1b14fba34df5ac40e30eafeb5bab167018289a5567732c26544e5a9b76e95";
 async function activeReleaseState() {
   const transport = await getProductionReleaseTransport();
   if (transport) {
@@ -26,7 +26,7 @@ export async function getTranche4ProductionModelIfActive() {
   // The richer Set 1 surfaces may only use these embedded immutable bytes when
   // the live, validated release explicitly declares the same input trust root.
   // A successor release therefore falls back to the release-artifact surfaces
-  // rather than displaying stale Candidate 7 observations.
+  // rather than displaying stale Candidate 8 observations.
   if (active.manifest.inputSetHash !== TRANCHE4_INPUT_SET_HASH) return null;
   const model = getTranche4PreviewModel();
   if (model.manifest.candidateId !== TRANCHE4_CANDIDATE_ID || model.manifest.manifestHash !== TRANCHE4_CANDIDATE_MANIFEST_HASH) {

@@ -20,6 +20,7 @@
     "generate:data-release": "node scripts/data/generate-pr34-release-module.mjs",
     "generate:analytics": "node scripts/data/generate-pr37-analytics-module.mjs",
     "generate:tranche4-candidate": "node scripts/data/generate-tranche4-candidate-module.mjs",
+    "bind:tranche4-candidate8": "node scripts/data/bind-tranche4-candidate8.mjs && node scripts/data/generate-tranche4-candidate-module.mjs",
     "validate:data": "node scripts/ci/validate-data.mjs",
     "build": "next build",
     "build:cloudflare": "opennextjs-cloudflare build && node scripts/ci/sanitize-opennext-env.mjs && node scripts/ci/scan-opennext-output.mjs",
