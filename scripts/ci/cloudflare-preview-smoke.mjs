@@ -59,7 +59,7 @@ try {
   if (!response?.ok) throw new Error(`Cloudflare preview did not become healthy.\n${output}`);
 
   const routeChecks = [
-    ["/", ["AI Economy Ledger", "Companies tracked", "Five layers, with the gaps still visible.", "An initial SEC-backed baseline, not a complete AI economy model."]],
+    ["/", ["AI Economy Ledger", "Companies tracked", "Five layers, with the gaps still visible.", "A source-linked baseline, not a complete AI economy model."]],
     ["/ai-stack", ["Coverage starts with a clear map of the AI stack", "Foundation Models", "partially covered"]],
     ["/market", ["A five-layer map, with the limits in view.", "Not yet supported by this release", "Company-wide values remain unallocated"]],
     ["/events", ["Current release observations", "Search and filter the published release", "Review state"]],
