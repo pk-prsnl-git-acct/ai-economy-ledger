@@ -286,7 +286,7 @@ td .coverage-state + small { display: block; max-width: 280px; margin-top: 7px; 
 .candidate-table code { color: #8fa1b6; font-size: 9px; overflow-wrap: anywhere; }
 .observation-pagination { display: flex; align-items: center; justify-content: flex-end; flex-wrap: wrap; gap: 8px; margin-top: 14px; color: var(--text-muted); font-size: 11px; }
 .observation-pagination span { margin-right: auto; }
-.observation-pagination button { padding: 7px 10px; border: 1px solid var(--border); border-radius: 8px; color: #cdeaf5; background: rgb(8 13 18 / 48%); cursor: pointer; }
+.observation-pagination button, .observation-pagination a { padding: 7px 10px; border: 1px solid var(--border); border-radius: 8px; color: #cdeaf5; background: rgb(8 13 18 / 48%); cursor: pointer; }
 .observation-pagination button:disabled { cursor: not-allowed; opacity: .45; }
 .candidate-spotlight-grid, .investment-comparison, .candidate-metric-strip, .candidate-data-actions { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 11px; }
 .candidate-spotlight-grid article, .investment-comparison article, .candidate-metric-card, .candidate-trend-card { padding: 18px; border: 1px solid var(--border); border-radius: 14px; background: rgb(8 13 18 / 34%); }
