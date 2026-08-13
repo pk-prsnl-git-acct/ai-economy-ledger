@@ -5,6 +5,7 @@ import type { ReactNode } from "react";
 import { label, type Tranche4PreviewModel } from "@/src/server/tranche4/preview-model";
 import { formatExactFinancialValue, formatFinancialValue } from "@/src/ui/format-financial-value";
 import { publicMetricLabel } from "@/src/ui/public-labels";
+import { stackLayerName, stackRoleFor } from "@/src/ui/ai-stack";
 
 type ChartValue = Tranche4PreviewModel["annual"]["chartReadyValues"][number];
 type CandidateSurfaceMode = "preview" | "production";
@@ -114,7 +115,7 @@ export function CandidatePreviewHome({ model, mode = "preview" }: { model: Tranc
       </section>
 
       <PreviewSection title="Latest Filing Pulse" question="Newest reported interim periods remain separate from annual comparisons." view={annualView} mode={mode}>
-        <BarList values={model.interim.chartReadyValues.slice(0, 8)} valueLabel="Latest reported interim observations" />
+        <LatestFilingPulse model={model} />
       </PreviewSection>
 
       <PreviewSection title="Company-wide Capex Leaders" question="Latest eligible annual company-wide capex; not AI-specific capex." view={historyView} mode={mode}>
@@ -202,6 +203,15 @@ function BarList({ values, valueLabel }: { values: ChartValue[]; valueLabel: str
   );
 }
 
+function LatestFilingPulse({ model }: { model: Tranche4PreviewModel }) {
+  return <div className="candidate-filing-pulse" role="list" aria-label="Latest filing pulse by company">{model.entities.map((entity) => {
+    const records = model.interimHistory.filter((value) => value.entityKey === entity.entityKey);
+    const latest = [...records].sort((a, b) => `${b.periodEnd}:${b.fiscalPeriod}`.localeCompare(`${a.periodEnd}:${a.fiscalPeriod}`))[0];
+    const metrics = latest ? records.filter((value) => value.periodEnd === latest.periodEnd && value.fiscalPeriod === latest.fiscalPeriod) : [];
+    return <article role="listitem" key={entity.entityKey}><strong>{entity.displayName}</strong>{latest ? <><span>{latest.fiscalPeriod} · period end {latest.periodEnd}</span><small>{metrics.map((item) => `${humanMetricLabel(item.metricKey)} ${item.periodClass === "ytd_interim" ? "YTD" : "quarter"}`).join("; ")}</small></> : <span>Interim history unavailable</span>}</article>;
+  })}</div>;
+}
+
 function InvestmentComparison({ values, annualValues }: { values: ChartValue[]; annualValues: ChartValue[] }) {
   return (
     <div className="investment-comparison" role="list" aria-label="Scale versus investment">
@@ -264,13 +274,17 @@ export function CandidateDirectory({ model, mode = "preview" }: { model: Tranche
       <div className="candidate-company-grid">
         {model.entities.map((entity) => {
           const latest = model.annual.chartReadyValues.filter((value) => value.entityKey === entity.entityKey);
+          const metrics = ["revenue", "capital_expenditure", "research_and_development"].map((metricKey) => latest.find((value) => value.metricKey === metricKey));
+          const interim = model.interimHistory.filter((value) => value.entityKey === entity.entityKey);
+          const latestPeriod = [...interim].sort((a, b) => `${b.periodEnd}:${b.fiscalPeriod}`.localeCompare(`${a.periodEnd}:${a.fiscalPeriod}`))[0];
+          const role = stackRoleFor(entity.entityKey);
           return (
             <article key={entity.entityKey} className="candidate-company-card">
               <h3>{entity.displayName}</h3>
-              <p>{label(entity.entityKey)}</p>
+              <p>{role ? stackLayerName(role.primary) : "Taxonomy classification unavailable"}</p>
               <dl>
-                <div><dt>Latest annual metrics</dt><dd>{latest.length}</dd></div>
-                <div><dt>Interim observations</dt><dd>{model.interim.chartReadyValues.filter((value) => value.entityKey === entity.entityKey).length}</dd></div>
+                {metrics.map((value, index) => <div key={value?.metricKey ?? index}><dt>{humanMetricLabel(value?.metricKey)}</dt><dd title={exactMoney(value?.value, value?.unit, value?.currency)}>{money(value?.value, value?.unit, value?.currency)}</dd></div>)}
+                <div><dt>Latest reporting period</dt><dd>{latestPeriod ? `${latestPeriod.fiscalPeriod} · ${latestPeriod.periodEnd}` : "Unavailable"}</dd></div>
               </dl>
               <Link className="download-action" href={`/${mode === "production" ? "companies" : "tranche-4-candidate-preview/companies"}/${encodeURIComponent(entity.entityKey)}` as Route}>Open company details</Link>
             </article>
@@ -292,12 +306,12 @@ export function CandidateAiStack({ model, mode = "preview" }: { model: Tranche4P
               <span>Layer {index + 1} · {layer.value} tracked</span>
               <h2>{index === 4 ? "Users and outcomes" : label(layer.displayName ?? layer.entityKey ?? "Layer")}</h2>
               <p>{(layer.coveredSubLayers ?? []).map(label).join(", ") || "Coverage gap remains explicit."}</p>
+              {index < 4 ? <small>{model.entities.filter((entity) => stackRoleFor(entity.entityKey)?.primary === ["hardware", "infrastructure", "platforms", "applications"][index]).map((entity) => entity.displayName).join(" · ") || "No companies classified in this presentation layer."}</small> : null}
               <small>{index === 4 ? "Layer 5 is not a company-financial total." : "No layer financial totals are calculated."}</small>
             </article>
           ))}
         </div>
       </PreviewSection>
-      <CandidateDirectory model={model} mode={mode} />
     </>
   );
 }

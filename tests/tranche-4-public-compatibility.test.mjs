@@ -19,10 +19,10 @@ const compositionReport = JSON.parse(readFileSync("data/reports/tranche-4-candid
 const analyticsReport = JSON.parse(readFileSync("data/reports/tranche-4-candidate-analytics-report.json", "utf8"));
 const statusReport = JSON.parse(readFileSync("data/reports/tranche-4-candidate-status-report.json", "utf8"));
 
-test("Tranche 4 public compatibility binds the complete-history Candidate 7 trust roots", () => {
-  assert.equal(compatibility.contractVersion, "public-tranche-4-set1-compatibility@2.0.0");
-  assert.equal(compatibility.privateCandidateRemediationPullRequest, 97);
-  assert.equal(compatibility.privateCandidateRemediationMergeCommit, "a7017e3eb77ff1ad2557e82c63c611ce32e380be");
+test("Tranche 4 public compatibility binds the forward-fixed Candidate 8 trust roots", () => {
+  assert.equal(compatibility.contractVersion, "public-tranche-4-set1-compatibility@3.0.0");
+  assert.equal(compatibility.privateCandidateRemediationPullRequest, 98);
+  assert.equal(compatibility.privateCandidateRemediationMergeCommit, "2c19137d25b539f2457401e66c615b1273c71326");
   assert.equal(hash(read(releaseDirectory, "candidate-manifest.json")), compatibility.candidateManifestSourceByteHash);
   assert.equal(candidateManifest.manifestHash, compatibility.candidateManifestHash);
   assert.equal(hash(read(analyticsDirectory, "analytics-manifest.json")), compatibility.analyticsManifestSourceByteHash);
@@ -79,8 +79,7 @@ test("Tranche 4 candidate carries Taxonomy V2, the canonical Set 1 roster, and C
   assert.equal(compatibility.canonicalDisplayNames["entity:company:nvidia"], "Nvidia");
   assert.equal(statusReport.candidate3.status, "rejected_not_promotion_safe");
   assert.deepEqual(statusReport.candidate3.reasons, compatibility.historicalCandidates.candidate3.reasons);
-  assert.equal(statusReport.candidate4.status, "superseded_by_candidate_5");
-  assert.equal(statusReport.candidate5.status, "superseded_by_candidate_7");
+  assert.equal(statusReport.candidate7.status, "superseded_by_candidate_8");
   assert.equal(statusReport.replacementCandidate.candidateId, compatibility.candidateId);
   assert.equal(statusReport.replacementCandidate.manifestHash, compatibility.candidateManifestHash);
 });
@@ -119,7 +118,7 @@ test("Tranche 4 candidate values preserve public metadata, restored scope, and c
   assert.equal(candidateManifest.counts.latestAnnualIncludedCount, compatibility.expectedCounts.latestAnnualIncludedCount);
   assert.equal(candidateManifest.counts.withheldMetricCount, compatibility.expectedCounts.withheldMetricCount);
   assert.equal(candidateObservations.length, compatibility.expectedCounts.observationCount);
-  assert.deepEqual(candidateManifest.trustStateCounts, { system_validated: 1397 });
+  assert.deepEqual(candidateManifest.trustStateCounts, { system_validated: 1402 });
   assert.ok(candidateObservations.some((observation) => observation.periodClass === "annual"));
   assert.ok(candidateObservations.some((observation) => observation.periodClass === "quarter"));
   assert.ok(candidateObservations.some((observation) => observation.periodClass === "ytd_interim"));
@@ -206,7 +205,7 @@ test("Tranche 4 preserves the reconciled five-year annual and full interim histo
   assert.ok(annualHistory.chartReadyValues.every((value) => Number(value.fiscalYear) >= 2021));
 
   const interim = candidateObservations.filter((observation) => observation.periodClass !== "annual");
-  assert.equal(interim.length, 1159);
+  assert.equal(interim.length, 1164);
   assert.ok(interim.some((observation) => observation.periodClass === "quarter"));
   assert.ok(interim.some((observation) => observation.periodClass === "ytd_interim"));
   assert.ok(interim.every((observation) => Number(observation.fiscalYear) >= 2021));

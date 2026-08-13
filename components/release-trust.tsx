@@ -56,6 +56,7 @@ export function Methodology({ manifest }: { manifest: ReleaseManifest }) {
     ["Source inclusion", "Only released, public-safe official-source metadata and structured observations are displayed. Raw filings and source payloads are not republished here."],
     ["Extraction and normalization", "Values preserve their source, period, unit, currency, and release lineage. The interface uses compact currency display while downloads retain exact raw values."],
     ["Progressive trust", "Source-attributed, system-validated, and human-verified records remain distinct. A missing value remains unavailable, never zero."],
+    ["History and interim periods", "The release retains up to five completed annual fiscal years from a 2021 floor and all eligible reported interim observations. Discrete quarters and year-to-date facts are labelled separately and are never silently converted into one another."],
     ["Coverage and limits", "Coverage is limited to the published companies, metrics, fiscal periods, and sources in this release. It does not imply an economy-wide denominator."],
     ["Revisions and corrections", "Public changes are append-only release artifacts. Corrections, amendments, restatements, and supersession states are not silently collapsed."],
   ];
