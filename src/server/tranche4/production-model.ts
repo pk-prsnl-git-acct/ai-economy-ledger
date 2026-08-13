@@ -8,7 +8,9 @@ export const TRANCHE4_CANDIDATE_ID = "set1-candidate:8:4a293cead8f3d491c723";
 export const TRANCHE4_CANDIDATE_MANIFEST_HASH = "3afdae1fcd8dc76d0e54d75e256979ac8cf55e37eab414351786bb08abc0ecaf";
 // The published release is derived from the immutable Candidate 8 release
 // bundle. This is a data trust root, not a release sequence or pointer hash.
-export const TRANCHE4_INPUT_SET_HASH = "82a1b14fba34df5ac40e30eafeb5bab167018289a5567732c26544e5a9b76e95";
+// Exact immutable input root declared by the published Release 11 manifest.
+// Successor releases must continue to fall back unless explicitly rebound.
+export const TRANCHE4_INPUT_SET_HASH = "e0466b671f316b7642db9409f243630c8149f8f064b55dd641b5da9f05aa9686";
 async function activeReleaseState() {
   const transport = await getProductionReleaseTransport();
   if (transport) {
