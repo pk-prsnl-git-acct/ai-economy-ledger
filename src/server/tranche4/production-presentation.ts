@@ -88,7 +88,9 @@ export async function getRelease11TrendsModel() {
 export async function getRelease11CompanyModel(entityKey: string) {
   if (!/^entity:company:[a-z0-9-]+$/.test(entityKey)) return null;
   const summary = await getRelease11SummaryModel();
-  const detail = await envelope<Pick<Tranche4PreviewModel, "histories" | "interimHistory" | "observations">>(`companies/${encodeURIComponent(entityKey)}.json`);
+  const entitySlug = entityKey.split(":").at(-1);
+  if (!entitySlug) return null;
+  const detail = await envelope<Pick<Tranche4PreviewModel, "histories" | "interimHistory" | "observations">>(`companies/${entitySlug}.json`);
   if (!summary.entities.some((entity) => entity.entityKey === entityKey)) return null;
   return { ...summary, ...detail };
 }
