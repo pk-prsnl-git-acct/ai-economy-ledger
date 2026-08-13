@@ -24,7 +24,9 @@ export default async function MarketPage() {
   let sources;
   try {
     const releaseId = await currentReleaseId();
-    [manifest, records, sources] = await Promise.all([getReleaseManifest(releaseId), getReleaseRecords(releaseId, "latest_source_attributed").then((result) => result.records), getSources(releaseId).then((result) => result.sources)]);
+    manifest = await getReleaseManifest(releaseId);
+    records = (await getReleaseRecords(releaseId, "latest_source_attributed")).records;
+    sources = (await getSources(releaseId)).sources;
   } catch (error) {
     if (!isProductionReleaseUnavailable(error)) throw error;
     return <AppShell><HeroSection route={route} /><ReleaseUnavailablePanel surface="market scope" /></AppShell>;

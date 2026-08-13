@@ -25,12 +25,10 @@ export default async function DataPage() {
   let releases;
   try {
     releaseId = await currentReleaseId();
-    [manifest, latestResult, verifiedResult, releases] = await Promise.all([
-      getReleaseManifest(releaseId),
-      getReleaseRecords(releaseId, "latest_source_attributed"),
-      getReleaseRecords(releaseId, "verified"),
-      listReleases(),
-    ]);
+    manifest = await getReleaseManifest(releaseId);
+    latestResult = await getReleaseRecords(releaseId, "latest_source_attributed");
+    verifiedResult = await getReleaseRecords(releaseId, "verified");
+    releases = await listReleases();
   } catch (error) {
     if (!isProductionReleaseUnavailable(error)) throw error;
     return <AppShell><HeroSection route={route} /><DataNavigation /><ReleaseUnavailablePanel surface="downloads" /></AppShell>;

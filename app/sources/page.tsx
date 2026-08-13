@@ -15,7 +15,8 @@ export default async function SourcesPage() {
   let sources;
   try {
     releaseId = await currentReleaseId();
-    [records, sources] = await Promise.all([getReleaseRecords(releaseId, "latest_source_attributed").then((result) => result.records), getSources(releaseId).then((result) => result.sources)]);
+    records = (await getReleaseRecords(releaseId, "latest_source_attributed")).records;
+    sources = (await getSources(releaseId)).sources;
   } catch (error) {
     if (!isProductionReleaseUnavailable(error)) throw error;
     return <AppShell><HeroSection route={route} /><ReleaseUnavailablePanel surface="source manifest" /></AppShell>;

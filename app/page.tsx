@@ -24,7 +24,9 @@ export default async function HomePage() {
   let sourceManifest;
   try {
     const releaseId = await currentReleaseId();
-    [manifest, latest, sourceManifest] = await Promise.all([getReleaseManifest(releaseId), getReleaseRecords(releaseId, "latest_source_attributed"), getSources(releaseId)]);
+    manifest = await getReleaseManifest(releaseId);
+    latest = await getReleaseRecords(releaseId, "latest_source_attributed");
+    sourceManifest = await getSources(releaseId);
   } catch (error) {
     if (!isProductionReleaseUnavailable(error)) throw error;
     return <AppShell><HeroSection route={route} /><ReleaseUnavailablePanel surface="overview data" /></AppShell>;
