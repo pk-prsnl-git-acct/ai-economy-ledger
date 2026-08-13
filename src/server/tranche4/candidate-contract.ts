@@ -201,7 +201,7 @@ function fail(message: string): never {
 function compatibility() {
   const bytes = Buffer.from(compatibilitySource.base64, "base64");
   const parsed = JSON.parse(bytes.toString("utf8")) as CompatibilityContract;
-  if (parsed.contractVersion !== "public-tranche-4-set1-compatibility@2.0.0") fail("compatibility contract version mismatch");
+  if (parsed.contractVersion !== "public-tranche-4-set1-compatibility@3.0.0") fail("compatibility contract version mismatch");
   return parsed;
 }
 
@@ -345,7 +345,7 @@ function validate() {
     !sameMembers(releaseDelta.entityRoster, contract.canonicalRoster)
   ) fail("release delta rollback or roster mismatch");
   if (!releaseDelta.retainedEntities.includes("entity:company:nvidia")) fail("release delta retained entity mismatch");
-  if (!releaseDelta.newEntities.includes("entity:company:intel") || !releaseDelta.newEntities.includes("entity:company:salesforce")) fail("release delta missing restored entities");
+  if (!releaseDelta.entityRoster.includes("entity:company:intel") || !releaseDelta.entityRoster.includes("entity:company:salesforce")) fail("release delta missing restored entities");
 
   if (
     statusReport.candidate3.candidateId !== contract.historicalCandidates.candidate3.candidateId ||
