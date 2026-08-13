@@ -19,6 +19,8 @@ test("Release 11 presentation assets remain hash-bound to unchanged Candidate 8 
   assert.equal(index.pages.length, 29);
   assert.equal(index.pages[0].start, 0);
   assert.equal(index.pages.at(-1).end, 1402);
+  assert.equal(index.artifacts.filter((entry) => entry.path.startsWith("companies/")).length, 17);
+  assert.ok(index.artifacts.filter((entry) => entry.path.startsWith("companies/")).every((entry) => !entry.path.includes("%")));
 
   for (const descriptor of index.artifacts) {
     const bytes = readFileSync(`${root}/${descriptor.path}`);

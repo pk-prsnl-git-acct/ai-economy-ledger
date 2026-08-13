@@ -170,7 +170,9 @@ descriptors.push(writeArtifact(join(outputDirectory, "trends.json"), {
 
 for (const entity of entities) {
   const entityKey = entity.entityKey;
-  descriptors.push(writeArtifact(join(outputDirectory, "companies", `${encodeURIComponent(entityKey)}.json`), {
+  const entitySlug = entityKey.split(":").at(-1);
+  if (!entitySlug || !/^[a-z0-9-]+$/.test(entitySlug)) throw new Error(`Release 11 presentation rejected: unsafe entity slug ${entityKey}`);
+  descriptors.push(writeArtifact(join(outputDirectory, "companies", `${entitySlug}.json`), {
     observations: normalizedObservations.filter((value) => value.entityKey === entityKey),
     interimHistory: normalizedObservations.filter((value) => value.entityKey === entityKey && value.periodClass !== "annual"),
     histories: { ...histories, chartReadyValues: histories.chartReadyValues.filter((value) => value.entityKey === entityKey) }
