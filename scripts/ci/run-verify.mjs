@@ -24,6 +24,7 @@ const checks = [
       "tests/tranche-4-visual-preview.test.mjs",
       "tests/release-primary-routes-cpu.test.mjs",
       "tests/release11-presentation-assets.test.mjs",
+      "tests/product-reset.test.mjs",
       "tests/circularity-scenarios.test.mjs",
       "tests/health-readiness.test.mjs",
     ]

@@ -4,9 +4,11 @@ import { ReleaseUnavailablePanel } from "@/components/data-release";
 import { CompanyDetail } from "@/components/production-ledger";
 import { AppShell } from "@/components/ledger";
 import { CandidateCompanyPage } from "@/components/tranche4-candidate-preview";
+import { ProductCompanyDetail } from "@/components/product-reset";
 import { isProductionReleaseUnavailable } from "@/src/server/data-releases/production-transport";
 import { currentReleaseId, getReleaseRecords } from "@/src/server/data-releases/runtime";
 import { getTranche4ProductionModelIfActive } from "@/src/server/tranche4/production-model";
+import { getProductResetAnalyticsIfActive } from "@/src/server/product-reset/analytics";
 
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = { title: "Company details | AI Economy Ledger" };
@@ -14,7 +16,9 @@ export const metadata: Metadata = { title: "Company details | AI Economy Ledger"
 export default async function CompanyDetailPage({ params }: { params: Promise<{ entityKey: string }> }) {
   const { entityKey } = await params;
   const decodedEntityKey = decodeURIComponent(entityKey);
+  const product = await getProductResetAnalyticsIfActive();
   const tranche4 = await getTranche4ProductionModelIfActive({ company: decodedEntityKey });
+  if (product && tranche4) return <AppShell variant="product"><ProductCompanyDetail analytics={product} companyModel={tranche4.model} entityKey={decodedEntityKey} /></AppShell>;
   if (tranche4) return <AppShell><CandidateCompanyPage model={tranche4.model} entityKey={decodedEntityKey} /></AppShell>;
 
   let releaseId;

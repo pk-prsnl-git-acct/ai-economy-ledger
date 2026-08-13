@@ -5,9 +5,9 @@ import type { ReactNode } from "react";
 import { adminRoutes, plannedCoverageRoutes, publicRoutes, type RouteDefinition } from "@/src/ui/site-map";
 import type { PublicTrustRecord } from "@/src/server/admin/public-trust/contract";
 
-export function AppShell({ children, admin = false }: { children: ReactNode; admin?: boolean }) {
+export function AppShell({ children, admin = false, variant = "default" }: { children: ReactNode; admin?: boolean; variant?: "default" | "product" }) {
   return (
-    <div className="app-shell">
+    <div className={`app-shell ${variant === "product" ? "product-shell" : ""}`}>
       <TopNav admin={admin} />
       <main id="main-content">{children}</main>
       <footer className="site-footer">
