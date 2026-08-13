@@ -528,7 +528,7 @@ export function CandidateCompanyPage({ model, entityKey }: { model: Tranche4Prev
   );
 }
 
-function CompanyDataEvidence({ annual, interim, interimHistory, histories, observations }: { annual: ChartValue[]; interim: ChartValue[]; interimHistory: Tranche4PreviewModel["interimHistory"]; histories: ChartValue[]; observations: Tranche4PreviewModel["observations"] }) {
+export function CompanyDataEvidence({ annual, interim, interimHistory, histories, observations }: { annual: ChartValue[]; interim: ChartValue[]; interimHistory: Tranche4PreviewModel["interimHistory"]; histories: ChartValue[]; observations: Tranche4PreviewModel["observations"] }) {
   return (
     <section className="panel candidate-section">
       <details className="candidate-disclosure">

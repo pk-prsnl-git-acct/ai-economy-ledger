@@ -4,9 +4,11 @@ import { ReleaseUnavailablePanel } from "@/components/data-release";
 import { AppShell, HeroSection } from "@/components/ledger";
 import { CompanyDirectory as Release1CompanyDirectory } from "@/components/production-ledger";
 import { CandidateDirectory } from "@/components/tranche4-candidate-preview";
+import { ProductCompanies } from "@/components/product-reset";
 import { isProductionReleaseUnavailable } from "@/src/server/data-releases/production-transport";
 import { currentReleaseId, getReleaseRecords } from "@/src/server/data-releases/runtime";
 import { getTranche4ProductionModelIfActive } from "@/src/server/tranche4/production-model";
+import { getProductResetAnalyticsIfActive } from "@/src/server/product-reset/analytics";
 import { routeMetadata } from "@/src/ui/metadata";
 import { findPublicRoute } from "@/src/ui/site-map";
 
@@ -14,6 +16,8 @@ const route = findPublicRoute("/companies");
 export const metadata: Metadata = routeMetadata(route.title, route.description, route.href);
 export const dynamic = "force-dynamic";
 export default async function CompaniesPage() {
+  const product = await getProductResetAnalyticsIfActive();
+  if (product) return <AppShell variant="product"><ProductCompanies analytics={product} /></AppShell>;
   const tranche4 = await getTranche4ProductionModelIfActive();
   if (tranche4) return <AppShell><HeroSection route={route} /><CandidateDirectory model={tranche4.model} mode="production" /></AppShell>;
 
