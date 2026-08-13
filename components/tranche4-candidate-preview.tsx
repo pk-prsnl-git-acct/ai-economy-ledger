@@ -3,6 +3,7 @@ import type { Route } from "next";
 import type { ReactNode } from "react";
 
 import { label, type Tranche4PreviewModel } from "@/src/server/tranche4/preview-model";
+import type { Release11ObservationPage } from "@/src/server/tranche4/production-presentation";
 import { formatExactFinancialValue, formatFinancialValue } from "@/src/ui/format-financial-value";
 import { publicMetricLabel } from "@/src/ui/public-labels";
 import { stackLayerName, stackRoleFor } from "@/src/ui/ai-stack";
@@ -205,7 +206,7 @@ function BarList({ values, valueLabel }: { values: ChartValue[]; valueLabel: str
 
 function LatestFilingPulse({ model }: { model: Tranche4PreviewModel }) {
   return <div className="candidate-filing-pulse" role="list" aria-label="Latest filing pulse by company">{model.entities.map((entity) => {
-    const records = model.interimHistory.filter((value) => value.entityKey === entity.entityKey);
+    const records = model.interim.chartReadyValues.filter((value) => value.entityKey === entity.entityKey);
     const latest = [...records].sort((a, b) => `${b.periodEnd}:${b.fiscalPeriod}`.localeCompare(`${a.periodEnd}:${a.fiscalPeriod}`))[0];
     const metrics = latest ? records.filter((value) => value.periodEnd === latest.periodEnd && value.fiscalPeriod === latest.fiscalPeriod) : [];
     return <article role="listitem" key={entity.entityKey}><strong>{entity.displayName}</strong>{latest ? <><span>{latest.fiscalPeriod} · period end {latest.periodEnd}</span><small>{metrics.map((item) => `${humanMetricLabel(item.metricKey)} ${item.periodClass === "ytd_interim" ? "YTD" : "quarter"}`).join("; ")}</small></> : <span>Interim history unavailable</span>}</article>;
@@ -277,7 +278,7 @@ export function CandidateDirectory({ model, mode = "preview" }: { model: Tranche
         {model.entities.map((entity) => {
           const latest = model.annual.chartReadyValues.filter((value) => value.entityKey === entity.entityKey);
           const metrics = ["revenue", "capital_expenditure", "research_and_development"].map((metricKey) => latest.find((value) => value.metricKey === metricKey));
-          const interim = model.interimHistory.filter((value) => value.entityKey === entity.entityKey);
+          const interim = model.interim.chartReadyValues.filter((value) => value.entityKey === entity.entityKey);
           const latestPeriod = [...interim].sort((a, b) => `${b.periodEnd}:${b.fiscalPeriod}`.localeCompare(`${a.periodEnd}:${a.fiscalPeriod}`))[0];
           const role = stackRoleFor(entity.entityKey);
           return (
@@ -400,36 +401,37 @@ export function CandidateObservations({ model }: { model: Tranche4PreviewModel }
 
 // The published Set 1 explorer uses the immutable, cached release model. Only
 // the selected server-rendered page crosses the Worker/browser boundary.
-export function CandidateObservationExplorer({ model, page = 1, query = "" }: { model: Tranche4PreviewModel; page?: number; query?: string }) {
+export function CandidateObservationExplorer({ result }: { result: Release11ObservationPage }) {
   const pageSize = 50;
-  const normalizedQuery = query.trim().toLowerCase();
-  const matched = normalizedQuery
-    ? model.observations.filter((row) => `${row.displayName} ${humanMetricLabel(row.metricKey)} ${row.fiscalPeriod} ${row.periodClass}`.toLowerCase().includes(normalizedQuery))
-    : model.observations;
-  const pageCount = Math.max(1, Math.ceil(matched.length / pageSize));
-  const activePage = Math.min(Math.max(page, 1), pageCount);
-  const rows = matched.slice((activePage - 1) * pageSize, activePage * pageSize);
+  const { rows, total, matched, page: activePage, pageCount, query } = result;
   const pageHref = (targetPage: number) => `/observations?page=${targetPage}${query ? `&q=${encodeURIComponent(query)}` : ""}` as Route;
   return (
     <section className="panel observation-ledger" aria-labelledby="observation-ledger-heading">
-      <div className="panel-heading"><div><p className="panel-label">Data Explorer</p><h2 id="observation-ledger-heading">Current release observations</h2></div><span className="availability-state state-limited">{matched.length} matched</span></div>
-      <p className="analytics-explainer">Search the current release without loading all {model.observations.length} observations into the browser. Values remain exact, source-linked, and separate by reported period class.</p>
+      <div className="panel-heading"><div><p className="panel-label">Data Explorer</p><h2 id="observation-ledger-heading">Current release observations</h2></div><span className="availability-state state-limited">{matched} matched</span></div>
+      <p className="analytics-explainer">Search the current release without loading all {total} observations into one request or browser render. Values remain exact, source-linked, and separate by reported period class.</p>
       <form className="observation-filters" action="/observations"><label>Search<input name="q" defaultValue={query} placeholder="Company, metric, or fiscal period" /></label><button type="submit">Search</button></form>
-      {rows.length ? <><div className="table-scroll"><table><thead><tr><th>Company</th><th>Observation</th><th>Value</th><th>Fiscal period</th><th>Official source</th><th>Trust</th></tr></thead><tbody>{rows.map((row) => <tr key={row.observationId}><td>{row.displayName}</td><td>{humanMetricLabel(row.metricKey)}</td><td><strong aria-label={exactMoney(row.value, row.unit)} title={exactMoney(row.value, row.unit)}>{money(row.value, row.unit)}</strong><br /><small>{row.unit}</small></td><td>{label(row.periodClass)}<br /><small>{row.fiscalPeriod} · {row.periodEnd}</small></td><td><a className="source-link" href={row.source.lawfulSourceUrl} rel="noreferrer">{row.source.sourceName}</a><br /><small>{row.source.form} · {row.source.accession}</small></td><td>{label(row.trustState)}<br /><small>{label(row.comparability)}</small></td></tr>)}</tbody></table></div><nav className="observation-pagination" aria-label="Observation results pages"><span>Showing {(activePage - 1) * pageSize + 1}-{Math.min(activePage * pageSize, matched.length)} of {matched.length}</span>{activePage > 1 ? <Link href={pageHref(activePage - 1)}>Previous</Link> : <span aria-hidden="true" />}{activePage < pageCount ? <Link href={pageHref(activePage + 1)}>Next</Link> : <span aria-hidden="true" />}</nav></> : <p className="empty-observation-state">No published observations match this search. Missing coverage is not represented as zero.</p>}
+      {rows.length ? <><div className="table-scroll"><table><thead><tr><th>Company</th><th>Observation</th><th>Value</th><th>Fiscal period</th><th>Official source</th><th>Trust</th></tr></thead><tbody>{rows.map((row) => <tr key={row.observationId}><td>{row.displayName}</td><td>{humanMetricLabel(row.metricKey)}</td><td><strong aria-label={exactMoney(row.value, row.unit)} title={exactMoney(row.value, row.unit)}>{money(row.value, row.unit)}</strong><br /><small>{row.unit}</small></td><td>{label(row.periodClass)}<br /><small>{row.fiscalPeriod} · {row.periodEnd}</small></td><td><a className="source-link" href={row.source.lawfulSourceUrl} rel="noreferrer">{row.source.sourceName}</a><br /><small>{row.source.form} · {row.source.accession}</small></td><td>{label(row.trustState)}<br /><small>{label(row.comparability)}</small></td></tr>)}</tbody></table></div><nav className="observation-pagination" aria-label="Observation results pages"><span>Showing {(activePage - 1) * pageSize + 1}-{Math.min(activePage * pageSize, matched)} of {matched}</span>{activePage > 1 ? <Link href={pageHref(activePage - 1)}>Previous</Link> : <span aria-hidden="true" />}{activePage < pageCount ? <Link href={pageHref(activePage + 1)}>Next</Link> : <span aria-hidden="true" />}</nav></> : <p className="empty-observation-state">No published observations match this search. Missing coverage is not represented as zero.</p>}
     </section>
   );
 }
 
-export function CandidateDataCenter({ model }: { model: Tranche4PreviewModel }) {
+export function CandidateDataCenter({ model, releaseId }: { model: Tranche4PreviewModel; releaseId: string }) {
+  const releaseSequence = releaseId.split(":")[1] ?? "current";
   return (
     <section className="panel candidate-section" id="data">
-      <div className="panel-heading"><div><p className="panel-label">Data and Release Details</p><h2>Downloads, hashes, identifiers and unavailable views</h2></div><span className="availability-state state-limited">release-bound</span></div>
+      <div className="panel-heading"><div><p className="panel-label">Published data</p><h2>Release access, lineage and unavailable views</h2></div><span className="availability-state state-limited">System validated</span></div>
       <div className="candidate-data-grid">
-        <PreviewStat label="Published dataset" value="Release-bound data" detail={label(model.manifest.taxonomyVersion)} />
-        <PreviewStat label="Compatibility manifest" value={model.manifest.manifestHash.slice(0, 20)} detail="Immutable dataset compatibility contract" />
-        <PreviewStat label="Analytics catalog" value={model.catalog.contractVersion} detail="Release-bound analytics view contract" />
+        <PreviewStat label="Active release" value={`Release ${releaseSequence}`} detail="Live immutable release pointer" />
+        <PreviewStat label="Dataset lineage" value={model.manifest.manifestHash.slice(0, 20)} detail="Candidate 8 source lineage hash, not the live release manifest" />
+        <PreviewStat label="Analytics contract" value={model.catalog.contractVersion} detail="Schema version for release-bound analytical views" />
         <PreviewStat label="Withheld metrics" value={`${model.manifest.counts.withheldMetricCount}`} detail="Missing remains unavailable, never zero" />
       </div>
+      <div className="candidate-data-actions" aria-label="Published data access">
+        <Link href={(`/data/releases/${encodeURIComponent(releaseId)}`) as Route}>Release details</Link>
+        <Link href={"/api/data/analytics" as Route}>Analytics API</Link>
+        <Link href={"/observations" as Route}>Data Explorer</Link>
+      </div>
+      <p className="candidate-note"><strong>{model.trustCounts.systemValidated} observations are System validated.</strong> Human verification is a separate provenance state, not a completeness score or prerequisite for this release.</p>
       <div className="candidate-unavailable-grid">
         {model.unavailable.map((view) => <article key={view.viewId}><h3>{label(view.viewId)}</h3><p>{view.withholdingReason}</p>{downloadLinks(view, "production", false)}</article>)}
       </div>

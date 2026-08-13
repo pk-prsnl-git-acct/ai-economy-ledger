@@ -8,9 +8,15 @@ for (const file of ["app/page.tsx", "app/market/page.tsx", "app/data/page.tsx", 
   });
 }
 
-test("the immutable Candidate 8 model is parsed once per Worker isolate", () => {
-  const model = readFileSync("src/server/tranche4/preview-model.ts", "utf8");
-  assert.match(model, /let cachedPreviewModel/);
-  assert.match(model, /cachedPreviewModel \?\?= buildTranche4PreviewModel\(\)/);
-  assert.match(model, /function buildTranche4PreviewModel\(\)/);
+test("production routes load bounded generated presentation assets", () => {
+  const production = readFileSync("src/server/tranche4/production-model.ts", "utf8");
+  const presentation = readFileSync("src/server/tranche4/production-presentation.ts", "utf8");
+  assert.doesNotMatch(production, /getTranche4PreviewModel|candidate-contract/);
+  assert.match(production, /getRelease11SummaryModel/);
+  assert.match(production, /getRelease11TrendsModel/);
+  assert.match(production, /getRelease11CompanyModel/);
+  assert.match(production, /getRelease11ObservationPage/);
+  assert.match(presentation, /env\.ASSETS\.fetch/);
+  assert.match(presentation, /pageSize !== 50/);
+  assert.doesNotMatch(presentation, /Promise\.all/);
 });

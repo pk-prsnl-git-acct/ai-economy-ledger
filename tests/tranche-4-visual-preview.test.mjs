@@ -124,7 +124,7 @@ test("Tranche 4 UX uses centralized public labels and preserves compatibility ro
   assert.match(siteMap, /title: "Company profiles, with the limits attached\."/);
   assert.doesNotMatch(siteMap, /Five companies, with the limits attached/);
   assert.match(observationsPage, /ObservationLedger/);
-  assert.match(observationsPage, /getTranche4ProductionModelIfActive/);
+  assert.match(observationsPage, /getTranche4ProductionObservationPageIfActive/);
   assert.match(observationsPage, /CandidateObservationExplorer/);
   assert.match(shell, /\["\/", "\/ai-stack", "\/market", "\/companies", "\/data"\]/);
   assert.match(shell, /href=\{\"\/observations\" as Route\}>Data Explorer/);
@@ -139,9 +139,10 @@ test("Data Explorer renders bounded pages instead of duplicate full mobile and d
   assert.match(ledger, /useDeferredValue/);
   assert.match(ledger, /observation-pagination/);
   assert.doesNotMatch(ledger, /observation-card-list/);
-  assert.match(styles, /\.observation-ledger \.table-scroll \{ display: block; overflow-x: auto; \}/);
+  assert.match(styles, /\.observation-ledger \.table-scroll \{ display: block; overflow-x: auto;/);
   assert.match(component, /const pageSize = 50/);
-  assert.match(component, /const rows = matched\.slice/);
+  assert.match(component, /Release11ObservationPage/);
+  assert.match(component, /without loading all \{total\} observations into one request/);
 });
 
 test("Tranche 4 production wiring is active-release gated and does not depend on the preview flag", () => {
