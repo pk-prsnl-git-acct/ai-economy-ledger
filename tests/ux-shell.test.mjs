@@ -53,6 +53,8 @@ test("production overview binds directly to the current public release", () => {
   assert.match(components, /Data Explorer/);
   assert.doesNotMatch(home, /SampleDataWarning|FinancialChartCard|DataTable|\$— sample/);
   assert.match(overview, /Financial observations remain company-wide unless released evidence supports a narrower allocation/);
+  assert.doesNotMatch(overview, /covers five companies and selected/);
+  assert.match(overview, /company-wide capex, and R&amp;D observations/);
   assert.match(overview, /record\.disclosure\.label/);
   assert.match(overview, /observation-card-list/);
   assert.match(taxonomy, /Semiconductors & Hardware/);
