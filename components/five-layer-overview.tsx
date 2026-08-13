@@ -70,5 +70,5 @@ export function LatestObservations({ records }: { records: PublicRecord[] }) {
 }
 
 export function ScopeLimitations() {
-  return <section className="scope-limitations" aria-labelledby="scope-limitations-heading"><div><p className="eyebrow">Scope and limitations</p><h2 id="scope-limitations-heading">An initial SEC-backed baseline, not a complete AI economy model.</h2></div><p>This release covers five companies and selected official-filing revenue and capital-expenditure observations. It does not allocate company-wide financial values across AI-stack layers, calculate market-wide totals, or represent unmeasured companies, products, financing, infrastructure or relationships.</p></section>;
+  return <section className="scope-limitations" aria-labelledby="scope-limitations-heading"><div><p className="eyebrow">Scope and limitations</p><h2 id="scope-limitations-heading">A source-linked baseline, not a complete AI economy model.</h2></div><p>This release covers selected public companies and official-filing revenue, company-wide capex, and R&amp;D observations where the release contract supports them. It does not allocate company-wide financial values across AI-stack layers, calculate market-wide totals, or represent unmeasured companies, products, financing, infrastructure, or relationships.</p></section>;
 }
