@@ -43,7 +43,8 @@ function parse<T>(bytes: Buffer, name: string): T {
 async function liveManifest() {
   const transport = await getProductionReleaseTransport();
   if (!transport) return null;
-  const [index, artifact] = await Promise.all([transport.index(), transport.artifact("analytics/analytics-manifest.json")]);
+  const index = await transport.index();
+  const artifact = await transport.artifact("analytics/analytics-manifest.json");
   const manifest = parse<AnalyticsManifest>(artifact.bytes, "analytics-manifest.json");
   if (manifest.releaseId !== index.releaseId || manifest.releaseManifestHash !== index.manifestHash || manifest.qualityReportHash !== index.qualityReportHash || artifact.hash !== index.analyticsManifestHash) throw new Error("Production analytics binding rejected");
   if (manifest.contractVersion !== "market-intelligence@37.0.0" || manifest.buildVersion !== "analytical-build@37.0.0" || manifest.publicationEnabled || manifest.unsupportedMarketWideTotalGenerated) throw new Error("Production analytics contract rejected");
