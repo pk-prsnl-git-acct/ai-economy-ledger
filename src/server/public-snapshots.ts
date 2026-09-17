@@ -10,6 +10,8 @@ type SnapshotSummary = {
   content_sha256: string;
 };
 
+const SNAPSHOT_RPC_TIMEOUT_MS = 8_000;
+
 export async function listPublishedSnapshots(): Promise<SnapshotSummary[]> {
   return callSnapshotRpc<SnapshotSummary[]>("list_published_snapshots", {});
 }
@@ -36,12 +38,22 @@ async function callSnapshotRpc<T>(functionName: string, body: object): Promise<T
   const key = process.env.SUPABASE_PUBLISHABLE_KEY ?? process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
   if (!url || !key) throw new PublicSnapshotError(503, "Public snapshot data is not configured");
 
-  const response = await fetch(`${url}/rest/v1/rpc/${functionName}`, {
-    method: "POST",
-    headers: { apikey: key, "content-type": "application/json", "accept-profile": "api", "content-profile": "api" },
-    body: JSON.stringify(body),
-    cache: "no-store",
-  });
+  let response: Response;
+  try {
+    response = await fetch(`${url}/rest/v1/rpc/${functionName}`, {
+      method: "POST",
+      headers: { apikey: key, "content-type": "application/json", "accept-profile": "api", "content-profile": "api" },
+      body: JSON.stringify(body),
+      cache: "no-store",
+      signal: AbortSignal.timeout(SNAPSHOT_RPC_TIMEOUT_MS),
+    });
+  } catch {
+    throw new PublicSnapshotError(503, "Public snapshot database is temporarily unavailable");
+  }
   if (!response.ok) throw new PublicSnapshotError(502, "Public snapshot data is unavailable");
-  return (await response.json()) as T;
+  try {
+    return (await response.json()) as T;
+  } catch {
+    throw new PublicSnapshotError(502, "Public snapshot data returned an invalid response");
+  }
 }

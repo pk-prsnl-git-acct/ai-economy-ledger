@@ -7,6 +7,8 @@ const runtime = readFileSync("src/server/data-releases/runtime.ts", "utf8");
 const quality = readFileSync("src/server/quality-observability/runtime.ts", "utf8");
 const analytics = readFileSync("src/server/market-intelligence/runtime.ts", "utf8");
 const wrangler = readFileSync("wrangler.toml", "utf8");
+const worker = readFileSync("worker.mjs", "utf8");
+const snapshots = readFileSync("src/server/public-snapshots.ts", "utf8");
 
 test("production transport is private-service-bound and fails closed", () => {
   assert.match(wrangler, /binding\s*=\s*"DATA_ENGINE"[\s\S]*service\s*=\s*"ai-economy-ledger-data-engine"/);
@@ -14,9 +16,19 @@ test("production transport is private-service-bound and fails closed", () => {
   assert.match(transport, /Cloudflare context unavailable in production mode/);
   assert.match(transport, /production bindings unavailable/);
   assert.match(transport, /readonly status = 503/);
+  assert.match(transport, /AbortSignal\.timeout\(PRIVATE_SERVICE_TIMEOUT_MS\)/);
+  assert.match(transport, /private service is unavailable/);
   assert.doesNotMatch(transport, /SUPABASE_SERVICE_ROLE|DATABASE_URL|OPERATOR_TOKEN/);
   assert.match(wrangler, /\[env\.preview\.vars\][\s\S]*RELEASE_TRANSPORT_MODE\s*=\s*"embedded"/);
   assert.match(readFileSync("scripts/ci/cloudflare-preview-smoke.mjs", "utf8"), /"--env", "preview"/);
+});
+
+test("public runtime contains upstream failures with bounded calls and safe telemetry", () => {
+  assert.match(worker, /public_worker_request_failed/);
+  assert.match(worker, /service_temporarily_unavailable/);
+  assert.doesNotMatch(worker, /error\.message|error\.stack/);
+  assert.match(snapshots, /AbortSignal\.timeout\(SNAPSHOT_RPC_TIMEOUT_MS\)/);
+  assert.match(snapshots, /Public snapshot database is temporarily unavailable/);
 });
 
 test("published artifacts remain exact-release and hash bound", () => {

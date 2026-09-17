@@ -5,10 +5,25 @@ const CANONICAL_HOST = "aieconomyledger.com";
 const WWW_HOST = `www.${CANONICAL_HOST}`;
 
 const worker = {
-  fetch(request, env, ctx) {
+  async fetch(request, env, ctx) {
     const canonicalRedirect = redirectWwwToApex(request);
     if (canonicalRedirect) return canonicalRedirect;
-    return openNextWorker.fetch(request, env, ctx);
+    try {
+      return await openNextWorker.fetch(request, env, ctx);
+    } catch (error) {
+      const requestId = request.headers.get("cf-ray") ?? crypto.randomUUID();
+      console.error(JSON.stringify({
+        event: "public_worker_request_failed",
+        requestId,
+        method: request.method,
+        path: new URL(request.url).pathname,
+        errorType: error instanceof Error ? error.name : "UnknownError",
+      }));
+      return Response.json({ error: { code: "service_temporarily_unavailable", requestId } }, {
+        status: 503,
+        headers: { "cache-control": "no-store", "retry-after": "5" },
+      });
+    }
   },
 
   scheduled(controller, env, ctx) {
@@ -57,7 +72,7 @@ async function runScheduledHealthcheck(controller, env, ctx) {
       startedAt,
       statusCode: 0,
       healthStatus: "down",
-      error: error instanceof Error ? error.message : "Scheduled readiness check failed.",
+      errorType: error instanceof Error ? error.name : "UnknownError",
     }));
   }
 }
