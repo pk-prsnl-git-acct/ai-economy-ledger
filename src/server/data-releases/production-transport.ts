@@ -38,6 +38,7 @@ export type ProductionArtifact = {
 const releaseIdPattern = /^dataset-release:[1-9]\d*:[a-f0-9]{20}$/;
 const artifactNamePattern = /^(?:[a-z0-9][a-z0-9-]*\.(?:json|csv|md)|analytics\/[a-z0-9][a-z0-9-]*\.json|quality\/report\.json)$/;
 const privateMaterial = /(?:authorization|cookie|service_role|signed_url|storage_key|revieweremail|private note|file:\/\/|\/users\/|\/private\/)/i;
+const PRIVATE_SERVICE_TIMEOUT_MS = 15_000;
 
 function sha256(bytes: Buffer | string) {
   return createHash("sha256").update(bytes).digest("hex");
@@ -63,7 +64,7 @@ export class ProductionReleaseTransportError extends Error {
 
 export function isProductionReleaseUnavailable(error: unknown) {
   return error instanceof ProductionReleaseTransportError
-    && /private service returned 503|production bindings unavailable|Cloudflare context unavailable/i.test(error.message);
+    && /private service (?:returned 503|is unavailable)|production bindings unavailable|Cloudflare context unavailable/i.test(error.message);
 }
 
 function validateIndex(value: unknown): PublishedReleaseIndex {
@@ -81,9 +82,15 @@ export function createProductionReleaseTransport(binding: FetchBinding, token: s
   let manifestCache: { manifestHash: string; value: { index: PublishedReleaseIndex; manifest: ReleaseManifest; artifact: ProductionArtifact } } | null = null;
 
   async function request(path: string) {
-    const response = await binding.fetch(new Request(`https://data-engine.internal/internal/release/${path}`, {
-      headers: { authorization: `Bearer ${token}` },
-    }));
+    let response: Response;
+    try {
+      response = await binding.fetch(new Request(`https://data-engine.internal/internal/release/${path}`, {
+        headers: { authorization: `Bearer ${token}` },
+        signal: AbortSignal.timeout(PRIVATE_SERVICE_TIMEOUT_MS),
+      }));
+    } catch {
+      reject("private service is unavailable");
+    }
     if (!response.ok) reject(`private service returned ${response.status}`);
     return response;
   }
